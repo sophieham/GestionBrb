@@ -7,18 +7,22 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="419.0" prefWidth="590.0" stylesheets="@../../../../../Desktop/class.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="419.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="140.0" fitWidth="263.0" layoutX="170.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../%5B2019-10-18%20133721%5D/C/Users/Peanut/Documents/GitHub/GestionBrb/Modelisation/logo_light_transparent.png" />
+            <Image url="@../../../../Modelisation/logo_light_transparent.png" />
          </image>
       </ImageView>
       <Label layoutX="75.0" layoutY="199.0" prefHeight="21.0" prefWidth="78.0" text="Identifiant:" />
       <Label layoutX="62.0" layoutY="268.0" text="Mot de passe:" />
       <TextField layoutX="170.0" layoutY="194.0" prefHeight="31.0" prefWidth="278.0" />
-      <Button layoutX="242.0" layoutY="352.0" mnemonicParsing="false" text="Se connecter" />
+      <Button layoutX="233.0" layoutY="333.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="153.0" text="Se connecter">
+         <font>
+            <Font size="21.0" />
+         </font></Button>
       <PasswordField layoutX="170.0" layoutY="263.0" prefHeight="31.0" prefWidth="278.0" />
    </children>
 </AnchorPane>

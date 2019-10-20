@@ -14,17 +14,17 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="784.0" prefWidth="1093.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <BorderPane prefHeight="784.0" prefWidth="1093.0">
+      <BorderPane prefHeight="800.0" prefWidth="1280.0">
          <left>
-            <SplitPane dividerPositions="0.9223560910307899" orientation="VERTICAL" prefHeight="590.0" prefWidth="275.0" BorderPane.alignment="CENTER">
+            <SplitPane dividerPositions="0.898176291793313" orientation="VERTICAL" prefHeight="590.0" prefWidth="275.0" BorderPane.alignment="CENTER">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="629.0" prefWidth="273.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="603.0" prefWidth="287.0">
                      <children>
                         <TableView layoutX="-1.0" layoutY="-3.0" prefHeight="593.0" prefWidth="280.0">
                           <columns>
-                            <TableColumn prefWidth="265.0" text="Tables" />
+                            <TableColumn prefWidth="278.0" text="Tables" />
                           </columns>
                         </TableView>
                      </children>
@@ -50,17 +50,17 @@
          <center>
             <AnchorPane prefHeight="542.0" prefWidth="408.0" BorderPane.alignment="CENTER">
                <children>
-                  <TitledPane animated="false" layoutX="28.0" layoutY="249.0" prefHeight="309.0" prefWidth="348.0" text="Démarrer la commande pour une table">
+                  <TitledPane animated="false" layoutX="62.0" layoutY="247.0" prefHeight="307.0" prefWidth="459.0" text="Démarrer la commande pour une table">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="234.0" prefWidth="302.0">
                            <children>
-                              <Label layoutX="75.0" layoutY="71.0" prefHeight="30.0" prefWidth="198.0" text="Nombre de couverts?">
+                              <Label layoutX="118.0" layoutY="69.0" prefHeight="30.0" prefWidth="192.0" text="Nombre de couverts?">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="80.0" layoutY="123.0" />
-                              <Button layoutX="133.0" layoutY="194.0" mnemonicParsing="false" text="Valider">
+                              <TextField layoutX="120.0" layoutY="122.0" />
+                              <Button layoutX="174.0" layoutY="191.0" mnemonicParsing="false" text="Valider">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -69,17 +69,17 @@
                         </AnchorPane>
                     </content>
                   </TitledPane>
-                  <Button layoutX="6.0" layoutY="596.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="392.0" text="Voir le calendrier des réservations">
+                  <Button layoutX="95.0" layoutY="594.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="392.0" text="Voir le calendrier des réservations">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <ImageView fitHeight="202.0" fitWidth="366.0" layoutX="22.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="202.0" fitWidth="366.0" layoutX="112.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../%5B2019-10-18%20133721%5D/C/Users/Peanut/Documents/GitHub/GestionBrb/Modelisation/logo_light_transparent.png" />
+                        <Image url="@../../../../Modelisation/logo_light_transparent.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="6.0" layoutY="670.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="392.0" text="Retour au menu principal">
+                  <Button layoutX="96.0" layoutY="667.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="392.0" text="Retour au menu principal">
                      <font>
                         <Font size="24.0" />
                      </font>
