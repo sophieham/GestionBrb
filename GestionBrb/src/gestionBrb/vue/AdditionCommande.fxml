@@ -17,9 +17,9 @@
          <children>
             <VBox prefHeight="428.0" prefWidth="523.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="21.0" prefWidth="314.0" text="Table 0 (0 couverts)">
+                  <Label alignment="CENTER" prefHeight="49.0" prefWidth="314.0" text="Table 0 (0 couverts)">
                      <VBox.margin>
-                        <Insets left="25.0" top="25.0" />
+                        <Insets bottom="5.0" left="25.0" top="25.0" />
                      </VBox.margin>
                      <font>
                         <Font size="20.0" />

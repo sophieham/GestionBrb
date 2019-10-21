@@ -7,17 +7,19 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="717.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView layoutX="7.0" layoutY="16.0" prefHeight="382.0" prefWidth="619.0">
-         <columns>
-            <TableColumn prefWidth="196.0" text="Identifiant" />
-            <TableColumn prefWidth="137.0" text="Nom" />
-            <TableColumn prefWidth="146.0" text="Prenom" />
-            <TableColumn prefWidth="139.0" text="Role" />
-         </columns>
+      <TableView layoutX="21.0" layoutY="21.0" prefHeight="382.0" prefWidth="679.0">
+        <columns>
+          <TableColumn prefWidth="53.0" text="ID" />
+          <TableColumn prefWidth="131.0" text="Nom" />
+            <TableColumn prefWidth="109.0" text="numTel" />
+            <TableColumn prefWidth="128.0" text="Mail" />
+            <TableColumn prefWidth="124.0" text="Adresse" />
+            <TableColumn prefWidth="133.0" text="Ville" />
+        </columns>
       </TableView>
-      <Pane layoutX="-14.0" layoutY="404.0" prefHeight="86.0" prefWidth="640.0">
+      <Pane layoutX="39.0" layoutY="411.0" prefHeight="61.0" prefWidth="640.0">
          <children>
             <Button layoutX="68.0" layoutY="9.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="148.0" text="Ajouter">
                <font>
