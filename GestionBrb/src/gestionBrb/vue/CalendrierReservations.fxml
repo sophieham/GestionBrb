@@ -23,7 +23,7 @@
       </Label>
       <Button layoutX="185.0" layoutY="460.0" mnemonicParsing="false" text="Modifier la réservation" />
       <Button layoutX="382.0" layoutY="460.0" mnemonicParsing="false" text="Fermer" />
-      <Label layoutX="44.0" prefHeight="57.0" prefWidth="565.0" text="Calendrier des reservations">
+      <Label layoutX="44.0" prefHeight="57.0" prefWidth="565.0" text="Calendrier des réservations">
          <font>
             <Font name="Calibri Light" size="49.0" />
          </font>
