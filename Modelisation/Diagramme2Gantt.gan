@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2019-10-17" view-index="0" gantt-divider-location="331" resource-divider-location="300" version="2.8.10" locale="fr">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2019-10-28" view-index="0" gantt-divider-location="331" resource-divider-location="300" version="2.8.10" locale="fr">
     <description/>
     <view zooming-state="default:2" id="gantt-chart">
         <field id="tpd3" name="Nom" width="185" order="0"/>
         <field id="tpd4" name="Date de début" width="71" order="1"/>
         <field id="tpd5" name="Date de fin" width="71" order="2"/>
-        <option id="color.recent"><![CDATA[#33ccff #99ffff #cc0000 #f4f4f4 #ff3333 #9999ff #ffccff #0000ff #99ff99 #ff9999]]></option>
+        <option id="color.recent"><![CDATA[#00cc00 #ff9933 #66ccff #ff3333 #cc0000 #33ccff #99ffff #f4f4f4 #9999ff #ffccff]]></option>
     </view>
     <view id="resource-table">
         <field id="0" name="Nom" width="210" order="0"/>
@@ -34,88 +34,86 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="186" name="MCD" color="#cccccc" meeting="false" start="2019-10-08" duration="3" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true"/>
+        <task id="186" name="MCD" color="#cccccc" meeting="false" start="2019-10-08" duration="3" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true">
+            <depend id="2" type="2" difference="0" hardness="Strong"/>
+        </task>
         <task id="184" name="Diagramme de classe" color="#cccccc" meeting="false" start="2019-10-14" duration="5" complete="0" thirdDate="2019-10-14" thirdDate-constraint="1" expand="true"/>
         <task id="185" name="Diagramme de cas d'utilisation" color="#cccccc" meeting="false" start="2019-10-14" duration="5" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true"/>
         <task id="187" name="Diagramme de Gantt" color="#cccccc" meeting="false" start="2019-10-17" duration="3" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true"/>
-        <task id="1" name="Etablir système de connexion" color="#ffccff" meeting="false" start="2019-10-22" duration="3" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
+        <task id="1" name="Etablir système de connexion" color="#ff9933" meeting="false" start="2019-10-22" duration="6" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
             <depend id="0" type="2" difference="0" hardness="Strong"/>
-            <depend id="2" type="2" difference="0" hardness="Strong"/>
             <depend id="35" type="2" difference="0" hardness="Strong"/>
-            <depend id="37" type="2" difference="0" hardness="Strong"/>
             <depend id="40" type="2" difference="0" hardness="Strong"/>
             <depend id="41" type="2" difference="0" hardness="Strong"/>
-            <depend id="47" type="2" difference="0" hardness="Strong"/>
-            <depend id="51" type="2" difference="0" hardness="Strong"/>
-            <depend id="60" type="2" difference="0" hardness="Strong"/>
-            <depend id="61" type="2" difference="0" hardness="Strong"/>
-            <depend id="64" type="2" difference="0" hardness="Strong"/>
             <depend id="150" type="2" difference="0" hardness="Strong"/>
             <depend id="166" type="2" difference="0" hardness="Strong"/>
             <depend id="179" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="37" name="Réservation (Vue Table)" color="#33ccff" meeting="false" start="2019-10-25" duration="1" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
-            <depend id="166" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="51" name="Modifier langue (Param)" color="#ffffcc" meeting="false" start="2019-10-25" duration="2" complete="0" thirdDate="2019-10-23" thirdDate-constraint="1" expand="true"/>
-        <task id="47" name="Couleur de fond (Paramètres)" color="#ffffcc" meeting="false" start="2019-10-25" duration="3" complete="0" thirdDate="2019-10-22" thirdDate-constraint="1" expand="true"/>
-        <task id="60" name="Gérer comptes (Admin)" color="#cc00cc" meeting="false" start="2019-10-25" duration="2" complete="0" thirdDate="2019-10-16" thirdDate-constraint="0" expand="true">
-            <depend id="62" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="64" name="Gérer tables (Admin)" color="#cc00cc" meeting="false" start="2019-10-25" duration="2" complete="0" thirdDate="2019-10-16" thirdDate-constraint="0" expand="true">
+        <task id="51" name="Modifier langue (Param)" color="#ff3333" meeting="false" start="2019-10-28" duration="4" complete="0" thirdDate="2019-10-23" thirdDate-constraint="0" expand="true"/>
+        <task id="64" name="Gérer tables (Admin)" color="#00cc00" meeting="false" start="2019-10-28" duration="3" complete="0" thirdDate="2019-10-16" thirdDate-constraint="0" expand="true">
             <depend id="33" type="2" difference="0" hardness="Strong"/>
             <depend id="62" type="2" difference="0" hardness="Strong"/>
             <depend id="166" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="61" name="Gérer fournisseur (Admin)" color="#cc00cc" meeting="false" start="2019-10-25" duration="2" complete="0" thirdDate="2019-10-16" thirdDate-constraint="0" expand="true">
+        <task id="0" name="Page de connexion" color="#ff9933" meeting="false" start="2019-10-28" duration="3" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
+            <depend id="33" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="33" name="Occupation tables (Vue Table)" color="#66ccff" meeting="false" start="2019-10-31" duration="3" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
+            <depend id="35" type="2" difference="0" hardness="Strong"/>
+            <depend id="37" type="2" difference="0" hardness="Strong"/>
+            <depend id="166" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="60" name="Gérer comptes (Admin)" color="#00cc00" meeting="false" start="2019-11-01" duration="3" complete="0" thirdDate="2019-10-16" thirdDate-constraint="0" expand="true">
+            <depend id="62" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="215" name="Couleur de fond (Parametre)" color="#ff3333" meeting="false" start="2019-11-02" duration="4" complete="0" thirdDate="2019-10-25" thirdDate-constraint="0" expand="true"/>
+        <task id="37" name="Réservation (Vue Table)" color="#33ccff" meeting="false" start="2019-11-03" duration="3" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
+            <depend id="166" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="35" name="Demarrer Commande (Vue Table)" color="#33ccff" meeting="false" start="2019-11-03" duration="2" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
+            <depend id="2" type="2" difference="0" hardness="Strong"/>
+            <depend id="55" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="61" name="Gérer fournisseur (Admin)" color="#ff9933" meeting="false" start="2019-11-04" duration="2" complete="0" thirdDate="2019-10-16" thirdDate-constraint="0" expand="true">
             <depend id="41" type="2" difference="0" hardness="Strong"/>
             <depend id="110" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="0" name="Page de connexion" color="#ffccff" meeting="false" start="2019-10-25" duration="3" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
+        <task id="166" name="Voir calendrier" color="#66ccff" meeting="false" start="2019-11-06" duration="3" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true">
             <depend id="2" type="2" difference="0" hardness="Strong"/>
-            <depend id="33" type="2" difference="0" hardness="Strong"/>
+            <depend id="168" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="110" name="Gérer plat et ingredient (Administration)" color="#cc00cc" meeting="false" start="2019-10-27" duration="2" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true">
+        <task id="110" name="Gérer plat et ingredient (Administration)" color="#ff9933" meeting="false" start="2019-11-06" duration="4" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true">
             <depend id="40" type="2" difference="0" hardness="Strong"/>
             <depend id="41" type="2" difference="0" hardness="Strong"/>
             <depend id="55" type="2" difference="0" hardness="Strong"/>
             <depend id="62" type="2" difference="0" hardness="Strong"/>
             <depend id="150" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="2" name="Menu principal" color="#cc0000" meeting="false" start="2019-10-28" duration="1" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true"/>
-        <task id="33" name="Occupation tables (Vue Table)" color="#33ccff" meeting="false" start="2019-10-28" duration="3" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
-            <depend id="35" type="2" difference="0" hardness="Strong"/>
-            <depend id="166" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="40" name="Tableau stock (Vue Stock)" color="#339900" meeting="false" start="2019-10-29" duration="2" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
+        <task id="168" name="Gérer calendrier" color="#66ccff" meeting="false" start="2019-11-09" duration="3" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true"/>
+        <task id="40" name="Tableau stock (Vue Stock)" color="#ff3333" meeting="false" start="2019-11-10" duration="2" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
+            <depend id="2" type="2" difference="0" hardness="Strong"/>
             <depend id="41" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="166" name="Voir calendrier" color="#ff9999" meeting="false" start="2019-10-31" duration="2" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true">
-            <depend id="168" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="41" name="Commande ingredients (Vue Stock)" color="#339900" meeting="false" start="2019-10-31" duration="3" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true"/>
-        <task id="35" name="Demarrer Commande (Vue Table)" color="#33ccff" meeting="false" start="2019-10-31" duration="3" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
-            <depend id="55" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="168" name="Gérer calendrier" color="#ff9999" meeting="false" start="2019-11-02" duration="2" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true"/>
-        <task id="55" name="Catalogue Commande (CommandePrdt)" color="#9999ff" meeting="false" start="2019-11-03" duration="3" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
+        <task id="55" name="Catalogue Commande (CommandePrdt)" color="#66ccff" meeting="false" start="2019-11-10" duration="5" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
             <depend id="54" type="2" difference="0" hardness="Strong"/>
             <depend id="150" type="2" difference="0" hardness="Strong"/>
             <depend id="179" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="54" name="Tableau recap (CommandePrdt)" color="#9999ff" meeting="false" start="2019-11-06" duration="2" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
+        <task id="2" name="Menu principal" color="#00cc00" meeting="false" start="2019-11-12" duration="1" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true"/>
+        <task id="41" name="Commande ingredients (Vue Stock)" color="#ff3333" meeting="false" start="2019-11-12" duration="4" complete="0" thirdDate="2019-10-15" thirdDate-constraint="0" expand="true"/>
+        <task id="54" name="Tableau recap (CommandePrdt)" color="#66ccff" meeting="false" start="2019-11-15" duration="2" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true">
             <depend id="57" type="2" difference="0" hardness="Strong"/>
             <depend id="148" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="150" name="Voir menu" color="#99ff99" meeting="false" start="2019-11-06" duration="2" complete="0" thirdDate="2019-10-14" thirdDate-constraint="0" expand="true">
+        <task id="150" name="Voir menu" color="#ff9933" meeting="false" start="2019-11-15" duration="2" complete="0" thirdDate="2019-10-14" thirdDate-constraint="0" expand="true">
             <depend id="179" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="57" name="Boutons commande (CommandePrdt)" color="#9999ff" meeting="false" start="2019-11-08" duration="3" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true"/>
-        <task id="148" name="Paiement (CommandePdrt)" color="#9999ff" meeting="false" start="2019-11-08" duration="3" complete="0" thirdDate="2019-10-07" thirdDate-constraint="0" expand="true">
+        <task id="57" name="Boutons commande (CommandePrdt)" color="#ff9933" meeting="false" start="2019-11-17" duration="3" complete="0" thirdDate="2019-10-10" thirdDate-constraint="0" expand="true"/>
+        <task id="148" name="Paiement (CommandePdrt)" color="#66ccff" meeting="false" start="2019-11-17" duration="3" complete="0" thirdDate="2019-10-07" thirdDate-constraint="0" expand="true">
             <depend id="62" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="179" name="Voir Ingredient (Menu)" color="#99ff99" meeting="false" start="2019-11-08" duration="3" complete="0" thirdDate="2019-10-14" thirdDate-constraint="0" expand="true"/>
-        <task id="62" name="Historique des commandes (Admin)" color="#cc00cc" meeting="false" start="2019-11-11" duration="2" complete="0" thirdDate="2019-10-16" thirdDate-constraint="0" expand="true"/>
+        <task id="179" name="Voir Ingredient (Menu)" color="#00cc00" meeting="false" start="2019-11-17" duration="3" complete="0" thirdDate="2019-10-14" thirdDate-constraint="0" expand="true"/>
+        <task id="62" name="Historique des commandes (Admin)" color="#66ccff" meeting="false" start="2019-11-20" duration="2" complete="0" thirdDate="2019-10-16" thirdDate-constraint="0" expand="true"/>
     </tasks>
     <resources>
         <resource id="0" name="Sophie" function="SoftwareDevelopment:2" contacts="" phone=""/>
