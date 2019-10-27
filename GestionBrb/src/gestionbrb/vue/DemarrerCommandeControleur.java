@@ -1,7 +1,10 @@
 package gestionbrb.vue;
 
+import java.sql.SQLException;
+
 import gestionbrb.DemarrerCommande;
 import gestionbrb.model.Reservations;
+import gestionbrb.util.BDDUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -28,7 +31,6 @@ public class DemarrerCommandeControleur {
 
     // Reference to the main application.
     private DemarrerCommande mainApp;
-    private Reservations reservation;
     private boolean okClicked = false;
 
     /**
@@ -71,14 +73,17 @@ public class DemarrerCommandeControleur {
     @FXML
     private void actionModifier() {
         if (estValide()) {
-            reservation.setNom(champNom.getText());
-            reservation.setPrenom(champPrenom.getText());
-            reservation.setNumTel(champNumTel.getText());
-            reservation.setDate(champDate.getValue());
-            reservation.setHeure(champHeure.getText());
-            reservation.setNbCouverts(Integer.parseInt(champNbCouverts.getText()));
-            reservation.setDemandeSpe(champDemandeSpe.getText());
-
+        	// manque le pattern du numero de tel & celui de l'heure + le numero de la table qui recevera la reservation
+        	try {
+				BDDUtil.dbExecuteQuery("INSERT INTO `calendrier` (`idReservation`, `nom`, `prenom`, `numeroTel`, `dateReservation`, `HeureReservation`, `nbCouverts`, `demandeSpe`, `idTable`) "
+																	+ "VALUES (NULL, '"+champNom.getText()+"', '"+champPrenom.getText()+"', NULL, '"+champDate.getValue()+"', '"+champHeure.getText()+"', '"+champNbCouverts.getText()+"', NULL, NULL);");
+			} catch (ClassNotFoundException e) {
+				System.out.println("Classe non trouvée");
+				e.printStackTrace();
+			} catch (SQLException e) {
+				System.out.println("Erreur dans le code SQL");
+				e.printStackTrace();
+			}
             okClicked = true;
         }
     }
@@ -107,7 +112,7 @@ public class DemarrerCommandeControleur {
                 errorMessage += "Erreur! Le champ \"N° de téléphone\" n'accepte que les nombres\n"; 
             }
         }
-        if (champDate.getValue() == null || champDate.getPromptText().length() == 0) {
+        if (champDate.getValue() == null) {
             errorMessage += "Veuillez selectionner la date\n"; 
         }
 
