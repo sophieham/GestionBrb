@@ -8,60 +8,60 @@ import javafx.beans.property.StringProperty;
 
 public class Table
 {
-	private IntegerProperty idTable;
-	private IntegerProperty nbCouvertsMin;
-	private StringProperty  demandeSpe;
+	private int idTable;
+	private int nbCouvertsMin;
+	private String  demandeSpe;
 	private Commande commande;
-	private IntegerProperty nbCouvertsMax;
-	private SimpleBooleanProperty estOccupe;
+	private int nbCouvertsMax;
+	private boolean estOccupe;
 	
 	public Table(int idTable, int nbCouvertsMin, int nbCouvertsMax, String demandeSpe, boolean estOccupe){
-		this.idTable = new SimpleIntegerProperty(idTable);
-		this.nbCouvertsMin = new SimpleIntegerProperty(nbCouvertsMin);
-		this.nbCouvertsMax = new SimpleIntegerProperty(nbCouvertsMax);
-		this.demandeSpe= new SimpleStringProperty(demandeSpe);
-		this.estOccupe= new SimpleBooleanProperty(estOccupe);
+		this.idTable =idTable;
+		this.nbCouvertsMin = (nbCouvertsMin);
+		this.nbCouvertsMax = (nbCouvertsMax);
+		this.demandeSpe= (demandeSpe);
+		this.estOccupe= (estOccupe);
 	}
 
 	public int getIdTable() {
-		return idTable.get();
+		return idTable;
 	}
 	
 	public void setIdTable(int idTable) {
-		this.idTable.set(idTable);
+		this.idTable = idTable;
 	}
 	
 	public int getNbCouvertsMin() {
-		return nbCouvertsMin.get();
+		return nbCouvertsMin;
 	}
 	
 	public void setNbCouvertsMin(int nbCouvertsMin) {
-		this.nbCouvertsMin.set(nbCouvertsMin);
+		this.nbCouvertsMin=nbCouvertsMin;
 	}
 
 
 	public int getNbCouvertsMax() {
-		return nbCouvertsMax.get();
+		return nbCouvertsMax;
 	}
 
 	public void setNbCouvertsMax(int nbCouvertsMax) {
-		this.nbCouvertsMax.set(nbCouvertsMax);
+		this.nbCouvertsMax=nbCouvertsMax;
 	}
 	
 	public String getDemandeSpe() {
-		return demandeSpe.get();
+		return demandeSpe;
 	}
 
 	public void setDemandeSpe(String demandeSpe) {
-		this.demandeSpe.set(demandeSpe);
+		this.demandeSpe = demandeSpe;
 	}
 	
 	public boolean getEstOccupe() {
-		return estOccupe.get();
+		return estOccupe;
 	}
 
 	public void setEstOccupe(boolean estOccupe) {
-		this.estOccupe.set(estOccupe);
+		this.estOccupe = estOccupe;
 	}
 	
 	
