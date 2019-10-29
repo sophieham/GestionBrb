@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.CalendrierControleur">
+   <children>
+      <DatePicker fx:id="rechercheDate" layoutX="162.0" layoutY="59.0" prefHeight="31.0" prefWidth="316.0" />
+      <Label layoutX="171.0" layoutY="102.0" prefHeight="35.0" prefWidth="310.0" text="  réservations pour ce jour-ci">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="165.0" layoutY="103.0" text="0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="185.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleEditReservation" text="Modifier la réservation" />
+      <Button layoutX="382.0" layoutY="460.0" mnemonicParsing="false" text="Fermer" />
+      <Label layoutX="44.0" prefHeight="57.0" prefWidth="565.0" text="Calendrier des réservations">
+         <font>
+            <Font name="Calibri Light" size="49.0" />
+         </font>
+      </Label>
+    <AnchorPane layoutX="5.0" layoutY="146.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+    <AnchorPane layoutX="5.0" layoutY="146.0" minHeight="0.0" minWidth="0.0" prefHeight="295.0" prefWidth="282.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" text="Détails de la réservation" />
+         </children>
+      </AnchorPane>
+      <HBox layoutX="8.0" layoutY="148.0" prefHeight="295.0" prefWidth="614.0">
+         <children>
+            <TableView fx:id="reservationTable" prefHeight="295.0" prefWidth="293.0">
+              <columns>
+                <TableColumn fx:id="colonneNom" prefWidth="97.0" text="Nom" />
+                <TableColumn fx:id="colonneDate" prefWidth="62.0" text="Date" />
+                  <TableColumn fx:id="colonneHeure" prefWidth="58.0" text="Heure" />
+                  <TableColumn fx:id="colonneNbCouverts" prefWidth="41.0" text="Nb" />
+              </columns>
+            </TableView>
+            <Separator orientation="VERTICAL" prefHeight="295.0" prefWidth="65.0" />
+            <GridPane prefHeight="235.0" prefWidth="357.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Nom" />
+                  <Label text="Prenom" GridPane.rowIndex="1" />
+                  <Label text="Heure" GridPane.rowIndex="4" />
+                  <Label text="Nb de couverts" GridPane.rowIndex="5" />
+                  <Label fx:id="champNom" text="Label" GridPane.columnIndex="1" />
+                  <Label fx:id="champPrenom" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="champHeure" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label fx:id="champNbCouverts" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label text="N° téléphone" GridPane.rowIndex="2" />
+                  <Label text="Date" GridPane.rowIndex="3" />
+                  <Label text="Demande Spéciale" GridPane.rowIndex="6" />
+                  <Label fx:id="champNumTel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="champDate" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="champDemandeSpe" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+               </children>
+            </GridPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
