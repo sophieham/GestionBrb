@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import gestionbrb.DemarrerCommande;
 import gestionbrb.model.Reservations;
-import gestionbrb.util.BDDUtil;
+import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -70,7 +70,7 @@ public class DemarrerCommandeControleur {
     /**
      * Called when the user clicks ok.
      */
-    @FXML
+   /* @FXML
     private void actionModifier() {
         if (estValide()) {
         	// manque le pattern du numero de tel & celui de l'heure + le numero de la table qui recevera la reservation
@@ -86,7 +86,7 @@ public class DemarrerCommandeControleur {
 			}
             okClicked = true;
         }
-    }
+    }*/
 
     /**
      * Validates the user input in the text fields.
