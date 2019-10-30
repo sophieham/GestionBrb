@@ -70,12 +70,12 @@ public class DemarrerCommandeControleur {
     /**
      * Called when the user clicks ok.
      */
-   /* @FXML
+    @FXML
     private void actionModifier() {
         if (estValide()) {
         	// manque le pattern du numero de tel & celui de l'heure + le numero de la table qui recevera la reservation
         	try {
-				BDDUtil.dbExecuteQuery("INSERT INTO `calendrier` (`idReservation`, `nom`, `prenom`, `numeroTel`, `dateReservation`, `HeureReservation`, `nbCouverts`, `demandeSpe`, `idTable`) "
+				bddUtil.dbQueryExecute("INSERT INTO `calendrier` (`idReservation`, `nom`, `prenom`, `numeroTel`, `dateReservation`, `HeureReservation`, `nbCouverts`, `demandeSpe`, `idTable`) "
 																	+ "VALUES (NULL, '"+champNom.getText()+"', '"+champPrenom.getText()+"', NULL, '"+champDate.getValue()+"', '"+champHeure.getText()+"', '"+champNbCouverts.getText()+"', NULL, NULL);");
 			} catch (ClassNotFoundException e) {
 				System.out.println("Classe non trouvée");
@@ -86,7 +86,7 @@ public class DemarrerCommandeControleur {
 			}
             okClicked = true;
         }
-    }*/
+    }
 
     /**
      * Validates the user input in the text fields.

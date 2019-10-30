@@ -1,6 +1,9 @@
 package gestionbrb;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -11,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import gestionbrb.model.Reservations;
+import gestionbrb.util.bddUtil;
 import gestionbrb.vue.CalendrierControleur;
 import gestionbrb.vue.ModifierCalendrierControleur;
 
@@ -28,8 +32,16 @@ public class Calendrier extends Application {
      */
     public Calendrier() {
         // Donnée générée manuelle, en attente de bdd
-        reservationData.add(new Reservations("Roger", "23-08-1995","21:15",2));
-
+    	try {
+    		Connection conn= bddUtil.dbConnect();
+    		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
+    		while (rs.next()) {
+        reservationData.add(new Reservations(rs.getString("nom"), rs.getString("dateReservation"),rs.getString("heureReservation"),rs.getInt("nbCouverts")));
+    		}
+    	} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
