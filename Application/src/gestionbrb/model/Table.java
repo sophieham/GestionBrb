@@ -16,9 +16,9 @@ public class Table
 	private final IntegerProperty nbCouvertsMax;
 	private BooleanProperty estOccupe;
 	
-	public Table(int idTable, int nbCouvertsMin, int nbCouvertsMax, String demandeSpe, boolean estOccupe){
+	public Table(int idTable, int nbCouvertsMax, String demandeSpe, boolean estOccupe){
 		this.idTable = new SimpleIntegerProperty(idTable);
-		this.nbCouvertsMin = new SimpleIntegerProperty(nbCouvertsMin);
+		this.nbCouvertsMin = new SimpleIntegerProperty(1);
 		this.nbCouvertsMax = new SimpleIntegerProperty(nbCouvertsMax);
 		this.demandeSpe= new SimpleStringProperty(demandeSpe);
 		this.estOccupe= new SimpleBooleanProperty(estOccupe);
@@ -94,8 +94,8 @@ public class Table
 	}
 	
 
-	public final void setEstOccupe(final boolean estOccupe) {
-		this.estOccupeProperty().set(estOccupe);
+	public final void setEstOccupe() {
+		this.estOccupeProperty().set(!this.estOccupeProperty().get());
 	}
 	
 
