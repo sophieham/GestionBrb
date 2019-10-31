@@ -10,7 +10,12 @@ import java.sql.Statement;
 
 public class bddUtil {
 	private final static String JDBCDriver = "com.mysql.cj.jdbc.Driver";
-	private final static String url = "jdbc:mysql://localhost:3306/gestionbrb";
+	private final static String url = "jdbc:mysql://localhost:3306/gestionbrb"					
+			+"?useSSL=false&useUnicode=true"
+			+"&useJDBCCompliantTimezoneShift=true"
+			+"&useLegacyDatetimeCode=false"
+			+"&serverTimezone=UTC"
+			+"&allowPublicKeyRetrieval=true";
 	private final static String user = "root";
 	private final static String password = "";
 	private static Connection conn = null;
