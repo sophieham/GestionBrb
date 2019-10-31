@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.CalendrierControleur">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.CalendrierControleur">
    <children>
-      <DatePicker fx:id="rechercheDate" layoutX="105.0" layoutY="59.0" onAction="#recherche" prefHeight="31.0" prefWidth="316.0" />
+      <DatePicker fx:id="rechercheDate" layoutX="105.0" layoutY="59.0" onAction="#rechercherReservation" prefHeight="31.0" prefWidth="316.0" />
       <Label layoutX="171.0" layoutY="102.0" prefHeight="35.0" prefWidth="310.0" text="  réservations pour ce jour-ci">
          <font>
             <Font size="24.0" />
@@ -40,19 +40,19 @@
       </AnchorPane>
       <HBox layoutX="8.0" layoutY="148.0" prefHeight="295.0" prefWidth="614.0">
          <children>
-            <TableView fx:id="reservationTable" prefHeight="295.0" prefWidth="293.0">
+            <TableView fx:id="reservationTable" prefHeight="295.0" prefWidth="335.0">
               <columns>
                 <TableColumn fx:id="colonneNom" prefWidth="97.0" text="Nom" />
-                <TableColumn fx:id="colonneDate" prefWidth="62.0" text="Date" />
-                  <TableColumn fx:id="colonneHeure" prefWidth="58.0" text="Heure" />
-                  <TableColumn fx:id="colonneNbCouverts" prefWidth="41.0" text="Nb" />
+                <TableColumn fx:id="colonneDate" prefWidth="109.0" text="Date" />
+                  <TableColumn fx:id="colonneHeure" prefWidth="76.0" text="Heure" />
+                  <TableColumn fx:id="colonneNbCouverts" prefWidth="51.0" text="Nb" />
               </columns>
             </TableView>
-            <Separator orientation="VERTICAL" prefHeight="295.0" prefWidth="65.0" />
-            <GridPane prefHeight="235.0" prefWidth="357.0">
+            <Separator orientation="VERTICAL" prefHeight="295.0" prefWidth="28.0" />
+            <GridPane prefHeight="272.0" prefWidth="244.0">
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="131.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="117.0" minWidth="10.0" prefWidth="113.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -87,8 +87,8 @@
       </HBox>
       <ButtonBar layoutX="10.0" layoutY="460.0" prefHeight="40.0" prefWidth="614.0">
         <buttons>
-            <Button mnemonicParsing="false" onAction="#handleEditReservation" text="Modifier la réservation" />
-            <Button mnemonicParsing="false" onAction="#handleDeleteReservation" prefHeight="4.0" text="Supprimer la réservation" />
+            <Button mnemonicParsing="false" onAction="#modifierReservation" text="Modifier la réservation" />
+            <Button mnemonicParsing="false" onAction="#supprimerReservation" prefHeight="4.0" text="Supprimer la réservation" />
             <Button mnemonicParsing="false" text="Fermer" />
         </buttons>
       </ButtonBar>

@@ -30,13 +30,13 @@ public class DemarrerCommande extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Calendrier");
-        showReservationOverview();
+        afficherReservation();
     }
     
     /**
      * Shows the person overview inside the root layout.
      */
-    public void showReservationOverview() {
+    public void afficherReservation() {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();

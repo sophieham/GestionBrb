@@ -1,25 +1,21 @@
 package gestionbrb.vue;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 import gestionbrb.Calendrier;
+import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Reservations;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class CalendrierControleur {
+public class CalendrierControleur extends FonctionsControleurs {
 	@FXML
 	private TableView<Reservations> reservationTable;
 	@FXML
@@ -78,7 +74,7 @@ public class CalendrierControleur {
 		// Change les détails en fonction de ce qui à été selectionné
 		reservationTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			try {
-				showReservationDetails(newValue);
+				detailsReservation(newValue);
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -109,7 +105,7 @@ public class CalendrierControleur {
 	 * @throws SQLException
 	 */
 
-	private void showReservationDetails(Reservations reservation) throws SQLException, ClassNotFoundException {
+	private void detailsReservation(Reservations reservation) throws SQLException, ClassNotFoundException {
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
 		try {
@@ -144,6 +140,108 @@ public class CalendrierControleur {
 		}
 	}
 
+	
+	/**
+	 * Appellé quand l'utilisateur clique sur le bouton supprimer
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	@FXML
+	private void supprimerReservation() throws ClassNotFoundException, SQLException {
+		Reservations selectedReservation = reservationTable.getSelectionModel().getSelectedItem();
+		int selectedIndex = reservationTable.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			Connection conn = bddUtil.dbConnect();
+			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `calendrier` WHERE idReservation=?");
+			pstmt.setInt(1, (selectedReservation.getID()));
+			pstmt.execute();
+			pstmt.close();
+			reservationTable.getItems().remove(selectedIndex);
+
+		} else {
+			// Si rien n'est séléctionné
+			alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!", "Selectionnez une réservation pour pouvoir la modifier");
+		}
+	}
+
+	/**
+	 * Appellé quand l'utilisateur clique sur le bouton modifier la réservation.
+	 * Ouvre une nouvelle page pour effectuer la modification
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	@FXML
+	private void modifierReservation() throws ClassNotFoundException, SQLException {
+		Reservations selectedReservation = reservationTable.getSelectionModel().getSelectedItem();
+		if (selectedReservation != null) {
+			boolean okClicked = mainApp.fenetreModification(selectedReservation);
+			if (okClicked) {
+				reservationTable.getItems().clear();
+				Connection conn = bddUtil.dbConnect();
+				ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
+				while (rs.next()) {
+					reservationTable.getItems().add(new Reservations(
+							rs.getInt("idReservation"),
+							rs.getString("nom"),
+							rs.getString("prenom"), 
+							rs.getString("numeroTel"), 
+							rs.getString("dateReservation"),
+							rs.getString("heureReservation"), 
+							rs.getInt("nbCouverts"), 
+							rs.getString("demandeSpe")));
+				}
+				detailsReservation(null);
+				alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+			}
+
+		} else {
+			// Si rien n'est selectionné
+			alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!", "Selectionnez une réservation pour pouvoir la modifier");
+		}
+	}
+
+	/**
+	 * Appellé quand on sélectionne une date.
+	 * Affiche uniquement les réservations à la date sélectionnée
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	@FXML
+	private void rechercherReservation() throws ClassNotFoundException, SQLException {
+		reservationTable.getItems().clear();
+		String date = rechercheDate.getValue().toString();
+		detailsReservation(null);
+		Connection conn = bddUtil.dbConnect();
+		PreparedStatement stmt = conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");
+		stmt.setString(1, date);
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			reservationTable.getItems().add(new Reservations(
+							rs.getInt("idReservation"), 
+							rs.getString("nom"), 
+							rs.getString("prenom"),
+							rs.getString("numeroTel"), 
+							rs.getString("dateReservation"),
+							rs.getString("heureReservation"), 
+							rs.getInt("nbCouverts"), 
+							rs.getString("demandeSpe")));
+		}
+
+		conn.close();
+		rs.close();
+	}
+	
+	
+	/**
+	 * Appellé quand l'utilisateur appuie sur le bouton Afficher tout.
+	 * Affiche toutes les réservations quelquesoit la date (annule la recherche)
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	@FXML
 	private void afficherTout() throws ClassNotFoundException, SQLException {
 		reservationTable.getItems().clear();
@@ -161,101 +259,7 @@ public class CalendrierControleur {
 							rs.getInt("nbCouverts"), 
 							rs.getString("demandeSpe")));
 		}
-		showReservationDetails(null);
+		detailsReservation(null);
 	}
 
-	/**
-	 * Appellé quand l'utilisateur clique sur le bouton supprimer
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
-	@FXML
-	private void handleDeleteReservation() throws ClassNotFoundException, SQLException {
-		int selectedIndex = reservationTable.getSelectionModel().getSelectedIndex();
-		if (selectedIndex >= 0) {
-			Connection conn = bddUtil.dbConnect();
-			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `calendrier` WHERE idReservation=?");
-			pstmt.setInt(1, (selectedIndex + 1));
-			pstmt.execute();
-			pstmt.close();
-			reservationTable.getItems().remove(selectedIndex);
-
-		} else {
-			// Si rien n'est séléctionné
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(mainApp.getPrimaryStage());
-			alert.setTitle("Aucune sélection");
-			alert.setHeaderText("Aucune réservation de sélectionnée!");
-			alert.setContentText("Selectionnez une réservation pour pouvoir la modifier");
-			alert.showAndWait();
-		}
-	}
-
-	/**
-	 * Appellé quand l'utilisateur clique sur le bouton modifier la réservation.
-	 * Ouvre une nouvelle page pour effectuer la modification
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
-	@FXML
-	private void handleEditReservation() throws ClassNotFoundException, SQLException {
-		Reservations selectedReservation = reservationTable.getSelectionModel().getSelectedItem();
-		if (selectedReservation != null) {
-			boolean okClicked = mainApp.showReservationEditDialog(selectedReservation);
-			if (okClicked) {
-				reservationTable.getItems().clear();
-				Connection conn = bddUtil.dbConnect();
-				ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
-				while (rs.next()) {
-					reservationTable.getItems().add(new Reservations(
-							rs.getInt("idReservation"),
-							rs.getString("nom"),
-							rs.getString("prenom"), 
-							rs.getString("numeroTel"), 
-							rs.getString("dateReservation"),
-							rs.getString("heureReservation"), 
-							rs.getInt("nbCouverts"), 
-							rs.getString("demandeSpe")));
-				}
-				showReservationDetails(null);
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Modification effectuée");
-				alert.setHeaderText(null);
-				alert.setContentText("Les informations ont été modifiées avec succès!");
-				alert.showAndWait();
-			}
-
-		} else {
-			// Si rien n'est selectionné
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(mainApp.getPrimaryStage());
-			alert.setTitle("Aucune sélection");
-			alert.setHeaderText("Aucune réservation de sélectionnée!");
-			alert.setContentText("Selectionnez une réservation pour pouvoir la modifier");
-			alert.showAndWait();
-		}
-	}
-
-	@FXML
-	private void recherche() throws ClassNotFoundException, SQLException {
-		reservationTable.getItems().clear();
-		String date = rechercheDate.getValue().toString();
-		showReservationDetails(null);
-		System.out.println(date);
-		Connection conn = bddUtil.dbConnect();
-		PreparedStatement stmt = conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");
-		stmt.setString(1, date);
-		ResultSet rs = stmt.executeQuery();
-		while (rs.next()) {
-			reservationTable.getItems()
-					.add(new Reservations(rs.getInt("idReservation"), rs.getString("nom"), rs.getString("prenom"),
-							rs.getString("numeroTel"), rs.getString("dateReservation"),
-							rs.getString("heureReservation"), rs.getInt("nbCouverts"), rs.getString("demandeSpe")));
-		}
-
-		conn.close();
-		rs.close();
-	}
 }
