@@ -15,7 +15,7 @@ public class bddUtil {
 	private final static String password = "";
 	private static Connection conn = null;
 	private static Statement stmt;
-	private static ResultSet table;
+	//private static ResultSet table; Inutile pr l'instant
 
 	public static Connection dbConnect() throws SQLException, ClassNotFoundException {
 		try {
@@ -32,6 +32,7 @@ public class bddUtil {
 
 	}
 
+	// Deconnexion
 	static void dbDisconnect() throws SQLException {
 		if (conn != null) {
 			try {
@@ -43,6 +44,7 @@ public class bddUtil {
 
 	}
 
+	// Execute des requetes ne necessitant pas d'affichage comme insert into ou update
 	public static void dbQueryExecute(String query) throws ClassNotFoundException, SQLException {
 		conn = dbConnect();
 		try {
@@ -58,7 +60,8 @@ public class bddUtil {
 		}
 	}
 	
-	static void dbQuery(String query) throws ClassNotFoundException, SQLException {
+	/* Ne sert à rien pour l'instant
+	 static void dbQuery(String query) throws ClassNotFoundException, SQLException {
 		dbConnect();
 		try {
 			stmt = conn.createStatement();
@@ -73,7 +76,7 @@ public class bddUtil {
 				System.out.println(idReservation+" "+nom+" "+dateReservation);
 				}
 					
-					/*switch(tableInfo.getColumnTypeName(i)){
+					switch(tableInfo.getColumnTypeName(i)){
 						case "INT": System.out.println(table.getInt(tableInfo.getColumnName(i)));
 						return;
 						case "VARCHAR": System.out.println(table.getString(tableInfo.getColumnName(i)));
@@ -93,7 +96,7 @@ public class bddUtil {
 						case "TIMESTAMP": System.out.println(table.getTimestamp(tableInfo.getColumnName(i)));
 						return;
 						default: System.out.println("echec");
-					}*/
+					}
 			}
 		} catch (SQLException e) {
 			System.out.println("Erreur dans le code sql" + e);
@@ -102,11 +105,10 @@ public class bddUtil {
 			stmt.close();
 			table.close();
 		}
-	}
+	}*/
 
 public static void main(String[] args) throws ClassNotFoundException, SQLException {
-	//dbQuery("select * from type_produit");
-	dbQuery("Select idReservation, nom, dateReservation from calendrier");
+// Classe main pour tester les differentes requetes 
 }
 
 }

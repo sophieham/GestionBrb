@@ -31,12 +31,11 @@ public class Calendrier extends Application {
      * Constructeur
      */
     public Calendrier() {
-        // Donnée générée manuelle, en attente de bdd
     	try {
     		Connection conn= bddUtil.dbConnect();
     		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
     		while (rs.next()) {
-        reservationData.add(new Reservations(rs.getInt("idReservation"), rs.getString("nom"), rs.getString("dateReservation"),rs.getString("heureReservation"),rs.getInt("nbCouverts")));
+        reservationData.add(new Reservations(rs.getInt("idReservation"), rs.getString("nom"), rs.getString("prenom"), rs.getString("numeroTel"), rs.getString("dateReservation"),rs.getString("heureReservation"),rs.getInt("nbCouverts"), rs.getString("demandeSpe")));
     		}
     	} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -46,7 +45,7 @@ public class Calendrier extends Application {
 
     /**
      * Retourne les données présentes dans la liste Reservations. 
-     * @return
+     * @return reservationData
      */
     public ObservableList<Reservations> getReservationData() {
         return reservationData;
@@ -89,8 +88,10 @@ public class Calendrier extends Application {
      * 
      * @param person the person object to be edited
      * @return true if the user clicked OK, false otherwise.
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
-    public boolean showReservationEditDialog(Reservations reservation) {
+    public boolean showReservationEditDialog(Reservations reservation) throws ClassNotFoundException, SQLException {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
@@ -99,7 +100,7 @@ public class Calendrier extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Reservation");
+            dialogStage.setTitle("Modifier une reservation");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);

@@ -1,22 +1,18 @@
 package gestionbrb.vue;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import gestionbrb.ControleurFonctions;
 import gestionbrb.model.Reservations;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-/**
- * Dialog to edit details of a reservation.
- * 
- * @author Marco Jakob
- */
-public class ModifierCalendrierControleur {
+public class ModifierCalendrierControleur extends ControleurFonctions  {
 
     @FXML
     private TextField champNom;
@@ -38,51 +34,46 @@ public class ModifierCalendrierControleur {
     private Reservations reservation;
     private boolean okClicked = false;
 
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
+
     @FXML
     private void initialize() {
     }
 
-    /**
-     * Sets the stage of this dialog.
-     * 
-     * @param dialogStage
-     */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
 
     /**
-     * Sets the reservation to be edited in the dialog.
+     * Rempli les champs avec les données déjà existantes sur la réservation.
      * 
      * @param reservation
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
-    public void setReservation(Reservations reservation) {
+    public void setReservation(Reservations reservation) throws SQLException, ClassNotFoundException {
         this.reservation = reservation;
-
-        champNom.setText(reservation.getNom());
-        champPrenom.setText(reservation.getPrenom());
-        champNumTel.setText(reservation.getNumTel());
-        champDate.setPromptText(reservation.getDate());
-        champHeure.setText(reservation.getHeure());
-        champNbCouverts.setText(Integer.toString(reservation.getNbCouverts()));
-        champDemandeSpe.setText(reservation.getDemandeSpe());
+		Connection conn = bddUtil.dbConnect();
+		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
+		while (rs.next()) {
+			champNom.setText(rs.getString("nom"));
+			champPrenom.setText(rs.getString("prenom"));
+			champNumTel.setText(rs.getString("numeroTel"));
+			champDate.setPromptText(rs.getString("dateReservation"));
+			champHeure.setText(rs.getString("heureReservation"));
+			champNbCouverts.setText(Integer.toString(rs.getInt("nbCouverts")));
+			champDemandeSpe.setText(rs.getString("demandeSpe"));
+		}
     }
 
-    /**
-     * Returns true if the user clicked OK, false otherwise.
-     * 
-     * @return
+    /** 
+     * @return true si le bouton a modifié a été appuyé, faux sinon
      */
     public boolean isOkClicked() {
         return okClicked;
     }
 
     /**
-     * Called when the user clicks ok.
+     * Appellé quand l'utilisateur appuie sur "modifier"
      * @throws SQLException 
      * @throws ClassNotFoundException 
      * @throws NumberFormatException 
@@ -90,10 +81,14 @@ public class ModifierCalendrierControleur {
     @FXML
     private void actionModifier() throws NumberFormatException, ClassNotFoundException, SQLException {
         if (estValide()) {
-        	bddUtil.dbQueryExecute("UPDATE `calendrier` "
-        			+ "SET `nom` = '"+champNom.getText()+"', `prenom` = '"+champPrenom.getText()+"', "
-        			+ "`numeroTel` = '"+champNumTel.getText()+"', `dateReservation` = '"+champDate.getValue()+"', "
-        			+ "`heureReservation` = '"+champHeure.getText()+"', `nbCouverts` = '"+Integer.parseInt(champNbCouverts.getText())+"', `demandeSpe` = '"+champDemandeSpe.getText()+"' "
+        	bddUtil.dbQueryExecute("UPDATE `calendrier` SET "
+        			+ "`nom` = '"+champNom.getText()+"', "
+        			+ "`prenom` = '"+champPrenom.getText()+"', "
+        			+ "`numeroTel` = '"+champNumTel.getText()+"', "
+        			+ "`dateReservation` = '"+champDate.getValue()+"', "
+        			+ "`heureReservation` = '"+champHeure.getText()+"', "
+        			+ "`nbCouverts` = '"+Integer.parseInt(champNbCouverts.getText())+"', "
+        			+ "`demandeSpe` = '"+champDemandeSpe.getText()+"' "
         			+ "WHERE `calendrier`.`idReservation` = '"+reservation.getID()+"'");
 
             okClicked = true;
@@ -102,69 +97,11 @@ public class ModifierCalendrierControleur {
     }
 
     /**
-     * Called when the user clicks cancel.
+     * Appellé quand le bouton annuler est appuyé
      */
     @FXML
     private void actionAnnuler() {
         dialogStage.close();
     }
-
-    /**
-     * Validates the user input in the text fields.
-     * 
-     * @return true if the input is valid
-     */
-    private boolean estValide() {
-        String errorMessage = "";
-
-        if (champNom.getText() == null || champNom.getText().length() == 0) {
-            errorMessage += "Veuillez remplir le nom\n"; 
-        }
-        if (champPrenom.getText() == null || champPrenom.getText().length() == 0) {
-            errorMessage += "Veuillez remplir le prénom\n"; 
-        }        
-        if (champNumTel.getText() == null || champNumTel.getText().length() == 0) {
-            errorMessage += "Veuillez rentrer le numéro de téléphone\n"; 
-        } else {
-            // try to parse the postal code into an int.
-            try {
-                Integer.parseInt(champNumTel.getText());
-            } catch (NumberFormatException e) {
-                errorMessage += "Erreur! Le champ \"N° de téléphone\" n'accepte que les nombres\n"; 
-            }
-        }
-        if (champDate.getValue() == null || champDate.getPromptText().length() == 0) {
-            errorMessage += "Veuillez selectionner la date\n"; 
-        }
-
-        if (champHeure.getText() == null || champHeure.getText().length() == 0) {
-            errorMessage += "Veuillez rentrer l'heure\n"; 
-        }
-
-        if (champNbCouverts.getText() == null || champNbCouverts.getText().length() == 0) {
-            errorMessage += "Veuillez rentrer le nombre de couverts!\n"; 
-        } else {
-            // try to parse the postal code into an int.
-            try {
-                Integer.parseInt(champNbCouverts.getText());
-            } catch (NumberFormatException e) {
-                errorMessage += "Erreur! Le champ \"nombre de couverts\" n'accepte que les nombres\n"; 
-            }
-        }
-
-        if (errorMessage.length() == 0) {
-            return true;
-        } else {
-            // Show the error message.
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.initOwner(dialogStage);
-            alert.setTitle("Entrée incorrecte");
-            alert.setHeaderText("Corrigez les erreurs suivantes pour pouvoir modifier la réservation");
-            alert.setContentText(errorMessage);
-            
-            alert.showAndWait();
-            
-            return false;
-        }
-    }
+    
 }

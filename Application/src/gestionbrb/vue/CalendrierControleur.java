@@ -32,6 +32,8 @@ public class CalendrierControleur {
 	private TableColumn<Reservations, Number> colonneNbCouverts;
 
 	@FXML
+	private Label champID;
+	@FXML
 	private Label champNom;
 	@FXML
 	private Label champPrenom;
@@ -58,13 +60,12 @@ public class CalendrierControleur {
 	}
 
 	/**
-	 * Initializes the controller class. This method is automatically called after
-	 * the fxml file has been loaded.
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
+	 * Initialise la classe controleur avec les données par défaut du tableau
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
 	 */
 
-	// Initialize the reservation table with the two columns.
 	@FXML
 	private void initialize() throws ClassNotFoundException, SQLException {
 
@@ -73,26 +74,23 @@ public class CalendrierControleur {
 		colonneHeure.setCellValueFactory(cellData -> cellData.getValue().heureProperty());
 		colonneNbCouverts.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsProperty());
 
-		// Clear reservation details.
-		showReservationDetails(null);
 
-		// Listen for selection changes and show the reservation details when changed.
-		reservationTable.getSelectionModel().selectedItemProperty()
-				.addListener((observable, oldValue, newValue) -> {
-					try {
-						showReservationDetails(newValue);
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				});
+		// Change les détails en fonction de ce qui à été selectionné
+		reservationTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			try {
+				showReservationDetails(newValue);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 	}
 
 	/**
-	 * Is called by the main application to give a reference back to itself.
+	 * Appellé par la classe principale (ici DemarrerCommande) pour lier cette classe à elle-meme
 	 * 
 	 * @param mainApp
 	 */
@@ -104,30 +102,31 @@ public class CalendrierControleur {
 	}
 
 	/**
-	 * Fills all text fields to show details about the reservation. If the specified
-	 * reservation is null, all text fields are cleared.
+	 * Rempli tous les champs avec la reservation séléctionnée dans la partie
+	 * détails. Si il n'y a pas de reservation séléctionnée, les champs sont vides.
 	 * 
 	 * @param reservation the reservation or null
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 
 	private void showReservationDetails(Reservations reservation) throws SQLException, ClassNotFoundException {
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
 		try {
-			
+
 			if (reservation != null) {
 				while (rs.next()) {
-					champNom.setText(rs.getString("nom"));
-					champPrenom.setText(rs.getString("prenom"));
-					champNumTel.setText(rs.getString("numeroTel"));
-					champDate.setText(rs.getString("dateReservation"));
-					champHeure.setText(rs.getString("heureReservation"));
-					champNbCouverts.setText(Integer.toString(rs.getInt("nbCouverts")));
-					champDemandeSpe.setText(rs.getString("demandeSpe"));
+					champID.setText(Integer.toString(reservation.getID()));
+					champNom.setText(reservation.getNom());
+					champPrenom.setText(reservation.getPrenom());
+					champNumTel.setText(reservation.getNumTel());
+					champDate.setText(reservation.getDate());
+					champHeure.setText(reservation.getHeure());
+					champNbCouverts.setText(Integer.toString(reservation.getNbCouverts()));
+					champDemandeSpe.setText(reservation.getDemandeSpe());
 				}
-			}
-			else {
+			} else {
+				champID.setText("");
 				champNom.setText("");
 				champPrenom.setText("");
 				champNumTel.setText("");
@@ -136,55 +135,69 @@ public class CalendrierControleur {
 				champNbCouverts.setText("");
 				champDemandeSpe.setText("");
 			}
-		} 
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-	}
-		finally {
+		} finally {
 			conn.close();
 			rs.close();
 		}
-}
+	}
+
+	@FXML
+	private void afficherTout() throws ClassNotFoundException, SQLException {
+		reservationTable.getItems().clear();
+		Connection conn = bddUtil.dbConnect();
+		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
+		while (rs.next()) {
+			reservationTable.getItems()
+					.add(new Reservations(
+							rs.getInt("idReservation"), 
+							rs.getString("nom"), 
+							rs.getString("prenom"),
+							rs.getString("numeroTel"), 
+							rs.getString("dateReservation"),
+							rs.getString("heureReservation"), 
+							rs.getInt("nbCouverts"), 
+							rs.getString("demandeSpe")));
+		}
+		showReservationDetails(null);
+	}
 
 	/**
-	 * Called when the user clicks on the delete button.
+	 * Appellé quand l'utilisateur clique sur le bouton supprimer
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
 	 */
 	@FXML
-	private void handleDeleteReservation() {
+	private void handleDeleteReservation() throws ClassNotFoundException, SQLException {
 		int selectedIndex = reservationTable.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
+			Connection conn = bddUtil.dbConnect();
+			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `calendrier` WHERE idReservation=?");
+			pstmt.setInt(1, (selectedIndex + 1));
+			pstmt.execute();
+			pstmt.close();
 			reservationTable.getItems().remove(selectedIndex);
+
 		} else {
-			// Nothing selected.
+			// Si rien n'est séléctionné
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Aucune sélection");
 			alert.setHeaderText("Aucune réservation de sélectionnée!");
 			alert.setContentText("Selectionnez une réservation pour pouvoir la modifier");
-
 			alert.showAndWait();
 		}
 	}
 
 	/**
-	 * Called when the user clicks the new button. Opens a dialog to edit details
-	 * for a new reservation.
-	 */
-	@FXML
-	private void handleNewReservation() {
-		Reservations tempReservation = new Reservations();
-		boolean okClicked = mainApp.showReservationEditDialog(tempReservation);
-		if (okClicked) {
-			mainApp.getReservationData().add(tempReservation);
-		}
-	}
-
-	/**
-	 * Called when the user clicks the edit button. Opens a dialog to edit details
-	 * for the selected reservation.
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
+	 * Appellé quand l'utilisateur clique sur le bouton modifier la réservation.
+	 * Ouvre une nouvelle page pour effectuer la modification
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
 	 */
 	@FXML
 	private void handleEditReservation() throws ClassNotFoundException, SQLException {
@@ -192,17 +205,35 @@ public class CalendrierControleur {
 		if (selectedReservation != null) {
 			boolean okClicked = mainApp.showReservationEditDialog(selectedReservation);
 			if (okClicked) {
-				showReservationDetails(selectedReservation);
+				reservationTable.getItems().clear();
+				Connection conn = bddUtil.dbConnect();
+				ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
+				while (rs.next()) {
+					reservationTable.getItems().add(new Reservations(
+							rs.getInt("idReservation"),
+							rs.getString("nom"),
+							rs.getString("prenom"), 
+							rs.getString("numeroTel"), 
+							rs.getString("dateReservation"),
+							rs.getString("heureReservation"), 
+							rs.getInt("nbCouverts"), 
+							rs.getString("demandeSpe")));
+				}
+				showReservationDetails(null);
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Modification effectuée");
+				alert.setHeaderText(null);
+				alert.setContentText("Les informations ont été modifiées avec succès!");
+				alert.showAndWait();
 			}
 
 		} else {
-			// Nothing selected.
+			// Si rien n'est selectionné
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
 			alert.setTitle("Aucune sélection");
 			alert.setHeaderText("Aucune réservation de sélectionnée!");
 			alert.setContentText("Selectionnez une réservation pour pouvoir la modifier");
-
 			alert.showAndWait();
 		}
 	}
@@ -210,44 +241,21 @@ public class CalendrierControleur {
 	@FXML
 	private void recherche() throws ClassNotFoundException, SQLException {
 		reservationTable.getItems().clear();
-		ArrayList<String> listeRes = new ArrayList<String>();
 		String date = rechercheDate.getValue().toString();
 		showReservationDetails(null);
 		System.out.println(date);
 		Connection conn = bddUtil.dbConnect();
-		PreparedStatement stmt=conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");  
+		PreparedStatement stmt = conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");
 		stmt.setString(1, date);
-		ResultSet rs=stmt.executeQuery();
+		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
-			reservationTable.getItems().add(new Reservations(rs.getInt("idReservation"), rs.getString("nom"), rs.getString("dateReservation"), rs.getString("heureReservation"), rs.getInt("nbCouverts")));		
+			reservationTable.getItems()
+					.add(new Reservations(rs.getInt("idReservation"), rs.getString("nom"), rs.getString("prenom"),
+							rs.getString("numeroTel"), rs.getString("dateReservation"),
+							rs.getString("heureReservation"), rs.getInt("nbCouverts"), rs.getString("demandeSpe")));
 		}
-		
+
 		conn.close();
 		rs.close();
 	}
 }
-/*reservationTable.getSelectionModel().selectedItemProperty()
-.addListener((observable, oldValue, newValue) -> {
-	try {	
-		reservationTable.getItems().removeAll(oldValue);
-		Connection conn = bddUtil.dbConnect();
-		PreparedStatement stmt=conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");  
-		stmt.setString(1, date);
-		ResultSet rs=stmt.executeQuery();   
-		while (rs.next()) {
-			champNom.setText(newValue.getNom());
-			champPrenom.setText(rs.getString("prenom"));
-			champNumTel.setText(rs.getString("numeroTel"));
-			champDate.setText(newValue.getDate());
-			champHeure.setText(newValue.getHeure());
-			champNbCouverts.setText(Integer.toString(newValue.getNbCouverts()));
-			champDemandeSpe.setText(rs.getString("demandeSpe"));
-		}
-	} catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-});*/

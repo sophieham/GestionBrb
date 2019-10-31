@@ -27,7 +27,7 @@ public class Reservations {
      * Default constructor.
      */
     public Reservations() {
-        this(0, null, null, null, 0);
+        this(0, null, null, null, null, null, 0, null);
     }
 
     /**
@@ -37,13 +37,13 @@ public class Reservations {
      * @param date
      * @param heure
      */
-    public Reservations(int idReservation, String nom, String date, String heure, int nbCouverts) {
+    public Reservations(int idReservation, String nom, String prenom, String numTel, String date, String heure, int nbCouverts, String demandeSpe) {
         this.nom = new SimpleStringProperty(nom);
-        this.prenom = new SimpleStringProperty("");
-        this.numTel = new SimpleStringProperty("");
+        this.prenom = new SimpleStringProperty(prenom);
+        this.numTel = new SimpleStringProperty(numTel);
         this.date = new SimpleStringProperty(date);
         this.heure = new SimpleStringProperty(heure);
-        this.demandeSpe = new SimpleStringProperty("");
+        this.demandeSpe = new SimpleStringProperty(demandeSpe);
         this.nbCouverts = new SimpleIntegerProperty(nbCouverts);
         this.idReservation = new SimpleIntegerProperty(idReservation);
 
