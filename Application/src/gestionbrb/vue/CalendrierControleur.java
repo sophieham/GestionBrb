@@ -1,9 +1,12 @@
 package gestionbrb.vue;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import gestionbrb.Calendrier;
 import gestionbrb.model.Reservations;
@@ -112,22 +115,36 @@ public class CalendrierControleur {
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
 		try {
+			
 			if (reservation != null) {
 				while (rs.next()) {
-					champNom.setText(reservation.getNom());
+					champNom.setText(rs.getString("nom"));
 					champPrenom.setText(rs.getString("prenom"));
 					champNumTel.setText(rs.getString("numeroTel"));
-					champDate.setText(reservation.getDate());
-					champHeure.setText(reservation.getHeure());
-					champNbCouverts.setText(Integer.toString(reservation.getNbCouverts()));
+					champDate.setText(rs.getString("dateReservation"));
+					champHeure.setText(rs.getString("heureReservation"));
+					champNbCouverts.setText(Integer.toString(rs.getInt("nbCouverts")));
 					champDemandeSpe.setText(rs.getString("demandeSpe"));
 				}
+			}
+			else {
+				champNom.setText("");
+				champPrenom.setText("");
+				champNumTel.setText("");
+				champDate.setText("");
+				champHeure.setText("");
+				champNbCouverts.setText("");
+				champDemandeSpe.setText("");
 			}
 		} 
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 	}
+		finally {
+			conn.close();
+			rs.close();
+		}
 }
 
 	/**
@@ -142,9 +159,9 @@ public class CalendrierControleur {
 			// Nothing selected.
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.initOwner(mainApp.getPrimaryStage());
-			alert.setTitle("No Selection");
-			alert.setHeaderText("No reservation Selected");
-			alert.setContentText("Please select a reservation in the table.");
+			alert.setTitle("Aucune sélection");
+			alert.setHeaderText("Aucune réservation de sélectionnée!");
+			alert.setContentText("Selectionnez une réservation pour pouvoir la modifier");
 
 			alert.showAndWait();
 		}
@@ -191,29 +208,46 @@ public class CalendrierControleur {
 	}
 
 	@FXML
-	private void recherche() {
-		Reservations reservation = new Reservations();
-		try {
-			String date = rechercheDate.getPromptText();
-			Connection conn = bddUtil.dbConnect();
-			PreparedStatement stmt=conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");  
-			stmt.setString(1, date);
-			ResultSet rs=stmt.executeQuery();   
-				if (reservation != null) {
-					while (rs.next()) {
-						champNom.setText(reservation.getNom());
-						champPrenom.setText(rs.getString("prenom"));
-						champNumTel.setText(rs.getString("numeroTel"));
-						champDate.setText(reservation.getDate());
-						champHeure.setText(reservation.getHeure());
-						champNbCouverts.setText(Integer.toString(reservation.getNbCouverts()));
-						champDemandeSpe.setText(rs.getString("demandeSpe"));
-					}
-				}
-			showReservationDetails(null);
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private void recherche() throws ClassNotFoundException, SQLException {
+		reservationTable.getItems().clear();
+		ArrayList<String> listeRes = new ArrayList<String>();
+		String date = rechercheDate.getValue().toString();
+		showReservationDetails(null);
+		System.out.println(date);
+		Connection conn = bddUtil.dbConnect();
+		PreparedStatement stmt=conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");  
+		stmt.setString(1, date);
+		ResultSet rs=stmt.executeQuery();
+		while (rs.next()) {
+			reservationTable.getItems().add(new Reservations(rs.getInt("idReservation"), rs.getString("nom"), rs.getString("dateReservation"), rs.getString("heureReservation"), rs.getInt("nbCouverts")));		
 		}
+		
+		conn.close();
+		rs.close();
 	}
 }
+/*reservationTable.getSelectionModel().selectedItemProperty()
+.addListener((observable, oldValue, newValue) -> {
+	try {	
+		reservationTable.getItems().removeAll(oldValue);
+		Connection conn = bddUtil.dbConnect();
+		PreparedStatement stmt=conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");  
+		stmt.setString(1, date);
+		ResultSet rs=stmt.executeQuery();   
+		while (rs.next()) {
+			champNom.setText(newValue.getNom());
+			champPrenom.setText(rs.getString("prenom"));
+			champNumTel.setText(rs.getString("numeroTel"));
+			champDate.setText(newValue.getDate());
+			champHeure.setText(newValue.getHeure());
+			champNbCouverts.setText(Integer.toString(newValue.getNbCouverts()));
+			champDemandeSpe.setText(rs.getString("demandeSpe"));
+		}
+	} catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+});*/

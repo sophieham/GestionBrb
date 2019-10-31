@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -26,8 +27,6 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="185.0" layoutY="460.0" mnemonicParsing="false" onAction="#handleEditReservation" text="Modifier la réservation" />
-      <Button layoutX="382.0" layoutY="460.0" mnemonicParsing="false" text="Fermer" />
       <Label layoutX="44.0" prefHeight="57.0" prefWidth="565.0" text="Calendrier des réservations">
          <font>
             <Font name="Calibri Light" size="49.0" />
@@ -69,19 +68,26 @@
                   <Label text="Prenom" GridPane.rowIndex="1" />
                   <Label text="Heure" GridPane.rowIndex="4" />
                   <Label text="Nb de couverts" GridPane.rowIndex="5" />
-                  <Label fx:id="champNom" text="Label" GridPane.columnIndex="1" />
-                  <Label fx:id="champPrenom" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="champHeure" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label fx:id="champNbCouverts" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label fx:id="champNom" text="                      " GridPane.columnIndex="1" />
+                  <Label fx:id="champPrenom" text="                      " GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="champHeure" text="                      " GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label fx:id="champNbCouverts" text="                      " GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label text="N° téléphone" GridPane.rowIndex="2" />
                   <Label text="Date" GridPane.rowIndex="3" />
                   <Label text="Demande Spéciale" GridPane.rowIndex="6" />
-                  <Label fx:id="champNumTel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="champDate" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label fx:id="champDemandeSpe" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Label fx:id="champNumTel" text="                      " GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="champDate" text="                      " GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="champDemandeSpe" text="                      " GridPane.columnIndex="1" GridPane.rowIndex="6" />
                </children>
             </GridPane>
          </children>
       </HBox>
+      <ButtonBar layoutX="10.0" layoutY="460.0" prefHeight="40.0" prefWidth="614.0">
+        <buttons>
+            <Button mnemonicParsing="false" onAction="#handleEditReservation" text="Modifier la réservation" />
+            <Button mnemonicParsing="false" onAction="#handleDeleteReservation" prefHeight="4.0" text="Supprimer la réservation" />
+            <Button mnemonicParsing="false" text="Fermer" />
+        </buttons>
+      </ButtonBar>
    </children>
 </AnchorPane>

@@ -1,6 +1,9 @@
 package gestionbrb.vue;
 
+import java.sql.SQLException;
+
 import gestionbrb.model.Reservations;
+import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -80,17 +83,18 @@ public class ModifierCalendrierControleur {
 
     /**
      * Called when the user clicks ok.
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
+     * @throws NumberFormatException 
      */
     @FXML
-    private void actionModifier() {
+    private void actionModifier() throws NumberFormatException, ClassNotFoundException, SQLException {
         if (estValide()) {
-            reservation.setNom(champNom.getText());
-            reservation.setPrenom(champPrenom.getText());
-            reservation.setNumTel(champNumTel.getText());
-            reservation.setDate(champDate.getValue());
-            reservation.setHeure(champHeure.getText());
-            reservation.setNbCouverts(Integer.parseInt(champNbCouverts.getText()));
-            reservation.setDemandeSpe(champDemandeSpe.getText());
+        	bddUtil.dbQueryExecute("UPDATE `calendrier` "
+        			+ "SET `nom` = '"+champNom.getText()+"', `prenom` = '"+champPrenom.getText()+"', "
+        			+ "`numeroTel` = '"+champNumTel.getText()+"', `dateReservation` = '"+champDate.getValue()+"', "
+        			+ "`heureReservation` = '"+champHeure.getText()+"', `nbCouverts` = '"+Integer.parseInt(champNbCouverts.getText())+"', `demandeSpe` = '"+champDemandeSpe.getText()+"' "
+        			+ "WHERE `calendrier`.`idReservation` = '"+reservation.getID()+"'");
 
             okClicked = true;
             dialogStage.close();

@@ -36,7 +36,7 @@ public class Calendrier extends Application {
     		Connection conn= bddUtil.dbConnect();
     		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
     		while (rs.next()) {
-        reservationData.add(new Reservations(rs.getString("nom"), rs.getString("dateReservation"),rs.getString("heureReservation"),rs.getInt("nbCouverts")));
+        reservationData.add(new Reservations(rs.getInt("idReservation"), rs.getString("nom"), rs.getString("dateReservation"),rs.getString("heureReservation"),rs.getInt("nbCouverts")));
     		}
     	} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
