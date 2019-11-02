@@ -1,14 +1,22 @@
 package gestionbrb.model;
 
+import java.util.ArrayList;
+
 public class Administrateur extends Utilisateurs
 {
-	public Administrateur(){
-		super();
+	ArrayList<Utilisateurs> utilisateurs = new ArrayList<Utilisateurs>();
+
+	public Administrateur(String identifiant, String mot2passe, String nom, String prenom ) {
+		super(identifiant, mot2passe, nom, prenom, 0);
+		// TODO Auto-generated constructor stub
 	}
 
-	public void modifierUtilisateurs() {
-		// TODO Auto-generated method stub
+	public void modifierUtilisateurs(String identifiant) {
 		
+		
+	}
+	public void ajouterUtilisateur(Utilisateurs user) {
+		utilisateurs.add(user);
 	}
 
 }
