@@ -53,7 +53,7 @@ public class DemarrerCommandeControleur extends FonctionsControleurs{
 	 * @throws ClassNotFoundException
 	 */
 	@FXML
-	private void actionModifier() throws ClassNotFoundException, SQLException {
+	private void actionAjouter() throws ClassNotFoundException, SQLException {
 		if (estValide()) {
 			// manque le numero de la table qui recevera la reservation
 			bddUtil.dbQueryExecute("INSERT INTO `calendrier` (`idReservation`, `nom`, `prenom`, `numeroTel`, `dateReservation`, `HeureReservation`, `nbCouverts`, `demandeSpe`, `idTable`) "
