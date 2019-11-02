@@ -11,8 +11,8 @@ public class Serveur extends Utilisateurs
 {
 	private int idServeur;
 
-	public Serveur(){
-		super();
+	public Serveur(String identifiant, String mot2passe, String nom, String prenom){
+		super(identifiant, mot2passe, nom, prenom, 2);
 	}
 
 	public void prendreCommande() {
