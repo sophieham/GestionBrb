@@ -21,59 +21,51 @@ import gestionbrb.vue.ModifierCalendrierControleur;
 public class Calendrier extends Application {
 
     private Stage primaryStage;
-    
-    /**
-     * ObservableList de Reservations
-     */
     private ObservableList<Reservations> reservationData = FXCollections.observableArrayList();
 
-    /**
-     * Constructeur
-     */
+
     public Calendrier() {
-        // Donnée générée manuelle, en attente de bdd
     	try {
     		Connection conn= bddUtil.dbConnect();
     		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
     		while (rs.next()) {
-        reservationData.add(new Reservations(rs.getString("nom"), rs.getString("dateReservation"),rs.getString("heureReservation"),rs.getInt("nbCouverts")));
+        reservationData.add(new Reservations(rs.getInt("idReservation"), rs.getString("nom"), rs.getString("prenom"), rs.getString("numeroTel"), rs.getString("dateReservation"),rs.getString("heureReservation"),rs.getInt("nbCouverts"), rs.getString("demandeSpe")));
     		}
     	} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
-
-    /**
-     * Retourne les données présentes dans la liste Reservations. 
-     * @return
-     */
-    public ObservableList<Reservations> getReservationData() {
-        return reservationData;
-    }
-
+    
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Calendrier");
-        showReservationOverview();
+        afficheCalendrier();
+    }
+
+    /**
+     * Retourne les données présentes dans la liste Reservations. 
+     * @return reservationData
+     */
+    public ObservableList<Reservations> getReservationData() {
+        return reservationData;
     }
     
     /**
-     * Shows the person overview inside the root layout.
+     * Ouvre une fenetre contenant le calendrier
      */
-    public void showReservationOverview() {
+    public void afficheCalendrier() {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Calendrier.class.getResource("vue/CalendrierReservations.fxml"));
             AnchorPane reservationOverview = (AnchorPane) loader.load();
 
-            // Show the scene containing the root layout.
             Scene scene = new Scene(reservationOverview);
             primaryStage.setScene(scene);
             primaryStage.show();
-            // Give the controller access to the main app.
+
+            
             CalendrierControleur controller = loader.getController();
             controller.setMainApp(this);
 
@@ -83,34 +75,34 @@ public class Calendrier extends Application {
     }
     
     /**
-     * Opens a dialog to edit details for the specified person. If the user
-     * clicks OK, the changes are saved into the provided person object and true
-     * is returned.
+     * Ouvre une fenêtre pour modifier les reservations.
      * 
-     * @param person the person object to be edited
-     * @return true if the user clicked OK, false otherwise.
+     * @param reservation
+     * @return true si l'utilisateur appuie sur modifier, false sinon
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
-    public boolean showReservationEditDialog(Reservations reservation) {
+    public boolean fenetreModification(Reservations reservation) throws ClassNotFoundException, SQLException {
         try {
-            // Load the fxml file and create a new stage for the popup dialog.
+            // Charge le fichier fxml et l'ouvre en pop-up
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Calendrier.class.getResource("vue/ModifierReservation.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
 
-            // Create the dialog Stage.
+            // Crée une nouvelle page
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Reservation");
+            dialogStage.setTitle("Modifier une reservation");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-            // Set the person into the controller.
+            // Définition du controleur pour la fenetre
             ModifierCalendrierControleur controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setReservation(reservation);
 
-            // Show the dialog and wait until the user closes it
+            // Affiche la page et attend que l'utilisateur la ferme.
             dialogStage.showAndWait();
 
             return controller.isOkClicked();

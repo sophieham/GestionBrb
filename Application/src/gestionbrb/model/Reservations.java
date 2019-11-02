@@ -14,7 +14,6 @@ import javafx.beans.property.StringProperty;
  * @author Marco Jakob
  */
 public class Reservations {
-
     private final StringProperty nom;
     private final StringProperty prenom;
     private final StringProperty numTel;
@@ -22,12 +21,13 @@ public class Reservations {
     private final StringProperty heure;
     private final IntegerProperty nbCouverts;
     private final StringProperty demandeSpe;
+    private final IntegerProperty idReservation;
 
     /**
      * Default constructor.
      */
     public Reservations() {
-        this(null, null, null, 0);
+        this(0, null, null, null, null, null, 0, null);
     }
 
     /**
@@ -37,14 +37,15 @@ public class Reservations {
      * @param date
      * @param heure
      */
-    public Reservations(String nom, String date, String heure, int nbCouverts) {
+    public Reservations(int idReservation, String nom, String prenom, String numTel, String date, String heure, int nbCouverts, String demandeSpe) {
         this.nom = new SimpleStringProperty(nom);
-        this.prenom = new SimpleStringProperty("");
-        this.numTel = new SimpleStringProperty("");
+        this.prenom = new SimpleStringProperty(prenom);
+        this.numTel = new SimpleStringProperty(numTel);
         this.date = new SimpleStringProperty(date);
         this.heure = new SimpleStringProperty(heure);
-        this.demandeSpe = new SimpleStringProperty("");
+        this.demandeSpe = new SimpleStringProperty(demandeSpe);
         this.nbCouverts = new SimpleIntegerProperty(nbCouverts);
+        this.idReservation = new SimpleIntegerProperty(idReservation);
 
     }
 
@@ -129,6 +130,17 @@ public class Reservations {
 
     public StringProperty demandeSpeProperty() {
         return demandeSpe;
+    }
+    public int getID() {
+        return idReservation.get();
+    }
+
+    public void setID(int id) {
+        this.idReservation.set(id);
+    }
+
+    public IntegerProperty idProperty() {
+        return idReservation;
     }
 
 }
