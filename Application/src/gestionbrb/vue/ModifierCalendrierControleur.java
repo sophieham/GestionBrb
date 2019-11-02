@@ -53,7 +53,7 @@ public class ModifierCalendrierControleur extends FonctionsControleurs{
     public void setReservation(Reservations reservation) throws SQLException, ClassNotFoundException {
         this.reservation = reservation;
 		Connection conn = bddUtil.dbConnect();
-		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
+		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier where idReservation = "+reservation.getID());
 		while (rs.next()) {
 			champNom.setText(rs.getString("nom"));
 			champPrenom.setText(rs.getString("prenom"));
