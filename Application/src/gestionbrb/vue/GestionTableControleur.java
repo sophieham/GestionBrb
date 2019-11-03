@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import gestionbrb.AjoutTable;
 import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Table;
 import gestionbrb.util.bddUtil;
@@ -24,6 +25,7 @@ public class GestionTableControleur extends FonctionsControleurs {
 
 	private Stage dialogStage;
 	private Table table;
+	private AjoutTable mainApp;
 	private boolean okClicked = false;
 
 	@FXML
@@ -122,6 +124,11 @@ public class GestionTableControleur extends FonctionsControleurs {
 
 			return false;
 		}
+	}
+
+	public void setMainApp(AjoutTable ajoutTable) {
+		// TODO Auto-generated method stub
+		this.mainApp = ajoutTable;
 	}
 
 }
