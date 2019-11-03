@@ -45,6 +45,8 @@ public class CalendrierControleur extends FonctionsControleurs {
 	private Label champDemandeSpe;
 	@FXML
 	private DatePicker rechercheDate;
+	@FXML
+	private Label nbTotalReservations;
 
 	// Reference to the main application.
 	private Calendrier mainApp;
@@ -70,11 +72,16 @@ public class CalendrierControleur extends FonctionsControleurs {
 		colonneHeure.setCellValueFactory(cellData -> cellData.getValue().heureProperty());
 		colonneNbCouverts.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsProperty());
 
-
+		Connection conn = bddUtil.dbConnect();
+		ResultSet nbTotalResv = conn.createStatement().executeQuery("select count(*) from calendrier");
+		while(nbTotalResv.next()) {
+		nbTotalReservations.setText(nbTotalResv.getString("count(*)")+" réservations au total");}
+		
 		// Change les détails en fonction de ce qui à été selectionné
 		reservationTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			try {
 				detailsReservation(newValue);
+				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -106,7 +113,7 @@ public class CalendrierControleur extends FonctionsControleurs {
 	 */
 
 	private void detailsReservation(Reservations reservation) throws SQLException, ClassNotFoundException {
-		Connection conn = bddUtil.dbConnect();
+		Connection conn = bddUtil.dbConnect();		
 		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
 		try {
 
@@ -215,6 +222,9 @@ public class CalendrierControleur extends FonctionsControleurs {
 		String date = rechercheDate.getValue().toString();
 		detailsReservation(null);
 		Connection conn = bddUtil.dbConnect();
+		ResultSet nbTotalResv = conn.createStatement().executeQuery("select count(*) from calendrier where dateReservation LIKE '"+date+"'");
+		while(nbTotalResv.next()) {
+		nbTotalReservations.setText(nbTotalResv.getString("count(*)")+" réservations le "+date);}
 		PreparedStatement stmt = conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");
 		stmt.setString(1, date);
 		ResultSet rs = stmt.executeQuery();
@@ -246,6 +256,9 @@ public class CalendrierControleur extends FonctionsControleurs {
 	private void afficherTout() throws ClassNotFoundException, SQLException {
 		reservationTable.getItems().clear();
 		Connection conn = bddUtil.dbConnect();
+		ResultSet nbTotalResv = conn.createStatement().executeQuery("select count(*) from calendrier");
+		while(nbTotalResv.next()) {
+		nbTotalReservations.setText(nbTotalResv.getString("count(*)")+" réservations au total");}
 		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
 		while (rs.next()) {
 			reservationTable.getItems()

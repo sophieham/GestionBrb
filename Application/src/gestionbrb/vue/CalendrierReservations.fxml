@@ -14,15 +14,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.CalendrierControleur">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.CalendrierControleur">
    <children>
       <DatePicker fx:id="rechercheDate" layoutX="105.0" layoutY="59.0" onAction="#rechercherReservation" prefHeight="31.0" prefWidth="316.0" />
-      <Label layoutX="171.0" layoutY="102.0" prefHeight="35.0" prefWidth="310.0" text="  réservations pour ce jour-ci">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="165.0" layoutY="103.0" text="0">
+      <Label fx:id="nbTotalReservations" alignment="CENTER" layoutX="1.0" layoutY="103.0" prefHeight="35.0" prefWidth="634.0" text="0 réservations au total">
          <font>
             <Font size="24.0" />
          </font>
