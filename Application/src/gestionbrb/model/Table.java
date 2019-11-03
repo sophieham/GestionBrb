@@ -8,14 +8,13 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Table {
 	private final IntegerProperty idTable;
 	private final IntegerProperty nbCouvertsMin;
-	private IntegerProperty nbCouverts;
 	private Commande commande;
 	private final IntegerProperty nbCouvertsMax;
 	private BooleanProperty estOccupe;
 
-	public Table(int idTable, int nbCouvertsMax, boolean estOccupe) {
+	public Table(int idTable, int nbCouvertsMin, int nbCouvertsMax, boolean estOccupe) {
 		this.idTable = new SimpleIntegerProperty(idTable);
-		this.nbCouvertsMin = new SimpleIntegerProperty(1);
+		this.nbCouvertsMin = new SimpleIntegerProperty(nbCouvertsMin);
 		this.nbCouvertsMax = new SimpleIntegerProperty(nbCouvertsMax);
 		this.estOccupe = new SimpleBooleanProperty(estOccupe);
 	}
@@ -66,18 +65,6 @@ public class Table {
 
 	public final void setEstOccupe() {
 		this.estOccupeProperty().set(!this.estOccupeProperty().get());
-	}
-
-	public final IntegerProperty nbCouvertsProperty() {
-		return this.nbCouverts;
-	}
-
-	public final int getNbCouverts() {
-		return this.nbCouvertsProperty().get();
-	}
-
-	public final void setNbCouverts(final int nbCouverts) {
-		this.nbCouvertsProperty().set(nbCouverts);
 	}
 
 	public Commande getCommande() {

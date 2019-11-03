@@ -1,6 +1,7 @@
 package gestionbrb.vue;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,13 +15,11 @@ import javafx.stage.Stage;
 public class ModifierTablesControleur extends FonctionsControleurs {
 
 	@FXML
-	private TextField champNbCouvertMin;
+	private TextField champNbCouvertsMin;
 	@FXML
-	private TextField champNbCouvertMax;
+	private TextField champNbCouvertsMax;
 	@FXML
-	private TextField champNbCouverts;
-@FXML
-private TextField champEstOccupe;
+	private TextField champEstOccupe;
 
 	private Stage dialogStage;
 	private Table table;
@@ -45,8 +44,8 @@ private TextField champEstOccupe;
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("select * from tables");
 		while (rs.next()) {
-			champNbCouvertMin.setText(rs.getString("Nb couverts min"));
-			champNbCouvertMax.setText(rs.getString("Nb couverts max"));
+			champNbCouvertsMin.setText(rs.getString("NbCouverts_Min"));
+			champNbCouvertsMax.setText(rs.getString("NbCouverts_Max"));
 
 		}
 	}
@@ -66,10 +65,25 @@ private TextField champEstOccupe;
 	 * @throws NumberFormatException
 	 */
 	@FXML
+	private void actionAjouter() throws NumberFormatException, ClassNotFoundException, SQLException {
+		if (estValide()) {
+			Connection conn = bddUtil.dbConnect();
+			PreparedStatement pstmt = conn.prepareStatement
+					("INSERT INTO `tables` (`idTable`, `nbCouverts_min`, `nbCouverts_max`, `idReservation`) VALUES (NULL, ?, ?, NULL)");
+			pstmt.setInt(1, Integer.parseInt(champNbCouvertsMin.getText()));
+			pstmt.setInt(2,Integer.parseInt(champNbCouvertsMax.getText()));
+			pstmt.execute();
+			okClicked = true;
+			dialogStage.close();
+			pstmt.close();
+		}
+	}
+	
+	@FXML
 	private void actionModifier() throws NumberFormatException, ClassNotFoundException, SQLException {
 		if (estValide()) {
-			bddUtil.dbQueryExecute("UPDATE `table` SET " + "`nbCouvertMin` = '" + champNbCouvertMin.getText()
-					+ "', " + "`nbCouvertMax` = '" + champNbCouvertMax.getText() + "', "+"`nbCouverts` = '" + champNbCouverts.getText()+"', "+"`esOccupe` = '" + champEstOccupe.getText());
+			bddUtil.dbQueryExecute("UPDATE `table` SET " + "`nbCouvertMin` = '" + champNbCouvertsMin.getText() + "', "
+					+ "`nbCouvertMax` = '" + champNbCouvertsMax.getText() + "', " + "`estOccupe` = '" + champEstOccupe.getText());
 			okClicked = true;
 			dialogStage.close();
 		}
@@ -88,22 +102,14 @@ private TextField champEstOccupe;
 	 * 
 	 * @return true si la saisie est bien conforme
 	 */
-	public boolean estValide() { 
+	public boolean estValide() {
 		String erreurMsg = "";
 
-		if (champNbCouvertMax.getText() == null || champNbCouvertMax.getText().length() == 0) {
+		if (champNbCouvertsMax.getText() == null || champNbCouvertsMax.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le nombre de couvert maximum\n";
 		}
-		if (champNbCouvertMin.getText() == null || champNbCouvertMin.getText().length() == 0) {
+		if (champNbCouvertsMin.getText() == null || champNbCouvertsMin.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le nombre de couvert minimum\n";
-
-		}
-		if (champNbCouverts.getText() == null || champNbCouverts.getText().length() == 0) {
-			erreurMsg += "Veuillez remplir le nombre de couverts \n";
-
-		}
-		if (champEstOccupe.getText() == null || champEstOccupe.getText().length() == 0) {
-			erreurMsg += "Veuillez remplir si la table est occupé ou non\n";
 
 		}
 

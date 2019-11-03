@@ -7,28 +7,28 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.TablesControleur">
    <children>
       <Pane layoutX="-6.0" prefHeight="444.0" prefWidth="559.0">
          <children>
-            <TableView layoutX="26.0" layoutY="30.0" prefHeight="385.0" prefWidth="332.0">
+            <TableView fx:id="tableTable" layoutX="26.0" layoutY="30.0" prefHeight="385.0" prefWidth="332.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="ID" />
-                <TableColumn prefWidth="113.0" text="Couverts min" />
-                  <TableColumn prefWidth="143.0" text="Couverts max" />
+                <TableColumn fx:id="colonneIdTable" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="colonneNbCouvertsMin" prefWidth="113.0" text="Couverts min" />
+                  <TableColumn fx:id="colonneNbCouvertsMax" prefWidth="143.0" text="Couverts max" />
               </columns>
             </TableView>
-            <Button layoutX="384.0" layoutY="85.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="142.0" text="Ajouter">
+            <Button layoutX="384.0" layoutY="85.0" mnemonicParsing="false" onAction="#ajoutTable" prefHeight="51.0" prefWidth="142.0" text="Ajouter">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="384.0" layoutY="171.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="142.0" text="Modifier">
+            <Button layoutX="384.0" layoutY="171.0" mnemonicParsing="false" onAction="#modifierTable" prefHeight="51.0" prefWidth="142.0" text="Modifier">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="384.0" layoutY="262.0" mnemonicParsing="false" text="Supprimer">
+            <Button layoutX="384.0" layoutY="262.0" mnemonicParsing="false" onAction="#supprimerTable" text="Supprimer">
                <font>
                   <Font size="24.0" />
                </font>

@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.ModifierTablesControleur">
    <children>
       <Pane layoutX="-24.0" layoutY="-37.0" prefHeight="260.0" prefWidth="345.0">
          <children>
@@ -50,19 +49,16 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Spinner prefHeight="36.0" prefWidth="160.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Spinner>
-                  <Spinner GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Spinner>
+                  <TextField fx:id="champNbCouvertsMin" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="champNbCouvertsMax" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-            <Button layoutX="97.0" layoutY="204.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="168.0" text="Valider">
+            <Button layoutX="36.0" layoutY="204.0" mnemonicParsing="false" onAction="#actionAjouter" prefHeight="42.0" prefWidth="137.0" text="Valider">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
+            <Button layoutX="198.0" layoutY="204.0" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="42.0" prefWidth="137.0" text="Annuler">
                <font>
                   <Font size="19.0" />
                </font>

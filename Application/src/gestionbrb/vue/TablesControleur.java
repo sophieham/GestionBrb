@@ -20,11 +20,9 @@ public class TablesControleur extends FonctionsControleurs {
 	@FXML
 	private TableColumn<Table, Number> colonneIdTable;
 	@FXML
-	private TableColumn<Table, Number> colonneNbCouvertMin;
+	private TableColumn<Table, Number> colonneNbCouvertsMin;
 	@FXML
-	private TableColumn<Table, Number> colonneNbCouvertMax;
-	@FXML
-	private TableColumn<Table, Number> colonneNbCouverts;
+	private TableColumn<Table, Number> colonneNbCouvertsMax;
 
 	@FXML
 	private Label champID;
@@ -32,9 +30,6 @@ public class TablesControleur extends FonctionsControleurs {
 	private Label champNbCouvertMax;
 	@FXML
 	private Label champNbCouvertMin;
-	@FXML
-	private Label champNbCouverts;
-
 	// Reference to the main application.
 	private Tables mainApp;
 
@@ -55,10 +50,8 @@ public class TablesControleur extends FonctionsControleurs {
 	private void initialize() throws ClassNotFoundException, SQLException {
 
 		colonneIdTable.setCellValueFactory(cellData -> cellData.getValue().idTableProperty());
-		colonneNbCouvertMax.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMaxProperty());
-		colonneNbCouvertMin.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMinProperty());
-		colonneNbCouverts.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsProperty());
-
+		colonneNbCouvertsMax.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMaxProperty());
+		colonneNbCouvertsMin.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMinProperty());
 	}
 
 	/**
@@ -67,41 +60,38 @@ public class TablesControleur extends FonctionsControleurs {
 	public void setMainApp(Tables mainApp) {
 		this.mainApp = mainApp;
 
-	}
-
-	/**
-	 * @param reservation the reservation or null
-	 * @throws SQLException
-	 */
-
-	private void detailsTable(Table table) throws SQLException, ClassNotFoundException {
-		Connection conn = bddUtil.dbConnect();
-		ResultSet rs = conn.createStatement().executeQuery("select * from table");
-		try {
-
-			if (table != null) {
-				while (rs.next()) {
-					champID.setText(Integer.toString(table.getIdTable()));
-					champNbCouvertMax.setText(Integer.toString(table.getNbCouvertsMax()));
-					champNbCouvertMin.setText(Integer.toString(table.getNbCouvertsMin()));
-					champNbCouverts.setText(Integer.toString(table.getNbCouverts()));
-				}
-			} else {
-				champID.setText("");
-				champNbCouvertMax.setText("");
-				champNbCouvertMin.setText("");
-				champNbCouverts.setText("");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			conn.close();
-			rs.close();
-		}
+		tableTable.setItems(mainApp.getTableData());
 	}
 	
+	/**
+	 * Appelé quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
+	 * nouvelle page pour effectuer la modification
+	 * 
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	@FXML
+	private void ajoutTable() throws ClassNotFoundException, SQLException {
+		boolean okClicked = mainApp.fenetreModification(null);
+			if (okClicked) {
+				refresh();
+				alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+			}
+	}
 
+	private void refresh() throws ClassNotFoundException, SQLException {
+		mainApp.getTableData().clear();
+		Connection conn = bddUtil.dbConnect();
+		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM tables");
+		while(rs.next()) {
+			mainApp.getTableData().add(new Table (rs.getInt("idTable"),rs.getInt("nbCouverts_Min"),rs.getInt("nbCouverts_Max"),false));
+			tableTable.setItems(mainApp.getTableData());
+			colonneIdTable.setText(rs.getString("idTable"));
+			colonneNbCouvertsMin.setText(rs.getString("nbCouverts_Min"));
+			colonneNbCouvertsMin.setText(rs.getString("nbCouverts_Max"));
+		}
+		
+	}
 	/**
 	 * Appellé quand l'utilisateur clique sur le bouton supprimer
 	 * 
@@ -140,14 +130,7 @@ public class TablesControleur extends FonctionsControleurs {
 		if (selectedTable != null) {
 			boolean okClicked = mainApp.fenetreModification(selectedTable);
 			if (okClicked) {
-				tableTable.getItems().clear();
-				Connection conn = bddUtil.dbConnect();
-				ResultSet rs = conn.createStatement().executeQuery("select * from table");
-				while (rs.next()) {
-					tableTable.getItems().add(
-							new Table(rs.getInt("idTable"), rs.getInt("nbCouvertMax"), rs.getBoolean("estOccupe")));
-				}
-				detailsTable(null);
+				refresh();
 				alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 			}
 
@@ -156,52 +139,6 @@ public class TablesControleur extends FonctionsControleurs {
 			alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
 					"Selectionnez une réservation pour pouvoir la modifier");
 		}
-	}
-	
-
-	/**
-	 * Affiche uniquement les tables libres
-	 * 
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	@FXML
-	private void rechercherTable() throws ClassNotFoundException, SQLException {
-		tableTable.getItems().clear();
-		//String couverts = champNbCouvertMax.getText();
-		detailsTable(null);
-		Connection conn = bddUtil.dbConnect();
-		PreparedStatement stmt = conn.prepareStatement("select * from calendrier where estOccupe =  ?");
-		stmt.setString(1, "false");
-		ResultSet rs = stmt.executeQuery();
-		while (rs.next()) {
-			tableTable.getItems()
-					.add(new Table(rs.getInt("idTable"), rs.getInt("nbCouvertMax"),
-							rs.getBoolean("estOccupe")));
-		}
-
-		conn.close();
-		rs.close();
-	}
-
-	/**
-	 * Appellé quand l'utilisateur appuie sur le bouton Afficher tout. Affiche
-	 * toutes les tables quelque soit leur occupation ou le nombre max de couverts (annule la recherche)
-	 * 
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	@FXML
-	private void afficherTout() throws ClassNotFoundException, SQLException {
-		tableTable.getItems().clear();
-		Connection conn = bddUtil.dbConnect();
-		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
-		while (rs.next()) {
-			tableTable.getItems()
-					.add(new Table(rs.getInt("idTable"), rs.getInt("nbCouvertMax"),
-							rs.getBoolean("estOccupe")));
-		}
-		detailsTable(null);
 	}
 
 }

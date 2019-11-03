@@ -116,6 +116,7 @@ public class CalendrierControleur extends FonctionsControleurs {
 		Connection conn = bddUtil.dbConnect();		
 		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
 		try {
+			
 
 			if (reservation != null) {
 				while (rs.next()) {

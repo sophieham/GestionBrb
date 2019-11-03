@@ -11,7 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class AjoutTableControleur extends FonctionsControleurs {
+public class GestionTableControleur extends FonctionsControleurs {
 
 	@FXML
 	private TextField champNbCouvertMin;
@@ -45,8 +45,8 @@ public class AjoutTableControleur extends FonctionsControleurs {
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("select * from tables");
 		while (rs.next()) {
-			champNbCouvertMin.setText(rs.getString("Nb couverts min"));
-			champNbCouvertMax.setText(rs.getString("Nb couverts max"));
+			champNbCouvertMin.setText(rs.getString("NbCouverts_min"));
+			champNbCouvertMax.setText(rs.getString("NbCouverts_max"));
 
 		}
 	}
