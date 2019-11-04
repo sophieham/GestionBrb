@@ -38,10 +38,10 @@ public class Main extends Application {
 			 //AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Application.fxml"));
 	 Locale locale = new Locale("fr", "FR");  
 
-	ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/language_fr",locale);
+	ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr",locale);
 	 
 	 
-	 Parent root = FXMLLoader.load(getClass().getResource("vue/Application.fxml"),bundle);
+	 Parent root = FXMLLoader.load(getClass().getResource("vue/Application.fxml"), bundle);
 	
 	
 	 
