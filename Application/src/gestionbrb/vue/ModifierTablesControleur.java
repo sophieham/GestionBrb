@@ -1,13 +1,10 @@
 package gestionbrb.vue;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import gestionbrb.Tables;
 import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Table;
-import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -19,11 +16,13 @@ public class ModifierTablesControleur extends FonctionsControleurs {
 	@FXML
 	private TextField champNbCouvertsMax;
 	@FXML
-	private TextField champEstOccupe;
+	private TextField champNoTable;
 
 	private Stage dialogStage;
 	private Table table;
 	private boolean okClicked = false;
+	private Tables mainApp;
+
 
 	@FXML
 	private void initialize() {
@@ -31,6 +30,10 @@ public class ModifierTablesControleur extends FonctionsControleurs {
 
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
+	}
+	
+	public void setMainApp(Tables mainApp) {
+		this.mainApp = mainApp;
 	}
 
 	/**
@@ -41,13 +44,10 @@ public class ModifierTablesControleur extends FonctionsControleurs {
 	 */
 	public void setTable(Table table) throws SQLException, ClassNotFoundException {
 		this.table = table;
-		Connection conn = bddUtil.dbConnect();
-		ResultSet rs = conn.createStatement().executeQuery("select * from tables");
-		while (rs.next()) {
-			champNbCouvertsMin.setText(rs.getString("NbCouverts_Min"));
-			champNbCouvertsMax.setText(rs.getString("NbCouverts_Max"));
+		champNbCouvertsMin.setText(Integer.toString(table.getNbCouvertsMin()));
+		champNbCouvertsMax.setText(Integer.toString(table.getNbCouvertsMax()));
+		champNoTable.setText(Integer.toString(table.getNoTable()));
 
-		}
 	}
 
 	/**
@@ -58,32 +58,16 @@ public class ModifierTablesControleur extends FonctionsControleurs {
 	}
 
 	/**
-	 * Appellé quand l'utilisateur appuie sur "modifier"
+	 * Appellé quand l'utilisateur appuie sur Valider
 	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 * @throws NumberFormatException
 	 */
 	@FXML
-	private void actionAjouter() throws NumberFormatException, ClassNotFoundException, SQLException {
+	public void actionValider() {
 		if (estValide()) {
-			Connection conn = bddUtil.dbConnect();
-			PreparedStatement pstmt = conn.prepareStatement
-					("INSERT INTO `tables` (`idTable`, `nbCouverts_min`, `nbCouverts_max`, `idReservation`) VALUES (NULL, ?, ?, NULL)");
-			pstmt.setInt(1, Integer.parseInt(champNbCouvertsMin.getText()));
-			pstmt.setInt(2,Integer.parseInt(champNbCouvertsMax.getText()));
-			pstmt.execute();
-			okClicked = true;
-			dialogStage.close();
-			pstmt.close();
-		}
-	}
-	
-	@FXML
-	private void actionModifier() throws NumberFormatException, ClassNotFoundException, SQLException {
-		if (estValide()) {
-			bddUtil.dbQueryExecute("UPDATE `table` SET " + "`nbCouvertMin` = '" + champNbCouvertsMin.getText() + "', "
-					+ "`nbCouvertMax` = '" + champNbCouvertsMax.getText() + "', " + "`estOccupe` = '" + champEstOccupe.getText());
+			table.setNbCouvertsMin(Integer.parseInt(champNbCouvertsMin.getText()));
+			table.setNbCouvertsMax(Integer.parseInt(champNbCouvertsMax.getText()));
+			table.setNoTable(Integer.parseInt(champNoTable.getText()));
+
 			okClicked = true;
 			dialogStage.close();
 		}
@@ -105,12 +89,34 @@ public class ModifierTablesControleur extends FonctionsControleurs {
 	public boolean estValide() {
 		String erreurMsg = "";
 
+		if (champNoTable.getText() == null || champNoTable.getText().length() == 0) {
+			erreurMsg += "Veuillez remplir le nombre de couvert maximum\n";
+		} else {
+			try {
+				Integer.parseInt(champNoTable.getText());
+			} catch (NumberFormatException e) {
+				erreurMsg += "Erreur! Le champ No. Table n'accepte que les nombres\n";
+			}
+		}
+		
 		if (champNbCouvertsMax.getText() == null || champNbCouvertsMax.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le nombre de couvert maximum\n";
+		} else {
+			try {
+				Integer.parseInt(champNbCouvertsMax.getText());
+			} catch (NumberFormatException e) {
+				erreurMsg += "Erreur! Le champ couverts max. n'accepte que les nombres\n";
+			}
 		}
 		if (champNbCouvertsMin.getText() == null || champNbCouvertsMin.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le nombre de couvert minimum\n";
 
+		}else {
+			try {
+				Integer.parseInt(champNbCouvertsMin.getText());
+			} catch (NumberFormatException e) {
+				erreurMsg += "Erreur! Le champ couverts min. n'accepte que les nombres\n";
+			}
 		}
 
 		if (erreurMsg.length() == 0) {

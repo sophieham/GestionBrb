@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import gestionbrb.vue.ModifierTablesControleur;
 import gestionbrb.model.Table;
 import gestionbrb.util.bddUtil;
-import gestionbrb.vue.GestionTableControleur;
 import gestionbrb.vue.TablesControleur;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -28,7 +27,7 @@ public class Tables extends Application {
 			Connection conn = bddUtil.dbConnect();
 			ResultSet rs = conn.createStatement().executeQuery("select * from tables");
 			while (rs.next()) {
-				tables.add(new Table(rs.getInt("idTable"), rs.getInt("nbCouverts_Min"), rs.getInt("nbCouverts_Max"), false));
+				tables.add(new Table(rs.getInt("idTable"), rs.getInt("noTable"), rs.getInt("nbCouverts_Min"), rs.getInt("nbCouverts_Max"), false));
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -42,7 +41,7 @@ public class Tables extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Tables");
+		this.primaryStage.setTitle("Administration -- Tables");
 		afficheTable();
 	}
 
@@ -73,7 +72,7 @@ public class Tables extends Application {
 
 			// Crée une nouvelle page
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Modifier une table");
+			dialogStage.setTitle("Gestion des tables");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.initOwner(primaryStage);
 			Scene scene = new Scene(page);

@@ -13,7 +13,7 @@
          <children>
             <TableView fx:id="tableTable" layoutX="26.0" layoutY="30.0" prefHeight="385.0" prefWidth="332.0">
               <columns>
-                <TableColumn fx:id="colonneIdTable" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="colonneNoTable" prefWidth="75.0" text="No. Table" />
                 <TableColumn fx:id="colonneNbCouvertsMin" prefWidth="113.0" text="Couverts min" />
                   <TableColumn fx:id="colonneNbCouvertsMax" prefWidth="143.0" text="Couverts max" />
               </columns>

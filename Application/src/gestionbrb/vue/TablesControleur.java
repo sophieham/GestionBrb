@@ -18,14 +18,14 @@ public class TablesControleur extends FonctionsControleurs {
 	@FXML
 	private TableView<Table> tableTable;
 	@FXML
-	private TableColumn<Table, Number> colonneIdTable;
+	private TableColumn<Table, Number> colonneNoTable;
 	@FXML
 	private TableColumn<Table, Number> colonneNbCouvertsMin;
 	@FXML
 	private TableColumn<Table, Number> colonneNbCouvertsMax;
 
 	@FXML
-	private Label champID;
+	private Label champNoTable;
 	@FXML
 	private Label champNbCouvertMax;
 	@FXML
@@ -49,7 +49,7 @@ public class TablesControleur extends FonctionsControleurs {
 	@FXML
 	private void initialize() throws ClassNotFoundException, SQLException {
 
-		colonneIdTable.setCellValueFactory(cellData -> cellData.getValue().idTableProperty());
+		colonneNoTable.setCellValueFactory(cellData -> cellData.getValue().NoTableProperty());
 		colonneNbCouvertsMax.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMaxProperty());
 		colonneNbCouvertsMin.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMinProperty());
 	}
@@ -72,23 +72,33 @@ public class TablesControleur extends FonctionsControleurs {
 	 */
 	@FXML
 	private void ajoutTable() throws ClassNotFoundException, SQLException {
-		boolean okClicked = mainApp.fenetreModification(null);
-			if (okClicked) {
+        Table tempTable = new Table();
+        boolean okClicked = mainApp.fenetreModification(tempTable);
+        if (okClicked) {
+				Connection conn = bddUtil.dbConnect();
+				PreparedStatement pstmt = conn.prepareStatement
+						("INSERT INTO `tables` (`idTable`, `NoTable`, `nbCouverts_min`, `nbCouverts_max`, `idReservation`) VALUES (NULL, ?, ?, ?, NULL)");
+				pstmt.setInt(1, tempTable.getNoTable());
+				pstmt.setInt(2, tempTable.getNbCouvertsMin());
+				pstmt.setInt(3, tempTable.getNbCouvertsMax());
+				pstmt.execute();
 				refresh();
 				alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 			}
 	}
 
+	/** 
+	 * Rafraichit les colonnes après un ajout, une modification ou une suppression d'éléments.
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	private void refresh() throws ClassNotFoundException, SQLException {
 		mainApp.getTableData().clear();
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM tables");
 		while(rs.next()) {
-			mainApp.getTableData().add(new Table (rs.getInt("idTable"),rs.getInt("nbCouverts_Min"),rs.getInt("nbCouverts_Max"),false));
+			mainApp.getTableData().add(new Table (rs.getInt(1), rs.getInt(2),rs.getInt(3),rs.getInt(4),false));
 			tableTable.setItems(mainApp.getTableData());
-			colonneIdTable.setText(rs.getString("idTable"));
-			colonneNbCouvertsMin.setText(rs.getString("nbCouverts_Min"));
-			colonneNbCouvertsMin.setText(rs.getString("nbCouverts_Max"));
 		}
 		
 	}
@@ -99,16 +109,26 @@ public class TablesControleur extends FonctionsControleurs {
 	 * @throws ClassNotFoundException
 	 */
 	@FXML
-	private void supprimerTable() throws ClassNotFoundException, SQLException {
+	private void supprimerTable() throws ClassNotFoundException {
 		Table selectedTable = tableTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = tableTable.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
+			System.out.println(selectedTable.getIdTable());
+			try {
 			Connection conn = bddUtil.dbConnect();
-			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `table` WHERE idTable=?");
+			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `tables` WHERE idTable=?");
 			pstmt.setInt(1, (selectedTable.getIdTable()));
 			pstmt.execute();
+			refresh();
+			alerteInfo("Suppression réussie", null, "La table "+selectedTable.getNoTable()+" vient d'être supprimée!");
+			conn.close();
 			pstmt.close();
-			tableTable.getItems().remove(selectedIndex);
+			}
+			catch(SQLException e) {
+				System.out.println("Erreur dans le code sql"+e);
+			}
+			
+		
 
 		} else {
 			// Si rien n'est séléctionné
@@ -130,6 +150,9 @@ public class TablesControleur extends FonctionsControleurs {
 		if (selectedTable != null) {
 			boolean okClicked = mainApp.fenetreModification(selectedTable);
 			if (okClicked) {
+				bddUtil.dbQueryExecute("UPDATE `tables` SET " + "`noTable` = '"+selectedTable.getNoTable()+"'`nbCouverts_Min` = '" + selectedTable.getNbCouvertsMin()+ "', "
+						+ "`nbCouverts_Max` = '" + selectedTable.getNbCouvertsMax()+ "', `idReservation` = NULL WHERE idTable='"+selectedTable.getIdTable()+"'");
+
 				refresh();
 				alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 			}

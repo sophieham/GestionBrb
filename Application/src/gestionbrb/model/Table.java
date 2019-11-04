@@ -10,13 +10,19 @@ public class Table {
 	private final IntegerProperty nbCouvertsMin;
 	private Commande commande;
 	private final IntegerProperty nbCouvertsMax;
+	private final IntegerProperty noTable;
 	private BooleanProperty estOccupe;
 
-	public Table(int idTable, int nbCouvertsMin, int nbCouvertsMax, boolean estOccupe) {
+	public Table(int idTable, int noTable, int nbCouvertsMin, int nbCouvertsMax, boolean estOccupe) {
 		this.idTable = new SimpleIntegerProperty(idTable);
 		this.nbCouvertsMin = new SimpleIntegerProperty(nbCouvertsMin);
 		this.nbCouvertsMax = new SimpleIntegerProperty(nbCouvertsMax);
+		this.noTable = new SimpleIntegerProperty(noTable);
 		this.estOccupe = new SimpleBooleanProperty(estOccupe);
+	}
+
+	public Table() {
+		this(0, 0, 0, 0, false);
 	}
 
 	public final IntegerProperty idTableProperty() {
@@ -74,5 +80,19 @@ public class Table {
 	public void setCommande(Commande commande) {
 		this.commande = commande;
 	}
+
+	public IntegerProperty NoTableProperty() {
+		return noTable;
+	}
+	
+	public final int getNoTable() {
+		return this.NoTableProperty().get();
+	}
+
+	public final void setNoTable(int noTable) {
+		this.NoTableProperty().set(noTable);
+	}
+	
+	
 
 }

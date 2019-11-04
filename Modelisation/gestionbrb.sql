@@ -2,10 +2,10 @@
 -- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 23, 2019 at 10:43 PM
--- Server version: 10.4.8-MariaDB
--- PHP Version: 7.3.10
+-- Hôte : 127.0.0.1
+-- Généré le :  lun. 04 nov. 2019 à 21:18
+-- Version du serveur :  10.4.8-MariaDB
+-- Version de PHP :  7.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gestionbrb`
+-- Base de données :  `gestionbrb`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `calendrier`
+-- Structure de la table `calendrier`
 --
 
 CREATE TABLE `calendrier` (
@@ -42,7 +42,7 @@ CREATE TABLE `calendrier` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `commande`
+-- Structure de la table `commande`
 --
 
 CREATE TABLE `commande` (
@@ -55,7 +55,7 @@ CREATE TABLE `commande` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contientproduit`
+-- Structure de la table `contientproduit`
 --
 
 CREATE TABLE `contientproduit` (
@@ -67,7 +67,7 @@ CREATE TABLE `contientproduit` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fourniringredients`
+-- Structure de la table `fourniringredients`
 --
 
 CREATE TABLE `fourniringredients` (
@@ -81,7 +81,7 @@ CREATE TABLE `fourniringredients` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fournisseur`
+-- Structure de la table `fournisseur`
 --
 
 CREATE TABLE `fournisseur` (
@@ -97,7 +97,7 @@ CREATE TABLE `fournisseur` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ingredientproduit`
+-- Structure de la table `ingredientproduit`
 --
 
 CREATE TABLE `ingredientproduit` (
@@ -110,7 +110,7 @@ CREATE TABLE `ingredientproduit` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ingredients`
+-- Structure de la table `ingredients`
 --
 
 CREATE TABLE `ingredients` (
@@ -123,7 +123,7 @@ CREATE TABLE `ingredients` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `produit`
+-- Structure de la table `produit`
 --
 
 CREATE TABLE `produit` (
@@ -138,20 +138,21 @@ CREATE TABLE `produit` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tables`
+-- Structure de la table `tables`
 --
 
 CREATE TABLE `tables` (
   `idTable` int(11) NOT NULL,
-  `numCouverts_min` tinyint(4) NOT NULL,
-  `numCouverts_max` tinyint(4) NOT NULL,
-  `idReservation` int(11) NOT NULL
+  `NoTable` tinyint(4) NOT NULL,
+  `nbCouverts_min` tinyint(4) NOT NULL,
+  `nbCouverts_max` tinyint(4) NOT NULL,
+  `idReservation` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `type_produit`
+-- Structure de la table `type_produit`
 --
 
 CREATE TABLE `type_produit` (
@@ -162,7 +163,7 @@ CREATE TABLE `type_produit` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `utilisateurs`
+-- Structure de la table `utilisateurs`
 --
 
 CREATE TABLE `utilisateurs` (
@@ -175,157 +176,157 @@ CREATE TABLE `utilisateurs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Indexes for dumped tables
+-- Index pour les tables déchargées
 --
 
 --
--- Indexes for table `calendrier`
+-- Index pour la table `calendrier`
 --
 ALTER TABLE `calendrier`
   ADD PRIMARY KEY (`idReservation`),
   ADD KEY `Calendrier_Tables0_FK` (`idTable`);
 
 --
--- Indexes for table `commande`
+-- Index pour la table `commande`
 --
 ALTER TABLE `commande`
   ADD PRIMARY KEY (`idCommande`);
 
 --
--- Indexes for table `contientproduit`
+-- Index pour la table `contientproduit`
 --
 ALTER TABLE `contientproduit`
   ADD PRIMARY KEY (`idProduit`,`idCommande`);
 
 --
--- Indexes for table `fourniringredients`
+-- Index pour la table `fourniringredients`
 --
 ALTER TABLE `fourniringredients`
   ADD PRIMARY KEY (`idIngredient`,`idFournisseur`),
   ADD KEY `FournirIngredients_Fournisseur1_FK` (`idFournisseur`);
 
 --
--- Indexes for table `fournisseur`
+-- Index pour la table `fournisseur`
 --
 ALTER TABLE `fournisseur`
   ADD PRIMARY KEY (`idFournisseur`);
 
 --
--- Indexes for table `ingredientproduit`
+-- Index pour la table `ingredientproduit`
 --
 ALTER TABLE `ingredientproduit`
   ADD PRIMARY KEY (`idProduit`,`idIngredient`),
   ADD KEY `IngredientProduit_Ingredients1_FK` (`idIngredient`);
 
 --
--- Indexes for table `ingredients`
+-- Index pour la table `ingredients`
 --
 ALTER TABLE `ingredients`
   ADD PRIMARY KEY (`idIngredient`);
 
 --
--- Indexes for table `produit`
+-- Index pour la table `produit`
 --
 ALTER TABLE `produit`
   ADD PRIMARY KEY (`idProduit`),
   ADD KEY `Produit_Type_Produit0_FK` (`idType`);
 
 --
--- Indexes for table `tables`
+-- Index pour la table `tables`
 --
 ALTER TABLE `tables`
   ADD PRIMARY KEY (`idTable`);
 
 --
--- Indexes for table `type_produit`
+-- Index pour la table `type_produit`
 --
 ALTER TABLE `type_produit`
   ADD PRIMARY KEY (`idType`);
 
 --
--- Indexes for table `utilisateurs`
+-- Index pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
   ADD PRIMARY KEY (`idUtilisateur`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT for table `calendrier`
+-- AUTO_INCREMENT pour la table `calendrier`
 --
 ALTER TABLE `calendrier`
   MODIFY `idReservation` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `commande`
+-- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
   MODIFY `idCommande` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `fournisseur`
+-- AUTO_INCREMENT pour la table `fournisseur`
 --
 ALTER TABLE `fournisseur`
   MODIFY `idFournisseur` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `ingredients`
+-- AUTO_INCREMENT pour la table `ingredients`
 --
 ALTER TABLE `ingredients`
   MODIFY `idIngredient` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `produit`
+-- AUTO_INCREMENT pour la table `produit`
 --
 ALTER TABLE `produit`
   MODIFY `idProduit` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tables`
+-- AUTO_INCREMENT pour la table `tables`
 --
 ALTER TABLE `tables`
   MODIFY `idTable` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `type_produit`
+-- AUTO_INCREMENT pour la table `type_produit`
 --
 ALTER TABLE `type_produit`
   MODIFY `idType` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `utilisateurs`
+-- AUTO_INCREMENT pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
   MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Constraints for table `calendrier`
+-- Contraintes pour la table `calendrier`
 --
 ALTER TABLE `calendrier`
   ADD CONSTRAINT `Calendrier_Tables0_FK` FOREIGN KEY (`idTable`) REFERENCES `tables` (`idTable`);
 
 --
--- Constraints for table `fourniringredients`
+-- Contraintes pour la table `fourniringredients`
 --
 ALTER TABLE `fourniringredients`
   ADD CONSTRAINT `FournirIngredients_Fournisseur1_FK` FOREIGN KEY (`idFournisseur`) REFERENCES `fournisseur` (`idFournisseur`),
   ADD CONSTRAINT `FournirIngredients_Ingredients0_FK` FOREIGN KEY (`idIngredient`) REFERENCES `ingredients` (`idIngredient`);
 
 --
--- Constraints for table `ingredientproduit`
+-- Contraintes pour la table `ingredientproduit`
 --
 ALTER TABLE `ingredientproduit`
   ADD CONSTRAINT `IngredientProduit_Ingredients1_FK` FOREIGN KEY (`idIngredient`) REFERENCES `ingredients` (`idIngredient`),
   ADD CONSTRAINT `IngredientProduit_Produit0_FK` FOREIGN KEY (`idProduit`) REFERENCES `produit` (`idProduit`);
 
 --
--- Constraints for table `produit`
+-- Contraintes pour la table `produit`
 --
 ALTER TABLE `produit`
   ADD CONSTRAINT `Produit_Type_Produit0_FK` FOREIGN KEY (`idType`) REFERENCES `type_produit` (`idType`);
