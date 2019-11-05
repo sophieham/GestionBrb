@@ -60,7 +60,7 @@ public class TablesControleur extends FonctionsControleurs {
 	public void setMainApp(Tables mainApp) {
 		this.mainApp = mainApp;
 
-		tableTable.setItems(mainApp.getTableData());
+		tableTable.setItems(Tables.getTableData());
 	}
 	
 	/**

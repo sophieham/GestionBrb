@@ -12,7 +12,6 @@ import gestionbrb.vue.DemarrerCommandeControleur;
 public class DemarrerCommande extends Application {
 
     private Stage primaryStage;
-
     /**
      * Constructeur
      */
@@ -34,7 +33,7 @@ public class DemarrerCommande extends Application {
     }
     
     /**
-     * Shows the person overview inside the root layout.
+     * Shows the command overview inside the root layout.
      */
     public void afficherReservation() {
         try {

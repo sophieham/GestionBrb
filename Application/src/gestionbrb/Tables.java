@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 
 public class Tables extends Application {
 	private Stage primaryStage;
-	private ObservableList<Table> tables = FXCollections.observableArrayList();
+	private static ObservableList<Table> tables = FXCollections.observableArrayList();
 
 	public Tables() {
 		try {
@@ -34,7 +34,7 @@ public class Tables extends Application {
 		}
 	}
 
-	public ObservableList<Table> getTableData() {
+	public static ObservableList<Table> getTableData() {
 		return tables;
 	}
 
