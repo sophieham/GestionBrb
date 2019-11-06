@@ -22,6 +22,7 @@ public class Tables extends Application {
 	private Stage primaryStage;
 	private static ObservableList<Table> tables = FXCollections.observableArrayList();
 
+	// vérifier que le no. table n'excede pas 3 chiffres, qu'il y ait 2 no. table identiques et essayer de définir le prochain no. table
 	public Tables() {
 		try {
 			Connection conn = bddUtil.dbConnect();

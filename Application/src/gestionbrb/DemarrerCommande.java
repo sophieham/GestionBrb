@@ -18,6 +18,8 @@ public class DemarrerCommande extends Application {
     public DemarrerCommande() {
 
     }
+    
+    
 
     /**
      * Retourne les données présentes dans la liste Reservations. 
@@ -46,16 +48,33 @@ public class DemarrerCommande extends Application {
             primaryStage.show();
             // Give the controller access to the main app.
             DemarrerCommandeControleur controller = loader.getController();
-            controller.setMainApp(this);
+            controller.setParent(this);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void afficherCalendrier() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(DemarrerCommande.class.getResource("vue/DemarrerCommande.fxml"));
+            AnchorPane reservationOverview = (AnchorPane) loader.load();
+            Scene scene = new Scene(reservationOverview);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            // Give the controller access to the main app.
+            DemarrerCommandeControleur controller = loader.getController();
+            controller.setParent(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     /**
-     * Returns the main stage.
-     * @return
+     * Retourne le stage parent
+     * @return primaryStage
      */
     public Stage getPrimaryStage() {
         return primaryStage;

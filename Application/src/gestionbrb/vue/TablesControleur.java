@@ -113,7 +113,6 @@ public class TablesControleur extends FonctionsControleurs {
 		Table selectedTable = tableTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = tableTable.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
-			System.out.println(selectedTable.getIdTable());
 			try {
 			Connection conn = bddUtil.dbConnect();
 			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `tables` WHERE idTable=?");
@@ -150,8 +149,11 @@ public class TablesControleur extends FonctionsControleurs {
 		if (selectedTable != null) {
 			boolean okClicked = mainApp.fenetreModification(selectedTable);
 			if (okClicked) {
-				bddUtil.dbQueryExecute("UPDATE `tables` SET " + "`noTable` = '"+selectedTable.getNoTable()+"'`nbCouverts_Min` = '" + selectedTable.getNbCouvertsMin()+ "', "
-						+ "`nbCouverts_Max` = '" + selectedTable.getNbCouvertsMax()+ "', `idReservation` = NULL WHERE idTable='"+selectedTable.getIdTable()+"'");
+				bddUtil.dbQueryExecute("UPDATE `tables` SET " 
+						+ "`NoTable` = '"+selectedTable.getNoTable()+"', "
+						+ "`nbCouverts_Min` = '" +selectedTable.getNbCouvertsMin()+ "', "
+						+ "`nbCouverts_Max` = '" +selectedTable.getNbCouvertsMax()+ "', "
+						+ "`idReservation` = NULL WHERE `idTable`="+selectedTable.getIdTable()+";");
 
 				refresh();
 				alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
