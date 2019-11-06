@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  lun. 04 nov. 2019 à 21:18
+-- Généré le :  mer. 06 nov. 2019 à 17:19
 -- Version du serveur :  10.4.8-MariaDB
 -- Version de PHP :  7.3.10
 
@@ -36,7 +36,7 @@ CREATE TABLE `calendrier` (
   `dateReservation` datetime NOT NULL,
   `nbCouverts` tinyint(4) NOT NULL,
   `demandeSpe` tinytext NOT NULL,
-  `idTable` int(11) NOT NULL
+  `noTable` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -149,6 +149,13 @@ CREATE TABLE `tables` (
   `idReservation` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Déchargement des données de la table `tables`
+--
+
+INSERT INTO `tables` (`idTable`, `NoTable`, `nbCouverts_min`, `nbCouverts_max`, `idReservation`) VALUES
+(1, 1, 1, 4, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -184,7 +191,7 @@ CREATE TABLE `utilisateurs` (
 --
 ALTER TABLE `calendrier`
   ADD PRIMARY KEY (`idReservation`),
-  ADD KEY `Calendrier_Tables0_FK` (`idTable`);
+  ADD KEY `Calendrier_Tables0_FK` (`noTable`);
 
 --
 -- Index pour la table `commande`
@@ -287,7 +294,7 @@ ALTER TABLE `produit`
 -- AUTO_INCREMENT pour la table `tables`
 --
 ALTER TABLE `tables`
-  MODIFY `idTable` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idTable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `type_produit`
@@ -309,7 +316,7 @@ ALTER TABLE `utilisateurs`
 -- Contraintes pour la table `calendrier`
 --
 ALTER TABLE `calendrier`
-  ADD CONSTRAINT `Calendrier_Tables0_FK` FOREIGN KEY (`idTable`) REFERENCES `tables` (`idTable`);
+  ADD CONSTRAINT `Calendrier_Tables0_FK` FOREIGN KEY (`noTable`) REFERENCES `tables` (`idTable`);
 
 --
 -- Contraintes pour la table `fourniringredients`
