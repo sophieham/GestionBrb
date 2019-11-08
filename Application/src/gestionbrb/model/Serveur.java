@@ -7,7 +7,7 @@ package gestionbrb.model;
  * @generated
  */
 
-public class Serveur extends Utilisateurs
+public class Serveur extends Compte
 {
 	private int idServeur;
 

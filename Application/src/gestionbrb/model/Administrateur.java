@@ -2,7 +2,7 @@ package gestionbrb.model;
 
 import java.util.ArrayList;
 
-public class Administrateur extends Utilisateurs
+public class Administrateur extends Compte
 {
 	ArrayList<Utilisateurs> utilisateurs = new ArrayList<Utilisateurs>();
 
