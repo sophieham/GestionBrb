@@ -7,12 +7,13 @@ package gestionbrb.model;
  * @generated
  */
 
-public class Serveur extends Compte
+public class Serveur extends Utilisateur
 {
 	private int idServeur;
 
-	public Serveur(String identifiant, String mot2passe, String nom, String prenom){
+	public Serveur(String identifiant, String mot2passe, String nom, String prenom, int idServeur){
 		super(identifiant, mot2passe, nom, prenom, 2);
+		this.idServeur = idServeur;
 	}
 
 	public void prendreCommande() {
