@@ -1,4 +1,4 @@
-package application;
+package gestionbrb.model;
 
 import java.net.URL;
 import java.util.Locale;
@@ -42,7 +42,7 @@ public class Main extends Application {
 	 
 	 
 	 Parent root = FXMLLoader.load(getClass()
-             .getResource("/application/Parametres.fxml"),bundle);
+             .getResource("/application/Application.fxml"),bundle);
 	
 	
 	 

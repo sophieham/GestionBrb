@@ -27,7 +27,7 @@ public class Comptes extends Application {
 			Connection conn = bddUtil.dbConnect();
 			ResultSet rs = conn.createStatement().executeQuery("select * from comptes");
 			while (rs.next()) {
-				comptes.add(new Compte(rs.getString("idCompte"), rs.getString("password"), rs.getString("name"), rs.getString("surname"), 0) {
+				comptes.add(new Compte(rs.getString("idCompte"), rs.getString("pass"), rs.getString("nom"), rs.getString("prenom"), rs.getInt("typeCompte")) {
 				});
 			}
 		} catch (ClassNotFoundException | SQLException e) {
@@ -41,11 +41,11 @@ public class Comptes extends Application {
 
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Administration -- Tables");
-		afficheTable();
+		this.primaryStage.setTitle("Administration -- Comptes");
+		afficheCompte();
 	}
 
-	public void afficheTable() {
+	public void afficheCompte() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Comptes.class.getResource("vue/GestionComptes.fxml"));
@@ -72,7 +72,7 @@ public class Comptes extends Application {
 
 			// Crée une nouvelle page
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Gestion des tables");
+			dialogStage.setTitle("Gestion des comptes");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.initOwner(primaryStage);
 			Scene scene = new Scene(page);

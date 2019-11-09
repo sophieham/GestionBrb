@@ -52,7 +52,6 @@ public class bddUtil {
 		try {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);
-			System.out.println("Requête effectuée!");
 		} catch (SQLException e) {
 			System.out.println("Erreur dans le code sql");
 			e.printStackTrace();

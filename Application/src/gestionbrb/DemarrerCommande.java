@@ -3,15 +3,18 @@ package gestionbrb;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.vue.DemarrerCommandeControleur;
 
 public class DemarrerCommande extends Application {
 
-    private Stage primaryStage;
+    private static Stage primaryStage;
     /**
      * Constructeur
      */
@@ -29,8 +32,8 @@ public class DemarrerCommande extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Calendrier");
+        DemarrerCommande.primaryStage = primaryStage;
+        DemarrerCommande.primaryStage.setTitle("Démarrer une nouvelle commande");
         afficherReservation();
     }
     
@@ -54,29 +57,25 @@ public class DemarrerCommande extends Application {
             e.printStackTrace();
         }
     }
+    
+    public void Calendrier() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("CalendrierReservations.fxml"));
+			Parent vueCalendrier = (Parent) loader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(vueCalendrier));
+			stage.show();
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
 
-    public void afficherCalendrier() {
-        try {
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(DemarrerCommande.class.getResource("vue/DemarrerCommande.fxml"));
-            AnchorPane reservationOverview = (AnchorPane) loader.load();
-            Scene scene = new Scene(reservationOverview);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            // Give the controller access to the main app.
-            DemarrerCommandeControleur controller = loader.getController();
-            controller.setParent(this);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		}
     }
+
     /**
      * Retourne le stage parent
      * @return primaryStage
      */
-    public Stage getPrimaryStage() {
+    public static Stage getPrimaryStage() {
         return primaryStage;
     }
 

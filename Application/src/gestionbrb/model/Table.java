@@ -1,9 +1,9 @@
 package gestionbrb.model;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Table {
 	private final IntegerProperty idTable;
@@ -11,18 +11,18 @@ public class Table {
 	private Commande commande;
 	private final IntegerProperty nbCouvertsMax;
 	private final IntegerProperty noTable;
-	private BooleanProperty estOccupe;
+	private IntegerProperty occupation; // Définit l'occupation comme un nombre binaire (0= libre, 1= occupé)
 
-	public Table(int idTable, int noTable, int nbCouvertsMin, int nbCouvertsMax, boolean estOccupe) {
+	public Table(int idTable, int noTable, int nbCouvertsMin, int nbCouvertsMax, int occupation) {
 		this.idTable = new SimpleIntegerProperty(idTable);
 		this.nbCouvertsMin = new SimpleIntegerProperty(nbCouvertsMin);
 		this.nbCouvertsMax = new SimpleIntegerProperty(nbCouvertsMax);
 		this.noTable = new SimpleIntegerProperty(noTable);
-		this.estOccupe = new SimpleBooleanProperty(estOccupe);
+		this.occupation = new SimpleIntegerProperty(occupation); 
 	}
 
 	public Table() {
-		this(0, 0, 0, 0, false);
+		this(0, 0, 0, 0, 0);
 	}
 
 	public final IntegerProperty idTableProperty() {
@@ -61,16 +61,28 @@ public class Table {
 		this.nbCouvertsMaxProperty().set(nbCouvertsMax);
 	}
 
-	public final BooleanProperty estOccupeProperty() {
-		return this.estOccupe;
+	public final IntegerProperty occupationProperty() {
+		return this.occupation;
 	}
 
-	public final boolean isEstOccupe() {
-		return this.estOccupeProperty().get();
+	public final int getOccupation() {
+		return this.occupationProperty().get();
 	}
 
-	public final void setEstOccupe() {
-		this.estOccupeProperty().set(!this.estOccupeProperty().get());
+	public final void setOccupation(final int occupation) {
+		this.occupationProperty().set(occupation);
+	}
+	
+	public final StringProperty occupationStrProperty() {
+		StringProperty occupe = new SimpleStringProperty("Occupé");
+		StringProperty libre = new SimpleStringProperty("Libre");
+		if (getOccupation()==1)
+			return occupe;
+		else return libre;
+	}
+
+	public final int getOccupationStr() {
+		return this.occupationProperty().get();
 	}
 
 	public Commande getCommande() {

@@ -93,12 +93,12 @@ public class TablesControleur extends FonctionsControleurs {
 	 * @throws SQLException
 	 */
 	private void refresh() throws ClassNotFoundException, SQLException {
-		mainApp.getTableData().clear();
+		Tables.getTableData().clear();
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM tables");
 		while(rs.next()) {
-			mainApp.getTableData().add(new Table (rs.getInt(1), rs.getInt(2),rs.getInt(3),rs.getInt(4),false));
-			tableTable.setItems(mainApp.getTableData());
+			Tables.getTableData().add(new Table (rs.getInt(1), rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getInt(5)));
+			tableTable.setItems(Tables.getTableData());
 		}
 		
 	}

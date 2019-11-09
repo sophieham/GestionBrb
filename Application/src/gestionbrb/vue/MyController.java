@@ -1,4 +1,4 @@
-package application;
+package gestionbrb.vue;
 
 import java.io.IOException;
 //import java.awt.event.ActionEvent;
@@ -12,6 +12,7 @@ import javafx.beans.value.ObservableValue;
 
 import com.sun.glass.ui.Accessible.EventHandler;
 
+import gestionbrb.model.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,15 +23,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.AnchorPaneBuilder;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ColorPicker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,10 +45,6 @@ public class MyController implements Initializable{
 	private Label choiceBackground;
 	@FXML
 	private TitledPane title;
-	@FXML
-	private ColorPicker btnbackground;
-	@FXML
-	private AnchorPane AnchorPane;
 
 	Main startApp = new Main(); 
 
@@ -75,14 +66,6 @@ public class MyController implements Initializable{
 		//btnHello.setText("change");
 
 	 }
-	
-
-		public void OnBackground(ActionEvent event) {
-		Color background = btnbackground.getValue();
-		AnchorPane.setBackground(new Background(new BackgroundFill(background, null, null)));
-		
-	}
-	
 
 		public void choiceMade(ActionEvent event) throws IOException {
 		String output = choicebox.getSelectionModel().getSelectedItem().toString();
@@ -96,7 +79,7 @@ public class MyController implements Initializable{
 			//FXMLLoader fxmlLoader = new FXMLLoader(); 
 			//fxmlLoader.setResources(ResourceBundle.getBundle("MyBundle_zh")); 
 			//Pane pane = (BorderPane) fxmlLoader.load(this.getClass().getResource("Application.fxml").openStream());
-			ResourceBundle bundle = ResourceBundle.getBundle("Language/Language_zh");
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_zh");
 
 			//Parent root = FXMLLoader.load(getClass()
 		             //.getResource("/application/Application.fxml"));
@@ -117,11 +100,10 @@ public class MyController implements Initializable{
 			btnHello.setText(e);
 			
 			
-			
 			break;
 		case "English":
 			Locale locale1 = new Locale("en","US");  
-			ResourceBundle bundle1 = ResourceBundle.getBundle("Language/Language_en",locale1);
+			ResourceBundle bundle1 = ResourceBundle.getBundle("gestionbrb/language/Languaga_en",locale1);
 			//bundle = ResourceBundle.getBundle("Language/MyBundle");		
 			 String A =  bundle1.getString("key1");
 				lblTextByController=getblTextByController();
@@ -142,8 +124,8 @@ public class MyController implements Initializable{
 				break;
 			
 		case "Francais":
-			Locale locale2 = new Locale("en","US");  
-			ResourceBundle bundle2 = ResourceBundle.getBundle("Language/Language_fr",locale2);
+			//Locale locale2 = new Locale("en","US");  
+			ResourceBundle bundle2 = ResourceBundle.getBundle("gestionbrb/language/Language_fr");
 			//bundle = ResourceBundle.getBundle("Language/MyBundle");		
 			 String Aa =  bundle2.getString("key1");
 				lblTextByController=getblTextByController();

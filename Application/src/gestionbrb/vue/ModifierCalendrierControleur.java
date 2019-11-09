@@ -25,7 +25,7 @@ public class ModifierCalendrierControleur extends FonctionsControleurs{
     @FXML
     private TextField champHeure;
     @FXML
-    private TextField champNbCouverts;
+    private TextField champNbCouvertsReservation;
     @FXML
     private TextField champDemandeSpe;
 
@@ -60,7 +60,7 @@ public class ModifierCalendrierControleur extends FonctionsControleurs{
 			champNumTel.setText(rs.getString("numeroTel"));
 			champDate.setPromptText(rs.getString("dateReservation"));
 			champHeure.setText(rs.getString("heureReservation"));
-			champNbCouverts.setText(Integer.toString(rs.getInt("nbCouverts")));
+			champNbCouvertsReservation.setText(Integer.toString(rs.getInt("nbCouverts")));
 			champDemandeSpe.setText(rs.getString("demandeSpe"));
 		}
     }
@@ -87,7 +87,7 @@ public class ModifierCalendrierControleur extends FonctionsControleurs{
         			+ "`numeroTel` = '"+champNumTel.getText()+"', "
         			+ "`dateReservation` = '"+champDate.getValue()+"', "
         			+ "`heureReservation` = '"+champHeure.getText()+"', "
-        			+ "`nbCouverts` = '"+Integer.parseInt(champNbCouverts.getText())+"', "
+        			+ "`nbCouverts` = '"+Integer.parseInt(champNbCouvertsReservation.getText())+"', "
         			+ "`demandeSpe` = '"+champDemandeSpe.getText()+"' "
         			+ "WHERE `calendrier`.`idReservation` = '"+reservation.getID()+"'");
             okClicked = true;
@@ -136,12 +136,12 @@ public class ModifierCalendrierControleur extends FonctionsControleurs{
 			erreurMsg += "Veuillez rentrer l'heure\n";
 		}
 
-		if (champNbCouverts.getText() == null || champNbCouverts.getText().length() == 0) {
+		if (champNbCouvertsReservation.getText() == null || champNbCouvertsReservation.getText().length() == 0) {
 			erreurMsg += "Veuillez rentrer le nombre de couverts!\n";
 		} else {
 			// essaye de transformer la saisie en un nombre de type int
 			try {
-				Integer.parseInt(champNbCouverts.getText());
+				Integer.parseInt(champNbCouvertsReservation.getText());
 			} catch (NumberFormatException e) {
 				erreurMsg += "Erreur! Le champ \"nombre de couverts\" n'accepte que les nombres\n";
 			}
