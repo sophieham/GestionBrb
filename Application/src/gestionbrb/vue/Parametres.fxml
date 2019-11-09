@@ -12,27 +12,36 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.collections.*?>
+<?import java.lang.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MyController" fx:id="AnchorPane">
    <children>
-      <ImageView fitHeight="348.0" fitWidth="436.0" layoutX="422.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+     <ImageView fitHeight="348.0" fitWidth="436.0" layoutX="422.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../Modelisation/logo_light_transparent.png" />
          </image>
       </ImageView>
       <HBox layoutX="165.0" layoutY="291.0" prefHeight="359.0" prefWidth="972.0">
          <children>
-            <TitledPane prefHeight="485.0" prefWidth="483.0" text="Changer la langue du logiciel">
+            <TitledPane prefHeight="485.0" prefWidth="483.0" text="%key4" fx:id="title">
                <content>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="137.0" layoutY="81.0" text="Choississez une langue:">
+                        <Label fx:id="lblTextByController" layoutX="137.0" layoutY="81.0" text="%key1">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <ChoiceBox layoutX="137.0" layoutY="133.0" prefHeight="31.0" prefWidth="207.0" />
+                        <ChoiceBox fx:id="choicebox" layoutX="137.0" layoutY="133.0" prefHeight="31.0" prefWidth="207.0" onAction="#choiceMade">
+                    	<items>
+                    	<FXCollections fx:factory="observableArrayList">
+                    	<String fx:value="Chinese" />
+                    	<String fx:value="English"/>
+                    	<String fx:value="Francais"/>
+                    	</FXCollections>
+                    	</items>
+                    	</ChoiceBox>
                      </children>
                   </Pane>
                </content>
@@ -40,16 +49,16 @@
                   <Insets left="15.0" right="15.0" />
                </HBox.margin>
             </TitledPane>
-            <TitledPane prefHeight="485.0" prefWidth="489.0" text="Changer la couleur de fond">
+            <TitledPane fx:id="choiceCouleur" prefHeight="485.0" prefWidth="489.0" text="%key2">
                <content>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="100.0" layoutY="88.0" text="Choississez une couleur de fond:">
+                        <Label layoutX="100.0" layoutY="88.0" text="%key3" fx:id="choiceBackground" >
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <ColorPicker layoutX="147.0" layoutY="133.0" prefHeight="31.0" prefWidth="194.0" />
+                        <ColorPicker layoutX="147.0" layoutY="133.0" prefHeight="31.0" prefWidth="194.0" fx:id="btnbackground" onAction="#OnBackground"/>
                      </children>
                   </Pane>
                </content>
@@ -59,7 +68,7 @@
             </TitledPane>
          </children>
       </HBox>
-      <Button layoutX="406.0" layoutY="717.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="491.0" text="Retour au menu principal">
+      <Button fx:id="btnHello" layoutX="406.0" layoutY="717.0" mnemonicParsing="false" onAction="#Onbutton" prefHeight="51.0" prefWidth="491.0" text="%key5">
          <font>
             <Font size="24.0" />
          </font>
