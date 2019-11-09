@@ -42,7 +42,7 @@ public class Main extends Application {
 	 
 	 
 	 Parent root = FXMLLoader.load(getClass()
-             .getResource("/application/Application.fxml"),bundle);
+             .getResource("/application/Parametres.fxml"),bundle);
 	
 	
 	 
