@@ -2,15 +2,15 @@ package gestionbrb.vue;
 
 import java.sql.SQLException;
 
-import gestionbrb.Comptes;
+import gestionbrb.Utilisateurs;
 import gestionbrb.controleur.FonctionsControleurs;
-import gestionbrb.model.Compte;
 import gestionbrb.model.Table;
+import gestionbrb.model.Utilisateur;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ModifierCompteControleur extends FonctionsControleurs {
+public class ModifierUtilisateurControleur extends FonctionsControleurs {
 
 	@FXML
 	private TextField champNom;
@@ -21,12 +21,12 @@ public class ModifierCompteControleur extends FonctionsControleurs {
 	@FXML
 	private TextField champMot2Passe;
 	@FXML
-	private TextField champPrivileges;
+	private TextField champRoles;
 
 	private Stage dialogStage;
-	private Compte compte;
+	private Utilisateur compte;
 	private boolean okClicked = false;
-	private Comptes mainApp;
+	private Utilisateurs mainApp;
 
 	@FXML
 	private void initialize() {
@@ -36,7 +36,7 @@ public class ModifierCompteControleur extends FonctionsControleurs {
 		this.dialogStage = dialogStage;
 	}
 
-	public void setMainApp(Comptes mainApp) {
+	public void setMainApp(Utilisateurs mainApp) {
 		this.mainApp = mainApp;
 	}
 
@@ -46,13 +46,12 @@ public class ModifierCompteControleur extends FonctionsControleurs {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void setCompte(Compte compte) throws SQLException, ClassNotFoundException {
+	public void setUtilisateur(Utilisateur compte) throws SQLException, ClassNotFoundException {
 		this.compte = compte;
-		champNom.setText("");
-		champPrenom.setText("");
-		champIdentifiant.setText("");
-		champMot2Passe.setText("");
-		champIdentifiant.setText("");
+		champNom.setText(compte.getNom());
+		champPrenom.setText(compte.getPrenom());
+		champIdentifiant.setText(compte.getIdentifiant());
+		champMot2Passe.setText(compte.getMot2passe());
 
 	}
 
@@ -73,12 +72,12 @@ public class ModifierCompteControleur extends FonctionsControleurs {
 			compte.setNom(champNom.getText());
 			compte.setPrenom(champPrenom.getText());
 			compte.setIdentifiant(champIdentifiant.getText());
-			compte.setMot2passe(champIdentifiant.getText());
-			compte.setPrivileges(Integer.parseInt(champPrivileges.getText()));
+			compte.setMot2passe(champMot2Passe.getText());
+			compte.setPrivileges(Integer.parseInt(champRoles.getText()));
 
 			okClicked = true;
 			dialogStage.close();
-		}
+		}	
 	}
 
 	/**
@@ -97,7 +96,7 @@ public class ModifierCompteControleur extends FonctionsControleurs {
 	public boolean estValide() {
 		String erreurMsg = "";
 
-		if (champPrivileges.getText() == null || champPrivileges.getText().length() == 0) {
+		if (champRoles.getText() == null || champRoles.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le champ privilèges\n";
 		} else {
 			try {
@@ -105,12 +104,12 @@ public class ModifierCompteControleur extends FonctionsControleurs {
 			} catch (NumberFormatException e) {
 				erreurMsg += "Erreur! Le champ privilèges n'accepte que les nombres\n";
 			}
-			if(Integer.parseInt(champPrivileges.getText()) < 0 || Integer.parseInt(champPrivileges.getText())>2)
+			if(Integer.parseInt(champRoles.getText()) < 0 || Integer.parseInt(champRoles.getText())>2)
 					erreurMsg+="saisie des privilèges invalide";
 					// ajout d'une fonction de verification de privilèges
 		}
 
-		if (champPrenom.getText() == null || champPrenom.getText().length() == 0) {
+		if (champPrenom.getText() == null | champPrenom.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le champ prenom\n";
 
 		}

@@ -5,7 +5,13 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Compte {
+/**
+ * <!-- begin-user-doc --> <!-- end-user-doc -->
+ * 
+ * 
+ * @generated
+ */
+public class Utilisateur {
 	private final StringProperty identifiant;
 	private final StringProperty mot2passe;
 	private final StringProperty nom;
@@ -20,7 +26,7 @@ public class Compte {
 	 * @param prenom
 	 * @param privileges  (0 pour admin, 1 pour utilisateur, 2 pour serveur)
 	 */
-	public Compte(String identifiant, String mot2passe, String nom, String prenom, int privileges) {
+	public Utilisateur(String identifiant, String mot2passe, String nom, String prenom, int privileges) {
 		this.privileges = new SimpleIntegerProperty(privileges);
 		this.identifiant = new SimpleStringProperty(identifiant);
 		this.mot2passe = new SimpleStringProperty(mot2passe);
@@ -29,7 +35,7 @@ public class Compte {
 
 	}
 
-	public Compte() {
+	public Utilisateur() {
 		this("", "", "", "", 1);
 	}
 
