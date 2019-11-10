@@ -7,7 +7,7 @@ public class Administrateur extends Utilisateur
 	ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
 
 	public Administrateur(String identifiant, String mot2passe, String nom, String prenom ) {
-		super(identifiant, mot2passe, nom, prenom, 0);
+		super(0, identifiant, mot2passe, nom, prenom, 0);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -12,6 +12,7 @@ import javafx.beans.property.StringProperty;
  * @generated
  */
 public class Utilisateur {
+	private final IntegerProperty idUtilisateur;
 	private final StringProperty identifiant;
 	private final StringProperty mot2passe;
 	private final StringProperty nom;
@@ -26,7 +27,8 @@ public class Utilisateur {
 	 * @param prenom
 	 * @param privileges  (0 pour admin, 1 pour utilisateur, 2 pour serveur)
 	 */
-	public Utilisateur(String identifiant, String mot2passe, String nom, String prenom, int privileges) {
+	public Utilisateur(int id, String identifiant, String mot2passe, String nom, String prenom, int privileges) {
+		this.idUtilisateur = new SimpleIntegerProperty(id);
 		this.privileges = new SimpleIntegerProperty(privileges);
 		this.identifiant = new SimpleStringProperty(identifiant);
 		this.mot2passe = new SimpleStringProperty(mot2passe);
@@ -36,7 +38,7 @@ public class Utilisateur {
 	}
 
 	public Utilisateur() {
-		this("", "", "", "", 1);
+		this(0, "", "", "", "", 1);
 	}
 
 	public final StringProperty identifiantProperty() {
@@ -97,6 +99,18 @@ public class Utilisateur {
 
 	public final void setPrivileges(final int privileges) {
 		this.privilegesProperty().set(privileges);
+	}
+
+	public final IntegerProperty idUtilisateurProperty() {
+		return this.idUtilisateur;
+	}
+
+	public final void setIdUtilisateur(final int idUtilisateur) {
+		this.idUtilisateurProperty().set(idUtilisateur);
+	}
+
+	public int getIdUtilisateur() {
+		return this.idUtilisateurProperty().get();
 	}
 
 }
