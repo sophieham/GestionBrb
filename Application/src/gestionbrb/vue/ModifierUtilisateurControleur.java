@@ -2,7 +2,6 @@ package gestionbrb.vue;
 
 import java.sql.SQLException;
 
-import gestionbrb.Utilisateurs;
 import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Table;
 import gestionbrb.model.Utilisateur;
@@ -26,7 +25,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 	private Stage dialogStage;
 	private Utilisateur compte;
 	private boolean okClicked = false;
-	private Utilisateurs mainApp;
+	private Utilisateur mainApp;
 
 	@FXML
 	private void initialize() {
@@ -36,7 +35,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 		this.dialogStage = dialogStage;
 	}
 
-	public void setMainApp(Utilisateurs mainApp) {
+	public void setMainApp(Utilisateur mainApp) {
 		this.mainApp = mainApp;
 	}
 

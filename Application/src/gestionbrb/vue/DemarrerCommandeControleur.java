@@ -2,6 +2,7 @@ package gestionbrb.vue;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -115,6 +116,8 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 				}
 
 			}
+			ResultSet tablesDispo = conn.createStatement().executeQuery("select count(*) from tables where occupation=0");
+			
 			champNoTable.setItems(noTables);
 			champChoixTable.setItems(tablesLibre);
 
@@ -192,6 +195,20 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 		catch(NumberFormatException e) {
 			alerteErreur("Erreur", "Veuillez saisir uniquement des chiffres", "Détails: "+e);
 		}
+	}
+	
+	public void disponibiliteTable() {
+		try {
+
+			Connection conn = bddUtil.dbConnect();
+			ResultSet rs = conn.createStatement().executeQuery("SELECT COUNT(*) FROM `tables` WHERE occupation = 0 ");
+			while (rs.next()) {
+				
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**

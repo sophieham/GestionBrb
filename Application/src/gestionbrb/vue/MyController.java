@@ -12,7 +12,7 @@ import javafx.beans.value.ObservableValue;
 
 import com.sun.glass.ui.Accessible.EventHandler;
 
-import gestionbrb.model.Main;
+import gestionbrb.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -103,7 +103,7 @@ public class MyController implements Initializable{
 			break;
 		case "English":
 			Locale locale1 = new Locale("en","US");  
-			ResourceBundle bundle1 = ResourceBundle.getBundle("gestionbrb/language/Languaga_en",locale1);
+			ResourceBundle bundle1 = ResourceBundle.getBundle("gestionbrb/language/Language_en",locale1);
 			//bundle = ResourceBundle.getBundle("Language/MyBundle");		
 			 String A =  bundle1.getString("key1");
 				lblTextByController=getblTextByController();
@@ -124,7 +124,7 @@ public class MyController implements Initializable{
 				break;
 			
 		case "Francais":
-			//Locale locale2 = new Locale("en","US");  
+			Locale locale2 = new Locale("fr","FR");  
 			ResourceBundle bundle2 = ResourceBundle.getBundle("gestionbrb/language/Language_fr");
 			//bundle = ResourceBundle.getBundle("Language/MyBundle");		
 			 String Aa =  bundle2.getString("key1");
