@@ -24,18 +24,17 @@ public class UtilisateursControleur extends FonctionsControleurs {
 	@FXML
 	private TableColumn<Utilisateur, String> colonnePrenom;
 	@FXML
-	private TableColumn<Utilisateur, Number> colonnePrivileges;
+	private TableColumn<Utilisateur, Number> colonneRoles;
 
 	@FXML
 	private Label champNom;
 	@FXML
 	private Label champPrenom;
 	@FXML
-	private Label champPrivileges;
+	private Label champRoles;
 	@FXML
 	private Label champIdentifiant;
 
-	
 	// Reference to the main application.
 	private Utilisateurs mainApp;
 
@@ -57,7 +56,7 @@ public class UtilisateursControleur extends FonctionsControleurs {
 		colonneIdentifiant.setCellValueFactory(cellData -> cellData.getValue().identifiantProperty());
 		colonneNom.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
 		colonnePrenom.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
-		colonnePrivileges.setCellValueFactory(cellData -> cellData.getValue().privilegesProperty());
+		colonneRoles.setCellValueFactory(cellData -> cellData.getValue().privilegesProperty());
 	}
 
 	/**
@@ -65,7 +64,6 @@ public class UtilisateursControleur extends FonctionsControleurs {
 	 */
 	public void setMainApp(Utilisateurs mainApp) {
 		this.mainApp = mainApp;
-
 		utilisateursTable.setItems(Utilisateurs.getTableData());
 	}
 
@@ -83,14 +81,16 @@ public class UtilisateursControleur extends FonctionsControleurs {
 		if (okClicked) {
 			Connection conn = bddUtil.dbConnect();
 			PreparedStatement pstmt = conn.prepareStatement(
-					"INSERT INTO `utilisateurs` (`idUtilisateur`, `identifiant`, `mot2passe`, `nom`, `prenom`, `typeCompte`) VALUES (NULL, ?, ?, ?, ?, 0)");
-			pstmt.setString(1, tempUtilisateur.getPrenom());
-			pstmt.setString(2, tempUtilisateur.getNom());
-			pstmt.setString(3, tempUtilisateur.getMot2passe());
-			pstmt.setString(4, tempUtilisateur.getIdentifiant());
+					"INSERT INTO `utilisateurs` (`idUtilisateur`, `identifiant`, `mot2passe`, `nom`, `prenom`, `typeCompte`) VALUES (NULL, ?, ?, ?, ?, ?)");
+			pstmt.setInt(5, tempUtilisateur.getPrivileges());
+			pstmt.setString(4, tempUtilisateur.getPrenom());
+			pstmt.setString(3, tempUtilisateur.getNom());
+			pstmt.setString(2, tempUtilisateur.getMot2passe());
+			pstmt.setString(1, tempUtilisateur.getIdentifiant());
 			pstmt.execute();
 			refresh();
 			alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+
 		}
 	}
 
@@ -106,8 +106,10 @@ public class UtilisateursControleur extends FonctionsControleurs {
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM utilisateurs");
 		while (rs.next()) {
-			Utilisateurs.getTableData().add(
-					new Utilisateur(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5)));
+			Utilisateurs.getTableData()
+					.add(new Utilisateur(Integer.parseInt(rs.getString("idUtilisateur")), rs.getString("identifiant"),
+							rs.getString("mot2passe"), rs.getString("nom"), rs.getString("prenom"),
+							rs.getInt("typeCompte")));
 			utilisateursTable.setItems(Utilisateurs.getTableData());
 		}
 
@@ -132,16 +134,16 @@ public class UtilisateursControleur extends FonctionsControleurs {
 				pstmt.execute();
 				refresh();
 				alerteInfo("Suppression réussie", null,
-						"Le utilisateur " + selectedTable.getIdentifiant() + " vient d'être supprimée!");
+						"L'utilisateur " + selectedTable.getIdentifiant() + " vient d'être supprimée!");
 				conn.close();
 				pstmt.close();
 			} catch (SQLException e) {
-				System.out.println("Erreur dans le code sql" + e);
+				  System.out.println("Erreur dans le code sql" + e);
 			}
 
 		} else {
 			// Si rien n'est séléctionné
-			alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
+			alerteAttention("Aucune sélection", "Aucun compte de sélectionnée!",
 					"Selectionnez un compte pour pouvoir la supprimer");
 		}
 	}
@@ -159,11 +161,12 @@ public class UtilisateursControleur extends FonctionsControleurs {
 		if (selectedUtilisateur != null) {
 			boolean okClicked = mainApp.fenetreModification(selectedUtilisateur);
 			if (okClicked) {
-				bddUtil.dbQueryExecute("UPDATE `utilisateurs` SET " + "`identifiant` = '"
-						+ selectedUtilisateur.getIdentifiant() + "'`nom` = '" + selectedUtilisateur.getNom() + "', "
-						+ "`prenom` = '" + selectedUtilisateur.getPrenom() + "', `mot2passe` ='"
-						+ selectedUtilisateur.getMot2passe() + "', 'typeCompte' = '" + selectedUtilisateur.getPrivileges()
-						+ "'WHERE identifiant='" + selectedUtilisateur.getIdentifiant() + "'");
+				bddUtil.dbQueryExecute("UPDATE `utilisateurs` SET `identifiant` = '"
+						+ selectedUtilisateur.getIdentifiant() + "', `mot2passe` = '"
+						+ selectedUtilisateur.getMot2passe() + "', `nom` = '" + selectedUtilisateur.getNom()
+						+ "', `prenom` = '" + selectedUtilisateur.getPrenom() + "', `typeCompte` = '"
+						+ selectedUtilisateur.getPrivileges() + "' WHERE `utilisateurs`.`idUtilisateur` = "
+						+ selectedUtilisateur.getIdUtilisateur() + ";");
 
 				refresh();
 				alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
@@ -171,8 +174,8 @@ public class UtilisateursControleur extends FonctionsControleurs {
 
 		} else {
 			// Si rien n'est selectionné
-			alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
-					"Selectionnez une réservation pour pouvoir la modifier");
+			alerteAttention("Aucune sélection", "Aucun compte de sélectionnée!",
+					"Selectionnez un compte pour pouvoir le modifier");
 		}
 	}
 

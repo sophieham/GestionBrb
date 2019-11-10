@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="320.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="320.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="gestionbrb.vue.ModifierUtilisateurControleur">
    <children>
       <Label alignment="CENTER_RIGHT" layoutX="3.0" layoutY="17.0" prefHeight="27.0" prefWidth="112.0" text="Prénom:">
          <font>
@@ -39,15 +39,15 @@
       </Label>
       <ButtonBar layoutX="120.0" layoutY="192.0" prefHeight="40.0" prefWidth="191.0">
         <buttons>
-          <Button mnemonicParsing="false" text="Valider" />
-            <Button minWidth="56.0" mnemonicParsing="false" prefHeight="31.0" text="Annuler" />
+          <Button mnemonicParsing="false" onAction="#actionValider" text="Valider" />
+            <Button minWidth="56.0" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" text="Annuler" />
         </buttons>
       </ButtonBar>
-      <PasswordField layoutX="122.0" layoutY="113.0" prefHeight="31.0" prefWidth="187.0" />
-      <TextField layoutX="122.0" layoutY="11.0" />
-      <TextField layoutX="122.0" layoutY="45.0" />
-      <TextField layoutX="122.0" layoutY="79.0" />
-      <RadioButton layoutX="128.0" layoutY="150.0" mnemonicParsing="false" text="Admin" />
-      <RadioButton layoutX="212.0" layoutY="150.0" mnemonicParsing="false" text="Serveur" />
+      <PasswordField fx:id="champMot2Passe" layoutX="122.0" layoutY="113.0" prefHeight="31.0" prefWidth="187.0" />
+      <TextField fx:id="champNom" layoutX="122.0" layoutY="11.0" />
+      <TextField fx:id="champPrenom" layoutX="122.0" layoutY="45.0" />
+      <TextField fx:id="champIdentifiant" layoutX="122.0" layoutY="79.0" />
+      <RadioButton fx:id="boutonAdmin" layoutX="128.0" layoutY="150.0" mnemonicParsing="false" text="Admin" onAction="#setRoleAdmin" /> 
+      <RadioButton fx:id="boutonServeur" layoutX="212.0" layoutY="150.0" mnemonicParsing="false" text="Serveur" onAction="#setRoleServeur"/>
    </children>
 </AnchorPane>

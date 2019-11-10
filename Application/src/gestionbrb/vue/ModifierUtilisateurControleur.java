@@ -2,16 +2,19 @@ package gestionbrb.vue;
 
 import java.sql.SQLException;
 
+import gestionbrb.Utilisateurs;
 import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Table;
 import gestionbrb.model.Utilisateur;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ModifierUtilisateurControleur extends FonctionsControleurs {
 
-	@FXML
+	@FXML 
 	private TextField champNom;
 	@FXML
 	private TextField champPrenom;
@@ -20,13 +23,26 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 	@FXML
 	private TextField champMot2Passe;
 	@FXML
-	private TextField champRoles;
-
+	private RadioButton boutonAdmin;
+	@FXML
+	private RadioButton boutonServeur;
 	private Stage dialogStage;
 	private Utilisateur compte;
 	private boolean okClicked = false;
-	private Utilisateur mainApp;
+	private int role;
+	private Utilisateurs mainApp;
+	@FXML
+	private void setRoleAdmin() {
+		role = 1;
+		boutonServeur.setSelected(false);
 
+	}
+	@FXML
+	private void setRoleServeur() {
+		role = 1;
+		boutonAdmin.setSelected(false);
+
+	}
 	@FXML
 	private void initialize() {
 	}
@@ -35,7 +51,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 		this.dialogStage = dialogStage;
 	}
 
-	public void setMainApp(Utilisateur mainApp) {
+	public void setMainApp(Utilisateurs mainApp) {
 		this.mainApp = mainApp;
 	}
 
@@ -51,6 +67,10 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 		champPrenom.setText(compte.getPrenom());
 		champIdentifiant.setText(compte.getIdentifiant());
 		champMot2Passe.setText(compte.getMot2passe());
+		if(compte.getPrivileges()==1)
+			boutonAdmin.setSelected(true);
+		if(compte.getPrivileges() == 0)
+			boutonServeur.setSelected(true);
 
 	}
 
@@ -68,11 +88,16 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 	@FXML
 	public void actionValider() {
 		if (estValide()) {
+			if(boutonAdmin.isSelected()) {
+				role = 1;
+			}
+			if (boutonServeur.isSelected())
+				role = 0;
 			compte.setNom(champNom.getText());
 			compte.setPrenom(champPrenom.getText());
 			compte.setIdentifiant(champIdentifiant.getText());
 			compte.setMot2passe(champMot2Passe.getText());
-			compte.setPrivileges(Integer.parseInt(champRoles.getText()));
+			compte.setPrivileges(role);
 
 			okClicked = true;
 			dialogStage.close();
@@ -95,20 +120,11 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 	public boolean estValide() {
 		String erreurMsg = "";
 
-		if (champRoles.getText() == null || champRoles.getText().length() == 0) {
-			erreurMsg += "Veuillez remplir le champ privilèges\n";
-		} else {
-			try {
-				Integer.parseInt(champNom.getText());
-			} catch (NumberFormatException e) {
-				erreurMsg += "Erreur! Le champ privilèges n'accepte que les nombres\n";
-			}
-			if(Integer.parseInt(champRoles.getText()) < 0 || Integer.parseInt(champRoles.getText())>2)
-					erreurMsg+="saisie des privilèges invalide";
-					// ajout d'une fonction de verification de privilèges
-		}
+		if (!boutonAdmin.isSelected() && !boutonServeur.isSelected()) {
+			erreurMsg += "Veuillez cocher le role\n";
+		} 
 
-		if (champPrenom.getText() == null | champPrenom.getText().length() == 0) {
+		if (champPrenom.getText() == null || champPrenom.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le champ prenom\n";
 
 		}
