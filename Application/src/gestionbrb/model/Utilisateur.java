@@ -25,7 +25,7 @@ public class Utilisateur {
 	 * @param mot2passe
 	 * @param nom
 	 * @param prenom
-	 * @param privileges  (0 pour admin, 1 pour utilisateur, 2 pour serveur)
+	 * @param privileges  (1 pour admin, 0 pour serveur)
 	 */
 	public Utilisateur(int id, String identifiant, String mot2passe, String nom, String prenom, int privileges) {
 		this.idUtilisateur = new SimpleIntegerProperty(id);
@@ -38,7 +38,7 @@ public class Utilisateur {
 	}
 
 	public Utilisateur() {
-		this(0, "", "", "", "", 1);
+		this(0, "", "", "", "", 0);
 	}
 
 	public final StringProperty identifiantProperty() {
