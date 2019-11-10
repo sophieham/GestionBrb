@@ -48,7 +48,7 @@ public class Main extends Application {
 	 
 	 // primaryStage.setTitle("My Application");
 			 //ApplicationController controller = loader.getController();
- 
+ primaryStage.setTitle("Paramètres");
 	 primaryStage.setScene(new Scene(root));
 
 

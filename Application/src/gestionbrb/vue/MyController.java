@@ -1,4 +1,4 @@
-package application;
+package gestionbrb.vue;
 
 import java.io.IOException;
 //import java.awt.event.ActionEvent;
@@ -12,6 +12,7 @@ import javafx.beans.value.ObservableValue;
 
 import com.sun.glass.ui.Accessible.EventHandler;
 
+import gestionbrb.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -96,7 +97,7 @@ public class MyController implements Initializable{
 			//FXMLLoader fxmlLoader = new FXMLLoader(); 
 			//fxmlLoader.setResources(ResourceBundle.getBundle("MyBundle_zh")); 
 			//Pane pane = (BorderPane) fxmlLoader.load(this.getClass().getResource("Application.fxml").openStream());
-			ResourceBundle bundle = ResourceBundle.getBundle("gestionbnb/language/Language_zh");
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_zh");
 
 			//Parent root = FXMLLoader.load(getClass()
 		             //.getResource("/application/Application.fxml"));
@@ -121,7 +122,7 @@ public class MyController implements Initializable{
 			break;
 		case "English":
 			Locale locale1 = new Locale("en","US");  
-			ResourceBundle bundle1 = ResourceBundle.getBundle("gestionbnb/language/Language_en",locale1);
+			ResourceBundle bundle1 = ResourceBundle.getBundle("gestionbrb/language/Language_en",locale1);
 			//bundle = ResourceBundle.getBundle("Language/MyBundle");		
 			 String A =  bundle1.getString("key1");
 				lblTextByController=getblTextByController();
@@ -143,7 +144,7 @@ public class MyController implements Initializable{
 			
 		case "Francais":
 			Locale locale2 = new Locale("en","US");  
-			ResourceBundle bundle2 = ResourceBundle.getBundle("gestionbnb/language/Language_fr",locale2);
+			ResourceBundle bundle2 = ResourceBundle.getBundle("gestionbrb/language/Language_fr",locale2);
 			//bundle = ResourceBundle.getBundle("Language/MyBundle");		
 			 String Aa =  bundle2.getString("key1");
 				lblTextByController=getblTextByController();
