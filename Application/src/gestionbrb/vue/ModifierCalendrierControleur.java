@@ -3,6 +3,9 @@ package gestionbrb.vue;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Reservations;
@@ -58,7 +61,7 @@ public class ModifierCalendrierControleur extends FonctionsControleurs{
 			champNom.setText(rs.getString("nom"));
 			champPrenom.setText(rs.getString("prenom"));
 			champNumTel.setText(rs.getString("numeroTel"));
-			champDate.setPromptText(rs.getString("dateReservation"));
+			champDate.setValue(LocalDate.parse(rs.getString("dateReservation")));
 			champHeure.setText(rs.getString("heureReservation"));
 			champNbCouvertsReservation.setText(Integer.toString(rs.getInt("nbCouverts")));
 			champDemandeSpe.setText(rs.getString("demandeSpe"));
@@ -105,54 +108,58 @@ public class ModifierCalendrierControleur extends FonctionsControleurs{
     }
     
     /**
-     * Vérifie si la saisie est conforme aux données requises
-     * 
-     * @return true si la saisie est bien conforme
-     */
-	public boolean estValide() { // Manque la vérification du numéro de téléphone (format 0678458459), de l'heure
-									// (format 12:30)
-		String erreurMsg = "";
+	 * Vérifie si la saisie est conforme aux données requises
+	 * 
+	 * @return true si la saisie est bien conforme, false sinon
+	 */
+	public boolean estValide() {
+		String errorMessage = "";
 
 		if (champNom.getText() == null || champNom.getText().length() == 0) {
-			erreurMsg += "Veuillez remplir le nom\n";
+			errorMessage += "Veuillez remplir le nom\n";
 		}
 		if (champPrenom.getText() == null || champPrenom.getText().length() == 0) {
-			erreurMsg += "Veuillez remplir le prénom\n";
+			errorMessage += "Veuillez remplir le prénom\n";
 		}
 		if (champNumTel.getText() == null || champNumTel.getText().length() == 0) {
-			erreurMsg += "Veuillez rentrer le numéro de téléphone\n";
+			errorMessage += "Veuillez rentrer le numéro de téléphone\n";
 		} else {
-			try {
-				Integer.parseInt(champNumTel.getText());
-			} catch (NumberFormatException e) {
-				erreurMsg += "Erreur! Le champ \"N° de téléphone\" n'accepte que les nombres\n";
+			Pattern p = Pattern.compile("(0|\\+)[0-9]{8,12}"); // regex d'un numéro de téléphone, français ou étranger
+			Matcher m = p.matcher(champNumTel.getText());
+			if (!(m.find() && m.group().equals(champNumTel.getText()))) {
+				errorMessage += "Erreur! Le champ no. téléphone n'accepte que les numéros commençant par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
 			}
 		}
-		if (champDate.getValue() == null || champDate.getPromptText().length() == 0) {
-			erreurMsg += "Veuillez selectionner la date\n";
+		if (champDate.getValue() == null) {
+			errorMessage += "Veuillez selectionner la date\n";
 		}
 
 		if (champHeure.getText() == null || champHeure.getText().length() == 0) {
-			erreurMsg += "Veuillez rentrer l'heure\n";
-		}
-
-		if (champNbCouvertsReservation.getText() == null || champNbCouvertsReservation.getText().length() == 0) {
-			erreurMsg += "Veuillez rentrer le nombre de couverts!\n";
+			errorMessage += "Veuillez rentrer l'heure\n";
 		} else {
-			// essaye de transformer la saisie en un nombre de type int
-			try {
-				Integer.parseInt(champNbCouvertsReservation.getText());
-			} catch (NumberFormatException e) {
-				erreurMsg += "Erreur! Le champ \"nombre de couverts\" n'accepte que les nombres\n";
+			Pattern heurep = Pattern.compile("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"); // regex pour afficher une heure
+																						// valide sous forme hh:mm
+			Matcher heurem = heurep.matcher(champHeure.getText());
+			if (!(heurem.find() && heurem.group().equals(champHeure.getText()))) {
+				errorMessage += "Format de l'heure incorrect, veuillez réessayer avec le format hh:mm approprié\n";
 			}
 		}
 
-		if (erreurMsg.length() == 0) {
+		if (champNbCouvertsReservation.getText() == null || champNbCouvertsReservation.getText().length() == 0) {
+			errorMessage += "Veuillez rentrer le nombre de couverts!\n";
+		} else {
+			try {
+				Integer.parseInt(champNbCouvertsReservation.getText()); // transformation en int pour voir si la saisie est un
+																// chiffre
+			} catch (NumberFormatException e) {
+				errorMessage += "Erreur! Le champ \"nombre de couverts\" n'accepte que les nombres\n";
+			}
+		}
+
+		if (errorMessage.length() == 0) {
 			return true;
 		} else {
-			// Affiche un message d'erreur
-			alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation", erreurMsg);
-
+			alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",errorMessage);
 			return false;
 		}
 	}

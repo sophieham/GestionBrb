@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="319.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.ModifierCalendrierControleur">
+<AnchorPane prefHeight="319.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.ModifierCalendrierControleur">
    <children>
       <AnchorPane layoutX="-2.0" layoutY="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="363.0" prefWidth="661.0">
          <children>
@@ -53,7 +53,7 @@
                </font>
             </Label>
             <DatePicker fx:id="champDate" layoutX="431.0" layoutY="32.0" prefHeight="31.0" prefWidth="181.0" />
-            <TextField fx:id="champNbCouverts" layoutX="431.0" layoutY="147.0" prefHeight="31.0" prefWidth="181.0" />
+            <TextField fx:id="champNbCouvertsReservation" layoutX="431.0" layoutY="147.0" prefHeight="31.0" prefWidth="181.0" />
             <ButtonBar layoutX="247.0" layoutY="267.0" prefHeight="82.0" prefWidth="379.0">
               <buttons>
                   <Button mnemonicParsing="false" onAction="#actionModifier" text="Modifier">

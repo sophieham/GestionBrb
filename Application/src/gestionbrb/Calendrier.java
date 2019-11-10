@@ -1,11 +1,8 @@
 package gestionbrb;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -14,65 +11,25 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import gestionbrb.model.Reservations;
-import gestionbrb.util.bddUtil;
-import gestionbrb.vue.CalendrierControleur;
 import gestionbrb.vue.ModifierCalendrierControleur;
 
-public class Calendrier extends Application {
+public class Calendrier {
 
     private Stage primaryStage;
-    private ObservableList<Reservations> reservationData = FXCollections.observableArrayList();
+    private static ObservableList<Reservations> reservationData = FXCollections.observableArrayList();
 
 
     public Calendrier() {
-    	try {
-    		Connection conn= bddUtil.dbConnect();
-    		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
-    		while (rs.next()) {
-        reservationData.add(new Reservations(rs.getInt("idReservation"), rs.getString("nom"), rs.getString("prenom"), rs.getString("numeroTel"), rs.getString("dateReservation"),rs.getString("heureReservation"),rs.getInt("nbCouverts"), rs.getString("demandeSpe")));
-    		}
-    	} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
     }
     
-    @Override
-    public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Calendrier");
-        afficheCalendrier();
-    }
-
     /**
      * Retourne les données présentes dans la liste Reservations. 
      * @return reservationData
      */
-    public ObservableList<Reservations> getReservationData() {
+    public static ObservableList<Reservations> getReservationData() {
         return reservationData;
     }
     
-    /**
-     * Ouvre une fenetre contenant le calendrier
-     */
-    public void afficheCalendrier() {
-        try {
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Calendrier.class.getResource("vue/CalendrierReservations.fxml"));
-            AnchorPane reservationOverview = (AnchorPane) loader.load();
-
-            Scene scene = new Scene(reservationOverview);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-            
-            CalendrierControleur controller = loader.getController();
-            controller.setMainApp(this);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     
     /**
      * Ouvre une fenêtre pour modifier les reservations.
@@ -82,7 +39,7 @@ public class Calendrier extends Application {
      * @throws SQLException 
      * @throws ClassNotFoundException 
      */
-    public boolean fenetreModification(Reservations reservation) throws ClassNotFoundException, SQLException {
+    public static boolean fenetreModification(Reservations reservation) throws ClassNotFoundException, SQLException {
         try {
             // Charge le fichier fxml et l'ouvre en pop-up
             FXMLLoader loader = new FXMLLoader();
@@ -93,7 +50,6 @@ public class Calendrier extends Application {
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Modifier une reservation");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
@@ -120,7 +76,4 @@ public class Calendrier extends Application {
         return primaryStage;
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 }

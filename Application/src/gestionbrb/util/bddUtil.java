@@ -18,6 +18,13 @@ public class bddUtil {
 	private static Connection conn = null;
 	private static Statement stmt;
 	//private static ResultSet table; Inutile pr l'instant
+	
+	/**
+	 * Etablit la connexion avec la bdd
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 
 	public static Connection dbConnect() throws SQLException, ClassNotFoundException {
 		try {
@@ -46,7 +53,13 @@ public class bddUtil {
 
 	}
 
-	// Execute des requetes ne necessitant pas d'affichage comme insert into ou update
+	/**
+	 * Execute des requetes ne necessitant pas d'affichage comme insert ou update
+	 * 
+	 * @param query
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public static void dbQueryExecute(String query) throws ClassNotFoundException, SQLException {
 		conn = dbConnect();
 		try {

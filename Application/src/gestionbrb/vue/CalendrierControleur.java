@@ -49,11 +49,8 @@ public class CalendrierControleur extends FonctionsControleurs {
 	private Label nbTotalReservations;
 
 	// Reference to the main application.
-	private Calendrier mainApp;
+	private DemarrerCommandeControleur mainApp;
 
-	/**
-	 * The constructor. The constructor is called before the initialize() method.
-	 */
 	public CalendrierControleur() {
 	}
 
@@ -83,32 +80,30 @@ public class CalendrierControleur extends FonctionsControleurs {
 				detailsReservation(newValue);
 				
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+				alerteErreur("Erreur", "Erreur du programme", ""+e);
 				e.printStackTrace();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				alerteErreur("Erreur", "Erreur SQL", ""+e);
 			}
 		});
 	}
 
 	/**
-	 * Appellé par la classe principale (ici DemarrerCommande) pour lier cette classe à elle-meme
+	 * Appellé par la classe principale (ici DemarrerCommandeControleur) pour lier cette classe à elle-meme
 	 * 
 	 * @param mainApp
 	 */
-	public void setMainApp(Calendrier mainApp) {
+	public void setMainApp(DemarrerCommandeControleur mainApp) {
 		this.mainApp = mainApp;
 
-		// Add observable list data to the table
-		reservationTable.setItems(mainApp.getReservationData());
+		reservationTable.setItems(Calendrier.getReservationData());
 	}
 
 	/**
 	 * Rempli tous les champs avec la reservation séléctionnée dans la partie
 	 * détails. Si il n'y a pas de reservation séléctionnée, les champs sont vides.
 	 * 
-	 * @param reservation the reservation or null
+	 * @param reservation s'il en existe une, null sinon
 	 * @throws SQLException
 	 */
 
@@ -118,7 +113,7 @@ public class CalendrierControleur extends FonctionsControleurs {
 		try {
 			
 
-			if (reservation != null) {
+			if (reservation != null) {  // si il y a réservation de séléctionnée, on affiche ses informations
 				while (rs.next()) {
 					champID.setText(Integer.toString(reservation.getID()));
 					champNom.setText(reservation.getNom());
@@ -140,8 +135,7 @@ public class CalendrierControleur extends FonctionsControleurs {
 				champDemandeSpe.setText("");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			alerteErreur("Erreur", "Erreur dans le code SQL",""+e);
 		} finally {
 			conn.close();
 			rs.close();
@@ -165,9 +159,10 @@ public class CalendrierControleur extends FonctionsControleurs {
 			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `calendrier` WHERE idReservation=?");
 			pstmt.setInt(1, (selectedReservation.getID()));
 			pstmt.execute();
-			pstmt.close();
 			reservationTable.getItems().remove(selectedIndex);
-
+			pstmt.close();
+			conn.close();
+			
 		} else {
 			// Si rien n'est séléctionné
 			alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!", "Selectionnez une réservation pour pouvoir la modifier");
@@ -185,7 +180,7 @@ public class CalendrierControleur extends FonctionsControleurs {
 	private void modifierReservation() throws ClassNotFoundException, SQLException {
 		Reservations selectedReservation = reservationTable.getSelectionModel().getSelectedItem();
 		if (selectedReservation != null) {
-			boolean okClicked = mainApp.fenetreModification(selectedReservation);
+			boolean okClicked = Calendrier.fenetreModification(selectedReservation);
 			if (okClicked) {
 				reservationTable.getItems().clear();
 				Connection conn = bddUtil.dbConnect();
@@ -255,7 +250,7 @@ public class CalendrierControleur extends FonctionsControleurs {
 	 * @throws SQLException
 	 */
 	@FXML
-	private void afficherTout() throws ClassNotFoundException, SQLException {
+	public void afficherTout() throws ClassNotFoundException, SQLException {
 		reservationTable.getItems().clear();
 		Connection conn = bddUtil.dbConnect();
 		ResultSet nbTotalResv = conn.createStatement().executeQuery("select count(*) from calendrier");
@@ -276,5 +271,6 @@ public class CalendrierControleur extends FonctionsControleurs {
 		}
 		detailsReservation(null);
 	}
+
 
 }
