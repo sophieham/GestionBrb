@@ -28,7 +28,7 @@ public class Utilisateurs extends Application {
 			Connection conn = bddUtil.dbConnect();
 			ResultSet rs = conn.createStatement().executeQuery("select * from utilisateurs");
 			while (rs.next()) {
-				comptes.add(new Utilisateur(rs.getInt("idUtilisateur"),  rs.getString("identifiant"), rs.getString("mot2passe"), rs.getString("nom"), rs.getString("prenom"), 0));
+				comptes.add(new Utilisateur(rs.getInt("idUtilisateur"),  rs.getString("identifiant"), rs.getString("pass"), rs.getString("nom"), rs.getString("prenom"), 0));
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();

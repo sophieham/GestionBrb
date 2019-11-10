@@ -81,7 +81,7 @@ public class UtilisateursControleur extends FonctionsControleurs {
 		if (okClicked) {
 			Connection conn = bddUtil.dbConnect();
 			PreparedStatement pstmt = conn.prepareStatement(
-					"INSERT INTO `utilisateurs` (`idUtilisateur`, `identifiant`, `mot2passe`, `nom`, `prenom`, `typeCompte`) VALUES (NULL, ?, ?, ?, ?, ?)");
+					"INSERT INTO `utilisateurs` (`idUtilisateur`, `identifiant`, `pass`, `nom`, `prenom`, `typeCompte`) VALUES (NULL, ?, ?, ?, ?, ?)");
 			pstmt.setInt(5, tempUtilisateur.getPrivileges());
 			pstmt.setString(4, tempUtilisateur.getPrenom());
 			pstmt.setString(3, tempUtilisateur.getNom());
@@ -108,7 +108,7 @@ public class UtilisateursControleur extends FonctionsControleurs {
 		while (rs.next()) {
 			Utilisateurs.getTableData()
 					.add(new Utilisateur(Integer.parseInt(rs.getString("idUtilisateur")), rs.getString("identifiant"),
-							rs.getString("mot2passe"), rs.getString("nom"), rs.getString("prenom"),
+							rs.getString("pass"), rs.getString("nom"), rs.getString("prenom"),
 							rs.getInt("typeCompte")));
 			utilisateursTable.setItems(Utilisateurs.getTableData());
 		}
@@ -162,7 +162,7 @@ public class UtilisateursControleur extends FonctionsControleurs {
 			boolean okClicked = mainApp.fenetreModification(selectedUtilisateur);
 			if (okClicked) {
 				bddUtil.dbQueryExecute("UPDATE `utilisateurs` SET `identifiant` = '"
-						+ selectedUtilisateur.getIdentifiant() + "', `mot2passe` = '"
+						+ selectedUtilisateur.getIdentifiant() + "', `pass` = '"
 						+ selectedUtilisateur.getMot2passe() + "', `nom` = '" + selectedUtilisateur.getNom()
 						+ "', `prenom` = '" + selectedUtilisateur.getPrenom() + "', `typeCompte` = '"
 						+ selectedUtilisateur.getPrivileges() + "' WHERE `utilisateurs`.`idUtilisateur` = "
