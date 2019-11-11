@@ -49,11 +49,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="24.0" prefWidth="72.0" text="Nom" GridPane.columnIndex="1">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
+                  
                   <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="106.0" text="Nom:" GridPane.rowIndex="1">
                      <font>
                         <Font size="18.0" />
