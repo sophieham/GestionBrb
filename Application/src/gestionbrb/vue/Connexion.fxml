@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -17,13 +19,18 @@
          <font>
             <Font size="23.0" />
          </font></Label>
-      <TextField fx:id="txtF" layoutX="247.0" layoutY="226.0" prefHeight="31.0" prefWidth="278.0" />
+      <TextField fx:id="identifiant" layoutX="247.0" layoutY="226.0" prefHeight="31.0" prefWidth="278.0" />
       <Button layoutX="181.0" layoutY="371.0" mnemonicParsing="false" onAction="#Connexion" prefHeight="47.0" prefWidth="278.0" text="Se connecter">
          <font>
             <Font size="21.0" />
          </font></Button>
-      <PasswordField fx:id="passF" layoutX="247.0" layoutY="288.0" prefHeight="31.0" prefWidth="278.0" />
+      <PasswordField fx:id="pass" layoutX="247.0" layoutY="288.0" prefHeight="31.0" prefWidth="278.0" />
       <Label layoutX="91.0" layoutY="342.0" text="Etat:" />
-      <Label fx:id="lbletat" layoutX="121.0" layoutY="342.0" prefHeight="17.0" prefWidth="120.0" text="??" />
+      <Label fx:id="etat" layoutX="121.0" layoutY="342.0" prefHeight="17.0" prefWidth="120.0" text="??" />
+      <ImageView fitHeight="196.0" fitWidth="333.0" layoutX="154.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Modelisation/logo_light_transparent.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

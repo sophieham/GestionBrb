@@ -4,10 +4,8 @@ import java.sql.SQLException;
 
 import gestionbrb.Utilisateurs;
 import gestionbrb.controleur.FonctionsControleurs;
-import gestionbrb.model.Table;
 import gestionbrb.model.Utilisateur;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -21,7 +19,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 	@FXML
 	private TextField champIdentifiant;
 	@FXML
-	private TextField champMot2Passe;
+	private TextField champMotDePasse;
 	@FXML
 	private RadioButton boutonAdmin;
 	@FXML
@@ -30,19 +28,23 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 	private Utilisateur compte;
 	private boolean okClicked = false;
 	private int role;
+	@SuppressWarnings("unused")
 	private Utilisateurs mainApp;
+	
 	@FXML
 	private void setRoleAdmin() {
 		role = 1;
 		boutonServeur.setSelected(false);
 
 	}
+	
 	@FXML
 	private void setRoleServeur() {
 		role = 1;
 		boutonAdmin.setSelected(false);
 
 	}
+	
 	@FXML
 	private void initialize() {
 	}
@@ -66,7 +68,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 		champNom.setText(compte.getNom());
 		champPrenom.setText(compte.getPrenom());
 		champIdentifiant.setText(compte.getIdentifiant());
-		champMot2Passe.setText(compte.getMot2passe());
+		champMotDePasse.setText(compte.getMotdepasse());
 		if(compte.getPrivileges()==1)
 			boutonAdmin.setSelected(true);
 		if(compte.getPrivileges() == 0)
@@ -96,7 +98,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 			compte.setNom(champNom.getText());
 			compte.setPrenom(champPrenom.getText());
 			compte.setIdentifiant(champIdentifiant.getText());
-			compte.setMot2passe(champMot2Passe.getText());
+			compte.setMot2passe(champMotDePasse.getText());
 			compte.setPrivileges(role);
 
 			okClicked = true;
@@ -132,7 +134,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 			erreurMsg += "Veuillez remplir le champ nom\n";
 
 		}
-		if (champMot2Passe.getText() == null || champMot2Passe.getText().length() == 0) {
+		if (champMotDePasse.getText() == null || champMotDePasse.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le champ mot de passe\n";
 
 		}
@@ -144,8 +146,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",
-					erreurMsg);
+			alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",erreurMsg);
 
 			return false;
 		}

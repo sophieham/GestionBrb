@@ -1,7 +1,6 @@
 package gestionbrb.vue;
 
 import gestionbrb.controleur.FonctionsControleurs;
-import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

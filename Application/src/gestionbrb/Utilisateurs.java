@@ -28,7 +28,12 @@ public class Utilisateurs extends Application {
 			Connection conn = bddUtil.dbConnect();
 			ResultSet rs = conn.createStatement().executeQuery("select * from utilisateurs");
 			while (rs.next()) {
-				comptes.add(new Utilisateur(rs.getInt("idUtilisateur"),  rs.getString("identifiant"), rs.getString("pass"), rs.getString("nom"), rs.getString("prenom"), 0));
+				comptes.add(new Utilisateur(rs.getInt("idUtilisateur"),  
+											rs.getString("identifiant"), 
+											rs.getString("pass"), 
+											rs.getString("nom"), 
+											rs.getString("prenom"), 
+											rs.getInt("typeCompte")));
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -38,7 +43,7 @@ public class Utilisateurs extends Application {
 	public static ObservableList<Utilisateur> getTableData() {
 		return comptes;
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;

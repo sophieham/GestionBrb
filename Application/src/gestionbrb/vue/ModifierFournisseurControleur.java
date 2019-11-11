@@ -27,7 +27,7 @@ public class ModifierFournisseurControleur extends FonctionsControleurs {
 	private Stage dialogStage;
 	private Fournisseur fournisseur;
 	private boolean okClicked = false;
-	private Fournisseurs mainApp;
+	Fournisseurs mainApp;
 	
 	@FXML
 	private void initialize() {
