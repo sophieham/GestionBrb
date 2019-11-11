@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.IngredientsControleur">
    <children>
       <TabPane layoutY="-2.0" prefHeight="480.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -20,13 +19,13 @@
                <content>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <TableView prefHeight="404.0" prefWidth="640.0">
+                        <TableView fx:id="tableIngredients" prefHeight="404.0" prefWidth="640.0">
                           <columns>
-                            <TableColumn prefWidth="61.0" text="ID" />
-                            <TableColumn prefWidth="225.0" text="Nom" />
-                              <TableColumn prefWidth="88.0" text="Quantite" />
-                              <TableColumn prefWidth="90.0" text="Prix" />
-                              <TableColumn prefWidth="169.0" text="Fournisseurs" />
+                            <TableColumn fx:id="colonneIdIngredient" prefWidth="61.0" text="ID" />
+                            <TableColumn fx:id="colonneNomIngredient" prefWidth="225.0" text="Nom" />
+                              <TableColumn fx:id="colonneQuantiteIngredient" prefWidth="88.0" text="Quantite" />
+                              <TableColumn fx:id="colonnePrixIngredient" prefWidth="90.0" text="Prix" />
+                              <TableColumn fx:id="colonneFournisseur" prefWidth="169.0" text="Fournisseurs" />
                           </columns>
                            <VBox.margin>
                               <Insets left="5.0" right="5.0" />
@@ -34,17 +33,17 @@
                         </TableView>
                         <Pane prefHeight="86.0" prefWidth="640.0">
                            <children>
-                              <Button layoutX="68.0" layoutY="9.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="148.0" text="Ajouter">
+                              <Button layoutX="68.0" layoutY="9.0" mnemonicParsing="false" onAction="#ajoutIngredient" prefHeight="44.0" prefWidth="148.0" text="Ajouter">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="246.0" layoutY="9.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="148.0" text="Modifier">
+                              <Button layoutX="246.0" layoutY="9.0" mnemonicParsing="false" onAction="#modifierIngredient" prefHeight="44.0" prefWidth="148.0" text="Modifier">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="425.0" layoutY="9.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="148.0" text="Supprimer">
+                              <Button layoutX="425.0" layoutY="9.0" mnemonicParsing="false" onAction="#supprimerIngredient" prefHeight="44.0" prefWidth="148.0" text="Supprimer">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
