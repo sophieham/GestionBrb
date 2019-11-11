@@ -6,10 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import gestionbrb.Fournisseurs;
-import gestionbrb.Utilisateurs;
 import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Fournisseur;
-import gestionbrb.model.Utilisateur;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -89,13 +87,13 @@ public class FournisseursControleur extends FonctionsControleurs {
 	 * @throws ClassNotFoundException
 	 */
 	@FXML
-	private void ajoutUtilisateur() throws ClassNotFoundException, SQLException {
+	private void ajoutFournisseur() throws ClassNotFoundException, SQLException {
 		Fournisseur tempFournisseur = new Fournisseur();
 		boolean okClicked = mainApp.fenetreModification(tempFournisseur);
 		if (okClicked) {
 			Connection conn = bddUtil.dbConnect();
 			PreparedStatement pstmt = conn.prepareStatement(
-					"INSERT INTO `fournisseur` (`idFournisseur`, `nom`, `numTel`, `adresseMail`, `adresseDepot`, `cpDepot`, `villeDepot`) VALUES (NULL, ?, ?, ?, ?, ?)");
+					"INSERT INTO `fournisseur` (`idFournisseur`, `nom`, `numTel`, `adresseMail`, `adresseDepot`, `cpDepot`, `villeDepot`) VALUES (NULL, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(6, tempFournisseur.getNomVille());
 			pstmt.setInt(5, tempFournisseur.getCodePostal());
 			pstmt.setString(4, tempFournisseur.getAdresse());
@@ -119,10 +117,10 @@ public class FournisseursControleur extends FonctionsControleurs {
 	private void refresh() throws ClassNotFoundException, SQLException {
 		Fournisseurs.getTableData().clear();
 		Connection conn = bddUtil.dbConnect();
-		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM utilisateurs");
+		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM fournisseur");
 		while (rs.next()) {
 			Fournisseurs.getTableData()
-					.add(new Fournisseur(rs.getInt("idUtilisateur"), rs.getString("nom"),
+					.add(new Fournisseur(rs.getInt("idFournisseur"), rs.getString("nom"),
 							rs.getInt("numTel"), rs.getString("adresseMail"), rs.getString("adresseDepot"),
 							rs.getInt("cpDepot"), rs.getString("villeDepot")));
 			fournisseursTable.setItems(Fournisseurs.getTableData());
@@ -137,7 +135,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 	 * @throws ClassNotFoundException
 	 */
 	@FXML
-	private void supprimerUtilisateur() throws ClassNotFoundException {
+	private void supprimerFournisseur() throws ClassNotFoundException {
 		Fournisseur selectedTable = fournisseursTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = fournisseursTable.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
@@ -171,7 +169,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 	 * @throws ClassNotFoundException
 	 */
 	@FXML
-	private void modifierUtilisateur() throws ClassNotFoundException, SQLException {
+	private void modifierFournisseur() throws ClassNotFoundException, SQLException {
 		Fournisseur selectedFournisseur = fournisseursTable.getSelectionModel().getSelectedItem();
 		if (selectedFournisseur != null) {
 			boolean okClicked = mainApp.fenetreModification(selectedFournisseur);
@@ -180,7 +178,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 						+ selectedFournisseur.getNom() + "', `numTel` = '"
 						+ selectedFournisseur.getNumTel() + "', `adresseMail` = '" + selectedFournisseur.getMail()
 						+ "', `adresseDepot` = '" + selectedFournisseur.getAdresse() + "', `cpDepot` = '"
-						+ selectedFournisseur.getCodePostal() + "', `villeDepot` = '"+selectedFournisseur.getNomVille()+"' WHERE `utilisateurs`.`idUtilisateur` = "
+						+ selectedFournisseur.getCodePostal() + "', `villeDepot` = '"+selectedFournisseur.getNomVille()+"' WHERE `fournisseur`.`idFournisseur` = "
 						+ selectedFournisseur.getIdFournisseur() + ";");
 
 				refresh();

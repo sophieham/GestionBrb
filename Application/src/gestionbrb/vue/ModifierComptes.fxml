@@ -40,7 +40,7 @@
       <ButtonBar layoutX="120.0" layoutY="192.0" prefHeight="40.0" prefWidth="191.0">
         <buttons>
           <Button mnemonicParsing="false" onAction="#actionValider" text="Valider" />
-            <Button minWidth="56.0" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" text="Annuler" />
+          <Button minWidth="56.0" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" text="Annuler" />
         </buttons>
       </ButtonBar>
       <PasswordField fx:id="champMot2Passe" layoutX="122.0" layoutY="113.0" prefHeight="31.0" prefWidth="187.0" />

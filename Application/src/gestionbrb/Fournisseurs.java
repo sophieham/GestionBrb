@@ -6,12 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import gestionbrb.model.Fournisseur;
-import gestionbrb.model.Utilisateur;
 import gestionbrb.util.bddUtil;
 import gestionbrb.vue.FournisseursControleur;
 import gestionbrb.vue.ModifierFournisseurControleur;
-import gestionbrb.vue.ModifierUtilisateurControleur;
-import gestionbrb.vue.UtilisateursControleur;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -71,7 +68,7 @@ public class Fournisseurs extends Application {
 		try {
 			// Charge le fichier fxml et l'ouvre en pop-up
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Fournisseurs.class.getResource("vue/ModifierFournisseurs.fxml"));
+			loader.setLocation(Fournisseurs.class.getResource("vue/ModifierFournisseur.fxml"));
 			AnchorPane page = (AnchorPane) loader.load();
 
 			// Crée une nouvelle page

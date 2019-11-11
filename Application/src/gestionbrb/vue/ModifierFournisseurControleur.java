@@ -3,12 +3,9 @@ package gestionbrb.vue;
 import java.sql.SQLException;
 
 import gestionbrb.Fournisseurs;
-import gestionbrb.Utilisateurs;
 import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Fournisseur;
-import gestionbrb.model.Utilisateur;
 import javafx.fxml.FXML;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -24,6 +21,8 @@ public class ModifierFournisseurControleur extends FonctionsControleurs {
 	private TextField champAdresse;
 	@FXML
 	private TextField champVille;
+	@FXML 
+	private TextField champCodePostal;
 	
 	private Stage dialogStage;
 	private Fournisseur fournisseur;
@@ -55,6 +54,7 @@ public class ModifierFournisseurControleur extends FonctionsControleurs {
 		champMail.setText(fournisseur.getMail());
 		champNumTel.setText(Integer.toString(fournisseur.getNumTel()));
 		champVille.setText(fournisseur.getNomVille());
+		champCodePostal.setText(Integer.toString(fournisseur.getCodePostal()));
 		
 
 	}
@@ -78,7 +78,7 @@ public class ModifierFournisseurControleur extends FonctionsControleurs {
 			fournisseur.setMail(champMail.getText());
 			fournisseur.setNumTel(Integer.parseInt(champNumTel.getText()));
 			fournisseur.setNomVille(champVille.getText());
-
+			fournisseur.setCodePostal(Integer.parseInt(champCodePostal.getText()));
 			okClicked = true;
 			dialogStage.close();
 		}	
@@ -104,6 +104,10 @@ public class ModifierFournisseurControleur extends FonctionsControleurs {
 
 		if (champAdresse.getText() == null || champAdresse.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le champ Adresse\n";
+
+		}
+		if (champCodePostal.getText() == null || champCodePostal.getText().length() == 0) {
+			erreurMsg += "Veuillez remplir le champ Code Postal\n";
 
 		}
 		if (champNom.getText() == null || champNom.getText().length() == 0) {

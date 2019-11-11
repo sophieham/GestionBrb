@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="gestionbrb.vue.ModifierFournisseurControleur">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="321.0" prefWidth="357.0">
          <children>
@@ -49,7 +49,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label prefHeight="24.0" prefWidth="72.0" text="?" GridPane.columnIndex="1">
+                  <Label prefHeight="24.0" prefWidth="72.0" text="Nom" GridPane.columnIndex="1">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -59,10 +59,10 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField prefHeight="31.0" prefWidth="137.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="106.0" text="Ville" GridPane.rowIndex="5">
+                  <TextField fx:id="champNom" prefHeight="31.0" prefWidth="137.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="champNumTel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="champMail" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label  alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="106.0" text="Ville" GridPane.rowIndex="5">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -72,12 +72,12 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <TextField prefHeight="49.0" prefWidth="191.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <TextField fx:id="champAdresse" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="champVille" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="champCodePostal" prefHeight="49.0" prefWidth="191.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                </children>
             </GridPane>
-            <Button layoutX="50.0" layoutY="272.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="247.0" text="Valider">
+            <Button layoutX="50.0" layoutY="272.0" mnemonicParsing="false" onAction="#actionValider" prefHeight="31.0" prefWidth="247.0" text="Valider">
                <font>
                   <Font size="20.0" />
                </font>
