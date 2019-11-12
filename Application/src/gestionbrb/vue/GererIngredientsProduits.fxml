@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.IngredientsControleur">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.IngredientsProduitsControleur">
    <children>
       <TabPane layoutY="-2.0" prefHeight="480.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -61,14 +61,14 @@
                <content>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <TableView prefHeight="404.0" prefWidth="640.0">
+                        <TableView fx:id="tableProduit" prefHeight="404.0" prefWidth="640.0">
                           <columns>
-                            <TableColumn prefWidth="66.0" text="ID" />
-                            <TableColumn prefWidth="158.0" text="Nom" />
-                              <TableColumn prefWidth="90.0" text="Type" />
-                              <TableColumn prefWidth="130.0" text="Description" />
-                              <TableColumn minWidth="0.0" prefWidth="107.0" text="Ingredients" />
-                              <TableColumn prefWidth="77.0" text="Prix" />
+                            <TableColumn fx:id="colonneIdProduit" prefWidth="66.0" text="ID" />
+                            <TableColumn fx:id="colonneNomProduit" prefWidth="158.0" text="Nom" />
+                              <TableColumn fx:id="colonneType" prefWidth="90.0" text="Type" />
+                              <TableColumn fx:id="colonneDescriptionProduit" prefWidth="130.0" text="Description" />
+                              <TableColumn fx:id="colonneQuantiteProduit" minWidth="0.0" prefWidth="107.0" text="Quantite" />
+                              <TableColumn fx:id="colonnePrixProduit" prefWidth="77.0" text="Prix" />
                           </columns>
                            <VBox.margin>
                               <Insets left="5.0" right="5.0" />
@@ -76,22 +76,17 @@
                         </TableView>
                         <Pane prefHeight="86.0" prefWidth="640.0">
                            <children>
-                              <Button layoutY="9.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="148.0" text="Ajouter">
+                              <Button layoutX="45.0" layoutY="9.0" mnemonicParsing="false" onAction="#ajoutProduit" prefHeight="44.0" prefWidth="148.0" text="Ajouter">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="157.0" layoutY="9.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="148.0" text="Modifier">
+                              <Button layoutX="241.0" layoutY="9.0" mnemonicParsing="false" onAction="#modifierProduit" prefHeight="44.0" prefWidth="148.0" text="Modifier">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="482.0" layoutY="9.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="148.0" text="Supprimer">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Button>
-                              <Button layoutX="319.0" layoutY="9.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="148.0" text="Détails">
+                              <Button layoutX="441.0" layoutY="9.0" mnemonicParsing="false" onAction="#supprimerProduit" prefHeight="44.0" prefWidth="148.0" text="Supprimer">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

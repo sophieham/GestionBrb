@@ -1,6 +1,7 @@
 package gestionbrb.controleur;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Alert.AlertType;
 
 public abstract class FonctionsControleurs {
@@ -25,5 +26,27 @@ public abstract class FonctionsControleurs {
 		alert.setHeaderText(entete);
 		alert.setContentText(texte);
 		alert.showAndWait();
+	}
+	
+	public static String getString(ChoiceBox<String> cible) { // pour ingredient : faire de la fin du -> à la fin du string
+		String stringToSub = cible.getValue();
+		String sFinal = null;
+		try {
+			switch (stringToSub.length()) {
+			case 26:
+				sFinal = stringToSub.substring(8, 9);
+			case 27:
+				sFinal = stringToSub.substring(8, 10);
+			case 28:
+				sFinal = stringToSub.substring(8, 11);
+			default:
+				System.out.println("erreur");
+				break;
+			}
+
+			// affiche une exception alors que le String à bien été transformé en nombre
+		} catch (NumberFormatException e) {
+		}
+		return sFinal;
 	}
 }
