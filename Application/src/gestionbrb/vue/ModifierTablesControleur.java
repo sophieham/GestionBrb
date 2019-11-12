@@ -21,7 +21,7 @@ public class ModifierTablesControleur extends FonctionsControleurs {
 	private Stage dialogStage;
 	private Table table;
 	private boolean okClicked = false;
-	private Tables mainApp;
+	Tables mainApp;
 
 
 	@FXML

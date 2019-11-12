@@ -5,19 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import gestionbrb.Connexion;
+import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
-public class ConnexionProfil {	
+
+public class ConnexionProfil extends FonctionsControleurs{	
 	
-	@FXML private TextField txtF;
-	@FXML private PasswordField passF;
-	@FXML private Label lbletat;
+	@FXML private TextField identifiant;
+	@FXML private PasswordField pass;
+	@FXML private Label etat; // a enlever lorsque la page sera 100% reliée
 	Connexion mainApp;
 	
     public void setMainApp(Connexion mainApp) {
@@ -29,25 +29,20 @@ public class ConnexionProfil {
 		Connection con = bddUtil.dbConnect();
 		PreparedStatement stat = null;
 		ResultSet rs = null; 
-		String sql = "SELECT * FROM utilisateurs WHERE identifiant = ? AND mot2passe = ?";
+		String sql = "SELECT * FROM utilisateurs WHERE identifiant = ? AND pass = ?";
 		try {
 			stat = con.prepareStatement(sql);
-			stat.setString(1, txtF.getText().toString());
-			stat.setString(2, passF.getText().toString());
+			stat.setString(1, identifiant.getText().toString());
+			stat.setString(2, pass.getText().toString());
 			rs = stat.executeQuery();
 			if(rs.next()) {
-				lbletat.setText("Connecté"); // a enlever quand la redirection sera 100% fonctionnelle
+				etat.setText("Connecté"); // a enlever quand la redirection sera 100% fonctionnelle
 				// en attente du menu principal pour faire la redirection
 			}else {
-	            Alert alert = new Alert(AlertType.ERROR);
-	            alert.setTitle("Erreur");
-	            alert.setHeaderText("Combinaison identifiant/mot de passe incorrect");
-	            alert.setContentText("Veuillez réessayer.");
-	            
-	            alert.showAndWait();
+				alerteErreur("Erreur de connexion", "Combinaison identifiant/mot de passe incorrecte", "Veuillez réessayer.");
 			}
 		} catch (Exception e) {
-			
+			alerteErreur("Erreur", "Un erreur est survenue!", "Détails: "+e);
 		}
 
 	}

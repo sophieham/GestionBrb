@@ -49,7 +49,7 @@ public class CalendrierControleur extends FonctionsControleurs {
 	private Label nbTotalReservations;
 
 	// Reference to the main application.
-	private DemarrerCommandeControleur mainApp;
+	DemarrerCommandeControleur mainApp;
 
 	public CalendrierControleur() {
 	}
