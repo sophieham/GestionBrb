@@ -11,23 +11,23 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.ModifierProduitsControleur">
    <children>
-      <GridPane layoutX="4.0" prefHeight="300.0" prefWidth="343.0">
+      <GridPane layoutX="16.0" layoutY="6.0" prefHeight="300.0" prefWidth="343.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0" prefWidth="113.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="10.0" prefWidth="230.0" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints maxHeight="44.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="73.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="72.0" minHeight="10.0" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="73.0" minHeight="1.0" prefHeight="46.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="75.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="91.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="107.0" text="Type:" GridPane.rowIndex="2">
+            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="107.0" text="Type:" GridPane.rowIndex="1">
                <font>
                   <Font size="18.0" />
                </font>
@@ -42,38 +42,34 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="105.0" text="ID:">
+            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="106.0" text="Nom:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label prefHeight="24.0" prefWidth="72.0" text="0" GridPane.columnIndex="1">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="106.0" text="Nom:" GridPane.rowIndex="1">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <TextField prefHeight="31.0" prefWidth="137.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="chNomProduit" prefHeight="31.0" prefWidth="137.0" GridPane.columnIndex="1" />
+            <TextField fx:id="chPrixProduit" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="106.0" text="Description" GridPane.rowIndex="5">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextArea prefHeight="54.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextArea fx:id="chDescription" prefHeight="54.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="230.0" text="Ajouter Ingredients" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <ChoiceBox prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="chChoixType" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="chQuantiteProduit" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="107.0" text="Quantite" GridPane.rowIndex="2">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
-      <Button layoutX="52.0" layoutY="353.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="247.0" text="Valider">
+      <Button layoutX="52.0" layoutY="353.0" mnemonicParsing="false" onAction="#actionValider" prefHeight="31.0" prefWidth="247.0" text="Valider">
          <font>
             <Font size="18.0" />
          </font>

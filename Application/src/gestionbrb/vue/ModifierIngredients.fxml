@@ -48,10 +48,10 @@
             <TextField fx:id="chNomIngredient" prefHeight="31.0" prefWidth="137.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="chQuantiteIngredient" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="chPrixIngredient" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ChoiceBox prefHeight="25.0" prefWidth="259.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <ChoiceBox fx:id="chChoixFournisseur" prefHeight="25.0" prefWidth="259.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <Button layoutX="50.0" layoutY="246.0" mnemonicParsing="false" onAction="#actionValider" prefHeight="31.0" prefWidth="247.0" text="Valider">
+      <Button layoutX="50.0" layoutY="246.0" mnemonicParsing="false" onAction="#actionValiderIngredient" prefHeight="31.0" prefWidth="247.0" text="Valider">
          <font>
             <Font size="20.0" />
          </font>
