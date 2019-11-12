@@ -92,8 +92,8 @@ public class FournisseursControleur extends FonctionsControleurs {
 		boolean okClicked = mainApp.fenetreModification(tempFournisseur);
 		if (okClicked) {
 			Connection conn = bddUtil.dbConnect();
-			PreparedStatement pstmt = conn.prepareStatement(
-					"INSERT INTO `fournisseur` (`idFournisseur`, `nom`, `numTel`, `adresseMail`, `adresseDepot`, `cpDepot`, `villeDepot`) VALUES (NULL, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `fournisseur` (`idFournisseur`, `nom`, `numTel`, `adresseMail`, `adresseDepot`, `cpDepot`, `villeDepot`) "
+														+ "VALUES (NULL, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(6, tempFournisseur.getNomVille());
 			pstmt.setInt(5, tempFournisseur.getCodePostal());
 			pstmt.setString(4, tempFournisseur.getAdresse());
@@ -119,10 +119,13 @@ public class FournisseursControleur extends FonctionsControleurs {
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM fournisseur");
 		while (rs.next()) {
-			Fournisseurs.getTableData()
-					.add(new Fournisseur(rs.getInt("idFournisseur"), rs.getString("nom"),
-							rs.getInt("numTel"), rs.getString("adresseMail"), rs.getString("adresseDepot"),
-							rs.getInt("cpDepot"), rs.getString("villeDepot")));
+			Fournisseurs.getTableData().add(new Fournisseur(rs.getInt("idFournisseur"),
+										 					rs.getString("nom"),
+										 					rs.getInt("numTel"), 
+										 					rs.getString("adresseMail"), 
+										 					rs.getString("adresseDepot"),
+										 					rs.getInt("cpDepot"), 
+										 					rs.getString("villeDepot")));
 			fournisseursTable.setItems(Fournisseurs.getTableData());
 		}
 
@@ -139,15 +142,13 @@ public class FournisseursControleur extends FonctionsControleurs {
 		Fournisseur selectedTable = fournisseursTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = fournisseursTable.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
-			System.out.println(selectedTable.getIdFournisseur());
 			try {
 				Connection conn = bddUtil.dbConnect();
 				PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `fournisseur` WHERE idFournisseur=?");
 				pstmt.setInt(1, (selectedTable.getIdFournisseur()));
 				pstmt.execute();
 				refresh();
-				alerteInfo("Suppression réussie", null,
-						"Le fournisseur " + selectedTable.getIdFournisseur() + " vient d'être supprimée!");
+				alerteInfo("Suppression réussie", null, "Le fournisseur " + selectedTable.getIdFournisseur() + " vient d'être supprimée!");
 				conn.close();
 				pstmt.close();
 			} catch (SQLException e) {
@@ -156,8 +157,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 
 		} else {
 			// Si rien n'est séléctionné
-			alerteAttention("Aucune sélection", "Aucun fournisseur de sélectionnée!",
-					"Selectionnez un fournisseur pour pouvoir la supprimer");
+			alerteAttention("Aucune sélection", "Aucun fournisseur de sélectionnée!","Selectionnez un fournisseur pour pouvoir la supprimer");
 		}
 	}
 
@@ -174,12 +174,13 @@ public class FournisseursControleur extends FonctionsControleurs {
 		if (selectedFournisseur != null) {
 			boolean okClicked = mainApp.fenetreModification(selectedFournisseur);
 			if (okClicked) {
-				bddUtil.dbQueryExecute("UPDATE `fournisseur` SET `nom` = '"
-						+ selectedFournisseur.getNom() + "', `numTel` = '"
-						+ selectedFournisseur.getNumTel() + "', `adresseMail` = '" + selectedFournisseur.getMail()
-						+ "', `adresseDepot` = '" + selectedFournisseur.getAdresse() + "', `cpDepot` = '"
-						+ selectedFournisseur.getCodePostal() + "', `villeDepot` = '"+selectedFournisseur.getNomVille()+"' WHERE `fournisseur`.`idFournisseur` = "
-						+ selectedFournisseur.getIdFournisseur() + ";");
+				bddUtil.dbQueryExecute("UPDATE `fournisseur` SET `nom` = '" + selectedFournisseur.getNom()+"', "
+											+ "`numTel` = '" + selectedFournisseur.getNumTel() + "', "
+											+ "`adresseMail` = '"+selectedFournisseur.getMail() + "', "
+											+ "`adresseDepot` = '" + selectedFournisseur.getAdresse()+"', "
+											+ "`cpDepot` = '" + selectedFournisseur.getCodePostal() + "', "
+											+ "`villeDepot` = '"+ selectedFournisseur.getNomVille() + "' "
+											+ "WHERE `fournisseur`.`idFournisseur` = "+ selectedFournisseur.getIdFournisseur() + ";");
 
 				refresh();
 				alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
@@ -187,8 +188,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 
 		} else {
 			// Si rien n'est selectionné
-			alerteAttention("Aucune sélection", "Aucun founisseur de sélectionnée!",
-					"Selectionnez un fournisseur pour pouvoir le modifier");
+			alerteAttention("Aucune sélection", "Aucun founisseur de sélectionnée!", "Selectionnez un fournisseur pour pouvoir le modifier");
 		}
 	}
 

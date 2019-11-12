@@ -8,19 +8,19 @@ import java.util.Date;
  * @generated
  */
 
-public class Ticket
+/*public class Ticket extends Commande
 {
 	private int idTicket;
 	private Date dateGeneree;
 	private Serveur serveur;
 
 	public Ticket(){
-		super();
+		super(idTicket, produitCommande, idTicket, idTicket);
 	}
 
 	public void imprimerTicket() {
 		// TODO implement me	
 	}
 	
-}
+}*/
 

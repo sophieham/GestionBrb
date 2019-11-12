@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import gestionbrb.DemarrerCommande;
 import gestionbrb.Tables;
 import gestionbrb.controleur.FonctionsControleurs;
+import gestionbrb.model.Commande;
 import gestionbrb.model.Table;
 import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
@@ -192,17 +193,23 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	 */
 	public void lancerCommande() throws ClassNotFoundException, SQLException{ // a continuer
 		try {
-			//int nombreCouverts = Integer.parseInt(champNbCouverts.getText());
+			int nombreCouverts = Integer.parseInt(champNbCouverts.getText());
 			int numTable = getNumeroTable(champChoixTable);
-			bddUtil.dbQueryExecute("UPDATE `tables` SET occupation = 1 WHERE noTable="+numTable);
+			
+			//!!! a remplacer occupation =0 par 1 une fois commande paramétré
+			bddUtil.dbQueryExecute("UPDATE `tables` SET occupation = 0 WHERE noTable="+numTable);
 			refreshMain();
-			//Commande commande= new Commande();
+			Commande commande= new Commande(1, numTable, nombreCouverts);
+			bddUtil.dbQueryExecute("INSERT INTO `commande` (`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `qteTotal`, `date`) VALUES (NULL, '"+numTable+"', NULL, '"+nombreCouverts+"', NULL, current_timestamp())");
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Commande.fxml"));
 			Parent vueCommande = (Parent) loader.load();
 			Stage stage = new Stage();
 			stage.setTitle("-- Commande de la table "+numTable+" --");
 			stage.setScene(new Scene(vueCommande));
 			stage.show();
+			
+			CommandeControleur controller = loader.getController();
+	        controller.setParent(this);
 			
 		} catch (IOException e) {
 			alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);

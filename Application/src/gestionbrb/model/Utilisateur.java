@@ -14,12 +14,13 @@ import javafx.beans.property.StringProperty;
 public class Utilisateur {
 	private final IntegerProperty idUtilisateur;
 	private final StringProperty identifiant;
-	private final StringProperty mot2passe;
+	private final StringProperty motdepasse;
 	private final StringProperty nom;
 	private final StringProperty prenom;
 	private final IntegerProperty privileges;
 
 	/**
+	 * Constructeur pour de utilisateur
 	 * 
 	 * @param identifiant
 	 * @param mot2passe
@@ -27,11 +28,11 @@ public class Utilisateur {
 	 * @param prenom
 	 * @param privileges  (1 pour admin, 0 pour serveur)
 	 */
-	public Utilisateur(int id, String identifiant, String mot2passe, String nom, String prenom, int privileges) {
+	public Utilisateur(int id, String identifiant, String motdepasse, String nom, String prenom, int privileges) {
 		this.idUtilisateur = new SimpleIntegerProperty(id);
 		this.privileges = new SimpleIntegerProperty(privileges);
 		this.identifiant = new SimpleStringProperty(identifiant);
-		this.mot2passe = new SimpleStringProperty(mot2passe);
+		this.motdepasse = new SimpleStringProperty(motdepasse);
 		this.nom = new SimpleStringProperty(nom);
 		this.prenom = new SimpleStringProperty(prenom);
 
@@ -53,16 +54,16 @@ public class Utilisateur {
 		this.identifiantProperty().set(identifiant);
 	}
 
-	public final StringProperty mot2passeProperty() {
-		return this.mot2passe;
+	public final StringProperty motdepasseProperty() {
+		return this.motdepasse;
 	}
 
-	public final String getMot2passe() {
-		return this.mot2passeProperty().get();
+	public final String getMotdepasse() {
+		return this.motdepasseProperty().get();
 	}
 
 	public final void setMot2passe(final String mot2passe) {
-		this.mot2passeProperty().set(mot2passe);
+		this.motdepasseProperty().set(mot2passe);
 	}
 
 	public final StringProperty nomProperty() {

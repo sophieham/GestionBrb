@@ -3,7 +3,6 @@ package gestionbrb;
 import java.io.IOException;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,32 +14,22 @@ import gestionbrb.vue.DemarrerCommandeControleur;
 public class DemarrerCommande extends Application {
 
     private static Stage primaryStage;
-    /**
-     * Constructeur
-     */
+
     public DemarrerCommande() {
 
     }
     
-    
-
-    /**
-     * Retourne les données présentes dans la liste Reservations. 
-     * @return
-     */
-    
-
     @Override
     public void start(Stage primaryStage) {
         DemarrerCommande.primaryStage = primaryStage;
         DemarrerCommande.primaryStage.setTitle("Démarrer une nouvelle commande");
-        afficherReservation();
+        afficherDemarrerCommande();
     }
     
     /**
-     * Shows the command overview inside the root layout.
+     * Appellée pour afficher la page principale
      */
-    public void afficherReservation() {
+    public void afficherDemarrerCommande() {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
@@ -57,6 +46,10 @@ public class DemarrerCommande extends Application {
             e.printStackTrace();
         }
     }
+    
+    /*
+     * Appellé pour ouvrir le calendrier
+     */
     
     public void Calendrier() {
 		try {
