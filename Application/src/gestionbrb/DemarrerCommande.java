@@ -13,7 +13,7 @@ import gestionbrb.vue.DemarrerCommandeControleur;
 
 public class DemarrerCommande extends Application {
 
-    private static Stage primaryStage;
+    public static Stage primaryStage;
 
     public DemarrerCommande() {
 

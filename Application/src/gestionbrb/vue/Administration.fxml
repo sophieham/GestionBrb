@@ -47,7 +47,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Gérer serveurs" GridPane.rowIndex="2">
+            <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Gérer utilisateurs" GridPane.rowIndex="2">
                <font>
                   <Font size="24.0" />
                </font>
