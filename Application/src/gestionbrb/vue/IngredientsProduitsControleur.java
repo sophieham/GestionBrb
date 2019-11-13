@@ -7,19 +7,10 @@
 	import gestionbrb.IngredientsProduits;
 	import gestionbrb.controleur.FonctionsControleurs;
 	import gestionbrb.model.Ingredients;
-<<<<<<< HEAD:Application/src/gestionbrb/vue/IngredientsControleur.java
-	import gestionbrb.util.bddUtil;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-=======
 import gestionbrb.model.Produit;
 import gestionbrb.util.bddUtil;
 	import javafx.fxml.FXML;
 	import javafx.scene.control.Label;
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae:Application/src/gestionbrb/vue/IngredientsProduitsControleur.java
 	import javafx.scene.control.TableColumn;
 	import javafx.scene.control.TableView;
 
@@ -247,14 +238,7 @@ import gestionbrb.util.bddUtil;
 			if (selectedIngredient != null) {
 				boolean okClicked = mainApp.fenetreModification(selectedIngredient);
 				if (okClicked) {
-<<<<<<< HEAD:Application/src/gestionbrb/vue/IngredientsControleur.java
-					bddUtil.dbQueryExecute("UPDATE `ingredients` SET `nomIngredient` = '" + selectedIngredient.getNomIngredient() + "', "
-																+ "`prixIngredient` = " +selectedIngredient.getPrixIngredient()+ ", "
-																+ "`qteRestante` = " +selectedIngredient.getQuantiteIngredient()+", "
-																+ "`idfournisseur` = "+selectedIngredient.getFournisseur()+";");
-=======
 					bddUtil.dbQueryExecute("UPDATE `ingredients` SET `nomIngredient` = '" + selectedIngredient.getNomIngredient() + "', `prixIngredient` = " +selectedIngredient.getPrixIngredient()+ ", `qteRestante` = " +selectedIngredient.getQuantiteIngredient()+ ", `idfournisseur` = "+selectedIngredient.getFournisseur()+";");
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae:Application/src/gestionbrb/vue/IngredientsProduitsControleur.java
 
 					refresh();
 					alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");

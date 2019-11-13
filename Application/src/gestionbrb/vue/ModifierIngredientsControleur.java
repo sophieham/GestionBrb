@@ -23,7 +23,10 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 	@FXML
 	private TextField chQuantiteIngredient;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 =======
 >>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 	@FXML
@@ -41,6 +44,7 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 		try {
 			Connection conn = bddUtil.dbConnect();
 <<<<<<< HEAD
+<<<<<<< HEAD
 			ResultSet rs = conn.createStatement().executeQuery("select idfournisseur, nom from fournisseur");
 
 			while (rs.next()) {
@@ -49,6 +53,8 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 			chChoixFournisseur.setItems(listeFournisseur);
 		} catch (Exception e) {
 =======
+=======
+>>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 			ResultSet rs = conn.createStatement().executeQuery("select idFournisseur, nom from fournisseur");
 
 			while (rs.next()) {
@@ -57,6 +63,9 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 			chChoixFournisseur.setItems(listeFournisseur);
 		} catch (Exception e) {
 			e.printStackTrace();
+<<<<<<< HEAD
+>>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
+=======
 >>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 			alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 		}
@@ -84,7 +93,10 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 	}
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 =======
 >>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 	@FXML
@@ -95,7 +107,11 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 			ingredient.setPrixIngredient(Integer.parseInt(chPrixIngredient.getText()));
 			ingredient.setQuantiteIngredient(Integer.parseInt(chQuantiteIngredient.getText()));
 <<<<<<< HEAD
+<<<<<<< HEAD
 			ingredient.setFournisseur((chChoixFournisseur));
+=======
+			ingredient.setFournisseur(chChoixFournisseur.getValue());
+>>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 =======
 			ingredient.setFournisseur(chChoixFournisseur.getValue());
 >>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
@@ -134,10 +150,13 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 		if (chNomIngredient.getText() == null || chNomIngredient.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le nom de l'ingredient\n";
 <<<<<<< HEAD
+<<<<<<< HEAD
 			}
 		
 		if (chChoixFournisseur.getValue() == null) {
 			erreurMsg += "Veuillez sélectionner le fournisseur\n";
+=======
+>>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 =======
 >>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 			}
