@@ -194,7 +194,7 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	public void lancerCommande() throws ClassNotFoundException, SQLException{ // a continuer
 		try {
 			int nombreCouverts = Integer.parseInt(champNbCouverts.getText());
-			int numTable = getNumeroTable(champChoixTable);
+			int numTable = getNumero(champChoixTable);
 			
 			//!!! a remplacer occupation =0 par 1 une fois commande paramétré
 			bddUtil.dbQueryExecute("UPDATE `tables` SET occupation = 0 WHERE noTable="+numTable);
@@ -225,7 +225,7 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	 * 
 	 * @return numero de la table
 	 */
-	public int getNumeroTable(ChoiceBox<String> cible) {
+	public static int getNumero(ChoiceBox<String> cible) {
 		String stringNoTable = cible.getValue();
 		String sTable = null;
 		int numeroTable = 0;
@@ -265,7 +265,7 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 							+ "VALUES (NULL, '" + champNom.getText() + "', '" + champPrenom.getText() + "','"
 							+ champNumTel.getText() + "' , '" + champDate.getValue() + "', '" + champHeure.getText()
 							+ "', '" + champNbCouvertsReservation.getText() + "', '" + champDemandeSpe.getText() + "', '"
-							+ getNumeroTable(champNoTable) + "');");
+							+ getNumero(champNoTable) + "');");
 
 			alerteInfo("Reservation enregistrée!", "", "La reservation à bien été enregistrée!");
 
