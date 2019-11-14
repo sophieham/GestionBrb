@@ -208,7 +208,7 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 			stage.setScene(new Scene(vueCommande));
 			stage.show();
 			
-			CommandeControleur controller = loader.getController();
+			DemarrerCommandeControleur controller = loader.getController();
 	        controller.setParent(this);
 			
 		} catch (IOException e) {
