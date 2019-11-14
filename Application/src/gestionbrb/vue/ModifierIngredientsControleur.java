@@ -40,8 +40,10 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 
 			while (rs.next()) {
 				listeFournisseur.add("ID: "+rs.getInt("idFournisseur")+" -> "+rs.getString("nom"));
+				System.out.println("ID: "+rs.getInt("idFournisseur")+" -> "+rs.getString("nom"));
 			}
 			chChoixFournisseur.setItems(listeFournisseur);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
@@ -55,7 +57,6 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 	public void setMainApp(IngredientsProduits mainApp) {
 		this.mainApp = mainApp;
 	}
-	
 	public void setIngredients(Ingredients ingredient) throws SQLException, ClassNotFoundException {
 		this.ingredient = ingredient;
 		chNomIngredient.setText(ingredient.getNomIngredient());
@@ -71,14 +72,19 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 	
 	@FXML
 	public void actionValiderIngredient() {
-		if (estValide()) {
-			ingredient.setNomIngredient(chNomIngredient.getText());
-			ingredient.setPrixIngredient(Integer.parseInt(chPrixIngredient.getText()));
-			ingredient.setQuantiteIngredient(Integer.parseInt(chQuantiteIngredient.getText()));
-			ingredient.setFournisseur(chChoixFournisseur.getValue());
+		
+		try {
+			if (estValide()) {
+				ingredient.setNomIngredient(chNomIngredient.getText());
+				ingredient.setPrixIngredient(Integer.parseInt(chPrixIngredient.getText()));
+				ingredient.setQuantiteIngredient(Integer.parseInt(chQuantiteIngredient.getText()));
+				ingredient.setFournisseur(chChoixFournisseur.getValue());
 
-			okClicked = true;
-			dialogStage.close();
+				okClicked = true;
+				dialogStage.close();
+			}
+		} catch (Exception e) {
+			alerteErreur("Erreur", "Erreur d'éxecution", "Détails: "+e);
 		}
 	}
 	@FXML

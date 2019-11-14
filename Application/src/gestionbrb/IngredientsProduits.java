@@ -1,9 +1,10 @@
 package gestionbrb;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Ingredients;
 import gestionbrb.model.Produit;
 import gestionbrb.util.bddUtil;
@@ -28,14 +29,14 @@ public class IngredientsProduits extends Application {
 	public IngredientsProduits() {
 		try {
 			Connection conn = bddUtil.dbConnect();
-			ResultSet rs = conn.createStatement().executeQuery("select * from ingredients");
-			ResultSet res = conn.createStatement().executeQuery("select * from produit");
+			ResultSet rs = conn.createStatement().executeQuery("select idIngredient, nomIngredient, prixIngredient, qteRestante, ingredients.idfournisseur, fournisseur.nom from ingredients INNER JOIN fournisseur on ingredients.idfournisseur = fournisseur.idFournisseur ");
+			ResultSet res = conn.createStatement().executeQuery("SELECT `idProduit`, produit.`nom`, `qte`, `description`, `prix`, produit.idType, type_produit.nom FROM `produit` INNER JOIN type_produit on produit.idType = type_produit.idType ");
 			while (rs.next()) {
-				listeingredients.add(new Ingredients(rs.getInt("idIngredient"), rs.getString("nomIngredient"), rs.getInt("prixIngredient"), rs.getInt("qteRestante"), null));
+				listeingredients.add(new Ingredients(rs.getInt("idIngredient"), rs.getString("nomIngredient"), rs.getInt("prixIngredient"), rs.getInt("qteRestante"), rs.getString("nom")));
 			}
 			rs.close();
 			while (res.next()) {
-				listeproduits.add(new Produit(res.getInt("idProduit"), res.getString("nom"),res.getInt("qte"),res.getString("description"),res.getInt("prix"), null));
+				listeproduits.add(new Produit(res.getInt("idProduit"), res.getString("nom"),res.getInt("qte"),res.getString("description"),res.getInt("prix"), res.getString("type_produit.nom")));
 			}
 			res.close();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -68,8 +69,8 @@ public class IngredientsProduits extends Application {
 			IngredientsProduitsControleur controller = loader.getController();
 			controller.setMainApp(this);
 
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Erreur d'éxecution", "Détails: "+e);
 		}
 	}
 	public boolean fenetreModification(Ingredients ingredient) throws ClassNotFoundException, SQLException {
@@ -96,12 +97,12 @@ public class IngredientsProduits extends Application {
 				dialogStage.showAndWait();
 
 				return controller.isOkClicked();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur", "Erreur d'éxecution", "Détails: "+e);
 				return false;
 			}
 	} 
-	public boolean fenetreModificationn(Produit produit) throws ClassNotFoundException, SQLException {
+	public boolean fenetreModification(Produit produit) throws ClassNotFoundException, SQLException {
 		try {
 			// Charge le fichier fxml et l'ouvre en pop-up
 			FXMLLoader loader = new FXMLLoader();
@@ -125,8 +126,8 @@ public class IngredientsProduits extends Application {
 			dialogStage.showAndWait();
 
 			return controller.isOkClicked();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Erreur d'éxecution", "Détails: "+e);
 			return false;
 		}
 } 

@@ -26,7 +26,7 @@
          <children>
             <HBox prefHeight="30.0" prefWidth="418.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="32.0" prefWidth="327.0" text="Table 0 (0 couverts)" textAlignment="CENTER">
+                  <Label fx:id="infoTable" alignment="CENTER" prefHeight="32.0" prefWidth="327.0" text="Table 0 (0 couverts)" textAlignment="CENTER">
                      <font>
                         <Font size="23.0" />
                      </font>
@@ -34,11 +34,11 @@
                   <Button alignment="CENTER" mnemonicParsing="false" prefHeight="34.0" prefWidth="98.0" text="Devise (€)" />
                </children>
             </HBox>
-            <TableView prefHeight="448.0" prefWidth="418.0">
+            <TableView fx:id="tableRecap" prefHeight="448.0" prefWidth="418.0">
               <columns>
-                <TableColumn prefWidth="275.0" text="Produit" />
-                <TableColumn minWidth="0.0" prefWidth="83.0" text="Prix" />
-                  <TableColumn prefWidth="59.0" text="Qte" />
+                <TableColumn fx:id="colonneProduit" prefWidth="275.0" text="Produit" />
+                <TableColumn fx:id="colonnePrix" minWidth="0.0" prefWidth="83.0" text="Prix" />
+                  <TableColumn fx:id="colonneQte" prefWidth="59.0" text="Qte" />
               </columns>
             </TableView>
             <HBox prefHeight="35.0" prefWidth="418.0">
@@ -51,7 +51,7 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="0">
+                  <Label fx:id="totalProduit" text="0">
                      <font>
                         <Font size="23.0" />
                      </font>
@@ -67,7 +67,7 @@
                         <Insets />
                      </HBox.margin>
                   </Separator>
-                  <Label alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="94.0" text="0,00€">
+                  <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="94.0" text="0,00€">
                      <font>
                         <Font size="23.0" />
                      </font>
@@ -76,7 +76,7 @@
                      </HBox.margin>
                   </Label>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="42.0" text="0">
+                  <Label fx:id="totalQte" alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="42.0" text="0">
                      <font>
                         <Font size="23.0" />
                      </font>
@@ -132,7 +132,7 @@
             </ImageView>
          </children>
       </Pane>
-      <TabPane layoutX="11.0" layoutY="73.0" prefHeight="684.0" prefWidth="815.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="typeProduit" layoutX="11.0" layoutY="73.0" prefHeight="684.0" prefWidth="815.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Menu">
             <content>
@@ -620,11 +620,6 @@
                         </GridPane>
                      </children>
                   </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Entrée">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>
           </Tab>
             <Tab text="Plat principal">
