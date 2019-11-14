@@ -27,6 +27,8 @@ import gestionbrb.util.bddUtil;
 		private TableColumn<Ingredients, String> colonneFournisseur;
 		@FXML
 		private TableColumn<Ingredients, Number> colonneIdIngredient;
+		
+		
 		@FXML
 		private TableView<Produit> tableProduit;
 		@FXML
@@ -72,6 +74,7 @@ import gestionbrb.util.bddUtil;
 
 		@FXML
 		private void initialize() throws ClassNotFoundException, SQLException {
+			
 
 			colonneNomIngredient.setCellValueFactory(cellData -> cellData.getValue().nomIngredientProperty());
 			colonnePrixIngredient.setCellValueFactory(cellData -> cellData.getValue().prixIngredientProperty());
@@ -115,7 +118,7 @@ import gestionbrb.util.bddUtil;
 					pstmt.setString(1, tempIngredient.getNomIngredient());
 					pstmt.setInt(2, tempIngredient.getPrixIngredient());
 					pstmt.setInt(3, tempIngredient.getQuantiteIngredient());
-					pstmt.setString(4, tempIngredient.getFournisseur());
+					pstmt.setInt(4, getNumero(tempIngredient.getFournisseur()));
 					pstmt.execute();
 					refresh();
 					alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
@@ -133,7 +136,7 @@ import gestionbrb.util.bddUtil;
 					pstmt.setInt(4, tempProduit.getPrixProduit());
 					pstmt.setInt(2, tempProduit.getQuantiteProduit());	
 					pstmt.setString(3, tempProduit.getDescriptionProduit());
-					pstmt.setString(5, tempProduit.getType());
+					pstmt.setInt(5, getNumero(tempProduit.getType()));
 					pstmt.execute();
 					refreshProduit();
 					alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
@@ -238,7 +241,7 @@ import gestionbrb.util.bddUtil;
 			if (selectedIngredient != null) {
 				boolean okClicked = mainApp.fenetreModification(selectedIngredient);
 				if (okClicked) {
-					bddUtil.dbQueryExecute("UPDATE `ingredients` SET `nomIngredient` = '" + selectedIngredient.getNomIngredient() + "', `prixIngredient` = " +selectedIngredient.getPrixIngredient()+ ", `qteRestante` = " +selectedIngredient.getQuantiteIngredient()+ ", `idfournisseur` = "+selectedIngredient.getFournisseur()+";");
+					bddUtil.dbQueryExecute("UPDATE `ingredients` SET `nomIngredient` = '" + selectedIngredient.getNomIngredient() + "', `prixIngredient` = " +selectedIngredient.getPrixIngredient()+ ", `qteRestante` = " +selectedIngredient.getQuantiteIngredient()+ ", `idfournisseur` = "+getNumero(selectedIngredient.getFournisseur())+"WHERE idIngredient= "+selectedIngredient.getIdIngredient()+";");
 
 					refresh();
 					alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
@@ -256,7 +259,7 @@ import gestionbrb.util.bddUtil;
 			if (selectedProduit != null) {
 				boolean okClicked = mainApp.fenetreModificationn(selectedProduit);
 				if (okClicked) {
-					bddUtil.dbQueryExecute("UPDATE `Produit` SET `nom` = '" + selectedProduit.getNomProduit() + ", `qte` = " +selectedProduit.getQuantiteProduit()+  ", `description` = " +selectedProduit.getDescriptionProduit()+"', `prixIngredient` = " +selectedProduit.getPrixProduit()+"', `idType` = " +selectedProduit.getType()+";");
+					bddUtil.dbQueryExecute("UPDATE `Produit` SET `nom` = '" + selectedProduit.getNomProduit() + ", `qte` = " +selectedProduit.getQuantiteProduit()+  ", `description` = " +selectedProduit.getDescriptionProduit()+"', `prixIngredient` = " +selectedProduit.getPrixProduit()+"', `idType` = " +selectedProduit.getType()+"WHERE idProduit= "+selectedProduit.getIdProduit()+";");
 
 					refreshProduit();
 					alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
