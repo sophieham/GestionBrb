@@ -100,6 +100,7 @@ import gestionbrb.util.bddUtil;
 			tableProduit.setItems(IngredientsProduits.getProduitData());
 		}
 		
+		
 		/**
 		 * Appelé quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
 		 * nouvelle page pour effectuer la modification
@@ -118,15 +119,39 @@ import gestionbrb.util.bddUtil;
 					pstmt.setString(1, tempIngredient.getNomIngredient());
 					pstmt.setInt(2, tempIngredient.getPrixIngredient());
 					pstmt.setInt(3, tempIngredient.getQuantiteIngredient());
+<<<<<<< HEAD
+					pstmt.setInt(4, retrouveID(tempIngredient.getFournisseur()));
+=======
 					pstmt.setInt(4, getNumero(tempIngredient.getFournisseur()));
+>>>>>>> f17f14df945b2facd9ab7b8f6da9b3911fac6a3e
 					pstmt.execute();
 					refresh();
 					alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 				}
 		}
 		@FXML
-		private void ajoutProduit() throws ClassNotFoundException, SQLException {
+		private void ajoutProduit()  {
 	        Produit tempProduit = new Produit();
+<<<<<<< HEAD
+	        try {
+				boolean okClicked = mainApp.fenetreModification(tempProduit);
+				if (okClicked) {
+						Connection conn = bddUtil.dbConnect();
+						PreparedStatement pstmt = conn.prepareStatement
+								("INSERT INTO `produit` (`idProduit`, `nom`, `qte`, `description`, `prix`, `idType`) VALUES (NULL, ?, ?, ?, ?, ?)");
+						pstmt.setString(1, tempProduit.getNomProduit());
+						pstmt.setInt(4, tempProduit.getPrixProduit());
+						pstmt.setInt(2, tempProduit.getQuantiteProduit());	
+						pstmt.setString(3, tempProduit.getDescriptionProduit());
+						pstmt.setInt(5, retrouveID(tempProduit.getType()));
+						pstmt.execute();
+						refreshProduit();
+						alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+					}
+			} catch (ClassNotFoundException | SQLException e) {
+				alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			}
+=======
 	        boolean okClicked = mainApp.fenetreModificationn(tempProduit);
 	        if (okClicked) {
 					Connection conn = bddUtil.dbConnect();
@@ -141,6 +166,7 @@ import gestionbrb.util.bddUtil;
 					refreshProduit();
 					alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 				}
+>>>>>>> f17f14df945b2facd9ab7b8f6da9b3911fac6a3e
 		}
 
 		/** 
@@ -151,9 +177,9 @@ import gestionbrb.util.bddUtil;
 		private void refresh() throws ClassNotFoundException, SQLException {
 			IngredientsProduits.getIngredientsData().clear();
 			Connection conn = bddUtil.dbConnect();
-			ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM ingredients");
+			ResultSet rs = conn.createStatement().executeQuery("select idIngredient, nomIngredient, prixIngredient, qteRestante, ingredients.idfournisseur, fournisseur.nom from ingredients INNER JOIN fournisseur on ingredients.idfournisseur = fournisseur.idFournisseur ");
 			while(rs.next()) {
-				IngredientsProduits.getIngredientsData().add(new Ingredients (rs.getInt(1), rs.getString(2),rs.getInt(3),rs.getInt(4), rs.getString(5)));
+				IngredientsProduits.getIngredientsData().add(new Ingredients(rs.getInt("idIngredient"), rs.getString("nomIngredient"), rs.getInt("prixIngredient"), rs.getInt("qteRestante"), rs.getString("nom")));
 				tableIngredients.setItems(IngredientsProduits.getIngredientsData());
 			}
 			
@@ -161,9 +187,9 @@ import gestionbrb.util.bddUtil;
 		private void refreshProduit() throws ClassNotFoundException, SQLException {
 			IngredientsProduits.getProduitData().clear();
 			Connection conn = bddUtil.dbConnect();
-			ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Produit");
+			ResultSet rs = conn.createStatement().executeQuery("SELECT `idProduit`, produit.`nom`, `qte`, `description`, `prix`, produit.idType, type_produit.nom FROM `produit` INNER JOIN type_produit on produit.idType = type_produit.idType ");
 			while(rs.next()) {
-				IngredientsProduits.getProduitData().add(new Produit (rs.getInt(1), rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5),rs.getString(6)));
+				IngredientsProduits.getProduitData().add(new Produit(rs.getInt("idProduit"), rs.getString("nom"),rs.getInt("qte"),rs.getString("description"),rs.getInt("prix"), rs.getString("type_produit.nom")));
 				tableProduit.setItems(IngredientsProduits.getProduitData());
 			}
 			
@@ -241,7 +267,15 @@ import gestionbrb.util.bddUtil;
 			if (selectedIngredient != null) {
 				boolean okClicked = mainApp.fenetreModification(selectedIngredient);
 				if (okClicked) {
+<<<<<<< HEAD
+					bddUtil.dbQueryExecute("UPDATE `ingredients` SET `nomIngredient` = '" + selectedIngredient.getNomIngredient() + "', "
+																+ "`prixIngredient` = " +selectedIngredient.getPrixIngredient()+ ", "
+																+ "`qteRestante` = " +selectedIngredient.getQuantiteIngredient()+ ", "
+																+ "`idfournisseur` = "+retrouveID(selectedIngredient.getFournisseur())
+																+ " WHERE idIngredient= "+selectedIngredient.getIdIngredient()+";");
+=======
 					bddUtil.dbQueryExecute("UPDATE `ingredients` SET `nomIngredient` = '" + selectedIngredient.getNomIngredient() + "', `prixIngredient` = " +selectedIngredient.getPrixIngredient()+ ", `qteRestante` = " +selectedIngredient.getQuantiteIngredient()+ ", `idfournisseur` = "+getNumero(selectedIngredient.getFournisseur())+"WHERE idIngredient= "+selectedIngredient.getIdIngredient()+";");
+>>>>>>> f17f14df945b2facd9ab7b8f6da9b3911fac6a3e
 
 					refresh();
 					alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
@@ -254,21 +288,39 @@ import gestionbrb.util.bddUtil;
 			}
 	}
 		@FXML
+<<<<<<< HEAD
+		private void modifierProduit() {
+			try {
+				Produit selectedProduit = tableProduit.getSelectionModel().getSelectedItem();
+				if (selectedProduit != null) {
+					boolean okClicked = mainApp.fenetreModification(selectedProduit);
+					if (okClicked) {
+						bddUtil.dbQueryExecute("UPDATE `Produit` SET `nom` = '" + selectedProduit.getNomProduit() + "', "
+																	+ "`qte` = " +selectedProduit.getQuantiteProduit()+  ", "
+																	+ "`description` = '"+selectedProduit.getDescriptionProduit()+"', "
+																	+ "`prix` = " +selectedProduit.getPrixProduit()+", "
+																	+ "`idType` = " +retrouveID(selectedProduit.getType())
+																	+" WHERE idProduit= "+selectedProduit.getIdProduit()+";");
+=======
 		private void modifierProduit() throws ClassNotFoundException, SQLException {
 			Produit selectedProduit = tableProduit.getSelectionModel().getSelectedItem();
 			if (selectedProduit != null) {
 				boolean okClicked = mainApp.fenetreModificationn(selectedProduit);
 				if (okClicked) {
 					bddUtil.dbQueryExecute("UPDATE `Produit` SET `nom` = '" + selectedProduit.getNomProduit() + ", `qte` = " +selectedProduit.getQuantiteProduit()+  ", `description` = " +selectedProduit.getDescriptionProduit()+"', `prixIngredient` = " +selectedProduit.getPrixProduit()+"', `idType` = " +selectedProduit.getType()+"WHERE idProduit= "+selectedProduit.getIdProduit()+";");
+>>>>>>> f17f14df945b2facd9ab7b8f6da9b3911fac6a3e
 
-					refreshProduit();
-					alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+						refreshProduit();
+						alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+					}
+
+				} else {
+					// Si rien n'est selectionné
+					alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
+							"Selectionnez une réservation pour pouvoir la modifier");
 				}
-
-			} else {
-				// Si rien n'est selectionné
-				alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
-						"Selectionnez une réservation pour pouvoir la modifier");
+			} catch (Exception e) {
+				alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 			}
 	}
 }
