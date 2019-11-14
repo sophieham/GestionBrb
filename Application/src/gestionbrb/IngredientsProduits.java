@@ -102,7 +102,7 @@ public class IngredientsProduits extends Application {
 				return false;
 			}
 	} 
-	public boolean fenetreModificationn(Produit produit) throws ClassNotFoundException, SQLException {
+	public boolean fenetreModification(Produit produit) throws ClassNotFoundException, SQLException {
 		try {
 			// Charge le fichier fxml et l'ouvre en pop-up
 			FXMLLoader loader = new FXMLLoader();
