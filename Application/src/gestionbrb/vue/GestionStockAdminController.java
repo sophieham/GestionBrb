@@ -1,4 +1,4 @@
-package application;
+package gestionbrb;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
