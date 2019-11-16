@@ -3,8 +3,6 @@ package gestionbrb.vue;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import gestionbrb.IngredientsProduits;
 import gestionbrb.controleur.FonctionsControleurs;
@@ -17,11 +15,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ModifierProduitsControleur extends FonctionsControleurs {
@@ -37,36 +32,25 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 	private ObservableList<String> listeType = FXCollections.observableArrayList();
 	@FXML
 	private ChoiceBox<String> chChoixType;
-	@FXML
-	private ScrollPane boxIngredient; 
-	private List<RadioButton> ingredientListe = new ArrayList<>();
-	@FXML
-	private VBox vb; 
 	private Produit produit;
 	private Stage dialogStage;
 	private boolean okClicked = false;
 	IngredientsProduits mainApp;
-
+	
 	@FXML
 	private void initialize() {
 		try {
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("select idType, nom from type_produit");
-		ResultSet ig = conn.createStatement().executeQuery("select nomIngredient from ingredients");
-		while (ig.next()) {
-			RadioButton ingr = new RadioButton(ig.getString("nomIngredient"));
-			ingredientListe.add(ingr);
-		}
+
 		while (rs.next()) {
 			listeType.add("ID: "+rs.getInt("idType")+" -> "+rs.getString("nom"));
 		}
 		chChoixType.setItems(listeType);
-		vb.getChildren().addAll(ingredientListe);
-		boxIngredient.setContent(vb);
 	} catch (Exception e) {
 		alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 	}
-}
+	}
 
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
@@ -76,27 +60,10 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 		this.mainApp = mainApp;
 	}
 	
-	public void ajoutType() {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("AjoutType.fxml"));
-			Parent vueCalendrier = (Parent) loader.load();
-			Stage stage = new Stage();
-			stage.setScene(new Scene(vueCalendrier));
-			stage.show();
-			
-			CalendrierControleur controller = loader.getController();
-            /*controller.setMainApp(this);
-            controller.afficherTout();*/
-		} catch (Exception e) {
-			alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
-
-		}
-	}
-	
 	public void setProduit(Produit produit) throws SQLException, ClassNotFoundException {
 		this.produit = produit;
 		chNomProduit.setText(produit.getNomProduit());
-		chPrixProduit.setText(Integer.toString(produit.getPrixProduit()));
+		chPrixProduit.setText(Float.toString(produit.getPrixProduit()));
 		chQuantiteProduit.setText(Integer.toString(produit.getQuantiteProduit()));
 		chDescription.setText(produit.getDescriptionProduit());
 		chChoixType.setValue(produit.getType());

@@ -1,7 +1,9 @@
 package gestionbrb.model;
 
 
+import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -18,16 +20,25 @@ public class Produit {
 	private final StringProperty nomProduit;
 	private final IntegerProperty quantiteProduit;
 	private final StringProperty descriptionProduit;
-	private final IntegerProperty prixProduit;
+	private final FloatProperty prixProduit;
 	private final StringProperty type ;
 
-	public Produit(int idProduit, String nomProduit, int quantiteProduit, String descriptionProduit, int prixProduit, String type){
+	public Produit(int idProduit, String nomProduit, int quantiteProduit, String descriptionProduit, float prixProduit, String type){
 		this.idProduit = new SimpleIntegerProperty(idProduit);
 		this.nomProduit = new SimpleStringProperty(nomProduit);
 		this.quantiteProduit = new SimpleIntegerProperty(quantiteProduit);
 		this.descriptionProduit = new SimpleStringProperty(descriptionProduit);
-		this.prixProduit = new SimpleIntegerProperty(prixProduit);
+		this.prixProduit = new SimpleFloatProperty(prixProduit);
 		this.type = new SimpleStringProperty(type);
+	}
+	
+	public Produit(String nomProduit, float prixProduit, int quantiteProduit){
+		this.idProduit = new SimpleIntegerProperty(0);
+		this.nomProduit = new SimpleStringProperty(nomProduit);
+		this.quantiteProduit = new SimpleIntegerProperty(quantiteProduit);
+		this.descriptionProduit = new SimpleStringProperty(null);
+		this.prixProduit = new SimpleFloatProperty(prixProduit);
+		this.type = new SimpleStringProperty(null);
 	}
 
 	public Produit() {
@@ -51,10 +62,10 @@ public class Produit {
 	public final void  setNomProduit(final String nomProduit) {
 		this.nomProduitProperty().set(nomProduit);
 	}
-	public final IntegerProperty prixProduitProperty() {
+	public final FloatProperty prixProduitProperty() {
 		return this.prixProduit;
 	}
-	public final int getPrixProduit() {
+	public final float getPrixProduit() {
 		return this.prixProduitProperty().get();
 	}
 	public final void  setPrixProduit(final int prixProduit) {
