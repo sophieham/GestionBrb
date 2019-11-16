@@ -1,12 +1,12 @@
-package application;
+package gestionbrb;
 	
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import application.Ingredients;
-import application.bddUtil;
-import application.Fournisseur;
+import gestionbrb.model.Ingredients;
+import gestionbrb.util.bddUtil;
+import gestionbrb.model.Fournisseur;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
