@@ -6,12 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import gestionbrb.Connexion;
 import gestionbrb.controleur.FonctionsControleurs;
+import gestionbrb.model.Fournisseur;
+import gestionbrb.model.Utilisateur;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class ConnexionProfil extends FonctionsControleurs{	
 	
@@ -19,10 +22,25 @@ public class ConnexionProfil extends FonctionsControleurs{
 	@FXML private PasswordField pass;
 	@FXML private Label etat; // a enlever lorsque la page sera 100% reliée
 	Connexion mainApp;
+	private Stage dialogStage;
+	private Utilisateur compte;
+	private boolean okClicked = false;
 	
+	public void setCompte(Utilisateur compte) throws SQLException, ClassNotFoundException {
+		this.compte = compte;
+		identifiant.setText(compte.getIdentifiant());
+		pass.setText(compte.getMotdepasse());
+	}
+		
+	public boolean isOkClicked() {
+		return okClicked;
+	}
     public void setMainApp(Connexion mainApp) {
         this.mainApp = mainApp;
     }
+    public void setDialogStage(Stage dialogStage) {
+		this.dialogStage = dialogStage;
+	}
 	
 	@FXML 
 	public void Connexion() throws SQLException, ClassNotFoundException {
@@ -46,6 +64,9 @@ public class ConnexionProfil extends FonctionsControleurs{
 		}
 
 	}
+
+
+	
 	
 	
 

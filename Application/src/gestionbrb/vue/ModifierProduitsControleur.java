@@ -11,6 +11,9 @@ import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -56,10 +59,11 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 	public void setMainApp(IngredientsProduits mainApp) {
 		this.mainApp = mainApp;
 	}
+	
 	public void setProduit(Produit produit) throws SQLException, ClassNotFoundException {
 		this.produit = produit;
 		chNomProduit.setText(produit.getNomProduit());
-		chPrixProduit.setText(Integer.toString(produit.getPrixProduit()));
+		chPrixProduit.setText(Float.toString(produit.getPrixProduit()));
 		chQuantiteProduit.setText(Integer.toString(produit.getQuantiteProduit()));
 		chDescription.setText(produit.getDescriptionProduit());
 		chChoixType.setValue(produit.getType());
@@ -69,14 +73,19 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 	}
 	@FXML
 	public void actionValider() {
-		if (estValide()) {
-			produit.setNomProduit(chNomProduit.getText());
-			produit.setPrixProduit(Integer.parseInt(chPrixProduit.getText()));
-			produit.setQuantiteProduit(Integer.parseInt(chQuantiteProduit.getText()));
-			produit.setDescriptionProduit(chDescription.getText());
-			produit.setType(chChoixType.getValue());
-			okClicked = true;
-			dialogStage.close();
+		
+		try {
+			if (estValide()) {
+				produit.setNomProduit(chNomProduit.getText());
+				produit.setPrixProduit(Integer.parseInt(chPrixProduit.getText()));
+				produit.setQuantiteProduit(Integer.parseInt(chQuantiteProduit.getText()));
+				produit.setDescriptionProduit(chDescription.getText());
+				produit.setType(chChoixType.getValue());
+				okClicked = true;
+				dialogStage.close();
+			}
+		} catch (Exception e) {
+			alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 		}
 	}
 	@FXML
@@ -108,6 +117,14 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 		}
 		if (chNomProduit.getText() == null || chNomProduit.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le nom du produit\n";
+			}
+		
+		if (chChoixType.getValue() == null) {
+			erreurMsg += "Veuillez saisir le type du produit\n";
+			}
+		
+		if (chDescription.getText() == null || chDescription.getText().length() == 0) {
+			erreurMsg += "Veuillez décrire le produit\n";
 			}
 		if (erreurMsg.length() == 0) {
 			return true;

@@ -8,6 +8,7 @@
 	import gestionbrb.controleur.FonctionsControleurs;
 	import gestionbrb.model.Ingredients;
 import gestionbrb.model.Produit;
+import gestionbrb.model.Type;
 import gestionbrb.util.bddUtil;
 	import javafx.fxml.FXML;
 	import javafx.scene.control.Label;
@@ -27,6 +28,8 @@ import gestionbrb.util.bddUtil;
 		private TableColumn<Ingredients, String> colonneFournisseur;
 		@FXML
 		private TableColumn<Ingredients, Number> colonneIdIngredient;
+		
+		
 		@FXML
 		private TableView<Produit> tableProduit;
 		@FXML
@@ -41,6 +44,13 @@ import gestionbrb.util.bddUtil;
 		private TableColumn<Produit, String> colonneDescriptionProduit;
 		@FXML
 		private TableColumn<Produit, Number> colonneIdProduit;
+		
+		@FXML
+		private TableView<Type> tableType;
+		@FXML
+		private TableColumn<Type, Number> colonneIdType;
+		@FXML
+		private TableColumn<Type, String> colonneNomType;
 		
 		@FXML
 		private Label chNomInredients;
@@ -72,6 +82,7 @@ import gestionbrb.util.bddUtil;
 
 		@FXML
 		private void initialize() throws ClassNotFoundException, SQLException {
+			
 
 			colonneNomIngredient.setCellValueFactory(cellData -> cellData.getValue().nomIngredientProperty());
 			colonnePrixIngredient.setCellValueFactory(cellData -> cellData.getValue().prixIngredientProperty());
@@ -85,6 +96,9 @@ import gestionbrb.util.bddUtil;
 			colonneType.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
 			colonneIdProduit.setCellValueFactory(cellData -> cellData.getValue().idProduitProperty());
 			colonneDescriptionProduit.setCellValueFactory(cellData -> cellData.getValue().descriptionProduitProperty());
+			
+			colonneIdType.setCellValueFactory(cellData -> cellData.getValue().idTypeProperty());
+			colonneNomType.setCellValueFactory(cellData -> cellData.getValue().nomTypeProperty());
 		}
 
 		/**
@@ -95,7 +109,9 @@ import gestionbrb.util.bddUtil;
 
 			tableIngredients.setItems(IngredientsProduits.getIngredientsData());
 			tableProduit.setItems(IngredientsProduits.getProduitData());
+			tableType.setItems(IngredientsProduits.getTypeData());
 		}
+		
 		
 		/**
 		 * Appelé quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
@@ -115,31 +131,54 @@ import gestionbrb.util.bddUtil;
 					pstmt.setString(1, tempIngredient.getNomIngredient());
 					pstmt.setInt(2, tempIngredient.getPrixIngredient());
 					pstmt.setInt(3, tempIngredient.getQuantiteIngredient());
-					pstmt.setString(4, tempIngredient.getFournisseur());
+					pstmt.setInt(4, retrouveID(tempIngredient.getFournisseur()));
 					pstmt.execute();
 					refresh();
 					alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 				}
 		}
 		@FXML
-		private void ajoutProduit() throws ClassNotFoundException, SQLException {
+		private void ajoutProduit()  {
 	        Produit tempProduit = new Produit();
-	        boolean okClicked = mainApp.fenetreModificationn(tempProduit);
+	        try {
+				boolean okClicked = mainApp.fenetreModification(tempProduit);
+				if (okClicked) {
+						Connection conn = bddUtil.dbConnect();
+						PreparedStatement pstmt = conn.prepareStatement
+								("INSERT INTO `produit` (`idProduit`, `nom`, `qte`, `description`, `prix`, `idType`) VALUES (NULL, ?, ?, ?, ?, ?)");
+						pstmt.setString(1, tempProduit.getNomProduit());
+						pstmt.setFloat(4, tempProduit.getPrixProduit());
+						pstmt.setInt(2, tempProduit.getQuantiteProduit());	
+						pstmt.setString(3, tempProduit.getDescriptionProduit());
+						pstmt.setInt(5, retrouveID(tempProduit.getType()));
+						pstmt.execute();
+						refreshProduit();
+						alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+					}
+			} catch (Exception e) {
+				alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			}
+		}
+		
+		@FXML
+		private void ajoutType() throws ClassNotFoundException, SQLException {
+	        Type tempType = new Type();
+	        try {
+	        boolean okClicked = mainApp.fenetreModification(tempType);
 	        if (okClicked) {
 					Connection conn = bddUtil.dbConnect();
 					PreparedStatement pstmt = conn.prepareStatement
-							("INSERT INTO `produit` (`idProduit`, `nom`, `qte`, `description`, `prix`, `idType`) VALUES (NULL, ?, ?, ?, ?, ?)");
-					pstmt.setString(1, tempProduit.getNomProduit());
-					pstmt.setInt(4, tempProduit.getPrixProduit());
-					pstmt.setInt(2, tempProduit.getQuantiteProduit());	
-					pstmt.setString(3, tempProduit.getDescriptionProduit());
-					pstmt.setString(5, tempProduit.getType());
+							("INSERT INTO `type_produit` (`idType`, `nom`) VALUES (NULL, ?)");
+					pstmt.setString(1, tempType.getNomType());
 					pstmt.execute();
-					refreshProduit();
+					refreshType();
 					alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 				}
+	        }
+	        catch(Exception e) {
+	        	alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+	        }
 		}
-
 		/** 
 		 * Rafraichit les colonnes après un ajout, une modification ou une suppression d'éléments.
 		 * @throws ClassNotFoundException
@@ -148,9 +187,9 @@ import gestionbrb.util.bddUtil;
 		private void refresh() throws ClassNotFoundException, SQLException {
 			IngredientsProduits.getIngredientsData().clear();
 			Connection conn = bddUtil.dbConnect();
-			ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM ingredients");
+			ResultSet rs = conn.createStatement().executeQuery("select idIngredient, nomIngredient, prixIngredient, qteRestante, ingredients.idfournisseur, fournisseur.nom from ingredients INNER JOIN fournisseur on ingredients.idfournisseur = fournisseur.idFournisseur ");
 			while(rs.next()) {
-				IngredientsProduits.getIngredientsData().add(new Ingredients (rs.getInt(1), rs.getString(2),rs.getInt(3),rs.getInt(4), rs.getString(5)));
+				IngredientsProduits.getIngredientsData().add(new Ingredients(rs.getInt("idIngredient"), rs.getString("nomIngredient"), rs.getInt("prixIngredient"), rs.getInt("qteRestante"), rs.getString("nom")));
 				tableIngredients.setItems(IngredientsProduits.getIngredientsData());
 			}
 			
@@ -158,12 +197,21 @@ import gestionbrb.util.bddUtil;
 		private void refreshProduit() throws ClassNotFoundException, SQLException {
 			IngredientsProduits.getProduitData().clear();
 			Connection conn = bddUtil.dbConnect();
-			ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Produit");
+			ResultSet rs = conn.createStatement().executeQuery("SELECT `idProduit`, produit.`nom`, `qte`, `description`, `prix`, produit.idType, type_produit.nom FROM `produit` INNER JOIN type_produit on produit.idType = type_produit.idType ");
 			while(rs.next()) {
-				IngredientsProduits.getProduitData().add(new Produit (rs.getInt(1), rs.getString(2),rs.getInt(3),rs.getString(4),rs.getInt(5),rs.getString(6)));
+				IngredientsProduits.getProduitData().add(new Produit(rs.getInt("idProduit"), rs.getString("nom"),rs.getInt("qte"),rs.getString("description"),rs.getInt("prix"), rs.getString("type_produit.nom")));
 				tableProduit.setItems(IngredientsProduits.getProduitData());
 			}
 			
+		}
+		private void refreshType() throws ClassNotFoundException, SQLException {
+			IngredientsProduits.getTypeData().clear();
+			Connection conn = bddUtil.dbConnect();
+			ResultSet rs = conn.createStatement().executeQuery("select idType, nom from type_produit ");
+			while(rs.next()) {
+				IngredientsProduits.getTypeData().add(new Type(rs.getInt("idType"), rs.getString("nom")));
+				tableType.setItems(IngredientsProduits.getTypeData());
+			}
 		}
 		/**
 		 * Appellé quand l'utilisateur clique sur le bouton supprimer
@@ -186,8 +234,8 @@ import gestionbrb.util.bddUtil;
 				conn.close();
 				pstmt.close();
 				}
-				catch(SQLException e) {
-					System.out.println("Erreur dans le code sql"+e);
+				catch(Exception e) {
+					alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e+"\nSi l'ingrédient est sélectionné dans un ou plusieurs produits, il sera alors impossible de le supprimer");
 				}
 				
 			
@@ -213,8 +261,36 @@ import gestionbrb.util.bddUtil;
 				conn.close();
 				pstmt.close();
 				}
-				catch(SQLException e) {
-					System.out.println("Erreur dans le code sql"+e);
+				catch(Exception e) {
+					alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+				}
+				
+			
+
+			} else {
+				// Si rien n'est séléctionné
+				alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
+						"Selectionnez une table pour pouvoir la supprimer");
+			}
+		}
+		@FXML
+		private void supprimerType() throws ClassNotFoundException {
+			Type selectedType = tableType.getSelectionModel().getSelectedItem();
+			int selectedIndex = tableType.getSelectionModel().getSelectedIndex();
+			if (selectedIndex >= 0) {
+				try {
+				Connection conn = bddUtil.dbConnect();
+				PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `type_produit` WHERE idType=?");
+				pstmt.setInt(1, selectedType.getIdType());
+				pstmt.execute();
+				refreshType();
+				alerteInfo("Suppression réussie", null, "La table "+selectedType.getNomType()+" vient d'être supprimée!");
+				conn.close();
+				pstmt.close();
+				}
+				catch(Exception e) {
+					alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e+"\nSi le type est sélectionné dans un ou plusieurs produits, il sera alors impossible de le supprimer");
+
 				}
 				
 			
@@ -238,8 +314,11 @@ import gestionbrb.util.bddUtil;
 			if (selectedIngredient != null) {
 				boolean okClicked = mainApp.fenetreModification(selectedIngredient);
 				if (okClicked) {
-					bddUtil.dbQueryExecute("UPDATE `ingredients` SET `nomIngredient` = '" + selectedIngredient.getNomIngredient() + "', `prixIngredient` = " +selectedIngredient.getPrixIngredient()+ ", `qteRestante` = " +selectedIngredient.getQuantiteIngredient()+ ", `idfournisseur` = "+selectedIngredient.getFournisseur()+";");
-
+					bddUtil.dbQueryExecute("UPDATE `ingredients` SET `nomIngredient` = '" + selectedIngredient.getNomIngredient() + "', "
+																+ "`prixIngredient` = " +selectedIngredient.getPrixIngredient()+ ", "
+																+ "`qteRestante` = " +selectedIngredient.getQuantiteIngredient()+ ", "
+																+ "`idfournisseur` = "+retrouveID(selectedIngredient.getFournisseur())
+																+ " WHERE idIngredient= "+selectedIngredient.getIdIngredient()+";");
 					refresh();
 					alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 				}
@@ -251,14 +330,41 @@ import gestionbrb.util.bddUtil;
 			}
 	}
 		@FXML
-		private void modifierProduit() throws ClassNotFoundException, SQLException {
-			Produit selectedProduit = tableProduit.getSelectionModel().getSelectedItem();
-			if (selectedProduit != null) {
-				boolean okClicked = mainApp.fenetreModificationn(selectedProduit);
-				if (okClicked) {
-					bddUtil.dbQueryExecute("UPDATE `Produit` SET `nom` = '" + selectedProduit.getNomProduit() + ", `qte` = " +selectedProduit.getQuantiteProduit()+  ", `description` = " +selectedProduit.getDescriptionProduit()+"', `prixIngredient` = " +selectedProduit.getPrixProduit()+"', `idType` = " +selectedProduit.getType()+";");
+		private void modifierProduit() {
+			try {
+				Produit selectedProduit = tableProduit.getSelectionModel().getSelectedItem();
+				if (selectedProduit != null) {
+					boolean okClicked = mainApp.fenetreModification(selectedProduit);
+					if (okClicked) {
+						bddUtil.dbQueryExecute("UPDATE `Produit` SET `nom` = '" + selectedProduit.getNomProduit() + "', "
+																	+ "`qte` = " +selectedProduit.getQuantiteProduit()+  ", "
+																	+ "`description` = '"+selectedProduit.getDescriptionProduit()+"', "
+																	+ "`prix` = " +selectedProduit.getPrixProduit()+", "
+																	+ "`idType` = " +retrouveID(selectedProduit.getType())
+																	+" WHERE idProduit= "+selectedProduit.getIdProduit()+";");
 
-					refreshProduit();
+
+						refreshProduit();
+						alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+					}
+
+				} else {
+					// Si rien n'est selectionné
+					alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
+							"Selectionnez une réservation pour pouvoir la modifier");
+				}
+			} catch (Exception e) {
+				alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			}
+	}
+		@FXML
+		private void modifierType() throws ClassNotFoundException, SQLException {
+			Type selectedType = tableType.getSelectionModel().getSelectedItem();
+			if (selectedType != null) {
+				boolean okClicked = mainApp.fenetreModification(selectedType);
+				if (okClicked) {
+					bddUtil.dbQueryExecute("UPDATE `type_produit` SET `nom` = '" + selectedType.getNomType()+ "' WHERE idType= "+selectedType.getIdType()+";");
+					refreshType();
 					alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 				}
 

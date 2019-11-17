@@ -3,6 +3,7 @@ package gestionbrb;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import gestionbrb.vue.AdministrationControleur;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,10 +34,9 @@ public class Administration extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
-			/* (voir si besoin d'un controlleur supplémentaire)
-			 * FournisseursControleur controller = loader.getController();
-			 * controller.setMainApp(this);
-			 */
+			//AdministrationControleur controller = loader.getController();
+			//controller.setMainApp(this);
+			 
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -48,7 +48,8 @@ public class Administration extends Application {
 	}
 	@FXML
 	public void fenetreGererFournisseurs() throws ClassNotFoundException, SQLException {
-
+		Fournisseurs fourn = new Fournisseurs();
+		fourn.afficheTable();
 	}
 	@FXML
 	public void fenetreGererTables() throws ClassNotFoundException, SQLException {

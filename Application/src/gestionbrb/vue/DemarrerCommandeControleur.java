@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,7 +73,9 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	private Table table;
 	@SuppressWarnings("unused")
 	private DemarrerCommande parent;
+	private DemarrerCommandeControleur parentC;
 	private boolean okClicked = false;
+	private static Commande commande;
 
 	public DemarrerCommandeControleur() {
 	}
@@ -123,11 +126,17 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	/**
 	 * Fait la liaison avec la page principale
 	 * 
-	 * @param parent
+	 * @param demarrerCommande
 	 */
 
-	public void setParent(DemarrerCommande parent) {
-		this.parent = parent;
+	public void setParent(DemarrerCommande demarrerCommande) {
+		this.parent = demarrerCommande;
+		tableTable.setItems(Tables.getTableData()); // Recupère la liste des tables
+
+	}
+	
+	public void setParent(DemarrerCommandeControleur demarrerCommandeControleur) {
+		this.parentC = demarrerCommandeControleur;
 		tableTable.setItems(Tables.getTableData()); // Recupère la liste des tables
 
 	}
@@ -199,8 +208,15 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 			//!!! a remplacer occupation =0 par 1 une fois commande paramétré
 			bddUtil.dbQueryExecute("UPDATE `tables` SET occupation = 0 WHERE noTable="+numTable);
 			refreshMain();
-			Commande commande= new Commande(1, numTable, nombreCouverts);
-			bddUtil.dbQueryExecute("INSERT INTO `commande` (`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `qteTotal`, `date`) VALUES (NULL, '"+numTable+"', NULL, '"+nombreCouverts+"', NULL, current_timestamp())");
+			Random random = new Random();
+			Connection conn = bddUtil.dbConnect();
+			ResultSet rs = conn.createStatement().executeQuery("select count(*) from commande");
+			while (rs.next()) {
+				int id=rs.getInt(1);
+				id++;
+				commande= new Commande(id, numTable, nombreCouverts);
+			}
+			bddUtil.dbQueryExecute("INSERT INTO `commande` (`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `qteTotal`, `date`) VALUES ("+commande.getIdCommande()+", '"+numTable+"', NULL, '"+nombreCouverts+"', NULL, current_timestamp())");
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Commande.fxml"));
 			Parent vueCommande = (Parent) loader.load();
 			Stage stage = new Stage();
@@ -341,6 +357,14 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 			alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir enregistrer la reservation",errorMessage);
 			return false;
 		}
+	}
+
+	public static Commande getCommande() {
+		return commande;
+	}
+
+	public void setCommande(Commande commande) {
+		DemarrerCommandeControleur.commande=commande;
 	}
 
 }

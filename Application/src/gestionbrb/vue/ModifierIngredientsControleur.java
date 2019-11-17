@@ -22,13 +22,6 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 	private TextField chPrixIngredient;
 	@FXML
 	private TextField chQuantiteIngredient;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
-=======
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 	@FXML
 	private ObservableList<String> listeFournisseur = FXCollections.observableArrayList();
 	@FXML
@@ -43,30 +36,16 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 	private void initialize() {
 		try {
 			Connection conn = bddUtil.dbConnect();
-<<<<<<< HEAD
-<<<<<<< HEAD
-			ResultSet rs = conn.createStatement().executeQuery("select idfournisseur, nom from fournisseur");
-
-			while (rs.next()) {
-				listeFournisseur.add("ID: "+rs.getInt("idfournisseur")+" -> "+rs.getString("nom"));
-			}
-			chChoixFournisseur.setItems(listeFournisseur);
-		} catch (Exception e) {
-=======
-=======
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 			ResultSet rs = conn.createStatement().executeQuery("select idFournisseur, nom from fournisseur");
 
 			while (rs.next()) {
 				listeFournisseur.add("ID: "+rs.getInt("idFournisseur")+" -> "+rs.getString("nom"));
+				System.out.println("ID: "+rs.getInt("idFournisseur")+" -> "+rs.getString("nom"));
 			}
 			chChoixFournisseur.setItems(listeFournisseur);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-<<<<<<< HEAD
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
-=======
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 			alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 		}
 	}
@@ -78,7 +57,6 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 	public void setMainApp(IngredientsProduits mainApp) {
 		this.mainApp = mainApp;
 	}
-	
 	public void setIngredients(Ingredients ingredient) throws SQLException, ClassNotFoundException {
 		this.ingredient = ingredient;
 		chNomIngredient.setText(ingredient.getNomIngredient());
@@ -92,32 +70,21 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 		return okClicked;
 	}
 	
-<<<<<<< HEAD
-<<<<<<< HEAD
-	
-=======
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
-=======
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 	@FXML
 	public void actionValiderIngredient() {
-		if (estValide()) {
-			String nomFournisseur = chChoixFournisseur.getValue().substring()
-			ingredient.setNomIngredient(chNomIngredient.getText());
-			ingredient.setPrixIngredient(Integer.parseInt(chPrixIngredient.getText()));
-			ingredient.setQuantiteIngredient(Integer.parseInt(chQuantiteIngredient.getText()));
-<<<<<<< HEAD
-<<<<<<< HEAD
-			ingredient.setFournisseur((chChoixFournisseur));
-=======
-			ingredient.setFournisseur(chChoixFournisseur.getValue());
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
-=======
-			ingredient.setFournisseur(chChoixFournisseur.getValue());
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
+		
+		try {
+			if (estValide()) {
+				ingredient.setNomIngredient(chNomIngredient.getText());
+				ingredient.setPrixIngredient(Integer.parseInt(chPrixIngredient.getText()));
+				ingredient.setQuantiteIngredient(Integer.parseInt(chQuantiteIngredient.getText()));
+				ingredient.setFournisseur(chChoixFournisseur.getValue());
 
-			okClicked = true;
-			dialogStage.close();
+				okClicked = true;
+				dialogStage.close();
+			}
+		} catch (Exception e) {
+			alerteErreur("Erreur", "Erreur d'éxecution", "Détails: "+e);
 		}
 	}
 	@FXML
@@ -149,16 +116,6 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 		}
 		if (chNomIngredient.getText() == null || chNomIngredient.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le nom de l'ingredient\n";
-<<<<<<< HEAD
-<<<<<<< HEAD
-			}
-		
-		if (chChoixFournisseur.getValue() == null) {
-			erreurMsg += "Veuillez sélectionner le fournisseur\n";
-=======
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
-=======
->>>>>>> 6ba442970c543bbaced91fda4674ecf5870a1eae
 			}
 		if (erreurMsg.length() == 0) {
 			return true;

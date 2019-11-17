@@ -28,17 +28,63 @@ public abstract class FonctionsControleurs {
 		alert.showAndWait();
 	}
 	
-	public static String getString(ChoiceBox<String> cible) { // pour ingredient : faire de la fin du -> à la fin du string
-		String stringToSub = cible.getValue();
-		String sFinal = null;
+	/**
+	 * Extrait une chaine de caractère d'une séléction de ChoiceBox
+	 * 
+	 * @return numero de la table
+	 */
+	
+	public static String getString(String string) { 
+		
+		String stringToSub = string;
+		String resultat = null;
+		switch (stringToSub.length()) {
+		case 13:
+			resultat = stringToSub.substring(9);
+		case 14:
+			resultat = stringToSub.substring(10);
+		case 15:
+			resultat = stringToSub.substring(11);
+		default:
+			System.out.println("erreur");
+			break;
+		}
+		return resultat;
+	}
+	
+	public static int retrouveID(String cible) {
+		int resultat = 0;
 		try {
-			switch (stringToSub.length()) {
+			String rgx = " ->";
+			String[] tabResultat = cible.split(rgx);
+			String resultatStr = tabResultat[0].substring(4);
+			resultat = Integer.parseInt(resultatStr);
+		} 
+		catch (NumberFormatException e) {
+		}
+		return resultat;
+	}
+
+	/**
+	 * Extrait un numéro d'une séléction de ChoiceBox
+	 * 
+	 * @return numero de la table
+	 */
+	public static int getNumero(String cible) {
+		String stringNoTable = cible;
+		String subStr = null;
+		int resultat = 0;
+		try {
+			switch (stringNoTable.length()) {
 			case 26:
-				sFinal = stringToSub.substring(8, 9);
+				subStr = stringNoTable.substring(8, 9);
+				resultat = Integer.parseInt(subStr);
 			case 27:
-				sFinal = stringToSub.substring(8, 10);
+				subStr = stringNoTable.substring(8, 10);
+				resultat = Integer.parseInt(subStr);
 			case 28:
-				sFinal = stringToSub.substring(8, 11);
+				subStr = stringNoTable.substring(8, 11);
+				resultat = Integer.parseInt(subStr);
 			default:
 				System.out.println("erreur");
 				break;
@@ -47,6 +93,6 @@ public abstract class FonctionsControleurs {
 			// affiche une exception alors que le String à bien été transformé en nombre
 		} catch (NumberFormatException e) {
 		}
-		return sFinal;
+		return resultat;
 	}
 }
