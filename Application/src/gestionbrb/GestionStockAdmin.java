@@ -28,7 +28,7 @@ import javafx.scene.layout.BorderPane;
 public class GestionStockAdmin extends Application {
 	private Connection conn;
 	@FXML
-	private static ObservableList<Ingredients> data= FXCollections.observableArrayList();;
+	private static ObservableList<Ingredients> data= FXCollections.observableArrayList();
 	@FXML
 	private AnchorPane GestionStockAdminController;
 	@FXML
@@ -54,7 +54,7 @@ public class GestionStockAdmin extends Application {
 	public void start(Stage stage) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GestionStockAdminController.class.getResource("GestionStockAdmin.fxml"));
+			loader.setLocation(GestionStockAdmin.class.getResource("GestionStockAdmin.fxml"));
 			AnchorPane tablesOverview = (AnchorPane) loader.load();
 
 			Scene scene = new Scene(tablesOverview);
