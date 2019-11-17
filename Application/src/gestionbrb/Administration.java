@@ -48,8 +48,7 @@ public class Administration extends Application {
 	}
 	@FXML
 	public void fenetreGererFournisseurs() throws ClassNotFoundException, SQLException {
-		Fournisseurs fourn = new Fournisseurs();
-		fourn.afficheTable();
+		
 	}
 	@FXML
 	public void fenetreGererTables() throws ClassNotFoundException, SQLException {
