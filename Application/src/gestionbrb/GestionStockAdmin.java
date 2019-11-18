@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
-import gestionbrb.vue.GestionStockServController;
+import gestionbrb.controleur.GestionStockServController;
 import gestionbrb.model.Fournisseur;
 
 import javafx.application.Application;
@@ -54,7 +54,7 @@ public class GestionStockAdmin extends Application {
 	public void start(Stage stage) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GestionStockAdminController.class.getResource("GestionStockAdmin.fxml"));
+			loader.setLocation(GestionStockAdmin.class.getResource("GestionStockAdmin.fxml"));
 			AnchorPane tablesOverview = (AnchorPane) loader.load();
 
 			Scene scene = new Scene(tablesOverview);
