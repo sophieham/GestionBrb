@@ -46,6 +46,9 @@ public class Fournisseurs extends Application {
 		afficheTable();
 	}
 
+	/**
+	 * Appeler pour afficher la liste des fournisseurs
+	 **/
 	public void afficheTable() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -63,7 +66,15 @@ public class Fournisseurs extends Application {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * appelé pour afficher la fenetre de modification/ajout d'un fournisseur
+	 * 
+	 * @param fournisseur Fournisseur à ajouter/modifier
+	 * @see ajoutFournisseur
+	 * @see modifierFournisseur
+	 * 
+	 **/
 	public boolean fenetreModification(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
 		try {
 			// Charge le fichier fxml et l'ouvre en pop-up
