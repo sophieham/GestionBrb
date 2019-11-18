@@ -1,4 +1,4 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 
 import gestionbrb.DemarrerCommande;
 import gestionbrb.Tables;
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Table;
 import gestionbrb.util.bddUtil;

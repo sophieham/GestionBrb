@@ -5,10 +5,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import gestionbrb.controleur.FournisseursControleur;
+import gestionbrb.controleur.ModifierFournisseurControleur;
 import gestionbrb.model.Fournisseur;
 import gestionbrb.util.bddUtil;
-import gestionbrb.vue.FournisseursControleur;
-import gestionbrb.vue.ModifierFournisseurControleur;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,6 +1,5 @@
 package gestionbrb;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 import javafx.collections.FXCollections;
@@ -10,10 +9,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import gestionbrb.controleur.FonctionsControleurs;
+import gestionbrb.controleur.ModifierCalendrierControleur;
 import gestionbrb.model.Reservations;
-import gestionbrb.vue.ModifierCalendrierControleur;
 
-public class Calendrier {
+public class Calendrier extends FonctionsControleurs {
 
     private Stage primaryStage;
     private static ObservableList<Reservations> reservationData = FXCollections.observableArrayList();
@@ -22,10 +22,12 @@ public class Calendrier {
     public Calendrier() {
     }
     
+    
     /**
      * Retourne les données présentes dans la liste Reservations. 
      * @return reservationData
      */
+    
     public static ObservableList<Reservations> getReservationData() {
         return reservationData;
     }
@@ -36,9 +38,9 @@ public class Calendrier {
      * 
      * @param reservation
      * @return true si l'utilisateur appuie sur modifier, false sinon
-     * @throws SQLException 
-     * @throws ClassNotFoundException 
+     * @throws Exception affiche une fenetre d'erreur expliquant l'exception
      */
+    
     public static boolean fenetreModification(Reservations reservation) throws ClassNotFoundException, SQLException {
         try {
             // Charge le fichier fxml et l'ouvre en pop-up
@@ -62,15 +64,15 @@ public class Calendrier {
             dialogStage.showAndWait();
 
             return controller.isOkClicked();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            alerteErreur("Erreur d'éxécution", null, "Détails:"+e);
             return false;
         }
     }
 
     /**
-     * Returns the main stage.
-     * @return
+     * Retourne un lien vers la page principale
+     * @return primaryStage
      */
     public Stage getPrimaryStage() {
         return primaryStage;

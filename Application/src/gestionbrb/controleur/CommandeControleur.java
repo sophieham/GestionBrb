@@ -1,4 +1,4 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
 
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
 import gestionbrb.util.bddUtil;
@@ -142,7 +141,6 @@ public class CommandeControleur extends FonctionsControleurs implements Initiali
 																								// tab[1] -> prix
 											String subPrix = tabResultat[1].substring(2); // coupe le signe €
 											float prix = Float.parseFloat(subPrix);
-			
 											Produit prod = new Produit(tabResultat[0], prix, 1);
 											produitCommande.add(prod);
 											listePrix.add(prix);
@@ -152,12 +150,17 @@ public class CommandeControleur extends FonctionsControleurs implements Initiali
 															+ mapNomParId.get(produit.getKey()) + ", "
 															+ CommandeControleur.this.commande.getIdCommande() + ", "
 															+ "'1') ");
+											ResultSet res = conn.createStatement().executeQuery("SELECT contientproduit.idProduit, idCommande, contientproduit.qte, sum(produit.prix) FROM `contientproduit` inner join produit on contientproduit.idProduit = produit.idProduit where idCommande = "+CommandeControleur.this.commande.getIdCommande());
+											while (res.next()) {
+												String tprix = res.getString("sum(produit.prix)");
+												totalPrix.setText(tprix+" €");
+											}
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
 									}
 								});
-								
+	
 								fp.getChildren().add(btnPlat);
 							}
 						}

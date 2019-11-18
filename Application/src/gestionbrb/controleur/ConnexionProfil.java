@@ -1,11 +1,10 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import gestionbrb.Connexion;
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Fournisseur;
 import gestionbrb.model.Utilisateur;
 import gestionbrb.util.bddUtil;

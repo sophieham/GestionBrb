@@ -1,22 +1,21 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import gestionbrb.IngredientsProduits;
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Produit;
 import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ModifierProduitsControleur extends FonctionsControleurs {
@@ -32,6 +31,10 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 	private ObservableList<String> listeType = FXCollections.observableArrayList();
 	@FXML
 	private ChoiceBox<String> chChoixType;
+	@FXML
+	private VBox vb;
+	private ArrayList<RadioButton> listebouton = new ArrayList<>();
+	private ArrayList<String> listeNomIngredient = new ArrayList<>();
 	private Produit produit;
 	private Stage dialogStage;
 	private boolean okClicked = false;
@@ -42,11 +45,28 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 		try {
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("select idType, nom from type_produit");
-
+		ResultSet res = conn.createStatement().executeQuery("select nomIngredient from ingredients");
 		while (rs.next()) {
 			listeType.add("ID: "+rs.getInt("idType")+" -> "+rs.getString("nom"));
 		}
 		chChoixType.setItems(listeType);
+		while(res.next()) {
+			String nomIngredient = res.getString("nomIngredient");
+			listeNomIngredient.add(nomIngredient);
+		}
+		for (int i = 0; i < listeNomIngredient.size(); i++) {
+			RadioButton radiobtn = new RadioButton(listeNomIngredient.get(i));
+			listebouton.add(radiobtn);
+		}
+		vb.getChildren().addAll(listebouton);
+		for(int j=0; j<listebouton.size(); j++){
+			if(listebouton.get(j).isSelected()){
+				String ing = null;
+				System.out.println(listebouton.get(j).getText());
+				System.out.println(ing);
+			}
+			else System.out.println("eeeerrr");
+		}
 	} catch (Exception e) {
 		alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 	}
@@ -67,6 +87,7 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 		chQuantiteProduit.setText(Integer.toString(produit.getQuantiteProduit()));
 		chDescription.setText(produit.getDescriptionProduit());
 		chChoixType.setValue(produit.getType());
+		//listeNomIngredient.setText(Integer.toUnsignedString(produit.getDetailsProduit()));
 	}
 	public boolean isOkClicked() {
 		return okClicked;
@@ -81,6 +102,7 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 				produit.setQuantiteProduit(Integer.parseInt(chQuantiteProduit.getText()));
 				produit.setDescriptionProduit(chDescription.getText());
 				produit.setType(chChoixType.getValue());
+				//produit.setDetailsProduit(Integer.parse(vb.getText()));
 				okClicked = true;
 				dialogStage.close();
 			}

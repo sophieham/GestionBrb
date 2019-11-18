@@ -5,14 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import gestionbrb.controleur.FonctionsControleurs;
+import gestionbrb.controleur.IngredientsProduitsControleur;
+import gestionbrb.controleur.ModifierIngredientsControleur;
+import gestionbrb.controleur.ModifierProduitsControleur;
+import gestionbrb.controleur.ModifierTypesControleur;
 import gestionbrb.model.Ingredients;
 import gestionbrb.model.Produit;
 import gestionbrb.model.Type;
 import gestionbrb.util.bddUtil;
-import gestionbrb.vue.IngredientsProduitsControleur;
-import gestionbrb.vue.ModifierIngredientsControleur;
-import gestionbrb.vue.ModifierProduitsControleur;
-import gestionbrb.vue.ModifierTypesControleur;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

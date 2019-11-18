@@ -1,21 +1,23 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Reservations;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ModifierCalendrierControleur extends FonctionsControleurs{
+public class ModifierCalendrierControleur extends FonctionsControleurs implements Initializable{
 
     @FXML
     private TextField champNom;
@@ -36,12 +38,14 @@ public class ModifierCalendrierControleur extends FonctionsControleurs{
     private Stage dialogStage;
     private Reservations reservation;
     private boolean okClicked = false;
+    
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+	}
 
-
-    @FXML
-    private void initialize() {
-    }
-
+	/*
+	 * Défini le dialogue actuel
+	 */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
@@ -138,7 +142,7 @@ public class ModifierCalendrierControleur extends FonctionsControleurs{
 			errorMessage += "Veuillez rentrer l'heure\n";
 		} else {
 			Pattern heurep = Pattern.compile("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"); // regex pour afficher une heure
-																						// valide sous forme hh:mm
+																					// valide sous forme hh:mm
 			Matcher heurem = heurep.matcher(champHeure.getText());
 			if (!(heurem.find() && heurem.group().equals(champHeure.getText()))) {
 				errorMessage += "Format de l'heure incorrect, veuillez réessayer avec le format hh:mm approprié\n";
@@ -149,13 +153,14 @@ public class ModifierCalendrierControleur extends FonctionsControleurs{
 			errorMessage += "Veuillez rentrer le nombre de couverts!\n";
 		} else {
 			try {
-				Integer.parseInt(champNbCouvertsReservation.getText()); // transformation en int pour voir si la saisie est un
-																// chiffre
+				Integer.parseInt(champNbCouvertsReservation.getText()); // transformation en int pour voir 
+																		//si la saisie est un chiffre
+						
 			} catch (NumberFormatException e) {
 				errorMessage += "Erreur! Le champ \"nombre de couverts\" n'accepte que les nombres\n";
 			}
 		}
-
+		// si il y a plus d'une erreur on affiche un message d'erreur
 		if (errorMessage.length() == 0) {
 			return true;
 		} else {

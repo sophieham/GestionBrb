@@ -1,4 +1,4 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import gestionbrb.Calendrier;
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Reservations;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
@@ -89,7 +88,7 @@ public class CalendrierControleur extends FonctionsControleurs {
 	}
 
 	/**
-	 * Appellé par la classe principale (ici DemarrerCommandeControleur) pour lier cette classe à elle-meme
+	 * Appellé par la classe principale (ici DemarrerCommandeControleur) pour lier le controleur à elle-meme
 	 * 
 	 * @param mainApp
 	 */
@@ -100,7 +99,7 @@ public class CalendrierControleur extends FonctionsControleurs {
 	}
 
 	/**
-	 * Rempli tous les champs avec la reservation séléctionnée dans la partie
+	 * Remplit tous les champs avec la reservation séléctionnée dans la partie
 	 * détails. Si il n'y a pas de reservation séléctionnée, les champs sont vides.
 	 * 
 	 * @param reservation s'il en existe une, null sinon

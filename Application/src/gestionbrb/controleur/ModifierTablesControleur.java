@@ -1,9 +1,8 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import java.sql.SQLException;
 
 import gestionbrb.Tables;
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Table;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;

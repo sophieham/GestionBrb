@@ -1,7 +1,6 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import gestionbrb.IngredientsProduits;
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Type;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;

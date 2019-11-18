@@ -1,7 +1,6 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import gestionbrb.Administration;
-import gestionbrb.controleur.FonctionsControleurs;
 
 public class AdministrationControleur extends FonctionsControleurs {
 	Administration mainAdministration;

@@ -1,15 +1,8 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
-import gestionbrb.Administration;
-import gestionbrb.DemarrerCommande;
-import gestionbrb.Fournisseurs;
 import gestionbrb.MenuPrincipal;
-import gestionbrb.controleur.FonctionsControleurs;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -51,9 +44,8 @@ public class MenuPrincipalControleur extends FonctionsControleurs {
 			primaryStage.setScene(scene);
 			princip.setPrimarystage(primaryStage);
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			alerteErreur("Erreur d'éxecution", null, "Détails: "+e);
 		}
 
 		

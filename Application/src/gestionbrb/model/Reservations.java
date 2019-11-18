@@ -31,11 +31,16 @@ public class Reservations {
     }
 
     /**
-     * Constructor with some initial data.
+     * Constructeur d'une réservation
      * 
-     * @param nom
-     * @param date
-     * @param heure
+     * @param nom nom de la personne qui reserve 
+     * @param prenom son prénom
+     * @param numeroTel son numéro de téléphone (au format +33xxx ou 0xxx)
+     * @param date la date de réservation
+     * @param heure l'heure de réservation
+     * @param demandeSpe les demande spéciales (si il y en a)
+     * @param nbCouverts le nombre de couverts
+     * @param idReservation l'identifiant unique de la réservation
      */
     public Reservations(int idReservation, String nom, String prenom, String numTel, String date, String heure, int nbCouverts, String demandeSpe) {
         this.nom = new SimpleStringProperty(nom);
@@ -49,6 +54,8 @@ public class Reservations {
 
     }
 
+    //Getters & Setters pour toutes les variables
+    
     public String getNom() {
         return nom.get();
     }

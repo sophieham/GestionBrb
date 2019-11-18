@@ -5,10 +5,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import gestionbrb.controleur.ModifierUtilisateurControleur;
+import gestionbrb.controleur.UtilisateursControleur;
 import gestionbrb.model.Utilisateur;
 import gestionbrb.util.bddUtil;
-import gestionbrb.vue.UtilisateursControleur;
-import gestionbrb.vue.ModifierUtilisateurControleur;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

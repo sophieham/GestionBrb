@@ -3,11 +3,11 @@ package gestionbrb;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import gestionbrb.controleur.ConnexionProfil;
+import gestionbrb.controleur.MenuPrincipalControleur;
+import gestionbrb.controleur.ModifierFournisseurControleur;
 import gestionbrb.model.Fournisseur;
 import gestionbrb.model.Utilisateur;
-import gestionbrb.vue.ConnexionProfil;
-import gestionbrb.vue.MenuPrincipalControleur;
-import gestionbrb.vue.ModifierFournisseurControleur;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 public class MenuPrincipal extends Application {
 	public static String[] arg;
 	private Stage primaryStage;
-	private Utilisateur compteConnecté;
+	private Utilisateur compteConnecte;
 
 	public MenuPrincipal() {
 	}

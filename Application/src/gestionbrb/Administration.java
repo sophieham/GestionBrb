@@ -3,7 +3,7 @@ package gestionbrb;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import gestionbrb.vue.AdministrationControleur;
+import gestionbrb.controleur.AdministrationControleur;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

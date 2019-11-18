@@ -2,7 +2,7 @@ package gestionbrb;
 
 import java.io.IOException;
 
-import gestionbrb.vue.ConnexionProfil;
+import gestionbrb.controleur.ConnexionProfil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

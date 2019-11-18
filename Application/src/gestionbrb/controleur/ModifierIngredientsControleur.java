@@ -1,10 +1,9 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import gestionbrb.IngredientsProduits;
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
