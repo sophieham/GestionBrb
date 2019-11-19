@@ -2,7 +2,7 @@
 Projet étudiant d'un logiciel de gestion de restaurant<br>
 Le projet est mené à bien par Sophie, Léo, Linxin & Roman.<br>
 <br>
-Vous trouverez toute les documents du suivi de projet dans le dossier modélisation.<br>
+Vous trouverez tous les documents du suivi de projet dans le dossier modélisation.<br>
 Néanmoins le suivi des tâches est visible a partir de ce lien: https://urlz.fr/b5C0<br>
 <br>
 Le projet part du besoin exprimé par un restaurateur:<br>
