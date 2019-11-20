@@ -128,8 +128,10 @@ public class GestionStockAdminController implements Initializable{
 		Connection conn = bddUtil.dbConnect();
 		ResultSet c = conn.createStatement().executeQuery("select * from ingredients");
 		while(c.next()) {
-			data.add(new Ingredients(c.getInt("idIngredient"),c.getString("nomIngredient"),c.getInt("prixIngredient"),c.getInt("qteRestante"), null));
+			GestionStockAdmin.getTableData().add(new Ingredients(c.getInt("idIngredient"),c.getString("nomIngredient"),c.getInt("prixIngredient"),c.getInt("qteRestante"),  c.getString("idfournisseur")));
 		}
+		tview.setItems(GestionStockAdmin.getTableData());
+		
 		
 	}
 	 @FXML
