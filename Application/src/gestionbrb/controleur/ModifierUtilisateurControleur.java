@@ -18,7 +18,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 	@FXML
 	private TextField champIdentifiant;
 	@FXML
-	private TextField champMotDePasse;
+	private TextField champMot2Passe;
 	@FXML
 	private RadioButton boutonAdmin;
 	@FXML
@@ -67,7 +67,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 		champNom.setText(compte.getNom());
 		champPrenom.setText(compte.getPrenom());
 		champIdentifiant.setText(compte.getIdentifiant());
-		champMotDePasse.setText(compte.getMotdepasse());
+		champMot2Passe.setText(compte.getMotdepasse());
 		if(compte.getPrivileges()==1)
 			boutonAdmin.setSelected(true);
 		if(compte.getPrivileges() == 0)
@@ -97,7 +97,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 			compte.setNom(champNom.getText());
 			compte.setPrenom(champPrenom.getText());
 			compte.setIdentifiant(champIdentifiant.getText());
-			compte.setMot2passe(champMotDePasse.getText());
+			compte.setMot2passe(champMot2Passe.getText());
 			compte.setPrivileges(role);
 
 			okClicked = true;
@@ -133,7 +133,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 			erreurMsg += "Veuillez remplir le champ nom\n";
 
 		}
-		if (champMotDePasse.getText() == null || champMotDePasse.getText().length() == 0) {
+		if (champMot2Passe.getText() == null || champMot2Passe.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le champ mot de passe\n";
 
 		}

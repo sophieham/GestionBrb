@@ -13,7 +13,7 @@ public class GestionStockServ extends Application{
 	public void start(Stage stage) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GestionStockAdmin.class.getResource("GestionStockServ.fxml"));
+			loader.setLocation(GestionStockServ.class.getResource("GestionStockServ.fxml"));
 			AnchorPane tablesOverview = (AnchorPane) loader.load();
 
 			Scene scene = new Scene(tablesOverview);

@@ -28,7 +28,7 @@ public class Utilisateurs extends Application {
 			Connection conn = bddUtil.dbConnect();
 			ResultSet rs = conn.createStatement().executeQuery("select * from utilisateurs");
 			while (rs.next()) {
-				comptes.add(new Utilisateur(rs.getInt("idUtilisateur"),  
+				comptes.add(new Utilisateur(rs.getInt("idCompte"),  
 											rs.getString("identifiant"), 
 											rs.getString("pass"), 
 											rs.getString("nom"), 

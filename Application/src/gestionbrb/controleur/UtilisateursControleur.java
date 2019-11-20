@@ -75,7 +75,7 @@ public class UtilisateursControleur extends FonctionsControleurs {
 		boolean okClicked = mainApp.fenetreModification(tempUtilisateur);
 		if (okClicked) {
 			Connection conn = bddUtil.dbConnect();
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `utilisateurs` (`idUtilisateur`, `identifiant`, `pass`, `nom`, `prenom`, `typeCompte`) "
+			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `utilisateurs` (`idCompte`, `identifiant`, `pass`, `nom`, `prenom`, `typeCompte`) "
 															+ "VALUES (NULL, ?, ?, ?, ?, ?)");
 			pstmt.setInt(5, tempUtilisateur.getPrivileges());
 			pstmt.setString(4, tempUtilisateur.getPrenom());
@@ -101,7 +101,7 @@ public class UtilisateursControleur extends FonctionsControleurs {
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM utilisateurs");
 		while (rs.next()) {
-			Utilisateurs.getTableData().add(new Utilisateur(Integer.parseInt(rs.getString("idUtilisateur")), 
+			Utilisateurs.getTableData().add(new Utilisateur(Integer.parseInt(rs.getString("idCompte")), 
 															rs.getString("identifiant"),
 															rs.getString("pass"), 
 															rs.getString("nom"), 
@@ -160,7 +160,7 @@ public class UtilisateursControleur extends FonctionsControleurs {
 						+ "`nom` = '" + selectedUtilisateur.getNom()+ "', "
 						+ "`prenom` = '" + selectedUtilisateur.getPrenom() + "', "
 						+ "`typeCompte` = '"+ selectedUtilisateur.getPrivileges() 
-						+ "' WHERE `utilisateurs`.`idUtilisateur` = "+ selectedUtilisateur.getIdUtilisateur() + ";");
+						+ "' WHERE `utilisateurs`.`idCompte` = "+ selectedUtilisateur.getIdUtilisateur() + ";");
 
 				refresh();
 				alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
