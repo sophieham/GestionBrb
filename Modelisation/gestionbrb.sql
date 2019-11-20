@@ -3,11 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
-<<<<<<< HEAD
--- Généré le :  lun. 11 nov. 2019 à 14:07
-=======
--- Généré le :  sam. 16 nov. 2019 à 22:45
->>>>>>> branch 'master' of https://github.com/sophiehm28/GestionBrb
+-- Généré le :  mer. 20 nov. 2019 à 16:42
 -- Version du serveur :  10.4.8-MariaDB
 -- Version de PHP :  7.3.11
 
@@ -68,46 +64,18 @@ CREATE TABLE `commande` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Déchargement des données de la table `commande`
---
-
-INSERT INTO `commande` (`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `qteTotal`, `date`) VALUES
-(1, 2, NULL, NULL, NULL, '2019-11-11 11:30:26'),
-(2, 2, NULL, 5, NULL, '2019-11-11 11:31:52'),
-(3, 6, NULL, 5, NULL, '2019-11-11 12:14:26'),
-(4, 6, NULL, 2, NULL, '2019-11-11 12:18:06'),
-(5, 6, NULL, 2, NULL, '2019-11-11 12:18:32'),
-<<<<<<< HEAD
-(6, 6, NULL, 4, NULL, '2019-11-11 12:26:11');
-=======
-(6, 6, NULL, 4, NULL, '2019-11-11 12:26:11'),
-(7, 6, NULL, 2, NULL, '2019-11-16 21:36:52'),
-(8, 6, NULL, 2, NULL, '2019-11-16 21:41:00'),
-(9, 6, NULL, 2, NULL, '2019-11-16 21:41:26'),
-(10, 6, NULL, 2, NULL, '2019-11-16 21:42:09'),
-(11, 6, NULL, 2, NULL, '2019-11-16 21:45:03');
->>>>>>> branch 'master' of https://github.com/sophiehm28/GestionBrb
-
 -- --------------------------------------------------------
 
 --
--- Structure de la table `contientproduit`
+-- Structure de la table `contenirproduit`
 --
 
-CREATE TABLE `contientproduit` (
+CREATE TABLE `contenirproduit` (
+  `idContient` int(11) NOT NULL,
   `idProduit` int(11) NOT NULL,
   `idCommande` int(11) NOT NULL,
   `qte` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Déchargement des données de la table `contientproduit`
---
-
-INSERT INTO `contientproduit` (`idProduit`, `idCommande`, `qte`) VALUES
-(1, 11, 1),
-(2, 11, 1);
 
 -- --------------------------------------------------------
 
@@ -116,12 +84,18 @@ INSERT INTO `contientproduit` (`idProduit`, `idCommande`, `qte`) VALUES
 --
 
 CREATE TABLE `fourniringredients` (
-  `idIngredient` int(11) NOT NULL,
+  `idOperation` int(11) NOT NULL,
   `idFournisseur` int(11) NOT NULL,
-  `qteCommandee` smallint(6) NOT NULL,
-  `dateCommande` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `prixTotal` decimal(10,0) NOT NULL
+  `idIngredient` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `fourniringredients`
+--
+
+INSERT INTO `fourniringredients` (`idOperation`, `idFournisseur`, `idIngredient`) VALUES
+(1, 1, 2),
+(2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -144,20 +118,7 @@ CREATE TABLE `fournisseur` (
 --
 
 INSERT INTO `fournisseur` (`idFournisseur`, `nom`, `numTel`, `adresseMail`, `adresseDepot`, `cpDepot`, `villeDepot`) VALUES
-(1, 'jgjj', 2, 'ytryrt', 'rtyrty', 21000, 'dyfd');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `ingredientproduit`
---
-
-CREATE TABLE `ingredientproduit` (
-  `idProduit` int(11) NOT NULL,
-  `idIngredient` int(11) NOT NULL,
-  `qte` smallint(6) NOT NULL,
-  `unite` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+(1, 'Bonduelle', 23124287, 'contact@bonduelle.fr', '27 rue de billy', 92120, 'Couville');
 
 -- --------------------------------------------------------
 
@@ -178,8 +139,20 @@ CREATE TABLE `ingredients` (
 --
 
 INSERT INTO `ingredients` (`idIngredient`, `nomIngredient`, `prixIngredient`, `qteRestante`, `idfournisseur`) VALUES
-(3, 'fhfdfd', '10', 1, 1),
-(4, 'yhguyhg', '0', 0, NULL);
+(1, 'Courgettes', '2', 5, 1),
+(2, 'Aubergine', '2', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ingredientsproduits`
+--
+
+CREATE TABLE `ingredientsproduits` (
+  `idUnion` int(11) NOT NULL,
+  `idProduit` int(11) NOT NULL,
+  `idIngredient` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -193,16 +166,16 @@ CREATE TABLE `produit` (
   `qte` smallint(5) NOT NULL,
   `description` tinytext NOT NULL,
   `prix` decimal(5,2) NOT NULL,
-  `idType` int(11) NOT NULL
+  `idType` int(11) NOT NULL,
+  `details` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `produit`
 --
 
-INSERT INTO `produit` (`idProduit`, `nom`, `qte`, `description`, `prix`, `idType`) VALUES
-(1, 'pates', 0, 'pates', '5.00', 1),
-(2, 'Saucisse de strasbourg', 5, 'saucisse de strasbourg d\'un porc belge abbatu a Lille et transformé à berlin', '15.00', 5);
+INSERT INTO `produit` (`idProduit`, `nom`, `qte`, `description`, `prix`, `idType`, `details`) VALUES
+(1, 'Poelée de légumes', 2, '', '10.00', 5, '');
 
 -- --------------------------------------------------------
 
@@ -248,12 +221,8 @@ CREATE TABLE `type_produit` (
 --
 
 INSERT INTO `type_produit` (`idType`, `nom`) VALUES
-<<<<<<< HEAD
-(1, 'Entrée');
-=======
 (1, 'Entrée'),
 (5, 'Salade');
->>>>>>> branch 'master' of https://github.com/sophiehm28/GestionBrb
 
 -- --------------------------------------------------------
 
@@ -269,6 +238,13 @@ CREATE TABLE `utilisateurs` (
   `prenom` varchar(50) NOT NULL,
   `typeCompte` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `utilisateurs`
+--
+
+INSERT INTO `utilisateurs` (`idCompte`, `identifiant`, `pass`, `nom`, `prenom`, `typeCompte`) VALUES
+(1, 'soso', '123', 'Sophie', 'Ham', 1);
 
 --
 -- Index pour les tables déchargées
@@ -289,18 +265,20 @@ ALTER TABLE `commande`
   ADD KEY `noTable` (`noTable`);
 
 --
--- Index pour la table `contientproduit`
+-- Index pour la table `contenirproduit`
 --
-ALTER TABLE `contientproduit`
-  ADD PRIMARY KEY (`idProduit`,`idCommande`),
+ALTER TABLE `contenirproduit`
+  ADD PRIMARY KEY (`idContient`),
+  ADD KEY `idProduit` (`idProduit`),
   ADD KEY `idCommande` (`idCommande`);
 
 --
 -- Index pour la table `fourniringredients`
 --
 ALTER TABLE `fourniringredients`
-  ADD PRIMARY KEY (`idIngredient`,`idFournisseur`),
-  ADD KEY `FournirIngredients_Fournisseur1_FK` (`idFournisseur`);
+  ADD PRIMARY KEY (`idOperation`),
+  ADD KEY `idFournisseur` (`idFournisseur`),
+  ADD KEY `idIngredient` (`idIngredient`);
 
 --
 -- Index pour la table `fournisseur`
@@ -309,18 +287,19 @@ ALTER TABLE `fournisseur`
   ADD PRIMARY KEY (`idFournisseur`);
 
 --
--- Index pour la table `ingredientproduit`
---
-ALTER TABLE `ingredientproduit`
-  ADD PRIMARY KEY (`idProduit`,`idIngredient`),
-  ADD KEY `IngredientProduit_Ingredients1_FK` (`idIngredient`);
-
---
 -- Index pour la table `ingredients`
 --
 ALTER TABLE `ingredients`
   ADD PRIMARY KEY (`idIngredient`),
   ADD KEY `idfournisseur` (`idfournisseur`);
+
+--
+-- Index pour la table `ingredientsproduits`
+--
+ALTER TABLE `ingredientsproduits`
+  ADD PRIMARY KEY (`idUnion`),
+  ADD KEY `idProduit` (`idProduit`),
+  ADD KEY `idIngredient` (`idIngredient`);
 
 --
 -- Index pour la table `produit`
@@ -363,11 +342,19 @@ ALTER TABLE `calendrier`
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-<<<<<<< HEAD
-  MODIFY `idCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-=======
-  MODIFY `idCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
->>>>>>> branch 'master' of https://github.com/sophiehm28/GestionBrb
+  MODIFY `idCommande` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `contenirproduit`
+--
+ALTER TABLE `contenirproduit`
+  MODIFY `idContient` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `fourniringredients`
+--
+ALTER TABLE `fourniringredients`
+  MODIFY `idOperation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `fournisseur`
@@ -379,13 +366,19 @@ ALTER TABLE `fournisseur`
 -- AUTO_INCREMENT pour la table `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `idIngredient` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idIngredient` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `ingredientsproduits`
+--
+ALTER TABLE `ingredientsproduits`
+  MODIFY `idUnion` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `produit`
 --
 ALTER TABLE `produit`
-  MODIFY `idProduit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idProduit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `tables`
@@ -397,17 +390,13 @@ ALTER TABLE `tables`
 -- AUTO_INCREMENT pour la table `type_produit`
 --
 ALTER TABLE `type_produit`
-<<<<<<< HEAD
-  MODIFY `idType` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-=======
   MODIFY `idType` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
->>>>>>> branch 'master' of https://github.com/sophiehm28/GestionBrb
 
 --
 -- AUTO_INCREMENT pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
-  MODIFY `idCompte` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idCompte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Contraintes pour les tables déchargées
@@ -426,34 +415,31 @@ ALTER TABLE `commande`
   ADD CONSTRAINT `commande_ibfk_1` FOREIGN KEY (`noTable`) REFERENCES `tables` (`noTable`);
 
 --
-<<<<<<< HEAD
-=======
--- Contraintes pour la table `contientproduit`
+-- Contraintes pour la table `contenirproduit`
 --
-ALTER TABLE `contientproduit`
-  ADD CONSTRAINT `contientproduit_ibfk_1` FOREIGN KEY (`idProduit`) REFERENCES `produit` (`idProduit`),
-  ADD CONSTRAINT `contientproduit_ibfk_2` FOREIGN KEY (`idCommande`) REFERENCES `commande` (`idCommande`);
+ALTER TABLE `contenirproduit`
+  ADD CONSTRAINT `contenirproduit_ibfk_1` FOREIGN KEY (`idProduit`) REFERENCES `produit` (`idProduit`),
+  ADD CONSTRAINT `contenirproduit_ibfk_2` FOREIGN KEY (`idCommande`) REFERENCES `commande` (`idCommande`);
 
 --
->>>>>>> branch 'master' of https://github.com/sophiehm28/GestionBrb
 -- Contraintes pour la table `fourniringredients`
 --
 ALTER TABLE `fourniringredients`
-  ADD CONSTRAINT `FournirIngredients_Fournisseur1_FK` FOREIGN KEY (`idFournisseur`) REFERENCES `fournisseur` (`idFournisseur`),
-  ADD CONSTRAINT `FournirIngredients_Ingredients0_FK` FOREIGN KEY (`idIngredient`) REFERENCES `ingredients` (`idIngredient`);
-
---
--- Contraintes pour la table `ingredientproduit`
---
-ALTER TABLE `ingredientproduit`
-  ADD CONSTRAINT `IngredientProduit_Ingredients1_FK` FOREIGN KEY (`idIngredient`) REFERENCES `ingredients` (`idIngredient`),
-  ADD CONSTRAINT `IngredientProduit_Produit0_FK` FOREIGN KEY (`idProduit`) REFERENCES `produit` (`idProduit`);
+  ADD CONSTRAINT `fourniringredients_ibfk_1` FOREIGN KEY (`idFournisseur`) REFERENCES `fournisseur` (`idFournisseur`),
+  ADD CONSTRAINT `fourniringredients_ibfk_2` FOREIGN KEY (`idIngredient`) REFERENCES `ingredients` (`idIngredient`);
 
 --
 -- Contraintes pour la table `ingredients`
 --
 ALTER TABLE `ingredients`
   ADD CONSTRAINT `ingredients_ibfk_1` FOREIGN KEY (`idfournisseur`) REFERENCES `fournisseur` (`idFournisseur`);
+
+--
+-- Contraintes pour la table `ingredientsproduits`
+--
+ALTER TABLE `ingredientsproduits`
+  ADD CONSTRAINT `ingredientsproduits_ibfk_1` FOREIGN KEY (`idProduit`) REFERENCES `produit` (`idProduit`),
+  ADD CONSTRAINT `ingredientsproduits_ibfk_2` FOREIGN KEY (`idIngredient`) REFERENCES `ingredients` (`idIngredient`);
 
 --
 -- Contraintes pour la table `produit`
