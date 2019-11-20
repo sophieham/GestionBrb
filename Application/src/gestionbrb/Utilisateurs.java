@@ -50,7 +50,9 @@ public class Utilisateurs extends Application {
 		this.primaryStage.setTitle("Administration -- Utilisateurs");
 		afficheTable();
 	}
-
+/**
+ * affiche la table de gestion des utilisateurs
+ */
 	public void afficheTable() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -68,7 +70,16 @@ public class Utilisateurs extends Application {
 			e.printStackTrace();
 		}
 	}
-
+/**
+ * affiche la fenetre de modification/ajout d'un utilisateur
+ * 
+ * @param compte
+ * @return
+ * @throws ClassNotFoundException
+ * @throws SQLException
+ * @see ajoutUtilisateur
+ * @see modifierUtilisateur
+ */
 	public boolean fenetreModification(Utilisateur compte) throws ClassNotFoundException, SQLException {
 		try {
 			// Charge le fichier fxml et l'ouvre en pop-up
