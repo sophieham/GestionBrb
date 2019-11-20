@@ -1,6 +1,11 @@
 package gestionbrb.model;
 
-import java.util.Date;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * <!-- begin-user-doc -->
@@ -10,12 +15,14 @@ import java.util.Date;
 
 public class FactureIngredients
 {
-	private int idCommande;
-	private Date date;
-	private double prixTotal;
+	private IntegerProperty idCommande;
+	private StringProperty date;
+	private FloatProperty prixTotal;
 
-	public FactureIngredients(){
-		super();
+	public FactureIngredients(int id, String date, float prixTotal){
+		this.idCommande = new SimpleIntegerProperty(id);
+		this.date = new SimpleStringProperty(date);
+		this.prixTotal = new SimpleFloatProperty(prixTotal);
 	}
 
 }

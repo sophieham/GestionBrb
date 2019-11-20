@@ -3,7 +3,6 @@ package gestionbrb.controleur;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.Map.Entry;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
 import gestionbrb.util.bddUtil;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,7 +31,11 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-public class CommandeControleur extends FonctionsControleurs implements Initializable {
+/**
+ * @author Sophie
+ */
+
+public class CommandeControleur implements Initializable {
 	@FXML
 	private Label infoTable;
 	@FXML
@@ -53,15 +55,13 @@ public class CommandeControleur extends FonctionsControleurs implements Initiali
 	@FXML
 	private ObservableList<Produit> produitCommande = FXCollections.observableArrayList();
 	
-	
 	List<Button> listeProduits = new ArrayList<>();
 	List<Tab> listeOnglets = new ArrayList<>();
 	
 	Map<String, Tab> mapTypeParOnglet= new HashMap<>();
-	
+	Map<String, Integer> mapNomParId = new HashMap<>();
 	// clé : nom produit ; value = type produit
 	Map<String, String> mapNomParType = new HashMap<>();
-	Map<String, Integer> mapNomParId = new HashMap<>();
 	ArrayList<String> nomProduits = new ArrayList<>();
 	
 	private Commande commande;
@@ -71,13 +71,6 @@ public class CommandeControleur extends FonctionsControleurs implements Initiali
 	
 	public CommandeControleur() {
 	}
-	
-	
-	class HandlerBtn1 implements EventHandler<ActionEvent>{
-		public void handle(ActionEvent e) {
-			
-		}
-	}
 
 	public void setParent(DemarrerCommandeControleur parent) {
 		this.parent = parent;		
@@ -86,13 +79,13 @@ public class CommandeControleur extends FonctionsControleurs implements Initiali
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
-	List<Float> listePrix = new ArrayList<>();
-	public float addition(float prix) {
-		float prixT = 0;
-		return prixT + prix;
-		
-	}
 	
+	List<Float> listePrix = new ArrayList<>();
+	
+	/*
+	 * Initialise la page avec les données.
+	 * 
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		commande = DemarrerCommandeControleur.getCommande();
@@ -101,19 +94,31 @@ public class CommandeControleur extends FonctionsControleurs implements Initiali
 		colonnePrix.setCellValueFactory(cellData -> cellData.getValue().prixProduitProperty());
 		colonneQte.setCellValueFactory(cellData -> cellData.getValue().quantiteProduitProperty());
 		tableRecap.setItems(produitCommande);
+		etablirCommande();
+		
+	}
+
+	/**
+	 * Fonction principale du controleur. <br>
+	 * Il affiche des onglets en fonction du nombre et du nom des types, et affiche dans ces onglets les differents produits qui sont du même type. <br>
+	 * Il permet également de sélectionner les produits que le client souhaite commander et l'affiche d'un tableau contenant le nom et le prix des produits commandés
+	 * <br>
+	 * <br>
+	 * Affiche une boite de dialogue si la fonction génére une erreur
+	 */
+	public void etablirCommande() {
 		try {
 		Connection conn = bddUtil.dbConnect();
 			listeProduits.clear();
 			listeOnglets.clear();
 			listeProduits.clear();
-			ResultSet rs = conn.createStatement().executeQuery("select idProduit, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.idType=type_produit.idType");
-			ResultSet commande = conn.createStatement().executeQuery("select count(*) from contientproduit where idCommande="+CommandeControleur.this.commande.getIdCommande());
-			while (rs.next()) {
-				Tab tab = new Tab(rs.getString("type_produit.nom"));
-				mapTypeParOnglet.put(rs.getString("type_produit.nom"), tab);
-				String typeProduit = rs.getString("type_produit.nom");
-				String nomProduit = rs.getString("produit.nom")+"\n €"+rs.getString("prix");
-				int idProduit = rs.getInt("idProduit");
+			ResultSet produitDB = conn.createStatement().executeQuery("select idProduit, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.idType=type_produit.idType");
+			while (produitDB.next()) {
+				Tab tab = new Tab(produitDB.getString("type_produit.nom"));
+				mapTypeParOnglet.put(produitDB.getString("type_produit.nom"), tab);
+				String typeProduit = produitDB.getString("type_produit.nom");
+				String nomProduit = produitDB.getString("produit.nom")+"\n €"+produitDB.getString("prix");
+				int idProduit = produitDB.getInt("idProduit");
 				mapNomParId.put(nomProduit, idProduit);
 				mapNomParType.put(nomProduit, typeProduit);
 				nomProduits.add(nomProduit);
@@ -134,7 +139,6 @@ public class CommandeControleur extends FonctionsControleurs implements Initiali
 								btnPlat.setOnAction(new EventHandler<ActionEvent>() {
 									@Override
 									public void handle(ActionEvent arg0) {
-										//System.out.println(arg0); // affiche javafx.event.ActionEvent[source=Button@1b17cef6[styleClass=button]'Lieu jaune a l'estragon 0.00 €']
 										try {
 											String rgx = "\n";
 											String[] tabResultat = produit.getKey().split(rgx); // tab[0] -> nom ;
@@ -150,9 +154,9 @@ public class CommandeControleur extends FonctionsControleurs implements Initiali
 															+ mapNomParId.get(produit.getKey()) + ", "
 															+ CommandeControleur.this.commande.getIdCommande() + ", "
 															+ "'1') ");
-											ResultSet res = conn.createStatement().executeQuery("SELECT contientproduit.idProduit, idCommande, contientproduit.qte, sum(produit.prix) FROM `contientproduit` inner join produit on contientproduit.idProduit = produit.idProduit where idCommande = "+CommandeControleur.this.commande.getIdCommande());
-											while (res.next()) {
-												String tprix = res.getString("sum(produit.prix)");
+											ResultSet commandeDB = conn.createStatement().executeQuery("SELECT contientproduit.idProduit, idCommande, contientproduit.qte, sum(produit.prix) FROM `contientproduit` inner join produit on contientproduit.idProduit = produit.idProduit where idCommande = "+CommandeControleur.this.commande.getIdCommande());
+											while (commandeDB.next()) {
+												String tprix = commandeDB.getString("sum(produit.prix)");
 												totalPrix.setText(tprix+" €");
 											}
 										} catch (Exception e) {
@@ -175,12 +179,9 @@ public class CommandeControleur extends FonctionsControleurs implements Initiali
 			}
 			typeProduit.getTabs().addAll(mapTypeParOnglet.values());
 		} catch (Exception e) {
-			alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 		}
-		
 	}
-
-	
 	
 
 }

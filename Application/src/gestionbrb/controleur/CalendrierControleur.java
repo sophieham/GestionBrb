@@ -14,7 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class CalendrierControleur extends FonctionsControleurs {
+public class CalendrierControleur {
 	@FXML
 	private TableView<Reservations> reservationTable;
 	@FXML
@@ -47,14 +47,15 @@ public class CalendrierControleur extends FonctionsControleurs {
 	@FXML
 	private Label nbTotalReservations;
 
-	// Reference to the main application.
 	DemarrerCommandeControleur mainApp;
 
 	public CalendrierControleur() {
 	}
 
 	/**
-	 * Initialise la classe controleur avec les données par défaut du tableau
+	 * Initialise la classe controleur avec les données par défaut du tableau <br>
+	 * <br>
+	 * Affiche un message d'erreur si il y a un problème.
 	 * 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -69,26 +70,23 @@ public class CalendrierControleur extends FonctionsControleurs {
 		colonneNbCouverts.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsProperty());
 
 		Connection conn = bddUtil.dbConnect();
-		ResultSet nbTotalResv = conn.createStatement().executeQuery("select count(*) from calendrier");
-		while(nbTotalResv.next()) {
-		nbTotalReservations.setText(nbTotalResv.getString("count(*)")+" réservations au total");}
+		ResultSet nbTotalReserv = conn.createStatement().executeQuery("select count(*) from calendrier");
+		while(nbTotalReserv.next()) {
+		nbTotalReservations.setText(nbTotalReserv.getString("count(*)")+" réservations au total");}
 		
-		// Change les détails en fonction de ce qui à été selectionné
-		reservationTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+		reservationTable.getSelectionModel().selectedItemProperty().addListener((observable, ancienneValeur, nouvelleValeur) -> {
 			try {
-				detailsReservation(newValue);
-				
+				detailsReservation(nouvelleValeur);
 			} catch (ClassNotFoundException e) {
-				alerteErreur("Erreur", "Erreur du programme", ""+e);
-				e.printStackTrace();
+				FonctionsControleurs.alerteErreur("Erreur", "Erreur du programme", ""+e);
 			} catch (SQLException e) {
-				alerteErreur("Erreur", "Erreur SQL", ""+e);
+				FonctionsControleurs.alerteErreur("Erreur", "Erreur SQL", ""+e);
 			}
 		});
 	}
 
 	/**
-	 * Appellé par la classe principale (ici DemarrerCommandeControleur) pour lier le controleur à elle-meme
+	 * Appellé par la classe principale pour faire la liaison avec le controleur
 	 * 
 	 * @param mainApp
 	 */
@@ -101,6 +99,9 @@ public class CalendrierControleur extends FonctionsControleurs {
 	/**
 	 * Remplit tous les champs avec la reservation séléctionnée dans la partie
 	 * détails. Si il n'y a pas de reservation séléctionnée, les champs sont vides.
+	 * <br>
+	 * <br>
+	 * Si l'affiche génére une erreur, une boite d'erreur est affichée
 	 * 
 	 * @param reservation s'il en existe une, null sinon
 	 * @throws SQLException
@@ -108,12 +109,10 @@ public class CalendrierControleur extends FonctionsControleurs {
 
 	private void detailsReservation(Reservations reservation) throws SQLException, ClassNotFoundException {
 		Connection conn = bddUtil.dbConnect();		
-		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
+		ResultSet entreeCalendrier = conn.createStatement().executeQuery("select * from calendrier");
 		try {
-			
-
-			if (reservation != null) {  // si il y a réservation de séléctionnée, on affiche ses informations
-				while (rs.next()) {
+			if (reservation != null) {
+				while (entreeCalendrier.next()) {
 					champID.setText(Integer.toString(reservation.getID()));
 					champNom.setText(reservation.getNom());
 					champPrenom.setText(reservation.getPrenom());
@@ -134,43 +133,49 @@ public class CalendrierControleur extends FonctionsControleurs {
 				champDemandeSpe.setText("");
 			}
 		} catch (SQLException e) {
-			alerteErreur("Erreur", "Erreur dans le code SQL",""+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Erreur dans le code SQL",""+e);
 		} finally {
 			conn.close();
-			rs.close();
+			entreeCalendrier.close();
 		}
 	}
 	
 
 	
 	/**
-	 * Appellé quand l'utilisateur clique sur le bouton supprimer
+	 * Appellé quand l'utilisateur clique sur le bouton supprimer <br>
+	 * Supprime la réservation séléctionnée.
+	 * <br>
+	 * <br>
+	 * Si la supression génère une erreur, une fenêtre d'erreur s'affiche.
 	 * 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
 	@FXML
 	private void supprimerReservation() throws ClassNotFoundException, SQLException {
-		Reservations selectedReservation = reservationTable.getSelectionModel().getSelectedItem();
-		int selectedIndex = reservationTable.getSelectionModel().getSelectedIndex();
-		if (selectedIndex >= 0) {
+		Reservations reservationSelectionnee = reservationTable.getSelectionModel().getSelectedItem();
+		int indexSelection = reservationTable.getSelectionModel().getSelectedIndex();
+		if (indexSelection >= 0) {
 			Connection conn = bddUtil.dbConnect();
-			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `calendrier` WHERE idReservation=?");
-			pstmt.setInt(1, (selectedReservation.getID()));
-			pstmt.execute();
-			reservationTable.getItems().remove(selectedIndex);
-			pstmt.close();
+			PreparedStatement suppression = conn.prepareStatement("DELETE FROM `calendrier` WHERE idReservation=?");
+			suppression.setInt(1, (reservationSelectionnee.getID()));
+			suppression.execute();
+			reservationTable.getItems().remove(indexSelection);
+			suppression.close();
 			conn.close();
 			
 		} else {
-			// Si rien n'est séléctionné
-			alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!", "Selectionnez une réservation pour pouvoir la modifier");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!", "Selectionnez une réservation pour pouvoir la modifier");
 		}
 	}
 
 	/**
-	 * Appellé quand l'utilisateur clique sur le bouton modifier la réservation.
-	 * Ouvre une nouvelle page pour effectuer la modification
+	 * Appellé quand l'utilisateur clique sur le bouton modifier la réservation. <br>
+	 * Ouvre une nouvelle page pour effectuer la modification et remplit le formulaire avec les informations déjà existantes.
+	 * <br>
+	 * <br>
+	 * Une fenetre d'information est affichée si tout se passe bien, sinon c'est une boite d'erreur qui est affichée.
 	 * 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -183,31 +188,31 @@ public class CalendrierControleur extends FonctionsControleurs {
 			if (okClicked) {
 				reservationTable.getItems().clear();
 				Connection conn = bddUtil.dbConnect();
-				ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
-				while (rs.next()) {
+				ResultSet calendrier = conn.createStatement().executeQuery("select * from calendrier");
+				while (calendrier.next()) {
 					reservationTable.getItems().add(new Reservations(
-							rs.getInt("idReservation"),
-							rs.getString("nom"),
-							rs.getString("prenom"), 
-							rs.getString("numeroTel"), 
-							rs.getString("dateReservation"),
-							rs.getString("heureReservation"), 
-							rs.getInt("nbCouverts"), 
-							rs.getString("demandeSpe")));
+							calendrier.getInt("idReservation"),
+							calendrier.getString("nom"),
+							calendrier.getString("prenom"), 
+							calendrier.getString("numeroTel"), 
+							calendrier.getString("dateReservation"),
+							calendrier.getString("heureReservation"), 
+							calendrier.getInt("nbCouverts"), 
+							calendrier.getString("demandeSpe")));
 				}
 				detailsReservation(null);
-				alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+				FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 			}
 
 		} else {
 			// Si rien n'est selectionné
-			alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!", "Selectionnez une réservation pour pouvoir la modifier");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!", "Selectionnez une réservation pour pouvoir la modifier");
 		}
 	}
 
 	/**
-	 * Appellé quand on sélectionne une date.
-	 * Affiche uniquement les réservations à la date sélectionnée
+	 * Appellé quand on sélectionne une date. <br>
+	 * Outil de recherche qui affiche uniquement les réservations à la date sélectionnée.
 	 * 
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
@@ -221,23 +226,23 @@ public class CalendrierControleur extends FonctionsControleurs {
 		ResultSet nbTotalResv = conn.createStatement().executeQuery("select count(*) from calendrier where dateReservation LIKE '"+date+"'");
 		while(nbTotalResv.next()) {
 		nbTotalReservations.setText(nbTotalResv.getString("count(*)")+" réservations le "+date);}
-		PreparedStatement stmt = conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");
-		stmt.setString(1, date);
-		ResultSet rs = stmt.executeQuery();
-		while (rs.next()) {
+		PreparedStatement recherche = conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");
+		recherche.setString(1, date);
+		ResultSet calendrier = recherche.executeQuery();
+		while (calendrier.next()) {
 			reservationTable.getItems().add(new Reservations(
-							rs.getInt("idReservation"), 
-							rs.getString("nom"), 
-							rs.getString("prenom"),
-							rs.getString("numeroTel"), 
-							rs.getString("dateReservation"),
-							rs.getString("heureReservation"), 
-							rs.getInt("nbCouverts"), 
-							rs.getString("demandeSpe")));
+							calendrier.getInt("idReservation"), 
+							calendrier.getString("nom"), 
+							calendrier.getString("prenom"),
+							calendrier.getString("numeroTel"), 
+							calendrier.getString("dateReservation"),
+							calendrier.getString("heureReservation"), 
+							calendrier.getInt("nbCouverts"), 
+							calendrier.getString("demandeSpe")));
 		}
 
 		conn.close();
-		rs.close();
+		calendrier.close();
 	}
 	
 	
@@ -255,18 +260,16 @@ public class CalendrierControleur extends FonctionsControleurs {
 		ResultSet nbTotalResv = conn.createStatement().executeQuery("select count(*) from calendrier");
 		while(nbTotalResv.next()) {
 		nbTotalReservations.setText(nbTotalResv.getString("count(*)")+" réservations au total");}
-		ResultSet rs = conn.createStatement().executeQuery("select * from calendrier");
-		while (rs.next()) {
-			reservationTable.getItems()
-					.add(new Reservations(
-							rs.getInt("idReservation"), 
-							rs.getString("nom"), 
-							rs.getString("prenom"),
-							rs.getString("numeroTel"), 
-							rs.getString("dateReservation"),
-							rs.getString("heureReservation"), 
-							rs.getInt("nbCouverts"), 
-							rs.getString("demandeSpe")));
+		ResultSet calendrier = conn.createStatement().executeQuery("select * from calendrier");
+		while (calendrier.next()) {
+			reservationTable.getItems().add(new Reservations(calendrier.getInt("idReservation"), 
+															 calendrier.getString("nom"), 
+															 calendrier.getString("prenom"),
+															 calendrier.getString("numeroTel"), 
+															 calendrier.getString("dateReservation"),
+															 calendrier.getString("heureReservation"), 
+															 calendrier.getInt("nbCouverts"), 
+															 calendrier.getString("demandeSpe")));
 		}
 		detailsReservation(null);
 	}

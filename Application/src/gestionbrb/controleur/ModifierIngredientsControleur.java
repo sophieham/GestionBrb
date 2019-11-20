@@ -59,7 +59,7 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 	public void setIngredients(Ingredients ingredient) throws SQLException, ClassNotFoundException {
 		this.ingredient = ingredient;
 		chNomIngredient.setText(ingredient.getNomIngredient());
-		chPrixIngredient.setText(Integer.toString(ingredient.getPrixIngredient()));
+		chPrixIngredient.setText(Float.toString(ingredient.getPrixIngredient()));
 		chQuantiteIngredient.setText(Integer.toString(ingredient.getQuantiteIngredient()));
 		chChoixFournisseur.setValue(ingredient.getFournisseur());
 	}

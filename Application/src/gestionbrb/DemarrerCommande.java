@@ -27,30 +27,35 @@ public class DemarrerCommande extends Application {
     }
     
     /**
-     * Appellée pour afficher la page principale
+     * Charge la page et l'affiche <br>
+     * <br>
+     * Affiche un message d'erreur si la fonction génére une erreur
      */
     public void afficherDemarrerCommande() {
         try {
-            // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(DemarrerCommande.class.getResource("vue/DemarrerCommande.fxml"));
             AnchorPane reservationOverview = (AnchorPane) loader.load();
             Scene scene = new Scene(reservationOverview);
             primaryStage.setScene(scene);
             primaryStage.show();
-            // Give the controller access to the main app.
             DemarrerCommandeControleur controller = loader.getController();
             controller.setParent(this);
 
         } catch (IOException e) {
+        	FonctionsControleurs.alerteErreur("Erreur d'éxécution", null, "Détails: "+e);
             e.printStackTrace();
         }
     }
     
-    /*
+    /**
+     * Constructeur du calendrier <br>
      * Appellé pour ouvrir le calendrier
+     * Il charge et affiche le calendrier.
+     * <br>
+     * <br>
+     * Affiche une fenetre d'erreur si il y a une erreur
      */
-    
     public void Calendrier() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("CalendrierReservations.fxml"));

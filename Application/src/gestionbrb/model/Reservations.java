@@ -9,9 +9,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * Model class for a reservation.
+ * 
+ * @author Sophie
  *
- * @author Marco Jakob
  */
 public class Reservations {
     private final StringProperty nom;

@@ -16,6 +16,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/*
+ * Affiche le menu principal si l'utilisateur s'est connecté
+ * @author Roman
+ */
 public class MenuPrincipal extends Application {
 	public static String[] arg;
 	private Stage primaryStage;
@@ -28,27 +32,26 @@ public class MenuPrincipal extends Application {
 	public void start(Stage primaryStage){
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Menu Principal");
-		afficheTable();
+		afficheMenuPrincipal();
 		
 	}
 
-	public void afficheTable() {
+	/*
+	 * Charge et affiche le menu principal
+	 */
+	public void afficheMenuPrincipal() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MenuPrincipal.class.getResource("vue/MenuPrincipal.fxml"));
-			AnchorPane tablesOverview = (AnchorPane) loader.load();
-			Scene scene = new Scene(tablesOverview);
+			AnchorPane menuPrincipalVue = (AnchorPane) loader.load();
+			Scene scene = new Scene(menuPrincipalVue);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-
-			
-			
-			 
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
 	public boolean fenetreConnection(Utilisateur compte) throws ClassNotFoundException, SQLException {
 		try {
 			// Charge le fichier fxml et l'ouvre en pop-up

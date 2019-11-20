@@ -7,11 +7,10 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * 
+ * @author Sophie
+ *
  */
-
 public class Commande 
 {
 	private IntegerProperty idCommande;

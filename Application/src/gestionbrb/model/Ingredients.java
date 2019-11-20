@@ -1,6 +1,8 @@
 package gestionbrb.model;
 
+import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -16,14 +18,14 @@ public class Ingredients
 	private final IntegerProperty idIngredient;
 	private final StringProperty nomIngredient;
 	private final IntegerProperty quantiteIngredient;
-	private final IntegerProperty prixIngredient;
+	private final FloatProperty prixIngredient;
 	private final StringProperty fournisseur ;
 
 	public Ingredients(int idIngredient, String nomIngredient, int prixIngredient, int quantiteIngredient, String fournisseur){
 		this.idIngredient = new SimpleIntegerProperty(idIngredient);
 		this.nomIngredient = new SimpleStringProperty(nomIngredient);
 		this.quantiteIngredient = new SimpleIntegerProperty(quantiteIngredient);
-		this.prixIngredient = new SimpleIntegerProperty(prixIngredient);
+		this.prixIngredient = new SimpleFloatProperty(prixIngredient);
 		this.fournisseur = new SimpleStringProperty(fournisseur);
 	}
 
@@ -48,13 +50,13 @@ public class Ingredients
 	public final void  setNomIngredient(final String nomIngredient) {
 		this.nomIngredientProperty().set(nomIngredient);
 	}
-	public final IntegerProperty prixIngredientProperty() {
+	public final FloatProperty prixIngredientProperty() {
 		return this.prixIngredient;
 	}
-	public final int getPrixIngredient() {
+	public final float getPrixIngredient() {
 		return this.prixIngredientProperty().get();
 	}
-	public final void  setPrixIngredient(final int prixIngredient) {
+	public final void  setPrixIngredient(final float prixIngredient) {
 		this.prixIngredientProperty().set(prixIngredient);
 	}
 	public final IntegerProperty quantiteIngredientProperty() {

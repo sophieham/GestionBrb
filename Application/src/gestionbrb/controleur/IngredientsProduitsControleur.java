@@ -63,12 +63,9 @@ import gestionbrb.util.bddUtil;
 		private Label chPrixProduit;
 		@FXML
 		private Label chQuantiteProduit;
-		// Reference to the main application.
+
 		private IngredientsProduits mainApp;
 
-		/**
-		 * The constructor. The constructor is called before the initialize() method.
-		 */
 		public IngredientsProduitsControleur() {
 		}
 
@@ -113,7 +110,7 @@ import gestionbrb.util.bddUtil;
 		
 		
 		/**
-		 * Appelé quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
+		 * Appelé quand l'utilisateur clique sur le bouton ajouter. Ouvre une
 		 * nouvelle page pour effectuer la modification
 		 * 
 		 * @throws SQLException
@@ -128,7 +125,7 @@ import gestionbrb.util.bddUtil;
 					PreparedStatement pstmt = conn.prepareStatement
 							("INSERT INTO `ingredients` (`idIngredient`, `nomIngredient`, `prixIngredient`, `qteRestante`, `idFournisseur`) VALUES (NULL, ?, ?, ?, ?)");
 					pstmt.setString(1, tempIngredient.getNomIngredient());
-					pstmt.setInt(2, tempIngredient.getPrixIngredient());
+					pstmt.setFloat(2, tempIngredient.getPrixIngredient());
 					pstmt.setInt(3, tempIngredient.getQuantiteIngredient());
 					pstmt.setInt(4, retrouveID(tempIngredient.getFournisseur()));
 					pstmt.execute();
@@ -136,6 +133,14 @@ import gestionbrb.util.bddUtil;
 					alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 				}
 		}
+		
+		/**
+		 * Appelé quand l'utilisateur clique sur le bouton ajouter. Ouvre une
+		 * nouvelle page pour effectuer la modification
+		 * 
+		 * @throws SQLException
+		 * @throws ClassNotFoundException
+		 */
 		@FXML
 		private void ajoutProduit()  {
 	        Produit tempProduit = new Produit();
@@ -159,6 +164,13 @@ import gestionbrb.util.bddUtil;
 			}
 		}
 		
+		/**
+		 * Appelé quand l'utilisateur clique sur le bouton ajouter. Ouvre une
+		 * nouvelle page pour effectuer la modification
+		 * 
+		 * @throws SQLException
+		 * @throws ClassNotFoundException
+		 */
 		@FXML
 		private void ajoutType() throws ClassNotFoundException, SQLException {
 	        Type tempType = new Type();
@@ -193,6 +205,13 @@ import gestionbrb.util.bddUtil;
 			}
 			
 		}
+		
+		/** 
+		 * Rafraichit les colonnes après un ajout, une modification ou une suppression d'éléments.
+		 * @throws ClassNotFoundException
+		 * @throws SQLException
+		 */
+		
 		private void refreshProduit() throws ClassNotFoundException, SQLException {
 			IngredientsProduits.getProduitData().clear();
 			Connection conn = bddUtil.dbConnect();
@@ -203,6 +222,13 @@ import gestionbrb.util.bddUtil;
 			}
 			
 		}
+		
+		/** 
+		 * Rafraichit les colonnes après un ajout, une modification ou une suppression d'éléments.
+		 * @throws ClassNotFoundException
+		 * @throws SQLException
+		 */
+		
 		private void refreshType() throws ClassNotFoundException, SQLException {
 			IngredientsProduits.getTypeData().clear();
 			Connection conn = bddUtil.dbConnect();
@@ -245,6 +271,13 @@ import gestionbrb.util.bddUtil;
 						"Selectionnez une table pour pouvoir la supprimer");
 			}
 		}
+		
+		/**
+		 * Appellé quand l'utilisateur clique sur le bouton supprimer
+		 * 
+		 * @throws SQLException
+		 * @throws ClassNotFoundException
+		 */
 		@FXML
 		private void supprimerProduit() throws ClassNotFoundException {
 			Produit selectedProduit = tableProduit.getSelectionModel().getSelectedItem();
@@ -272,6 +305,13 @@ import gestionbrb.util.bddUtil;
 						"Selectionnez une table pour pouvoir la supprimer");
 			}
 		}
+		
+		/**
+		 * Appellé quand l'utilisateur clique sur le bouton supprimer
+		 * 
+		 * @throws SQLException
+		 * @throws ClassNotFoundException
+		 */
 		@FXML
 		private void supprimerType() throws ClassNotFoundException {
 			Type selectedType = tableType.getSelectionModel().getSelectedItem();
@@ -301,7 +341,7 @@ import gestionbrb.util.bddUtil;
 			}
 		}
 		/**
-		 * Appelé quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
+		 * Appelé quand l'utilisateur clique sur le bouton modifier l'ingrédient. Ouvre une
 		 * nouvelle page pour effectuer la modification
 		 * 
 		 * @throws SQLException
@@ -328,6 +368,13 @@ import gestionbrb.util.bddUtil;
 						"Selectionnez une réservation pour pouvoir la modifier");
 			}
 	}
+		/**
+		 * Appelé quand l'utilisateur clique sur le bouton modifier le produit. Ouvre une
+		 * nouvelle page pour effectuer la modification
+		 * 
+		 * @throws SQLException
+		 * @throws ClassNotFoundException
+		 */
 		@FXML
 		private void modifierProduit() {
 			try {
@@ -356,6 +403,13 @@ import gestionbrb.util.bddUtil;
 				alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 			}
 	}
+		/**
+		 * Appelé quand l'utilisateur clique sur le bouton modifier le type. Ouvre une
+		 * nouvelle page pour effectuer la modification
+		 * 
+		 * @throws SQLException
+		 * @throws ClassNotFoundException
+		 */
 		@FXML
 		private void modifierType() throws ClassNotFoundException, SQLException {
 			Type selectedType = tableType.getSelectionModel().getSelectedItem();

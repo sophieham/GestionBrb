@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +26,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class DemarrerCommandeControleur extends FonctionsControleurs {
+/*
+ * Controleur pour démarrer une commande
+ * @author Sophie
+ */
+
+public class DemarrerCommandeControleur {
 	// Variables pour la partie réservation
 	@FXML
 	private TextField champNom;
@@ -72,6 +76,7 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	private Table table;
 	@SuppressWarnings("unused")
 	private DemarrerCommande parent;
+	@SuppressWarnings("unused")
 	private DemarrerCommandeControleur parentC;
 	private boolean okClicked = false;
 	private static Commande commande;
@@ -80,8 +85,11 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	}
 
 	/**
-	 * Initialise le controleur. Remplit la liste des tables avec les données
-	 * provenant de la base de donnée.
+	 * <i> Initialise le controleur. </i> <br> Remplit la liste des tables avec les données
+	 * provenant de la base de donnée. <br>
+	 * Met à jour la liste des tables libres. <br>
+	 * <br>
+	 * Affiche un fenêtre d'erreur si il y a des exceptions
 	 */
 
 	@FXML
@@ -93,21 +101,19 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 		try {
 
 			Connection conn = bddUtil.dbConnect();
-			ResultSet rs = conn.createStatement().executeQuery("select * from tables");
+			ResultSet TableDB = conn.createStatement().executeQuery("select * from tables");
 
-			while (rs.next()) {
-				Tables.getTableData().add(new Table(rs.getInt("idTable"), 
-													rs.getInt("noTable"),
-													rs.getInt("nbCouverts_Min"), 
-													rs.getInt("nbCouverts_Max"), 
-													rs.getInt("occupation")));
+			while (TableDB.next()) {
+				Tables.getTableData().add(new Table(TableDB.getInt("idTable"), 
+													TableDB.getInt("noTable"),
+													TableDB.getInt("nbCouverts_Min"), 
+													TableDB.getInt("nbCouverts_Max"), 
+													TableDB.getInt("occupation")));
 				
-				// ajout de tous les numéros de table dans une liste pour séléctionner la table à réserver
-				noTables.add("Table n°" + rs.getInt(2) + " [" + rs.getInt(3) + " à " + rs.getInt(4) + " couverts]");
+				noTables.add("Table n°" + TableDB.getInt(2) + " [" + TableDB.getInt(3) + " à " + TableDB.getInt(4) + " couverts]");
 				
-				// ajout de tous les numéros de tables qui sont actuellement libres pour accueillir une commande
-				if(rs.getInt("occupation")==0) {
-					tablesLibre.add("Table n°" + rs.getInt(2) + " [" + rs.getInt(3) + " à " + rs.getInt(4) + " couverts]");
+				if(TableDB.getInt("occupation")==0) {
+					tablesLibre.add("Table n°" + TableDB.getInt(2) + " [" + TableDB.getInt(3) + " à " + TableDB.getInt(4) + " couverts]");
 				}
 
 			}
@@ -116,7 +122,7 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 			champChoixTable.setItems(tablesLibre);
 
 		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("erreur sql");
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", null, "Détails: "+e);
 			e.printStackTrace();
 		}
 
@@ -127,27 +133,27 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	 * 
 	 * @param demarrerCommande
 	 */
-
 	public void setParent(DemarrerCommande demarrerCommande) {
 		this.parent = demarrerCommande;
-		tableTable.setItems(Tables.getTableData()); // Recupère la liste des tables
+		tableTable.setItems(Tables.getTableData()); 
 
 	}
 	
 	public void setParent(DemarrerCommandeControleur demarrerCommandeControleur) {
 		this.parentC = demarrerCommandeControleur;
-		tableTable.setItems(Tables.getTableData()); // Recupère la liste des tables
+		tableTable.setItems(Tables.getTableData());
 
 	}
 
 	/**
-	 * Appellé lors de l'appui sur le bouton Voir le calendrier Ouvre le registre
-	 * des réservations.
+	 * Appellé lors de l'appui sur le bouton. <br>
+	 * Ouvre le registre des réservations.
 	 * 
+	 * Affiche un message d'erreur si il y a une exception
 	 * @throws IOException
 	 */
 
-	public void afficherCalendrier() throws IOException { // il faut rétablir le controleur
+	public void afficherCalendrier() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("CalendrierReservations.fxml"));
 			Parent vueCalendrier = (Parent) loader.load();
@@ -159,16 +165,15 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
             controller.setMainApp(this);
             controller.afficherTout();
 		} catch (Exception e) {
-			alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
 
 		}
 	}
 
 	/**
-	 * Appellé lors de l'appui sur le bouton Retour au menu principal Il ferme la
-	 * page actuelle et revient au menu principal.
+	 * Appellé lors de l'appui sur le bouton Retour au menu principal <br>
+	 * Il ferme la page actuelle et revient au menu principal.
 	 * 
-	 * @param event
 	 * @throws IOException
 	 */
 	public void afficherMenuPrincipal() {
@@ -176,8 +181,7 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	}
 
 	/** 
-	 * Actualise les donnée de la page
-	 * Appellé quand une nouvelle commande est lancée
+	 * Actualise les données de la page lorsqu'une nouvelle commande est lancée.
 	 */
 	public void refreshMain() {
 		Tables.getTableData().clear();
@@ -193,13 +197,13 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	}
 	
 	/**
-	 * Démarre une nouvelle commande.
-	 * Affiche une nouvelle page Commande.fxml
+	 * Démarre une nouvelle commande en prenant en compte le nombre de couverts et le numéro de table défini en modifiant son occupation. <br>
+	 * Affiche une nouvelle page Commande.fxml <br>
+	 * <br> 
+	 * Affiche un message d'erreur si la commande ne peut pas être lancée.
 	 * 
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
-	public void lancerCommande() throws ClassNotFoundException, SQLException{ // a continuer
+	public void lancerCommande() {
 		try {
 			int nombreCouverts = Integer.parseInt(champNbCouverts.getText());
 			int numTable = getNumero(champChoixTable);
@@ -207,11 +211,10 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 			//!!! a remplacer occupation =0 par 1 une fois commande paramétré
 			bddUtil.dbQueryExecute("UPDATE `tables` SET occupation = 0 WHERE noTable="+numTable);
 			refreshMain();
-			Random random = new Random();
 			Connection conn = bddUtil.dbConnect();
-			ResultSet rs = conn.createStatement().executeQuery("select count(*) from commande");
-			while (rs.next()) {
-				int id=rs.getInt(1);
+			ResultSet commandeDB = conn.createStatement().executeQuery("select count(*) from commande");
+			while (commandeDB.next()) {
+				int id=commandeDB.getInt(1);
 				id++;
 				commande= new Commande(id, numTable, nombreCouverts);
 			}
@@ -226,19 +229,23 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 			CommandeControleur controller = loader.getController();
 	        controller.setParent(this);
 			
-		} catch (IOException e) {
-			alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
+		} catch (IOException | SQLException | ClassNotFoundException e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
 		}
 		catch(NumberFormatException e) {
-			alerteErreur("Erreur", "Veuillez saisir uniquement des chiffres", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Veuillez saisir uniquement des chiffres", "Détails: "+e);
 		}
 	}
 
 	/**
-	 * Extrait le numéro de table provenant de la table choisie lors de la
-	 * réservation
+	 * Extrait le numéro de table provenant de la table choisie lors de la réservation <br>
+	 * Recupère la valeur de la cible puis en fonction de la taille va récuperer la valeur du nombre de la table puis transforme la valeur en entier
+	 * <br>
+	 * <br>
+	 * <i> exemple: Table n°2 [4 à 5 couverts] > va récupérer la valeur 2 </i>
 	 * 
-	 * @return numero de la table
+	 * @param cible contenu d'un champ choicebox
+	 * @return numeroTable le numero de la table
 	 */
 	public static int getNumero(ChoiceBox<String> cible) {
 		String stringNoTable = cible.getValue();
@@ -260,14 +267,17 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 				break;
 			}
 
-			// affiche une exception alors que le String à bien été transformé en nombre
+
 		} catch (NumberFormatException e) {
 		}
 		return numeroTable;
 	}
 	
 	/**
-	 * Appellé quand l'utilisateur clique sur réserver
+	 * Appellé quand l'utilisateur clique sur réserver <br>
+	 * Ajoute les données saisies à la base de donnée si elles sont valides 
+	 * et affiche un message si cela s'est bien passé.<br>
+	 * Efface ensuite le contenu des champs.
 	 * 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -275,14 +285,13 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	@FXML
 	private void actionAjouter() throws ClassNotFoundException, SQLException {
 		if (estValide()) {
-			bddUtil.dbQueryExecute(
-					"INSERT INTO `calendrier` (`idReservation`, `nom`, `prenom`, `numeroTel`, `dateReservation`, `heureReservation`, `nbCouverts`, `demandeSpe`, `noTable`) "
-							+ "VALUES (NULL, '" + champNom.getText() + "', '" + champPrenom.getText() + "','"
-							+ champNumTel.getText() + "' , '" + champDate.getValue() + "', '" + champHeure.getText()
-							+ "', '" + champNbCouvertsReservation.getText() + "', '" + champDemandeSpe.getText() + "', '"
-							+ getNumero(champNoTable) + "');");
+			bddUtil.dbQueryExecute("INSERT INTO `calendrier` (`idReservation`, `nom`, `prenom`, `numeroTel`, `dateReservation`, `heureReservation`, `nbCouverts`, `demandeSpe`, `noTable`) "
+									+ "VALUES (NULL, '" + champNom.getText() + "', '" + champPrenom.getText() + "','"
+									+ champNumTel.getText() + "' , '" + champDate.getValue() + "', '" + champHeure.getText()
+									+ "', '" + champNbCouvertsReservation.getText() + "', '" + champDemandeSpe.getText() + "', '"
+									+ getNumero(champNoTable) + "');");
 
-			alerteInfo("Reservation enregistrée!", "", "La reservation à bien été enregistrée!");
+			FonctionsControleurs.alerteInfo("Reservation enregistrée!", "", "La reservation à bien été enregistrée!");
 
 			champNom.clear();
 			champPrenom.clear();
@@ -298,62 +307,64 @@ public class DemarrerCommandeControleur extends FonctionsControleurs {
 	}
 
 	/**
-	 * Vérifie si la saisie est conforme aux données requises
+	 * Vérifie si la saisie est conforme aux données requises <br>
+	 * Cette méthode vérifie chacune des données saisies et détermine 
+	 * si elle répond aux critères de la case.
 	 * 
 	 * @return true si la saisie est bien conforme, false sinon
 	 */
 	public boolean estValide() {
-		String errorMessage = "";
+		String msgErreur = "";
 
 		if (champNom.getText() == null || champNom.getText().length() == 0) {
-			errorMessage += "Veuillez remplir le nom\n";
+			msgErreur += "Veuillez remplir le nom\n";
 		}
 		if (champPrenom.getText() == null || champPrenom.getText().length() == 0) {
-			errorMessage += "Veuillez remplir le prénom\n";
+			msgErreur += "Veuillez remplir le prénom\n";
 		}
 		if (champNumTel.getText() == null || champNumTel.getText().length() == 0) {
-			errorMessage += "Veuillez rentrer le numéro de téléphone\n";
+			msgErreur += "Veuillez rentrer le numéro de téléphone\n";
 		} else {
 			Pattern p = Pattern.compile("(0|\\+)[0-9]{8,12}"); // regex d'un numéro de téléphone, français ou étranger
 			Matcher m = p.matcher(champNumTel.getText());
 			if (!(m.find() && m.group().equals(champNumTel.getText()))) {
-				errorMessage += "Erreur! Le champ no. téléphone n'accepte que les numéros commençant par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
+				msgErreur += "Erreur! Le champ no. téléphone n'accepte que les numéros commençant par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
 			}
 		}
 		if (champDate.getValue() == null) {
-			errorMessage += "Veuillez selectionner la date\n";
+			msgErreur += "Veuillez selectionner la date\n";
 		}
 
 		if (champHeure.getText() == null || champHeure.getText().length() == 0) {
-			errorMessage += "Veuillez rentrer l'heure\n";
+			msgErreur += "Veuillez rentrer l'heure\n";
 		} else {
 			Pattern heurep = Pattern.compile("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"); // regex pour afficher une heure
 																						// valide sous forme hh:mm
 			Matcher heurem = heurep.matcher(champHeure.getText());
 			if (!(heurem.find() && heurem.group().equals(champHeure.getText()))) {
-				errorMessage += "Format de l'heure incorrect, veuillez réessayer avec le format hh:mm approprié\n";
+				msgErreur += "Format de l'heure incorrect, veuillez réessayer avec le format hh:mm approprié\n";
 			}
 		}
 
 		if (champNbCouvertsReservation.getText() == null || champNbCouvertsReservation.getText().length() == 0) {
-			errorMessage += "Veuillez rentrer le nombre de couverts!\n";
+			msgErreur += "Veuillez rentrer le nombre de couverts!\n";
 		} else {
 			try {
 				Integer.parseInt(champNbCouvertsReservation.getText()); // transformation en int pour voir si la saisie est un
 																// chiffre
 			} catch (NumberFormatException e) {
-				errorMessage += "Erreur! Le champ \"nombre de couverts\" n'accepte que les nombres\n";
+				msgErreur += "Erreur! Le champ \"nombre de couverts\" n'accepte que les nombres\n";
 			}
 		}
 
 		if (champNoTable.getValue() == null) {
-			errorMessage += "Veuillez selectionner une table\n";
+			msgErreur += "Veuillez selectionner une table\n";
 		}
 
-		if (errorMessage.length() == 0) {
+		if (msgErreur.length() == 0) {
 			return true;
 		} else {
-			alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir enregistrer la reservation",errorMessage);
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir enregistrer la reservation",msgErreur);
 			return false;
 		}
 	}
