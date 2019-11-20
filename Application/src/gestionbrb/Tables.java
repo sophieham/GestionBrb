@@ -45,6 +45,10 @@ public class Tables extends Application {
 		this.primaryStage.setTitle("Administration -- Tables");
 		afficheTable();
 	}
+	/**
+	 * affiche la fenetre de gestion des tables 
+	 * liste les tables
+	 */
 
 	public void afficheTable() {
 		try {
