@@ -51,24 +51,12 @@ public class GestionStockAdminController implements Initializable{
 	private Ingredients mainApp;
 	private Connection conn;
 	public static String Nom;
+	public static String qteRest;
+	public static String idFournisseur;
+	public static String idIngredient;
 	public GestionStockAdminController() {
 		
 	}
-	
-		
-		
-		//Connection conn = bddUtil.dbConnect();
-		//ResultSet c = conn.createStatement().executeQuery("select count(*) from ingredients");
-	//	while(c.next()) {
-			//ingredients.add(new Ingredients(c.getInt("idIngredient"), c.getString("nomIngredient"), c.getInt("prixIngredient"), c.getInt("qteRestante"), null));		/**try {
-			//Connection conn = bddUtil.dbConnect();
-			//ResultSet rs = conn.createStatement().executeQuery("select * from ingredients");
-			//while (rs.next()) {
-				//ingredients.add(new Ingredients(rs.getInt("idIngredient"), rs.getString("nomIngredient"), rs.getInt("prixIngredient"), rs.getInt("qteRestante"), null));
-			//}
-	//	} catch (ClassNotFoundException | SQLException e) {
-		//	e.printStackTrace();
-		//}**/
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -107,6 +95,9 @@ public class GestionStockAdminController implements Initializable{
 			            System.out.println(rowData);
 			            Nom=tview.getColumns().get(1).getCellObservableValue(rowData).getValue().toString(); 
 			            System.out.println(Nom);
+			            qteRest = tview.getColumns().get(3).getCellObservableValue(rowData).getValue().toString(); 
+			            idFournisseur = tview.getColumns().get(4).getCellObservableValue(rowData).getValue().toString(); 
+			            idIngredient = tview.getColumns().get(0).getCellObservableValue(rowData).getValue().toString(); 
 
 			        }
 			    });
@@ -141,7 +132,7 @@ public class GestionStockAdminController implements Initializable{
 	    public void RetourMenuPrincipal(ActionEvent event) {
 	        Parent root;
 	        try {
-	            root = FXMLLoader.load(getClass().getResource("vue/MenuPrincipal.fxml"));
+	            root = FXMLLoader.load(GestionStockAdmin.class.getResource("vue/MenuPrincipal.fxml"));
 	            Stage stage = new Stage();
 	            stage.setTitle("My New Stage Title");
 	            stage.setScene(new Scene(root));
@@ -174,5 +165,13 @@ public class GestionStockAdminController implements Initializable{
 	public static String getNom() {
 		 return Nom;
 	 }
+
+	public static String getQteRest() {
+		return qteRest;
+	}
+	public static String getIdfournisseur() {
+		return idFournisseur;
+	}
+	
 
 }
