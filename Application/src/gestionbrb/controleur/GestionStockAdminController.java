@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,16 +17,20 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
 import gestionbrb.GestionStockAdmin;
-import gestionbrb.model.Fournisseur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+
+/**
+ * 
+ * @author Linxin
+ *
+ */
 public class GestionStockAdminController implements Initializable{
 	@FXML
 	private AnchorPane GestionStockAdminController;

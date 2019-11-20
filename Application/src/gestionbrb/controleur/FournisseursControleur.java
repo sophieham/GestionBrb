@@ -13,6 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+/**
+ * 
+ * @author Roman
+ *
+ */
 public class FournisseursControleur extends FonctionsControleurs {
 	@FXML
 	private TableView<Fournisseur> fournisseursTable;
@@ -43,12 +48,8 @@ public class FournisseursControleur extends FonctionsControleurs {
 	@FXML
 	private Label champMail;
 
-	// Reference to the main application.
-	private Fournisseurs mainApp;
 
-	/**
-	 * The constructor. The constructor is called before the initialize() method.
-	 */
+	private Fournisseurs mainApp;
 	public FournisseursControleur() {
 	}
 
@@ -91,15 +92,15 @@ public class FournisseursControleur extends FonctionsControleurs {
 		boolean okClicked = mainApp.fenetreModification(tempFournisseur);
 		if (okClicked) {
 			Connection conn = bddUtil.dbConnect();
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `fournisseur` (`idFournisseur`, `nom`, `numTel`, `adresseMail`, `adresseDepot`, `cpDepot`, `villeDepot`) "
+			PreparedStatement fournisseur = conn.prepareStatement("INSERT INTO `fournisseur` (`idFournisseur`, `nom`, `numTel`, `adresseMail`, `adresseDepot`, `cpDepot`, `villeDepot`) "
 														+ "VALUES (NULL, ?, ?, ?, ?, ?, ?)");
-			pstmt.setString(6, tempFournisseur.getNomVille());
-			pstmt.setInt(5, tempFournisseur.getCodePostal());
-			pstmt.setString(4, tempFournisseur.getAdresse());
-			pstmt.setString(3, tempFournisseur.getMail());
-			pstmt.setInt(2, tempFournisseur.getNumTel());
-			pstmt.setString(1, tempFournisseur.getNom());
-			pstmt.execute();
+			fournisseur.setString(6, tempFournisseur.getNomVille());
+			fournisseur.setInt(5, tempFournisseur.getCodePostal());
+			fournisseur.setString(4, tempFournisseur.getAdresse());
+			fournisseur.setString(3, tempFournisseur.getMail());
+			fournisseur.setInt(2, tempFournisseur.getNumTel());
+			fournisseur.setString(1, tempFournisseur.getNom());
+			fournisseur.execute();
 			refresh();
 			alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 
@@ -143,20 +144,20 @@ public class FournisseursControleur extends FonctionsControleurs {
 		if (selectedIndex >= 0) {
 			try {
 				Connection conn = bddUtil.dbConnect();
-				PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `fournisseur` WHERE idFournisseur=?");
-				pstmt.setInt(1, (selectedTable.getIdFournisseur()));
-				pstmt.execute();
+				PreparedStatement suppression = conn.prepareStatement("DELETE FROM `fournisseur` WHERE idFournisseur=?");
+				suppression.setInt(1, (selectedTable.getIdFournisseur()));
+				suppression.execute();
 				refresh();
 				alerteInfo("Suppression réussie", null, "Le fournisseur " + selectedTable.getIdFournisseur() + " vient d'être supprimée!");
 				conn.close();
-				pstmt.close();
+				suppression.close();
 			} catch (SQLException e) {
 				  System.out.println("Erreur dans le code sql" + e);
 			}
 
 		} else {
 			// Si rien n'est séléctionné
-			alerteAttention("Aucune sélection", "Aucun fournisseur de sélectionnée!","Selectionnez un fournisseur pour pouvoir la supprimer");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun fournisseur de sélectionnée!","Selectionnez un fournisseur pour pouvoir la supprimer");
 		}
 	}
 
@@ -182,12 +183,12 @@ public class FournisseursControleur extends FonctionsControleurs {
 											+ "WHERE `fournisseur`.`idFournisseur` = "+ selectedFournisseur.getIdFournisseur() + ";");
 
 				refresh();
-				alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+				FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 			}
 
 		} else {
 			// Si rien n'est selectionné
-			alerteAttention("Aucune sélection", "Aucun founisseur de sélectionnée!", "Selectionnez un fournisseur pour pouvoir le modifier");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun founisseur de sélectionnée!", "Selectionnez un fournisseur pour pouvoir le modifier");
 		}
 	}
 

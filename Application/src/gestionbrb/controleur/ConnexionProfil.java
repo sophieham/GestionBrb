@@ -15,7 +15,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ConnexionProfil extends FonctionsControleurs{	
+public class ConnexionProfil{	
 	
 	@FXML private TextField identifiant;
 	@FXML private PasswordField pass;
@@ -44,22 +44,22 @@ public class ConnexionProfil extends FonctionsControleurs{
 	@FXML 
 	public void Connexion() throws SQLException, ClassNotFoundException {
 		Connection con = bddUtil.dbConnect();
-		PreparedStatement stat = null;
-		ResultSet rs = null; 
+		PreparedStatement requete = null;
+		ResultSet connex = null; 
 		String sql = "SELECT * FROM utilisateurs WHERE identifiant = ? AND pass = ?";
 		try {
-			stat = con.prepareStatement(sql);
-			stat.setString(1, identifiant.getText().toString());
-			stat.setString(2, pass.getText().toString());
-			rs = stat.executeQuery();
-			if(rs.next()) {
+			requete = con.prepareStatement(sql);
+			requete.setString(1, identifiant.getText().toString());
+			requete.setString(2, pass.getText().toString());
+			connex = requete.executeQuery();
+			if(connex.next()) {
 				etat.setText("Connecté"); // a enlever quand la redirection sera 100% fonctionnelle
 				// en attente du menu principal pour faire la redirection
 			}else {
-				alerteErreur("Erreur de connexion", "Combinaison identifiant/mot de passe incorrecte", "Veuillez réessayer.");
+				FonctionsControleurs.alerteErreur("Erreur de connexion", "Combinaison identifiant/mot de passe incorrecte", "Veuillez réessayer.");
 			}
 		} catch (Exception e) {
-			alerteErreur("Erreur", "Un erreur est survenue!", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Un erreur est survenue!", "Détails: "+e);
 		}
 
 	}
