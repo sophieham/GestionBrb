@@ -17,6 +17,11 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Sophie
+ *
+ */
 public class ModifierCalendrierControleur implements Initializable{
 
     @FXML

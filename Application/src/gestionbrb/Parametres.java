@@ -17,8 +17,12 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
-
-public class Main extends Application {
+/**
+ * 
+ * @author Linxin
+ *
+ */
+public class Parametres extends Application {
 	
 	/**private Locale locale = new Locale("en");
 

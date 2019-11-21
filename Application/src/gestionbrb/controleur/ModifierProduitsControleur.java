@@ -17,8 +17,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+/**
+ * @author Leo
+ */
 
-public class ModifierProduitsControleur extends FonctionsControleurs {
+public class ModifierProduitsControleur {
 	@FXML
 	private TextField chNomProduit;
 	@FXML
@@ -44,14 +47,14 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 	private void initialize() {
 		try {
 		Connection conn = bddUtil.dbConnect();
-		ResultSet rs = conn.createStatement().executeQuery("select idType, nom from type_produit");
-		ResultSet res = conn.createStatement().executeQuery("select nomIngredient from ingredients");
-		while (rs.next()) {
-			listeType.add("ID: "+rs.getInt("idType")+" -> "+rs.getString("nom"));
+		ResultSet typeDB = conn.createStatement().executeQuery("select idType, nom from type_produit");
+		ResultSet ingredientDB = conn.createStatement().executeQuery("select nomIngredient from ingredients");
+		while (typeDB.next()) {
+			listeType.add("ID: "+typeDB.getInt("idType")+" -> "+typeDB.getString("nom"));
 		}
 		chChoixType.setItems(listeType);
-		while(res.next()) {
-			String nomIngredient = res.getString("nomIngredient");
+		while(ingredientDB.next()) {
+			String nomIngredient = ingredientDB.getString("nomIngredient");
 			listeNomIngredient.add(nomIngredient);
 		}
 		for (int i = 0; i < listeNomIngredient.size(); i++) {
@@ -68,7 +71,7 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 			else System.out.println("eeeerrr");
 		}
 	} catch (Exception e) {
-		alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+		FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 	}
 	}
 
@@ -107,7 +110,7 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 				dialogStage.close();
 			}
 		} catch (Exception e) {
-			alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 		}
 	}
 	@FXML
@@ -152,7 +155,7 @@ public class ModifierProduitsControleur extends FonctionsControleurs {
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier les informations",
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier les informations",
 					erreurMsg);
 
 			return false;

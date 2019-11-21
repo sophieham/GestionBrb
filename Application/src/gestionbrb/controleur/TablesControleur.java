@@ -13,7 +13,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class TablesControleur extends FonctionsControleurs {
+/**
+ * 
+ * @author Sophie
+ *
+ */
+public class TablesControleur {
 	@FXML
 	private TableView<Table> tableTable;
 	@FXML
@@ -75,14 +80,14 @@ public class TablesControleur extends FonctionsControleurs {
         boolean okClicked = mainApp.fenetreModification(tempTable);
         if (okClicked) {
 				Connection conn = bddUtil.dbConnect();
-				PreparedStatement pstmt = conn.prepareStatement
+				PreparedStatement calendrierDB = conn.prepareStatement
 						("INSERT INTO `tables` (`idTable`, `NoTable`, `nbCouverts_min`, `nbCouverts_max`, `idReservation`) VALUES (NULL, ?, ?, ?, NULL)");
-				pstmt.setInt(1, tempTable.getNoTable());
-				pstmt.setInt(2, tempTable.getNbCouvertsMin());
-				pstmt.setInt(3, tempTable.getNbCouvertsMax());
-				pstmt.execute();
+				calendrierDB.setInt(1, tempTable.getNoTable());
+				calendrierDB.setInt(2, tempTable.getNbCouvertsMin());
+				calendrierDB.setInt(3, tempTable.getNbCouvertsMax());
+				calendrierDB.execute();
 				refresh();
-				alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+				FonctionsControleurs.alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 			}
 	}
 
@@ -94,9 +99,9 @@ public class TablesControleur extends FonctionsControleurs {
 	private void refresh() throws ClassNotFoundException, SQLException {
 		Tables.getTableData().clear();
 		Connection conn = bddUtil.dbConnect();
-		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM tables");
-		while(rs.next()) {
-			Tables.getTableData().add(new Table (rs.getInt(1), rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getInt(5)));
+		ResultSet tableDB = conn.createStatement().executeQuery("SELECT * FROM tables");
+		while(tableDB.next()) {
+			Tables.getTableData().add(new Table (tableDB.getInt(1), tableDB.getInt(2),tableDB.getInt(3),tableDB.getInt(4),tableDB.getInt(5)));
 			tableTable.setItems(Tables.getTableData());
 		}
 		
@@ -114,13 +119,13 @@ public class TablesControleur extends FonctionsControleurs {
 		if (selectedIndex >= 0) {
 			try {
 			Connection conn = bddUtil.dbConnect();
-			PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `tables` WHERE idTable=?");
-			pstmt.setInt(1, (selectedTable.getIdTable()));
-			pstmt.execute();
+			PreparedStatement tables = conn.prepareStatement("DELETE FROM `tables` WHERE idTable=?");
+			tables.setInt(1, (selectedTable.getIdTable()));
+			tables.execute();
 			refresh();
-			alerteInfo("Suppression réussie", null, "La table "+selectedTable.getNoTable()+" vient d'être supprimée!");
+			FonctionsControleurs.alerteInfo("Suppression réussie", null, "La table "+selectedTable.getNoTable()+" vient d'être supprimée!");
 			conn.close();
-			pstmt.close();
+			tables.close();
 			}
 			catch(SQLException e) {
 				System.out.println("Erreur dans le code sql"+e);
@@ -130,7 +135,7 @@ public class TablesControleur extends FonctionsControleurs {
 
 		} else {
 			// Si rien n'est séléctionné
-			alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
 					"Selectionnez une table pour pouvoir la supprimer");
 		}
 	}
@@ -155,12 +160,12 @@ public class TablesControleur extends FonctionsControleurs {
 						+ "`idReservation` = NULL WHERE `idTable`="+selectedTable.getIdTable()+";");
 
 				refresh();
-				alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+				FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 			}
 
 		} else {
 			// Si rien n'est selectionné
-			alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
 					"Selectionnez une réservation pour pouvoir la modifier");
 		}
 	}

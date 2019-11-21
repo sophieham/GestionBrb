@@ -14,6 +14,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+/**
+ * 
+ * @author Sophie
+ *
+ */
+
 public class CalendrierControleur {
 	@FXML
 	private TableView<Reservations> reservationTable;

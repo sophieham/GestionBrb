@@ -8,7 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ModifierFournisseurControleur extends FonctionsControleurs {
+/**
+ * 
+ * @author Roman
+ *
+ */
+public class ModifierFournisseurControleur {
 
 	@FXML 
 	private TextField champNom;
@@ -129,8 +134,7 @@ public class ModifierFournisseurControleur extends FonctionsControleurs {
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",
-					erreurMsg);
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",erreurMsg);
 
 			return false;
 		}

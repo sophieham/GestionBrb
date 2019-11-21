@@ -22,6 +22,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Leo
+ *
+ */
 public class IngredientsProduits extends Application {
 	
 	private Stage primaryStage;

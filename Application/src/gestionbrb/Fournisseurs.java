@@ -18,6 +18,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Roman
+ *
+ */
 public class Fournisseurs extends Application {
 	private Stage primaryStage;
 	private static ObservableList<Fournisseur> fournisseurs = FXCollections.observableArrayList();
@@ -43,13 +48,13 @@ public class Fournisseurs extends Application {
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Administration -- Fournisseurs");
-		afficheTable();
+		afficheFournisseur();
 	}
 
 	/**
 	 * Appeler pour afficher la liste des fournisseurs
 	 **/
-	public void afficheTable() {
+	public void afficheFournisseur() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Fournisseurs.class.getResource("vue/GestionFournisseurs.fxml"));

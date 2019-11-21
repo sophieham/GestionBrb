@@ -6,7 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ModifierTypesControleur extends FonctionsControleurs{
+/**
+ * 
+ * @author Sophie
+ *
+ */
+public class ModifierTypesControleur {
 	@FXML
 	private TextField chNomType;
 	
@@ -44,7 +49,7 @@ public class ModifierTypesControleur extends FonctionsControleurs{
 				dialogStage.close();
 			}
 		} catch (Exception e) {
-			alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 		}
 	}@FXML
 	private void actionAnnuler() {

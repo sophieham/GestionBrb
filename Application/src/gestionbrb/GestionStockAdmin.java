@@ -24,7 +24,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
-
+/**
+ * 
+ * @author Linxin
+ *
+ */
 public class GestionStockAdmin extends Application {
 	private Connection conn;
 	@FXML

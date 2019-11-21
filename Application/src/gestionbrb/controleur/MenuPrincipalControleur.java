@@ -9,7 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class MenuPrincipalControleur extends FonctionsControleurs {
+/**
+ * 
+ * @author Roman
+ *
+ */
+public class MenuPrincipalControleur {
 	private MenuPrincipal princip;
 	
 
@@ -40,12 +45,12 @@ public class MenuPrincipalControleur extends FonctionsControleurs {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(MenuPrincipal.class.getResource("vue/Administration.fxml"));
 		AnchorPane tablesOverview = (AnchorPane) loader.load();
-			Scene scene = new Scene(tablesOverview);
+			Scene scene =  new Scene(tablesOverview);
 			primaryStage.setScene(scene);
 			princip.setPrimarystage(primaryStage);
 			
 		} catch (Exception e) {
-			alerteErreur("Erreur d'éxecution", null, "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxecution", null, "Détails: "+e);
 		}
 
 		

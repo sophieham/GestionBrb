@@ -11,6 +11,11 @@ import javafx.stage.Stage;
 import gestionbrb.controleur.DemarrerCommandeControleur;
 import gestionbrb.controleur.FonctionsControleurs;
 
+/**
+ * 
+ * @author Sophie
+ *
+ */
 public class DemarrerCommande extends Application {
 
     public static Stage primaryStage;

@@ -57,19 +57,6 @@ public class IngredientsProduitsControleur{
 	@FXML
 	private TableColumn<Type, String> colonneNomType;
 
-	@FXML
-	private Label chNomInredients;
-	@FXML
-	private Label chPrixIngredient;
-	@FXML
-	private Label chQuantiteIngredient;
-	@FXML
-	private Label chNomProduit;
-	@FXML
-	private Label chPrixProduit;
-	@FXML
-	private Label chQuantiteProduit;
-
 	private IngredientsProduits mainApp;
 
 	public IngredientsProduitsControleur() {

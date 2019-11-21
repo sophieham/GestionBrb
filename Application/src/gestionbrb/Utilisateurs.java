@@ -18,6 +18,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Roman
+ *
+ */
 public class Utilisateurs extends Application {
 	private Stage primaryStage;
 	private static ObservableList<Utilisateur> comptes = FXCollections.observableArrayList();
@@ -48,12 +53,12 @@ public class Utilisateurs extends Application {
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Administration -- Utilisateurs");
-		afficheTable();
+		afficheUtilisateur();
 	}
 /**
  * affiche la table de gestion des utilisateurs
  */
-	public void afficheTable() {
+	public void afficheUtilisateur() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Utilisateurs.class.getResource("vue/GestionComptes.fxml"));

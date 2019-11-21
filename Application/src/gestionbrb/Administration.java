@@ -11,6 +11,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Roman
+ *
+ */
 public class Administration extends Application {
 	private Stage primaryStage;
 

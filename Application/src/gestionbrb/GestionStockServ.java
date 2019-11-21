@@ -7,6 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Linxin
+ *
+ */
 public class GestionStockServ extends Application{
 
 	@Override

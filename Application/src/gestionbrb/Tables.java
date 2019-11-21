@@ -17,7 +17,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+/**
+ * 
+ * @author Sophie
+ *
+ */
 public class Tables extends Application {
 	private Stage primaryStage;
 	private static ObservableList<Table> tables = FXCollections.observableArrayList();

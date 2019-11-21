@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
+import gestionbrb.GestionStockAdmin;
 import gestionbrb.model.Fournisseur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

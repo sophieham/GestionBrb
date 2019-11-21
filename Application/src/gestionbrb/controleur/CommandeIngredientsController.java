@@ -34,7 +34,11 @@ import gestionbrb.util.bddUtil;
 import gestionbrb.CommandeIngredients;
 import gestionbrb.GestionStockAdmin;
 import gestionbrb.controleur.GestionStockAdminController;
-
+/**
+ * 
+ * @author Linxin
+ *
+ */
 public class CommandeIngredientsController implements Initializable{
 	@FXML
 	private VBox vbox;

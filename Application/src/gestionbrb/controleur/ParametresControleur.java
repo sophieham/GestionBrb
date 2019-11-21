@@ -3,40 +3,31 @@ package gestionbrb.controleur;
 import java.io.IOException;
 //import java.awt.event.ActionEvent;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
 
-import com.sun.glass.ui.Accessible.EventHandler;
-
-import gestionbrb.Main;
+import gestionbrb.Parametres;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
 
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.AnchorPaneBuilder;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
-public class MyController implements Initializable{
+/**
+ * 
+ * @author Linxin
+ *
+ */
+public class ParametresControleur implements Initializable{
 	@FXML
 	private  Label lblTextByController;
 	@FXML
@@ -56,7 +47,7 @@ public class MyController implements Initializable{
 	@FXML
 	private AnchorPane AnchorPane;
 
-	Main startApp = new Main(); 
+	Parametres startApp = new Parametres(); 
 
 	@Override
 	   public void initialize(URL location, ResourceBundle resources) {

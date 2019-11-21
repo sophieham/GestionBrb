@@ -13,7 +13,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ModifierIngredientsControleur extends FonctionsControleurs {
+/**
+ * 
+ * @author Leo
+ *
+ */
+public class ModifierIngredientsControleur {
 	
 	@FXML
 	private TextField chNomIngredient;
@@ -35,17 +40,17 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 	private void initialize() {
 		try {
 			Connection conn = bddUtil.dbConnect();
-			ResultSet rs = conn.createStatement().executeQuery("select idFournisseur, nom from fournisseur");
+			ResultSet fournisseurDB = conn.createStatement().executeQuery("select idFournisseur, nom from fournisseur");
 
-			while (rs.next()) {
-				listeFournisseur.add("ID: "+rs.getInt("idFournisseur")+" -> "+rs.getString("nom"));
-				System.out.println("ID: "+rs.getInt("idFournisseur")+" -> "+rs.getString("nom"));
+			while (fournisseurDB.next()) {
+				listeFournisseur.add("ID: "+fournisseurDB.getInt("idFournisseur")+" -> "+fournisseurDB.getString("nom"));
+				System.out.println("ID: "+fournisseurDB.getInt("idFournisseur")+" -> "+fournisseurDB.getString("nom"));
 			}
 			chChoixFournisseur.setItems(listeFournisseur);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 		}
 	}
 
@@ -83,7 +88,7 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 				dialogStage.close();
 			}
 		} catch (Exception e) {
-			alerteErreur("Erreur", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Erreur d'éxecution", "Détails: "+e);
 		}
 	}
 	@FXML
@@ -120,7 +125,7 @@ public class ModifierIngredientsControleur extends FonctionsControleurs {
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier les informations",
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier les informations",
 					erreurMsg);
 
 			return false;

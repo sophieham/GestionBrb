@@ -11,6 +11,11 @@ import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.controleur.ModifierCalendrierControleur;
 import gestionbrb.model.Reservations;
 
+/**
+ * 
+ * @author Sophie
+ *
+ */
 public class Calendrier {
 
     private Stage primaryStage;

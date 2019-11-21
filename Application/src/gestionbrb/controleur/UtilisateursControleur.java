@@ -12,8 +12,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
-public class UtilisateursControleur extends FonctionsControleurs {
+/**
+ * 
+ * @author Roman
+ *
+ */
+public class UtilisateursControleur {
 	@FXML
 	private TableView<Utilisateur> utilisateursTable;
 	@FXML
@@ -75,16 +79,16 @@ public class UtilisateursControleur extends FonctionsControleurs {
 		boolean okClicked = mainApp.fenetreModification(tempUtilisateur);
 		if (okClicked) {
 			Connection conn = bddUtil.dbConnect();
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `utilisateurs` (`idCompte`, `identifiant`, `pass`, `nom`, `prenom`, `typeCompte`) "
+			PreparedStatement utilisateursDB = conn.prepareStatement("INSERT INTO `utilisateurs` (`idCompte`, `identifiant`, `pass`, `nom`, `prenom`, `typeCompte`) "
 															+ "VALUES (NULL, ?, ?, ?, ?, ?)");
-			pstmt.setInt(5, tempUtilisateur.getPrivileges());
-			pstmt.setString(4, tempUtilisateur.getPrenom());
-			pstmt.setString(3, tempUtilisateur.getNom());
-			pstmt.setString(2, tempUtilisateur.getMotdepasse());
-			pstmt.setString(1, tempUtilisateur.getIdentifiant());
-			pstmt.execute();
+			utilisateursDB.setInt(5, tempUtilisateur.getPrivileges());
+			utilisateursDB.setString(4, tempUtilisateur.getPrenom());
+			utilisateursDB.setString(3, tempUtilisateur.getNom());
+			utilisateursDB.setString(2, tempUtilisateur.getMotdepasse());
+			utilisateursDB.setString(1, tempUtilisateur.getIdentifiant());
+			utilisateursDB.execute();
 			refresh();
-			alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+			FonctionsControleurs.alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 
 		}
 	}
@@ -99,14 +103,14 @@ public class UtilisateursControleur extends FonctionsControleurs {
 	private void refresh() throws ClassNotFoundException, SQLException {
 		Utilisateurs.getTableData().clear();
 		Connection conn = bddUtil.dbConnect();
-		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM utilisateurs");
-		while (rs.next()) {
-			Utilisateurs.getTableData().add(new Utilisateur(Integer.parseInt(rs.getString("idCompte")), 
-															rs.getString("identifiant"),
-															rs.getString("pass"), 
-															rs.getString("nom"), 
-															rs.getString("prenom"),
-															rs.getInt("typeCompte")));
+		ResultSet utilisateursDB = conn.createStatement().executeQuery("SELECT * FROM utilisateurs");
+		while (utilisateursDB.next()) {
+			Utilisateurs.getTableData().add(new Utilisateur(Integer.parseInt(utilisateursDB.getString("idCompte")), 
+															utilisateursDB.getString("identifiant"),
+															utilisateursDB.getString("pass"), 
+															utilisateursDB.getString("nom"), 
+															utilisateursDB.getString("prenom"),
+															utilisateursDB.getInt("typeCompte")));
 			utilisateursTable.setItems(Utilisateurs.getTableData());
 		}
 
@@ -125,20 +129,20 @@ public class UtilisateursControleur extends FonctionsControleurs {
 		if (selectedIndex >= 0) {
 			try {
 				Connection conn = bddUtil.dbConnect();
-				PreparedStatement pstmt = conn.prepareStatement("DELETE FROM `utilisateurs` WHERE identifiant=?");
-				pstmt.setString(1, (selectedTable.getIdentifiant()));
-				pstmt.execute();
+				PreparedStatement utilisateursDB = conn.prepareStatement("DELETE FROM `utilisateurs` WHERE identifiant=?");
+				utilisateursDB.setString(1, (selectedTable.getIdentifiant()));
+				utilisateursDB.execute();
 				refresh();
-				alerteInfo("Suppression réussie", null, "L'utilisateur " + selectedTable.getIdentifiant() + " vient d'être supprimée!");
+				FonctionsControleurs.alerteInfo("Suppression réussie", null, "L'utilisateur " + selectedTable.getIdentifiant() + " vient d'être supprimée!");
 				conn.close();
-				pstmt.close();
+				utilisateursDB.close();
 			} catch (SQLException e) {
 				  System.out.println("Erreur dans le code sql" + e);
 			}
 
 		} else {
 			// Si rien n'est séléctionné
-			alerteAttention("Aucune sélection", "Aucun compte de sélectionnée!", "Selectionnez un compte pour pouvoir la supprimer");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionnée!", "Selectionnez un compte pour pouvoir la supprimer");
 		}
 	}
 
@@ -163,12 +167,12 @@ public class UtilisateursControleur extends FonctionsControleurs {
 						+ "' WHERE `utilisateurs`.`idCompte` = "+ selectedUtilisateur.getIdUtilisateur() + ";");
 
 				refresh();
-				alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+				FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 			}
 
 		} else {
 			// Si rien n'est selectionné
-			alerteAttention("Aucune sélection", "Aucun compte de sélectionnée!", "Selectionnez un compte pour pouvoir le modifier");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionnée!", "Selectionnez un compte pour pouvoir le modifier");
 		}
 	}
 

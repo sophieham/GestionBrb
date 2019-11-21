@@ -8,7 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ModifierTablesControleur extends FonctionsControleurs {
+/**
+ * 
+ * @author Sophie
+ *
+ */
+public class ModifierTablesControleur {
 
 	@FXML
 	private TextField champNbCouvertsMin;
@@ -122,7 +127,7 @@ public class ModifierTablesControleur extends FonctionsControleurs {
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",
 					erreurMsg);
 
 			return false;

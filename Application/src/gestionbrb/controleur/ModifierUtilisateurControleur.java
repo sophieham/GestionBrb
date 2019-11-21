@@ -8,8 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-public class ModifierUtilisateurControleur extends FonctionsControleurs {
+/**
+ * 
+ * @author Roman
+ *
+ */
+public class ModifierUtilisateurControleur {
 
 	@FXML 
 	private TextField champNom;
@@ -145,7 +149,7 @@ public class ModifierUtilisateurControleur extends FonctionsControleurs {
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",erreurMsg);
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",erreurMsg);
 
 			return false;
 		}
