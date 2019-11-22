@@ -81,7 +81,7 @@
       </VBox>
       <VBox layoutX="846.0" layoutY="553.0" prefHeight="233.0" prefWidth="418.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="419.0" text="Encaisser la commande">
+            <Button mnemonicParsing="false" onAction="#afficherAddition" prefHeight="55.0" prefWidth="419.0" text="Encaisser la commande">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>

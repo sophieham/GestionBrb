@@ -1,5 +1,6 @@
 package gestionbrb.controleur;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,15 +13,20 @@ import java.util.Map.Entry;
 
 import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
+import gestionbrb.model.Reservations;
 import gestionbrb.util.bddUtil;
+import gestionbrb.vue.AdditionControleur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -53,7 +59,7 @@ public class CommandeControleur implements Initializable {
 	@FXML
 	private TabPane typeProduit;
 	@FXML
-	private ObservableList<Produit> produitCommande = FXCollections.observableArrayList();
+	private static ObservableList<Produit> produitCommande = FXCollections.observableArrayList();
 	
 	List<Button> listeProduits = new ArrayList<>();
 	List<Tab> listeOnglets = new ArrayList<>();
@@ -67,7 +73,9 @@ public class CommandeControleur implements Initializable {
 	private Commande commande;
 	
 	DemarrerCommandeControleur parent;
+
     private Stage primaryStage;
+
 	
 	public CommandeControleur() {
 	}
@@ -76,6 +84,8 @@ public class CommandeControleur implements Initializable {
 		this.parent = parent;		
 	}
 
+	
+	
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
@@ -150,16 +160,17 @@ public class CommandeControleur implements Initializable {
 											listePrix.add(prix);
 											totalProduit.setText("" + produitCommande.size());
 											mapNomParId.get(produit.getKey());
-											bddUtil.dbQueryExecute("INSERT INTO `contientproduit` (`idProduit`, `idCommande`, `qte`) VALUES ("
+											bddUtil.dbQueryExecute("INSERT INTO `contenirproduit` (`idProduit`, `idCommande`, `qte`) VALUES ("
 															+ mapNomParId.get(produit.getKey()) + ", "
 															+ CommandeControleur.this.commande.getIdCommande() + ", "
 															+ "'1') ");
-											ResultSet commandeDB = conn.createStatement().executeQuery("SELECT contientproduit.idProduit, idCommande, contientproduit.qte, sum(produit.prix) FROM `contientproduit` inner join produit on contientproduit.idProduit = produit.idProduit where idCommande = "+CommandeControleur.this.commande.getIdCommande());
+											ResultSet commandeDB = conn.createStatement().executeQuery("SELECT contenirproduit.idProduit, idCommande, contenirproduit.qte, sum(produit.prix) FROM `contenirproduit` inner join produit on contenirproduit.idProduit = produit.idProduit where idCommande = "+CommandeControleur.this.commande.getIdCommande());
 											while (commandeDB.next()) {
 												String tprix = commandeDB.getString("sum(produit.prix)");
 												totalPrix.setText(tprix+" €");
 											}
 										} catch (Exception e) {
+											FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
 											e.printStackTrace();
 										}
 									}
@@ -183,5 +194,33 @@ public class CommandeControleur implements Initializable {
 		}
 	}
 	
+	@FXML
+	public void afficherAddition() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/AdditionCommande.fxml"));
+			Parent vueCommande = (Parent) loader.load();
+			Stage stage = new Stage();
+			stage.setTitle("-- Addition de la table "+CommandeControleur.this.commande.getNoTable()+" --");
+			stage.setScene(new Scene(vueCommande));
+			stage.show();
+			
+			AdditionControleur controller = loader.getController();
+			controller.setParent(this);
+
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();
+		}
+		
+	}
+	
+    /**
+     * Retourne la liste des produits commandés. 
+     * @return reservationData
+     */
+    
+    public static ObservableList<Produit> getCommandeData() {
+        return produitCommande;
+    }
 
 }

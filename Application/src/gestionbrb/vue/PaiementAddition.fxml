@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="fenetre" prefHeight="400.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.PaiementAdditionControleur">
+   <children>
+      <Pane layoutX="-4.0" prefHeight="400.0" prefWidth="708.0">
+         <children>
+            <VBox layoutX="151.0" prefHeight="400.0" prefWidth="415.0">
+               <children>
+                  <Pane prefHeight="100.0" prefWidth="415.0">
+                     <children>
+                        <Label layoutX="59.0" layoutY="8.0" text="Reste à payer: ">
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="montantRestantLbl" alignment="CENTER_RIGHT" layoutX="238.0" layoutY="8.0" prefHeight="40.0" prefWidth="123.0" text="0,00€">
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Label fx:id="moyenDePaiementLbl" alignment="CENTER" prefHeight="30.0" prefWidth="419.0" text="Entrez le montant à payer par {paiement}" textAlignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <HBox prefHeight="83.0" prefWidth="401.0">
+                     <children>
+                        <TextField fx:id="champMontant" alignment="CENTER" prefHeight="44.0" prefWidth="212.0">
+                           <HBox.margin>
+                              <Insets left="50.0" top="10.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="btnValider" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#actionValider" text="OK">
+                           <HBox.margin>
+                              <Insets left="10.0" top="10.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Pane prefHeight="66.0" prefWidth="463.0">
+                     <children>
+                        <Button fx:id="btnCalculMonnaie" layoutX="59.0" layoutY="3.0" mnemonicParsing="false" onAction="#calculRenduEspece" prefHeight="39.0" prefWidth="212.0" text="Calculer le rendu">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                     </children></Pane>
+                  <Label fx:id="detailsLbl" alignment="CENTER" prefHeight="32.0" prefWidth="708.0">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnToutPayer" alignment="CENTER" mnemonicParsing="false" onAction="#ToutPayer" prefHeight="31.0" prefWidth="392.0" text="Tout payer par {paiement}">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="50.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnToutPayer1" alignment="CENTER" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" prefWidth="392.0" text="Revenir en arrière">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

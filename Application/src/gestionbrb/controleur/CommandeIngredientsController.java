@@ -57,7 +57,7 @@ public class CommandeIngredientsController implements Initializable{
 	@FXML
 	private Label prixunite;
 	@FXML
-	private ChoiceBox choiceFournisseur;
+	private ChoiceBox<String> choiceFournisseur;
 	@FXML
 	private Label prixtotal;
 	@FXML
@@ -68,7 +68,7 @@ public class CommandeIngredientsController implements Initializable{
 	private MenuItem a;
 	@FXML
 	private MenuItem b;
-	private ObservableList data;
+	private ObservableList<String> data;
 	private Connection conn;
 	private String Nom;
 	private String idFournisseur;

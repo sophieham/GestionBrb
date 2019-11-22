@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="fenetre" prefHeight="400.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.AdditionControleur">
    <children>
       <HBox layoutX="-6.0" prefHeight="428.0" prefWidth="714.0">
          <children>
             <VBox prefHeight="428.0" prefWidth="523.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="49.0" prefWidth="314.0" text="Table 0 (0 couverts)">
+                  <Label fx:id="infoTable" alignment="CENTER" prefHeight="49.0" prefWidth="314.0" text="Table 0 (0 couverts)">
                      <VBox.margin>
                         <Insets bottom="5.0" left="25.0" top="25.0" />
                      </VBox.margin>
@@ -25,11 +25,11 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TableView prefHeight="389.0" prefWidth="313.0">
+                  <TableView fx:id="tableRecap" prefHeight="389.0" prefWidth="313.0">
                     <columns>
-                      <TableColumn prefWidth="195.0" text="Produit" />
-                      <TableColumn prefWidth="75.0" text="Prix" />
-                        <TableColumn minWidth="0.0" prefWidth="42.0" text="Qte" />
+                      <TableColumn fx:id="colonneProduit" prefWidth="195.0" text="Produit" />
+                      <TableColumn fx:id="colonnePrix" prefWidth="75.0" text="Prix" />
+                        <TableColumn fx:id="colonneQte" minWidth="0.0" prefWidth="42.0" text="Qte" />
                     </columns>
                      <VBox.margin>
                         <Insets left="25.0" right="25.0" />
@@ -37,7 +37,7 @@
                   </TableView>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label prefHeight="30.0" prefWidth="200.0" text="Total: 0 produit(s)">
+                        <Label fx:id="totalProduits" prefHeight="30.0" prefWidth="200.0" text="Total: 0 produit(s)">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -45,7 +45,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="72.0" text="0,00€">
+                        <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="72.0" text="0,00€">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -71,7 +71,12 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" layoutX="168.0" layoutY="10.0" prefHeight="35.0" prefWidth="155.0" text="0,00€">
+                        <Label fx:id="totalAPayer" alignment="CENTER_RIGHT" layoutX="168.0" layoutY="10.0" prefHeight="35.0" prefWidth="147.0" text="0,00">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="315.0" layoutY="10.0" text="€">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -83,7 +88,7 @@
                   </Pane>
                   <HBox prefHeight="36.0" prefWidth="338.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="199.0" text="Carte Bancaire">
+                        <Button mnemonicParsing="false" onAction="#payerAddition" prefHeight="36.0" prefWidth="199.0" text="Carte Bancaire">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
@@ -91,7 +96,7 @@
                               <Font size="19.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="214.0" text="Espèces">
+                        <Button mnemonicParsing="false" onAction="#payerAddition" prefHeight="36.0" prefWidth="214.0" text="Espèces">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -106,7 +111,7 @@
                   </HBox>
                   <HBox prefHeight="36.0" prefWidth="338.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="249.0" text="Chèque">
+                        <Button mnemonicParsing="false" onAction="#payerAddition" prefHeight="36.0" prefWidth="249.0" text="Chèque">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
@@ -114,7 +119,7 @@
                               <Font size="19.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="263.0" text="Ticket-Resto">
+                        <Button mnemonicParsing="false" onAction="#payerAddition" prefHeight="36.0" prefWidth="263.0" text="Ticket-Resto">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>

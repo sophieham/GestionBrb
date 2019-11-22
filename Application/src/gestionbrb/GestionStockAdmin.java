@@ -58,7 +58,7 @@ public class GestionStockAdmin extends Application {
 	public void start(Stage stage) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GestionStockAdmin.class.getResource("GestionStockAdmin.fxml"));
+			loader.setLocation(GestionStockAdmin.class.getResource("vue/GestionStockAdmin.fxml"));
 			AnchorPane tablesOverview = (AnchorPane) loader.load();
 
 			Scene scene = new Scene(tablesOverview);

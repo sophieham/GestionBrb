@@ -155,7 +155,7 @@ public class DemarrerCommandeControleur {
 
 	public void afficherCalendrier() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("CalendrierReservations.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/CalendrierReservations.fxml"));
 			Parent vueCalendrier = (Parent) loader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(vueCalendrier));
@@ -219,7 +219,7 @@ public class DemarrerCommandeControleur {
 				commande= new Commande(id, numTable, nombreCouverts);
 			}
 			bddUtil.dbQueryExecute("INSERT INTO `commande` (`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `qteTotal`, `date`) VALUES ("+commande.getIdCommande()+", '"+numTable+"', NULL, '"+nombreCouverts+"', NULL, current_timestamp())");
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Commande.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Commande.fxml"));
 			Parent vueCommande = (Parent) loader.load();
 			Stage stage = new Stage();
 			stage.setTitle("-- Commande de la table "+numTable+" --");
@@ -229,7 +229,7 @@ public class DemarrerCommandeControleur {
 			CommandeControleur controller = loader.getController();
 	        controller.setParent(this);
 			
-		} catch (IOException | SQLException | ClassNotFoundException e) {
+		} catch (IOException | SQLException | ClassNotFoundException | IllegalStateException e) {
 			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
 		}
 		catch(NumberFormatException e) {
