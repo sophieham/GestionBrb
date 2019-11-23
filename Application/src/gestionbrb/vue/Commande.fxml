@@ -83,31 +83,31 @@
          <children>
             <Button mnemonicParsing="false" onAction="#afficherAddition" prefHeight="55.0" prefWidth="419.0" text="Encaisser la commande">
                <VBox.margin>
-                  <Insets bottom="5.0" />
+                  <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="423.0" text="Supprimer un article">
+            <Button mnemonicParsing="false" onAction="#supprimerProduit" prefHeight="55.0" prefWidth="419.0" text="Supprimer un article">
                <VBox.margin>
-                  <Insets bottom="5.0" />
+                  <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
             </Button>
             <HBox prefHeight="54.0" prefWidth="418.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="261.0" text="Demande spé">
+                  <Button mnemonicParsing="false" onAction="#demandeSpeciale" prefHeight="55.0" prefWidth="261.0" text="Demande spé">
                      <HBox.margin>
-                        <Insets bottom="5.0" right="5.0" />
+                        <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
                   <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="242.0" text="Imprimer ticket">
                      <HBox.margin>
-                        <Insets bottom="5.0" />
+                        <Insets left="5.0" />
                      </HBox.margin>
                   </Button>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" prefHeight="49.0" prefWidth="418.0" text="Retour au menu principal">
+            <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="419.0" text="Retour au menu principal">
                <VBox.margin>
-                  <Insets bottom="5.0" />
+                  <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
             </Button>
          </children>

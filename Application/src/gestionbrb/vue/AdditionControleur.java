@@ -2,7 +2,9 @@ package gestionbrb.vue;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import gestionbrb.controleur.CommandeControleur;
@@ -10,6 +12,7 @@ import gestionbrb.controleur.DemarrerCommandeControleur;
 import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
+import gestionbrb.model.Table;
 import gestionbrb.util.bddUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -87,10 +90,12 @@ public class AdditionControleur implements Initializable {
 			Connection conn = bddUtil.dbConnect();
 			ResultSet commandeDB = conn.createStatement().executeQuery("SELECT count(contenirproduit.idProduit), contenirproduit.idProduit, commande.idCommande, contenirproduit.qte, sum(produit.prix), commande.Reste_A_Payer FROM `contenirproduit` inner join produit on contenirproduit.idProduit = produit.idProduit inner join commande on contenirproduit.idCommande = commande.idCommande where commande.idCommande = "+commande.getIdCommande());
 			while (commandeDB.next()) {
-				String tprix = commandeDB.getString("sum(produit.prix)");
-				totalPrix.setText(tprix);
-				totalProduits.setText("Total: "+commandeDB.getString("count(contenirproduit.idProduit)")+" produit(s)");
-				totalAPayer.setText(tprix);
+				int qte = commandeDB.getInt("contenirproduit.qte");
+				float tprix = commandeDB.getFloat("sum(produit.prix)")*qte;
+				totalPrix.setText(tprix+"");
+				int totalprdt = commandeDB.getInt("count(contenirproduit.idProduit)")*qte;
+				totalProduits.setText("Total: "+totalprdt+" produit(s)");
+				totalAPayer.setText(tprix+"");
 				valeurReste.setText(commandeDB.getString("commande.Reste_A_Payer"));
 			}
 				if (valeurReste.getText()==null) {
@@ -109,7 +114,13 @@ public class AdditionControleur implements Initializable {
 	 */
 	@FXML
 	public void boutonAnnuler() {
-		dialogStage.close();
+		try {
+			parent.getFenetreAddition().close();
+		}
+		catch(Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();
+		}
 	}
 	
 	/**

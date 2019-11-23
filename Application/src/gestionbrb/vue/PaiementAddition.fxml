@@ -43,7 +43,7 @@
                   </Label>
                   <HBox prefHeight="83.0" prefWidth="401.0">
                      <children>
-                        <TextField fx:id="champMontant" alignment="CENTER" prefHeight="44.0" prefWidth="212.0">
+                        <TextField fx:id="champMontant" alignment="CENTER" prefHeight="44.0" prefWidth="253.0">
                            <HBox.margin>
                               <Insets left="50.0" top="10.0" />
                            </HBox.margin>
@@ -66,7 +66,7 @@
                   </HBox>
                   <Pane prefHeight="66.0" prefWidth="463.0">
                      <children>
-                        <Button fx:id="btnCalculMonnaie" layoutX="59.0" layoutY="3.0" mnemonicParsing="false" onAction="#calculRenduEspece" prefHeight="39.0" prefWidth="212.0" text="Calculer le rendu">
+                        <Button fx:id="btnCalculMonnaie" layoutX="59.0" layoutY="3.0" mnemonicParsing="false" onAction="#calculRenduEspece" prefHeight="39.0" prefWidth="253.0" text="Calculer le rendu">
                            <font>
                               <Font size="18.0" />
                            </font>

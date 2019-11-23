@@ -63,7 +63,7 @@ public class ModifierProduitsControleur {
 		}
 		vb.getChildren().addAll(listebouton);
 		for(int j=0; j<listebouton.size(); j++){
-			if(listebouton.get(j).isSelected()){
+			if(listebouton.get(j).isPressed()){
 				String ing = null;
 				System.out.println(listebouton.get(j).getText());
 				System.out.println(ing);
