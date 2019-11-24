@@ -1,13 +1,10 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
-import gestionbrb.controleur.CommandeControleur;
-import gestionbrb.controleur.DemarrerCommandeControleur;
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Commande;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;

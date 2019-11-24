@@ -18,8 +18,6 @@ import gestionbrb.model.Produit;
 import gestionbrb.model.Reservations;
 import gestionbrb.model.Table;
 import gestionbrb.util.bddUtil;
-import gestionbrb.vue.AdditionControleur;
-import gestionbrb.vue.ImprimerAdditionControleur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

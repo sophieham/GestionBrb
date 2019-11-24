@@ -1,4 +1,4 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -7,9 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import gestionbrb.controleur.CommandeControleur;
-import gestionbrb.controleur.DemarrerCommandeControleur;
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
 import gestionbrb.model.Table;
@@ -135,7 +132,7 @@ public class AdditionControleur implements Initializable {
 	    Button button = (Button) clicSouris.getSource();
 	    moyenPaiement = button.getText();
 		try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("PaiementAddition.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/PaiementAddition.fxml"));
 				Parent additionPaiement = (Parent) loader.load();
 				fenetre.getChildren().setAll(additionPaiement);
 				
@@ -150,7 +147,7 @@ public class AdditionControleur implements Initializable {
 
 	public void imprimerAddition() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("ImpressionAddition.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ImpressionAddition.fxml"));
 			Parent addition = (Parent) loader.load();		
 			setImprimerAddition(new Stage());
 			getImprimerAddition().setTitle("-- Addition de la table " + commande.getNoTable() + " --");

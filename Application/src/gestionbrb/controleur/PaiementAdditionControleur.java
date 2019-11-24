@@ -1,4 +1,4 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import gestionbrb.controleur.DemarrerCommandeControleur;
-import gestionbrb.controleur.FonctionsControleurs;
 import gestionbrb.model.Commande;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
@@ -159,7 +157,7 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 	@FXML
 	public void actionAnnuler() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("AdditionCommande.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/AdditionCommande.fxml"));
 			Parent additionPaiement = (Parent) loader.load();
 			fenetre.getChildren().setAll(additionPaiement);
 			
