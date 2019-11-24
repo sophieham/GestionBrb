@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gestionbrb.DemarrerCommande;
 import gestionbrb.Tables;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Table;
@@ -76,6 +77,7 @@ public class DemarrerCommandeControleur {
 	@SuppressWarnings("unused")
 	private MenuPrincipalControleur parent;
 	private boolean okClicked = false;
+	private DemarrerCommande mainApp;
 	private static Commande commande;
 
 	private static Stage fenetreCommande;
@@ -380,6 +382,12 @@ public class DemarrerCommandeControleur {
 	public void setParent(MenuPrincipalControleur menuPrincipalControleurTest) {
 		this.parent = menuPrincipalControleurTest;
 		tableTable.setItems(Tables.getTableData()); 
+		
+	}
+
+	public void setMainApp(DemarrerCommande demarrerCommande) {
+		// TODO Auto-generated method stub
+		this.mainApp = demarrerCommande;
 		
 	}
 

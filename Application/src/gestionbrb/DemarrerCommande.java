@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import gestionbrb.controleur.FonctionsControleurs;
-import gestionbrb.vue.DemarrerCommandeControleur;
+import gestionbrb.controleur.DemarrerCommandeControleur;
 
 public class DemarrerCommande extends Application {
 
@@ -40,7 +40,7 @@ public class DemarrerCommande extends Application {
             primaryStage.show();
             // Give the controller access to the main app.
             DemarrerCommandeControleur controller = loader.getController();
-            controller.setParent(this);
+            controller.setMainApp(this);
 
         } catch (IOException e) {
             e.printStackTrace();
