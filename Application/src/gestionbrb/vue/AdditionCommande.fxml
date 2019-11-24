@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="fenetre" prefHeight="400.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.AdditionControleur">
    <children>
-      <HBox layoutX="-6.0" prefHeight="428.0" prefWidth="714.0">
+      <HBox prefHeight="428.0" prefWidth="714.0">
          <children>
             <VBox prefHeight="428.0" prefWidth="523.0">
                <children>
@@ -50,7 +50,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="36.0" text="0">
+                        <Label fx:id="totalQte" alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="36.0" text="0">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -132,7 +132,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
                      </VBox.margin>
                   </HBox>
-                  <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="339.0" text="Imprimer ticket et libérer la table">
+                  <Button mnemonicParsing="false" onAction="#imprimerAddition" prefHeight="32.0" prefWidth="339.0" text="Imprimer ticket et libérer la table">
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
                      </VBox.margin>

@@ -19,11 +19,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -47,10 +49,12 @@ public class AdditionControleur implements Initializable {
 	@FXML
 	private Label totalProduits;
 	@FXML
+	private Label totalQte;
+	@FXML
 	private Label totalAPayer;
 	@FXML
 	private AnchorPane fenetre;
-	private Stage dialogStage;
+	private static Stage imprimerAddition;
 	
 	
 	CommandeControleur parent;
@@ -61,9 +65,6 @@ public class AdditionControleur implements Initializable {
 		
 	}
 
-	public void setDialogStage(Stage dialogStage) {
-		this.dialogStage = dialogStage;
-	}
 	
 	/**
 	 * Affiche le tableau recapitulatif de la commande et affiche des infos sur la table
@@ -88,13 +89,14 @@ public class AdditionControleur implements Initializable {
 		try {
 			Label valeurReste = new Label();
 			Connection conn = bddUtil.dbConnect();
-			ResultSet commandeDB = conn.createStatement().executeQuery("SELECT count(contenirproduit.idProduit), contenirproduit.idProduit, commande.idCommande, contenirproduit.qte, sum(produit.prix), commande.Reste_A_Payer FROM `contenirproduit` inner join produit on contenirproduit.idProduit = produit.idProduit inner join commande on contenirproduit.idCommande = commande.idCommande where commande.idCommande = "+commande.getIdCommande());
+			ResultSet commandeDB = conn.createStatement().executeQuery("SELECT sum(contenirproduit.qte), count(contenirproduit.idProduit), contenirproduit.idProduit, commande.idCommande, contenirproduit.qte, sum(produit.prix), commande.Reste_A_Payer FROM `contenirproduit` inner join produit on contenirproduit.idProduit = produit.idProduit inner join commande on contenirproduit.idCommande = commande.idCommande where commande.idCommande = "+commande.getIdCommande());
 			while (commandeDB.next()) {
 				int qte = commandeDB.getInt("contenirproduit.qte");
 				float tprix = commandeDB.getFloat("sum(produit.prix)")*qte;
 				totalPrix.setText(tprix+"");
 				int totalprdt = commandeDB.getInt("count(contenirproduit.idProduit)")*qte;
 				totalProduits.setText("Total: "+totalprdt+" produit(s)");
+				totalQte.setText(commandeDB.getString("sum(contenirproduit.qte)"));
 				totalAPayer.setText(tprix+"");
 				valeurReste.setText(commandeDB.getString("commande.Reste_A_Payer"));
 			}
@@ -115,7 +117,7 @@ public class AdditionControleur implements Initializable {
 	@FXML
 	public void boutonAnnuler() {
 		try {
-			parent.getFenetreAddition().close();
+			CommandeControleur.getFenetreAddition().close();
 		}
 		catch(Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
@@ -146,12 +148,41 @@ public class AdditionControleur implements Initializable {
 		}
 	}
 
+	public void imprimerAddition() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("ImpressionAddition.fxml"));
+			Parent addition = (Parent) loader.load();		
+			setImprimerAddition(new Stage());
+			getImprimerAddition().setTitle("-- Addition de la table " + commande.getNoTable() + " --");
+			getImprimerAddition().setScene(new Scene(addition));
+			getImprimerAddition().show();
+			ImprimerAdditionControleur controller = loader.getController();
+			controller.setParent(this);
+			CommandeControleur.getFenetreAddition().close();
+	} catch (Exception e) {
+		FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+		e.printStackTrace();
+	}
+	}
+	
+	
+	
 	/**
 	 * Retourne le moyen de paiement utilisé (carte bancaire, espèces, chèque ou ticket-resto)
 	 * @return moyenPaiement 
 	 */
 	public String getMoyenPaiement() {
 		return moyenPaiement;
+	}
+
+
+	public static Stage getImprimerAddition() {
+		return imprimerAddition;
+	}
+
+
+	public static void setImprimerAddition(Stage imprimerAddition) {
+		AdditionControleur.imprimerAddition = imprimerAddition;
 	}
 
 	

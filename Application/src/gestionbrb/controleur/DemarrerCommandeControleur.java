@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import gestionbrb.DemarrerCommande;
 import gestionbrb.Tables;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Table;
@@ -75,11 +74,19 @@ public class DemarrerCommandeControleur {
 	@SuppressWarnings("unused")
 	private Table table;
 	@SuppressWarnings("unused")
-	private DemarrerCommande parent;
-	@SuppressWarnings("unused")
-	private DemarrerCommandeControleur parentC;
+	private MenuPrincipalControleur parent;
 	private boolean okClicked = false;
 	private static Commande commande;
+
+	private static Stage fenetreCommande;
+	
+	public static Stage getFenetreCommande() {
+		return fenetreCommande;
+	}
+
+	public static void setFenetreCommande(Stage fenetreCommande) {
+		DemarrerCommandeControleur.fenetreCommande = fenetreCommande;
+	}
 
 	public DemarrerCommandeControleur() {
 	}
@@ -99,7 +106,6 @@ public class DemarrerCommandeControleur {
 		colonneStatut.setCellValueFactory(cellData -> cellData.getValue().occupationStrProperty());
 
 		try {
-
 			Connection conn = bddUtil.dbConnect();
 			ResultSet TableDB = conn.createStatement().executeQuery("select * from tables");
 
@@ -120,30 +126,17 @@ public class DemarrerCommandeControleur {
 			lblOccupation.setText((noTables.size()-tablesLibre.size())+" tables occupée(s), "+tablesLibre.size()+" libres");
 			champNoTable.setItems(noTables);
 			champChoixTable.setItems(tablesLibre);
-
-		} catch (ClassNotFoundException | SQLException e) {
+			TableDB.close();
+			conn.close();
+			
+		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur d'éxécution", null, "Détails: "+e);
 			e.printStackTrace();
 		}
 
 	}
 
-	/**
-	 * Fait la liaison avec la page principale
-	 * 
-	 * @param demarrerCommande
-	 */
-	public void setParent(DemarrerCommande demarrerCommande) {
-		this.parent = demarrerCommande;
-		tableTable.setItems(Tables.getTableData()); 
 
-	}
-	
-	public void setParent(DemarrerCommandeControleur demarrerCommandeControleur) {
-		this.parentC = demarrerCommandeControleur;
-		tableTable.setItems(Tables.getTableData());
-
-	}
 
 	/**
 	 * Appellé lors de l'appui sur le bouton. <br>
@@ -166,7 +159,7 @@ public class DemarrerCommandeControleur {
             controller.afficherTout();
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
-
+			e.printStackTrace();
 		}
 	}
 
@@ -177,19 +170,19 @@ public class DemarrerCommandeControleur {
 	 * @throws IOException
 	 */
 	public void afficherMenuPrincipal() {
-		DemarrerCommande.getPrimaryStage().close();
+		System.out.println("attends c'est pas fini");
 	}
 
 	/** 
 	 * Actualise les données de la page lorsqu'une nouvelle commande est lancée.
 	 */
 	public void refreshMain() {
-		Tables.getTableData().clear();
-		tablesLibre.clear();
-		noTables.clear();
-		champNoTable.setValue(null);
-		champChoixTable.setValue(null);
-		initialize();
+			Tables.getTableData().clear();
+			tablesLibre.clear();
+			noTables.clear();
+			champNoTable.setValue(null);
+			champChoixTable.setValue(null);
+			initialize();
 	}
 	
 	public boolean isOkClicked() {
@@ -209,7 +202,7 @@ public class DemarrerCommandeControleur {
 			int numTable = getNumero(champChoixTable);
 			
 			//!!! a remplacer occupation =0 par 1 une fois commande paramétré
-			bddUtil.dbQueryExecute("UPDATE `tables` SET occupation = 0 WHERE noTable="+numTable);
+			bddUtil.dbQueryExecute("UPDATE `tables` SET occupation = 1 WHERE noTable="+numTable);
 			refreshMain();
 			Connection conn = bddUtil.dbConnect();
 			ResultSet commandeDB = conn.createStatement().executeQuery("select count(*) from commande");
@@ -221,20 +214,22 @@ public class DemarrerCommandeControleur {
 			bddUtil.dbQueryExecute("INSERT INTO `commande` (`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `qteTotal`, `date`) VALUES ("+commande.getIdCommande()+", '"+numTable+"', NULL, '"+nombreCouverts+"', NULL, current_timestamp())");
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Commande.fxml"));
 			Parent vueCommande = (Parent) loader.load();
-			Stage stage = new Stage();
-			stage.setTitle("-- Commande de la table "+numTable+" --");
-			stage.setScene(new Scene(vueCommande));
-			stage.show();
+			setFenetreCommande(new Stage());
+			getFenetreCommande().setTitle("-- Commande de la table "+numTable+" --");
+			getFenetreCommande().setScene(new Scene(vueCommande));
+			getFenetreCommande().show();
+			MenuPrincipalControleur.getDemarrerCommande().close();
 			
 			CommandeControleur controller = loader.getController();
 	        controller.setParent(this);
 			
-		} catch (IOException | SQLException | ClassNotFoundException | IllegalStateException e) {
+		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
+			e.printStackTrace();
 		}
-		catch(NumberFormatException e) {
+		/*catch(NumberFormatException e) {
 			FonctionsControleurs.alerteErreur("Erreur", "Veuillez saisir uniquement des chiffres", "Détails: "+e);
-		}
+		}*/
 	}
 
 	/**
@@ -376,5 +371,18 @@ public class DemarrerCommandeControleur {
 	public void setCommande(Commande commande) {
 		DemarrerCommandeControleur.commande=commande;
 	}
+	
+	/**
+	 * Fait la liaison avec la page principale
+	 * 
+	 * @param MenuPrincipal
+	 */
+	public void setParent(MenuPrincipalControleur menuPrincipalControleurTest) {
+		this.parent = menuPrincipalControleurTest;
+		tableTable.setItems(Tables.getTableData()); 
+		
+	}
+
+
 
 }

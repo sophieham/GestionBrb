@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.CommandeControleur">
+<AnchorPane fx:id="fenetre" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.CommandeControleur">
    <children>
       <VBox layoutX="845.0" layoutY="14.0" prefHeight="517.0" prefWidth="418.0">
          <children>
@@ -88,7 +88,7 @@
             </Button>
             <Button mnemonicParsing="false" onAction="#supprimerProduit" prefHeight="55.0" prefWidth="419.0" text="Supprimer un article">
                <VBox.margin>
-                  <Insets bottom="5.0" top="5.0" />
+                  <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
             <HBox prefHeight="54.0" prefWidth="418.0">
@@ -98,7 +98,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="55.0" prefWidth="242.0" text="Imprimer ticket">
+                  <Button mnemonicParsing="false" onAction="#imprimerAddition" prefHeight="55.0" prefWidth="242.0" text="Imprimer ticket">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>

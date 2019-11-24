@@ -19,6 +19,7 @@ import gestionbrb.model.Reservations;
 import gestionbrb.model.Table;
 import gestionbrb.util.bddUtil;
 import gestionbrb.vue.AdditionControleur;
+import gestionbrb.vue.ImprimerAdditionControleur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,6 +40,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
@@ -64,6 +67,8 @@ public class CommandeControleur implements Initializable {
 	@FXML
 	private Label totalPrix;
 	@FXML
+	private Label totalQte;
+	@FXML
 	private TabPane typeProduit;
 	@FXML
 	private static ObservableList<Produit> produitCommande = FXCollections.observableArrayList();
@@ -82,8 +87,11 @@ public class CommandeControleur implements Initializable {
 	
 	DemarrerCommandeControleur parent;
 
-    private Stage primaryStage;
-    private Stage fenetreAddition;
+    private static Stage primaryStage;
+    private static Stage fenetreAddition;
+    
+    @FXML
+    private AnchorPane fenetre;
 	
 	public CommandeControleur() {
 	}
@@ -94,7 +102,7 @@ public class CommandeControleur implements Initializable {
 
 	
 	
-	public Stage getPrimaryStage() {
+	public static Stage getPrimaryStage() {
 		return primaryStage;
 	}
 	
@@ -182,17 +190,21 @@ public class CommandeControleur implements Initializable {
 														+ CommandeControleur.this.commande.getIdCommande() + ", "
 														+ "'1') ");
 											}
+
 											ResultSet commandeDB = conn.createStatement().executeQuery("SELECT sum(contenirproduit.qte*produit.prix) as prixt FROM `contenirproduit` INNER JOIN produit on contenirproduit.idProduit = produit.idProduit WHERE idCommande ="+CommandeControleur.this.commande.getIdCommande());
 											
 											ResultSet qteTotal = conn.createStatement().executeQuery("SELECT sum(qte) FROM `contenirproduit` WHERE idCommande = '"+CommandeControleur.this.commande.getIdCommande()+"'");
 											while (commandeDB.next()) {
 												String tprix = commandeDB.getString("prixt");
-												totalPrix.setText(tprix+" €");
+												totalPrix.setText(tprix);
 									
 											}
+											bddUtil.dbQueryExecute("UPDATE `commande` SET prixTotal='"+totalPrix.getText()+"' WHERE idCommande = "+CommandeControleur.this.commande.getIdCommande());
+
 											while(qteTotal.next()) {
 												int qte = qteTotal.getInt("sum(qte)");
 												totalProduit.setText(""+qte);
+												totalQte.setText(qte+"");
 											}
 										} catch (Exception e) {
 											FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
@@ -227,12 +239,12 @@ public class CommandeControleur implements Initializable {
 		} else {
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/AdditionCommande.fxml"));
-				Parent vueCommande = (Parent) loader.load();
-				fenetreAddition = new Stage();
-				fenetreAddition
+				Parent vueAdditionCommande = (Parent) loader.load();
+				setFenetreAddition(new Stage());
+				getFenetreAddition()
 						.setTitle("-- Addition de la table " + CommandeControleur.this.commande.getNoTable() + " --");
-				fenetreAddition.setScene(new Scene(vueCommande));
-				fenetreAddition.show();
+				getFenetreAddition().setScene(new Scene(vueAdditionCommande));
+				getFenetreAddition().show();
 
 				AdditionControleur controller = loader.getController();
 				controller.setParent(this);
@@ -313,8 +325,22 @@ public class CommandeControleur implements Initializable {
 	}
 	
 	@FXML
-	public void afficherTicket() {
-		
+	public void imprimerAddition() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ImpressionAddition.fxml"));
+			Parent addition = (Parent) loader.load();
+			setFenetreAddition(new Stage());
+			getFenetreAddition().setTitle("-- Addition de la table " + CommandeControleur.this.commande.getNoTable() + " --");
+			getFenetreAddition().setScene(new Scene(addition));
+			getFenetreAddition().show();
+			
+			ImprimerAdditionControleur controller = loader.getController();
+			controller.setParent(this);
+	
+	} catch (Exception e) {
+		FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+		e.printStackTrace();
+	}
 	}
     /**
      * Retourne la liste des produits commandés. 
@@ -325,12 +351,15 @@ public class CommandeControleur implements Initializable {
         return produitCommande;
     }
 
-	public Stage getFenetreAddition() {
+	public static Stage getFenetreAddition() {
 		return fenetreAddition;
 	}
 
-	public void setFenetreAddition(Stage fenetreAddition) {
-		this.fenetreAddition = fenetreAddition;
+	public static void setFenetreAddition(Stage fenetreAddition) {
+		CommandeControleur.fenetreAddition = fenetreAddition;
 	}
+
+
+
 
 }

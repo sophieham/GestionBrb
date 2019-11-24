@@ -1,8 +1,6 @@
 package gestionbrb;
 
-import java.io.IOException;
-
-import gestionbrb.controleur.ConnexionProfil;
+import gestionbrb.controleur.ConnexionControleur;
 import gestionbrb.controleur.FonctionsControleurs;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -43,16 +41,18 @@ public class Connexion extends Application {
             primaryStage.show();
             
             // initialise le controleur
-            ConnexionProfil controller = loader.getController();
-            controller.setMainApp(this);
+            ConnexionControleur controller = loader.getController();
+            controller.setParent(this);
 
-        } catch (IOException e) {
-        	FonctionsControleurs.alerteErreur("Erreur d'éxécution", null, "Détails: "+e);
+        } catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+
             e.printStackTrace();
         }
     }
 
-    /*
+
+	/*
      * Retourne la fenetre principale
      * @return primaryStage
      */
