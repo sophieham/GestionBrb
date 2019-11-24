@@ -47,6 +47,7 @@ public class ParametresControleur implements Initializable{
 	@FXML
 	private AnchorPane AnchorPane;
 
+	private MenuPrincipalControleur parent;
 	Parametres startApp = new Parametres(); 
 
 	@Override
@@ -197,6 +198,16 @@ public class ParametresControleur implements Initializable{
 		private Label getblTextByController() {
 			// TODO Auto-generated method stub
 			return lblTextByController;
+		}
+
+
+
+
+		public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
+			// TODO Auto-generated method stub
+			this.parent = menuPrincipalControleur;
+		
+			
 		}
 
 

@@ -14,6 +14,11 @@ import javafx.stage.Stage;
  */
 public class MenuPrincipalControleur {
 	private static Stage demarrerCommande;
+	private static Stage stockAdmin;
+	private static Stage stockServeur;
+	private static Stage carte;
+	private static Stage parametre;
+	private static Stage administration;
     ConnexionControleur parent;
     
     @FXML
@@ -40,22 +45,85 @@ public class MenuPrincipalControleur {
 
 	@FXML
 	public void fenetreStock() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionStockAdmin.fxml"));
+			Parent vueDCommande = (Parent) loader.load();
+			setStockAdmin(new Stage());
+			getStockAdmin().setScene(new Scene(vueDCommande));
+			getStockAdmin().show();
+			getStockAdmin().setTitle("Gestion des stocks - Admin");
+			
+			GestionStockAdminController controller = loader.getController();
+            controller.setParent(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// gérer les droits en fonction de l'utilisateur connecté
+		/*try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionStockServ.fxml"));
+			Parent vueDCommande = (Parent) loader.load();
+			setStockServeur(new Stage());
+			getStockServeur().setScene(new Scene(vueDCommande));
+			getStockServeur().show();
+			getStockServeur().setTitle("Gestion des stocks - Serveur");
+			
+			GestionStockServController controller = loader.getController();
+            controller.setParent(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
 	}
 
 	@FXML
 	public void fenetreCarte() {
-		
+		/*try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/DemarrerCommande.fxml"));
+			Parent vueDCommande = (Parent) loader.load();
+			setDemarrerCommande(new Stage());
+			getDemarrerCommande().setScene(new Scene(vueDCommande));
+			getDemarrerCommande().show();
+			getDemarrerCommande().setTitle("Démarrer une nouvelle commande");
+			
+			DemarrerCommandeControleur controller = loader.getController();
+            controller.setParent(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
 	}
 
 
 	@FXML
 	public void fenetreParametres() {
-
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Parametres.fxml"));
+			Parent vueDCommande = (Parent) loader.load();
+			setParametre(new Stage());
+			getParametre().setScene(new Scene(vueDCommande));
+			getParametre().show();
+			getParametre().setTitle("Démarrer une nouvelle commande");
+			
+			ParametresControleur controller = loader.getController();
+            controller.setParent(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
 	public void fenetreAdministration() {
-		
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Administration.fxml"));
+			Parent vueDCommande = (Parent) loader.load();
+			setAdministration(new Stage());
+			getAdministration().setScene(new Scene(vueDCommande));
+			getAdministration().show();
+			getAdministration().setTitle("Démarrer une nouvelle commande");
+			
+			AdministrationControleur controller = loader.getController();
+            controller.setParent(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@FXML
@@ -83,6 +151,46 @@ public class MenuPrincipalControleur {
 	}
 
 	
+	public static Stage getStockAdmin() {
+		return stockAdmin;
+	}
+
+	public static void setStockAdmin(Stage stockAdmin) {
+		MenuPrincipalControleur.stockAdmin = stockAdmin;
+	}
+
+	public static Stage getStockServeur() {
+		return stockServeur;
+	}
+
+	public static void setStockServeur(Stage stockServeur) {
+		MenuPrincipalControleur.stockServeur = stockServeur;
+	}
+
+	public static Stage getCarte() {
+		return carte;
+	}
+
+	public static void setCarte(Stage carte) {
+		MenuPrincipalControleur.carte = carte;
+	}
+
+	public static Stage getParametre() {
+		return parametre;
+	}
+
+	public static void setParametre(Stage parametre) {
+		MenuPrincipalControleur.parametre = parametre;
+	}
+
+	public static Stage getAdministration() {
+		return administration;
+	}
+
+	public static void setAdministration(Stage administration) {
+		MenuPrincipalControleur.administration = administration;
+	}
+
 	/**
 	 * Défini connexionProfil comment parent quand on accède au menu principal depuis la page de connexion
 	 * @param connexionProfil

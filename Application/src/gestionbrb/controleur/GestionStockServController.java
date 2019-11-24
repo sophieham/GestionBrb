@@ -54,6 +54,7 @@ public class GestionStockServController implements Initializable {
 	private ObservableList<Ingredients> data;
 	private Ingredients mainApp;
 	private Connection conn;
+	private MenuPrincipalControleur parent;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
@@ -120,6 +121,14 @@ public class GestionStockServController implements Initializable {
 					data.add(new Ingredients(c.getInt("idIngredient"),c.getString("nomIngredient"),c.getInt("prixIngredient"),c.getInt("qteRestante"), null));
 				}
 				
+			}
+
+
+
+			public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
+				// TODO Auto-generated method stub
+				this.parent = menuPrincipalControleur;
+				//tview.setItems(GestionStockServ.gett);
 			}
 
 	
