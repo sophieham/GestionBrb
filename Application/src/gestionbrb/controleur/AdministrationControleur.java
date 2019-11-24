@@ -39,7 +39,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 	@FXML
 	public void fenetreFournisseur() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GererStockAdmin.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionFournisseurs.fxml"));
 			Parent vueGestionStockAdmin = (Parent) loader.load();
 			setFournisseurs(new Stage());
 			getFournisseurs().setScene(new Scene(vueGestionStockAdmin));
@@ -91,7 +91,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 	public void fenetrePlatsIngerdients() {
 
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GererIngerdientsProduits.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GererIngredientsProduits.fxml"));
 			Parent vueAdministration= (Parent) loader.load();
 			setPlatsIngredients(new Stage());
 			getPlatsIngredients().setScene(new Scene(vueAdministration));
@@ -106,6 +106,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 	
 
 	}
+	
 
 	
 

@@ -45,7 +45,7 @@ public class MenuPrincipalControleur {
 	@FXML
 	public void fenetreStock() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GererStockAdmin.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionStockAdmin.fxml"));
 			Parent vueGestionStockAdmin = (Parent) loader.load();
 			setStockAdmin(new Stage());
 			getStockAdmin().setScene(new Scene(vueGestionStockAdmin));
