@@ -47,30 +47,7 @@ public class Administration extends Application {
 			e.printStackTrace();
 		}
 	}
-	@FXML
-	public void fenetreHistoriqueCommandes() throws ClassNotFoundException, SQLException {
-		
-	}
-	@FXML
-	public void fenetreGererFournisseurs() throws ClassNotFoundException, SQLException {
-		
-	}
-	@FXML
-	public void fenetreGererTables() throws ClassNotFoundException, SQLException {
-
-	}
-	@FXML
-	public void fenetreGererUtilisateurs() throws ClassNotFoundException, SQLException {
-
-	}
-	@FXML
-	public void fenetrePlatsIngredients() throws ClassNotFoundException, SQLException {
-
-	}
-	@FXML
-	public void fenetreRetour() throws ClassNotFoundException, SQLException {
-
-	}
+	
 
 	public Stage getPrimaryStage() {
 		return primaryStage;

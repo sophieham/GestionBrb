@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import gestionbrb.Tables;
 import gestionbrb.Utilisateurs;
 import gestionbrb.model.Utilisateur;
 import gestionbrb.util.bddUtil;
@@ -39,6 +40,7 @@ public class UtilisateursControleur {
 	private Label champIdentifiant;
 
 	private Utilisateurs mainApp;
+	private AdministrationControleur parent;
 
 	public UtilisateursControleur() {
 	}
@@ -174,6 +176,12 @@ public class UtilisateursControleur {
 			// Si rien n'est selectionné
 			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionnée!", "Selectionnez un compte pour pouvoir le modifier");
 		}
+	}
+
+	public void setParent(AdministrationControleur administrationControleur) {
+		// TODO Auto-generated method stub
+		this.parent = administrationControleur;
+		utilisateursTable.setItems(Utilisateurs.getTableData());
 	}
 
 }

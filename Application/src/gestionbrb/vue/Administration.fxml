@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="gestionbrb.Administration">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="gestionbrb.controleur.AdministrationControleur">
    <children>
       <ImageView fitHeight="273.0" fitWidth="623.0" layoutX="397.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -29,7 +29,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Historique des commandes" GridPane.columnIndex="1">
+            <Button onAction="#fenetreHistoriqueCommandes" mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Historique des commandes" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
@@ -37,17 +37,17 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button onAction="#fenetreGererFournisseurs" mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Gérer fournisseurs" GridPane.rowIndex="1">
+            <Button onAction="#fenetreFournisseur" mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Gérer fournisseurs" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Gérer les tables" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button onAction="#fenetreTables" mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Gérer les tables" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Gérer utilisateurs" GridPane.rowIndex="2">
+            <Button onAction="#fenetreUtilisateur" mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Gérer utilisateurs" GridPane.rowIndex="2">
                <font>
                   <Font size="24.0" />
                </font>
@@ -57,7 +57,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Gérer plats et ingrédients">
+            <Button onAction="#fenetrePlatsIngerdients" mnemonicParsing="false" prefHeight="63.0" prefWidth="533.0" text="Gérer plats et ingrédients">
                <font>
                   <Font size="24.0" />
                </font>

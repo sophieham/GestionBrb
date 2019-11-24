@@ -36,6 +36,7 @@ public class TablesControleur {
 	private Label champNbCouvertMin;
 	// Reference to the main application.
 	private Tables mainApp;
+	private AdministrationControleur parent;
 
 	/**
 	 * The constructor. The constructor is called before the initialize() method.
@@ -168,6 +169,12 @@ public class TablesControleur {
 			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
 					"Selectionnez une réservation pour pouvoir la modifier");
 		}
+	}
+
+	public void setParent(AdministrationControleur administrationControleur) {
+		// TODO Auto-generated method stub
+		this.parent = administrationControleur;
+		tableTable.setItems(Tables.getTableData());
 	}
 
 }

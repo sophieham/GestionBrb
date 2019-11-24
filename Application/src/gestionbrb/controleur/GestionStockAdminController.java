@@ -50,6 +50,7 @@ public class GestionStockAdminController implements Initializable{
 	private ObservableList<Ingredients> data;
 	private Ingredients mainApp;
 	private Connection conn;
+	private MenuPrincipalControleur parent;
 	public static String Nom;
 	public static String qteRest;
 	public static String idFournisseur;
@@ -171,6 +172,10 @@ public class GestionStockAdminController implements Initializable{
 	}
 	public static String getIdfournisseur() {
 		return idFournisseur;
+	}
+	public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
+		// TODO Auto-generated method stub
+		this.parent = menuPrincipalControleur;
 	}
 	
 
