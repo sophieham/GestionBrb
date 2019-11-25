@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import gestionbrb.Parametres;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -46,8 +45,10 @@ public class ParametresControleur implements Initializable{
 	private ColorPicker btnbackground;
 	@FXML
 	private AnchorPane AnchorPane;
+	
+	private MenuPrincipalControleur parent;
 
-	Parametres startApp = new Parametres(); 
+
 
 	@Override
 	   public void initialize(URL location, ResourceBundle resources) {
@@ -197,6 +198,14 @@ public class ParametresControleur implements Initializable{
 		private Label getblTextByController() {
 			// TODO Auto-generated method stub
 			return lblTextByController;
+		}
+
+
+
+
+		public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
+			this.parent = menuPrincipalControleur;
+			
 		}
 
 

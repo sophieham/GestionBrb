@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mer. 20 nov. 2019 à 16:42
+-- Généré le :  lun. 25 nov. 2019 à 18:27
 -- Version du serveur :  10.4.8-MariaDB
 -- Version de PHP :  7.3.11
 
@@ -47,7 +47,9 @@ CREATE TABLE `calendrier` (
 INSERT INTO `calendrier` (`idReservation`, `nom`, `prenom`, `numeroTel`, `dateReservation`, `heureReservation`, `nbCouverts`, `demandeSpe`, `noTable`) VALUES
 (1, 'Nicole', 'Nicolas', '654548758', '2019-11-19', '19:30', 2, 'Biscuits au cacao', 1),
 (2, 'Loli', 'Lola', '65487457', '2019-11-12', '20:30', 5, '', 2),
-(4, 'Odoki', 'Leslie', '+33554025448', '2019-11-26', '21:30', 4, '', 2);
+(4, 'Odoki', 'Leslie', '+33554025448', '2019-11-26', '21:30', 4, '', 2),
+(5, 'Hiki', 'Joki', '0234851652', '2019-11-12', '20:30', 2, '', 2),
+(6, 'Miku', 'Jacqueline', '0635210147', '2019-11-13', '11:30', 5, '', 2);
 
 -- --------------------------------------------------------
 
@@ -59,10 +61,36 @@ CREATE TABLE `commande` (
   `idCommande` int(11) NOT NULL,
   `noTable` tinyint(4) NOT NULL,
   `prixTotal` decimal(5,2) DEFAULT NULL,
+  `Reste_A_Payer` decimal(5,2) DEFAULT NULL,
   `nbCouverts` tinyint(2) DEFAULT NULL,
   `qteTotal` tinyint(3) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `commande`
+--
+
+INSERT INTO `commande` (`idCommande`, `noTable`, `prixTotal`, `Reste_A_Payer`, `nbCouverts`, `qteTotal`, `date`) VALUES
+(1, 6, '50.00', '0.00', 4, NULL, '2019-11-24 16:47:36'),
+(2, 5, '25.00', '0.00', 2, NULL, '2019-11-24 16:48:56'),
+(3, 5, '30.00', '0.00', 2, NULL, '2019-11-24 17:04:02'),
+(4, 5, '30.00', '0.00', 2, NULL, '2019-11-24 17:07:12'),
+(5, 5, '30.00', '0.00', 2, NULL, '2019-11-24 17:14:41'),
+(6, 5, '30.00', '0.00', 2, NULL, '2019-11-24 17:16:25'),
+(7, 5, '15.00', '0.00', 2, NULL, '2019-11-24 17:19:24'),
+(8, 5, '30.00', '0.00', 2, NULL, '2019-11-24 17:21:31'),
+(9, 5, '30.00', '0.00', 2, NULL, '2019-11-24 17:22:43'),
+(10, 5, NULL, NULL, 2, NULL, '2019-11-24 17:53:21'),
+(11, 7, NULL, NULL, 2, NULL, '2019-11-24 17:58:14'),
+(12, 6, NULL, NULL, 2, NULL, '2019-11-24 18:01:25'),
+(13, 2, NULL, NULL, 2, NULL, '2019-11-24 18:06:39'),
+(14, 1, NULL, NULL, 2, NULL, '2019-11-24 18:08:28'),
+(15, 2, NULL, NULL, 2, NULL, '2019-11-24 18:09:36'),
+(16, 5, '25.00', '0.00', 2, NULL, '2019-11-24 18:11:37'),
+(17, 1, '30.00', '0.00', 2, NULL, '2019-11-24 18:12:44'),
+(18, 5, '25.00', '25.00', 2, NULL, '2019-11-24 20:40:54'),
+(19, 3, '25.00', '0.00', 2, NULL, '2019-11-24 20:45:07');
 
 -- --------------------------------------------------------
 
@@ -77,6 +105,30 @@ CREATE TABLE `contenirproduit` (
   `qte` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Déchargement des données de la table `contenirproduit`
+--
+
+INSERT INTO `contenirproduit` (`idContient`, `idProduit`, `idCommande`, `qte`) VALUES
+(1, 2, 1, 2),
+(2, 1, 1, 2),
+(3, 2, 2, 1),
+(4, 1, 2, 1),
+(5, 2, 3, 2),
+(6, 2, 4, 2),
+(7, 2, 5, 2),
+(8, 2, 6, 2),
+(9, 2, 7, 1),
+(10, 2, 8, 2),
+(11, 2, 9, 2),
+(12, 2, 16, 2),
+(13, 1, 16, 1),
+(14, 2, 17, 2),
+(15, 2, 18, 1),
+(16, 1, 18, 1),
+(17, 2, 19, 1),
+(18, 1, 19, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -86,16 +138,17 @@ CREATE TABLE `contenirproduit` (
 CREATE TABLE `fourniringredients` (
   `idOperation` int(11) NOT NULL,
   `idFournisseur` int(11) NOT NULL,
-  `idIngredient` int(11) DEFAULT NULL
+  `idIngredient` int(11) DEFAULT NULL,
+  `qte` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `fourniringredients`
 --
 
-INSERT INTO `fourniringredients` (`idOperation`, `idFournisseur`, `idIngredient`) VALUES
-(1, 1, 2),
-(2, 1, 1);
+INSERT INTO `fourniringredients` (`idOperation`, `idFournisseur`, `idIngredient`, `qte`) VALUES
+(1, 1, 2, 0),
+(2, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -167,15 +220,16 @@ CREATE TABLE `produit` (
   `description` tinytext NOT NULL,
   `prix` decimal(5,2) NOT NULL,
   `idType` int(11) NOT NULL,
-  `details` varchar(100) NOT NULL
+  `ingredients` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `produit`
 --
 
-INSERT INTO `produit` (`idProduit`, `nom`, `qte`, `description`, `prix`, `idType`, `details`) VALUES
-(1, 'Poelée de légumes', 2, '', '10.00', 5, '');
+INSERT INTO `produit` (`idProduit`, `nom`, `qte`, `description`, `prix`, `idType`, `ingredients`) VALUES
+(1, 'Poelée de légumes', 2, 'Un mélange printanier de légumes.', '10.00', 5, 'aubergines, champignons, courgettes'),
+(2, 'Champignons a l\'ail', 2, 'Champignons émincés nappés d\'une délicieuse sauce à l\'ail', '15.00', 1, 'champignons, ail, noix de muscade');
 
 -- --------------------------------------------------------
 
@@ -197,13 +251,13 @@ CREATE TABLE `tables` (
 --
 
 INSERT INTO `tables` (`idTable`, `noTable`, `nbCouverts_min`, `nbCouverts_max`, `idReservation`, `occupation`) VALUES
-(1, 1, 1, 4, 1, 1),
+(1, 1, 1, 4, 1, 0),
 (2, 2, 1, 6, 2, 1),
-(3, 3, 1, 2, NULL, 1),
-(4, 4, 1, 2, NULL, 1),
+(3, 3, 1, 2, NULL, 0),
+(4, 4, 1, 2, NULL, 0),
 (5, 5, 1, 4, NULL, 1),
 (6, 6, 1, 4, NULL, 0),
-(7, 7, 1, 4, NULL, 1);
+(7, 7, 1, 4, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -336,19 +390,19 @@ ALTER TABLE `utilisateurs`
 -- AUTO_INCREMENT pour la table `calendrier`
 --
 ALTER TABLE `calendrier`
-  MODIFY `idReservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idReservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `idCommande` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `contenirproduit`
 --
 ALTER TABLE `contenirproduit`
-  MODIFY `idContient` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idContient` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT pour la table `fourniringredients`
@@ -378,7 +432,7 @@ ALTER TABLE `ingredientsproduits`
 -- AUTO_INCREMENT pour la table `produit`
 --
 ALTER TABLE `produit`
-  MODIFY `idProduit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idProduit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `tables`

@@ -23,7 +23,7 @@ public class Connexion extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Connexion");
+        this.primaryStage.setTitle(" * * * GestionBrb * * * ");
         afficherPageConnexion();
     }
     

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="fenetre" prefHeight="747.0" prefWidth="1037.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.MenuControleur">
+   <children>
+      <TabPane fx:id="typeProduit" layoutY="220.0" prefHeight="614.0" prefWidth="1218.0" tabClosingPolicy="UNAVAILABLE" />
+      <ImageView fitHeight="171.0" fitWidth="323.0" layoutX="457.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/logo_light_transparent.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="403.0" layoutY="184.0" text="Cliquez sur un produit pour voir les ingrédients qu'il comporte" />
+      <Label layoutX="1201.0" layoutY="4.0" onMouseClicked="#retourMenuPrincipal" text="x" />
+   </children>
+</AnchorPane>
