@@ -50,6 +50,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 
 
 	private Fournisseurs mainApp;
+	private AdministrationControleur parent;
 	public FournisseursControleur() {
 	}
 
@@ -190,6 +191,13 @@ public class FournisseursControleur extends FonctionsControleurs {
 			// Si rien n'est selectionné
 			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun founisseur de sélectionnée!", "Selectionnez un fournisseur pour pouvoir le modifier");
 		}
+	}
+
+	public void setParent(AdministrationControleur administrationControleur) {
+		// TODO Auto-generated method stub
+		this.parent = administrationControleur;
+		fournisseursTable.setItems(Fournisseurs.getTableData());
+		
 	}
 
 }

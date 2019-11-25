@@ -54,6 +54,7 @@ public class CalendrierControleur {
 	private Label nbTotalReservations;
 
 	DemarrerCommandeControleur mainApp;
+	private AdministrationControleur parent;
 
 	public CalendrierControleur() {
 	}
@@ -278,6 +279,13 @@ public class CalendrierControleur {
 															 calendrier.getString("demandeSpe")));
 		}
 		detailsReservation(null);
+	}
+
+	public void setParent(AdministrationControleur administrationControleur) {
+		// TODO Auto-generated method stub
+		this.parent = administrationControleur;
+		reservationTable.setItems(Calendrier.getReservationData());
+		
 	}
 
 
