@@ -69,9 +69,10 @@ public class IngredientsProduitsControleur{
  * @throws ClassNotFoundException
  */
 
+	Maj du Scenebuiler (rajouter un bouton dans un tableview tu regardes sur internet)
+	Tu rajoutes la colonne que t'as crée dans le initialize aussi
 @FXML
 private void initialize() throws ClassNotFoundException, SQLException {
-
 
 	colonneNomIngredient.setCellValueFactory(cellData -> cellData.getValue().nomIngredientProperty());
 	colonnePrixIngredient.setCellValueFactory(cellData -> cellData.getValue().prixIngredientProperty());
@@ -134,8 +135,10 @@ private void ajoutIngredient() throws ClassNotFoundException, SQLException {
  * @throws SQLException
  * @throws ClassNotFoundException
  */
+
+tu ajoute ingredients dans la base de donnée
 @FXML
-private void ajoutProduit()  {
+private void ajoutProduit()  { 
 	Produit tempProduit = new Produit();
 	try {
 		boolean okClicked = mainApp.fenetreModification(tempProduit);
@@ -214,7 +217,7 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 	IngredientsProduits.getProduitData().clear();
 	Connection conn = bddUtil.dbConnect();
 	ResultSet requete = conn.createStatement().executeQuery("SELECT `idProduit`, produit.`nom`, `qte`, `description`, `prix`, produit.idType, type_produit.nom FROM `produit` INNER JOIN type_produit on produit.idType = type_produit.idType ");
-	while(requete.next()) {
+	while(requete.next()) { // j'ai modifié Produit.java, tu modifies ça en conséquence
 		IngredientsProduits.getProduitData().add(new Produit(requete.getInt("idProduit"), 
 															 requete.getString("nom"),
 															 requete.getInt("qte"),

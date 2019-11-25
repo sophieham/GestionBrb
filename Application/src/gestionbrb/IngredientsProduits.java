@@ -44,7 +44,7 @@ public class IngredientsProduits extends Application {
 				listeingredients.add(new Ingredients(rs.getInt("idIngredient"), rs.getString("nomIngredient"), rs.getInt("prixIngredient"), rs.getInt("qteRestante"), rs.getString("nom")));
 			}
 			rs.close();
-			while (res.next()) {
+			while (res.next()) { tu rajoute les ingredients ici aussi
 				listeproduits.add(new Produit(res.getInt("idProduit"), res.getString("nom"),res.getInt("qte"),res.getString("description"),res.getInt("prix"), res.getString("type_produit.nom")));
 			}
 			res.close();

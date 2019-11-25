@@ -1,5 +1,9 @@
 package gestionbrb.controleur;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import gestionbrb.vue.MenuControleur;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +18,8 @@ import javafx.stage.Stage;
  */
 public class MenuPrincipalControleur {
 	private static Stage demarrerCommande;
-    ConnexionControleur parent;
+    private ConnexionControleur parent;
+    private ParametresControleur parentParametres;
     
     @FXML
     private AnchorPane fenetre;
@@ -44,13 +49,36 @@ public class MenuPrincipalControleur {
 
 	@FXML
 	public void fenetreCarte() {
-		
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Menu.fxml"));
+			Parent menuClient = (Parent) loader.load();
+			fenetre.getChildren().setAll(menuClient);
+
+			MenuControleur controller = loader.getController();
+			controller.setParent(this);
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			e.printStackTrace();
+		}
 	}
 
 
 	@FXML
 	public void fenetreParametres() {
-
+		try {
+			Locale locale = new Locale("fr", "FR");
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr",locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Parametres.fxml"), bundle);
+			Parent menuParametres = (Parent) loader.load();
+			fenetre.getChildren().setAll(menuParametres);  
+				
+				 
+			ParametresControleur controller = loader.getController();
+			controller.setParent(this);
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();
+		}
 	}
 
 	@FXML

@@ -18,6 +18,7 @@ import javafx.stage.Stage;
  * @author Leo
  *
  */
+
 public class ModifierIngredientsControleur {
 	
 	@FXML

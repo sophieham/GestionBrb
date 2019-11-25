@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import gestionbrb.IngredientsProduits;
 import gestionbrb.model.Produit;
@@ -20,6 +21,8 @@ import javafx.stage.Stage;
 /**
  * @author Leo
  */
+
+
 
 public class ModifierProduitsControleur {
 	@FXML
@@ -60,19 +63,12 @@ public class ModifierProduitsControleur {
 		for (int i = 0; i < listeNomIngredient.size(); i++) {
 			RadioButton radiobtn = new RadioButton(listeNomIngredient.get(i));
 			listebouton.add(radiobtn);
-		}
-		vb.getChildren().addAll(listebouton);
-		for(int j=0; j<listebouton.size(); j++){
-			if(listebouton.get(j).isPressed()){
-				String ing = null;
-				System.out.println(listebouton.get(j).getText());
-				System.out.println(ing);
 			}
-			else System.out.println("eeeerrr");
+			vb.getChildren().addAll(listebouton);
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: " + e);
+			e.printStackTrace();
 		}
-	} catch (Exception e) {
-		FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
-	}
 	}
 
 	public void setDialogStage(Stage dialogStage) {
@@ -83,6 +79,7 @@ public class ModifierProduitsControleur {
 		this.mainApp = mainApp;
 	}
 	
+	oublie pas d'ajouter  ici
 	public void setProduit(Produit produit) throws SQLException, ClassNotFoundException {
 		this.produit = produit;
 		chNomProduit.setText(produit.getNomProduit());
@@ -90,27 +87,38 @@ public class ModifierProduitsControleur {
 		chQuantiteProduit.setText(Integer.toString(produit.getQuantiteProduit()));
 		chDescription.setText(produit.getDescriptionProduit());
 		chChoixType.setValue(produit.getType());
-		//listeNomIngredient.setText(Integer.toUnsignedString(produit.getDetailsProduit()));
+		
 	}
 	public boolean isOkClicked() {
 		return okClicked;
 	}
+	
+	List<String> liste = new ArrayList<>();
 	@FXML
 	public void actionValider() {
-		
+	String ingredients = "";
 		try {
+			for (int j = 0; j < listebouton.size(); j++) {
+				if (listebouton.get(j).isSelected()) {
+					String listeSelection = listebouton.get(j).toString(); // recupere la valeur du bouton
+					String ingSplit[] = listeSelection.split("'"); // extrait le nom de l'ingredient
+					liste.add(ingSplit[1]); // rajoute cet ingredient à une liste
+					ingredients = String.join(", ", liste); // stocke dans une variable la liste des ingredients séparé par une virgule
+				}
+			}
 			if (estValide()) {
 				produit.setNomProduit(chNomProduit.getText());
-				produit.setPrixProduit(Integer.parseInt(chPrixProduit.getText()));
+				produit.setPrixProduit(Float.parseFloat(chPrixProduit.getText()));
 				produit.setQuantiteProduit(Integer.parseInt(chQuantiteProduit.getText()));
 				produit.setDescriptionProduit(chDescription.getText());
 				produit.setType(chChoixType.getValue());
-				//produit.setDetailsProduit(Integer.parse(vb.getText()));
+				produit.setIngredients(ingredients);
 				okClicked = true;
 				dialogStage.close();
 			}
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			e.printStackTrace();
 		}
 	}
 	@FXML
@@ -135,7 +143,7 @@ public class ModifierProduitsControleur {
 			erreurMsg += "Veuillez remplir le prix du produit\n";
 		} else {
 			try {
-				Integer.parseInt(chPrixProduit.getText());
+				Float.parseFloat(chPrixProduit.getText());
 			} catch (NumberFormatException e) {
 				erreurMsg += "Erreur! Le champ prix n'accepte que les nombres\n";
 			}

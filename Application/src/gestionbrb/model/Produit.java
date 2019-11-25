@@ -21,15 +21,17 @@ public class Produit {
 	private final IntegerProperty quantiteProduit;
 	private final StringProperty descriptionProduit;
 	private final FloatProperty prixProduit;
-	private final StringProperty type ;
+	private final StringProperty type;
+	private final StringProperty ingredients;
 
-	public Produit(int idProduit, String nomProduit, int quantiteProduit, String descriptionProduit, float prixProduit, String type){
+	public Produit(int idProduit, String nomProduit, int quantiteProduit, String descriptionProduit, float prixProduit, String type, String ingredients){
 		this.idProduit = new SimpleIntegerProperty(idProduit);
 		this.nomProduit = new SimpleStringProperty(nomProduit);
 		this.quantiteProduit = new SimpleIntegerProperty(quantiteProduit);
 		this.descriptionProduit = new SimpleStringProperty(descriptionProduit);
 		this.prixProduit = new SimpleFloatProperty(prixProduit);
 		this.type = new SimpleStringProperty(type);
+		this.ingredients = new SimpleStringProperty(ingredients);
 	}
 	
 	public Produit(String nomProduit, float prixProduit, int quantiteProduit){
@@ -39,10 +41,11 @@ public class Produit {
 		this.descriptionProduit = new SimpleStringProperty(null);
 		this.prixProduit = new SimpleFloatProperty(prixProduit);
 		this.type = new SimpleStringProperty(null);
+		this.ingredients = new SimpleStringProperty(null);
 	}
 
 	public Produit() {
-		this(0 ,null , 0, null, 0, null);
+		this(0 ,null , 0, null, 0, null, null);
 	}
 	public final IntegerProperty idProduitProperty() {
 		return this.idProduit;
@@ -68,7 +71,7 @@ public class Produit {
 	public final float getPrixProduit() {
 		return this.prixProduitProperty().get();
 	}
-	public final void  setPrixProduit(final int prixProduit) {
+	public final void  setPrixProduit(final float prixProduit) {
 		this.prixProduitProperty().set(prixProduit);
 	}
 	public final IntegerProperty quantiteProduitProperty() {
@@ -97,6 +100,16 @@ public class Produit {
 	}
 	public final void  setType(final String type) {
 		this.typeProperty().set(type);
+	}
+	
+	public final StringProperty ingredientsProperty() {
+		return this.ingredients;
+	}
+	public final String getIngredients() {
+		return this.ingredientsProperty().get();
+	}
+	public final void setIngredients(final String ingredients) {
+		this.ingredientsProperty().set(ingredients);
 	}
 	
 }
