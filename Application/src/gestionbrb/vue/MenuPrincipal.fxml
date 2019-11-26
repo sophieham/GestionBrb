@@ -43,7 +43,7 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#fenetreAdministration" prefHeight="65.0" prefWidth="496.0" text="Administration">
+            <Button mnemonicParsing="false" onAction="#fenetreParametres" prefHeight="65.0" prefWidth="494.0" text="Paramètres">
                <font>
                   <Font size="24.0" />
                </font>
@@ -51,7 +51,7 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#fenetreParametres" prefHeight="65.0" prefWidth="494.0" text="Paramètres">
+            <Button fx:id="btnAdministration" mnemonicParsing="false" onAction="#fenetreAdministration" prefHeight="65.0" prefWidth="496.0" text="Administration">
                <font>
                   <Font size="24.0" />
                </font>
@@ -67,7 +67,7 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label layoutX="80.0" layoutY="2.0" prefHeight="27.0" prefWidth="113.0" text="compte?">
+            <Label fx:id="infoCompteLbl" layoutX="80.0" layoutY="2.0" prefHeight="27.0" prefWidth="113.0" text="compte?">
                <font>
                   <Font size="18.0" />
                </font></Label>

@@ -42,6 +42,14 @@ public class Utilisateur {
 		this(0, "", "", "", "", 0);
 	}
 
+	public Utilisateur(int id, String identifiant, String nom, String prenom, int privileges) {
+		this.idUtilisateur = new SimpleIntegerProperty(id);
+		this.privileges = new SimpleIntegerProperty(privileges);
+		this.identifiant = new SimpleStringProperty(identifiant);
+		this.motdepasse = new SimpleStringProperty("");
+		this.nom = new SimpleStringProperty(nom);
+		this.prenom = new SimpleStringProperty(prenom);	}
+
 	public final StringProperty identifiantProperty() {
 		return this.identifiant;
 	}

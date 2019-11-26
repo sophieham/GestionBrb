@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -22,10 +24,20 @@ public class MenuPrincipalControleur {
     private ParametresControleur parentParametres;
     
     @FXML
+    private Label infoCompteLbl;
+	@FXML
+	private Button btnAdministration;
+    @FXML
     private AnchorPane fenetre;
 
+	@FXML
+	public void initialize() {
+		infoCompteLbl.setText(ConnexionControleur.getUtilisateurConnecte().getIdentifiant());
+		if(ConnexionControleur.getUtilisateurConnecte().getPrivileges()==0) {
+			btnAdministration.setVisible(false);
+		}
+	}
 	
-
 	@FXML
 	public void fenetreNouvelleCommande() {
 		try {
@@ -45,6 +57,17 @@ public class MenuPrincipalControleur {
 
 	@FXML
 	public void fenetreStock() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionStock.fxml"));
+			Parent gestionStock = (Parent) loader.load();
+			fenetre.getChildren().setAll(gestionStock);
+
+			GestionStockController controller = loader.getController();
+			controller.setParent(this);
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			e.printStackTrace();
+		}
 	}
 
 	@FXML

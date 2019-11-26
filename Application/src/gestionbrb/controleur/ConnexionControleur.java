@@ -24,7 +24,7 @@ public class ConnexionControleur extends Connexion {
 	@FXML private TextField identifiant;
 	@FXML private PasswordField pass;
 	Connexion parent;
-	private Utilisateur compte;
+	private static Utilisateur utilisateurConnecte;
 	private MenuPrincipalControleur mainApp;
 	
 	@FXML
@@ -42,6 +42,7 @@ public class ConnexionControleur extends Connexion {
 			requete.setString(2, pass.getText().toString());
 			connex = requete.executeQuery();
 			if(connex.next()) {
+				setUtilisateurConnecte(new Utilisateur(connex.getInt("idCompte"), connex.getString("identifiant"), connex.getString("nom"),  connex.getString("prenom"), connex.getInt("typeCompte")));
 				afficherMenuPrincipal();
 			}else {
 				FonctionsControleurs.alerteErreur("Erreur de connexion", "Combinaison identifiant/mot de passe incorrecte", "Veuillez réessayer.");
@@ -82,6 +83,14 @@ public class ConnexionControleur extends Connexion {
 	public void setMainApp(MenuPrincipalControleur menuPrincipalControleurTest) {
 		this.mainApp = menuPrincipalControleurTest;
 		
+	}
+
+	public static Utilisateur getUtilisateurConnecte() {
+		return utilisateurConnecte;
+	}
+
+	public static void setUtilisateurConnecte(Utilisateur utilisateurConnecte) {
+		ConnexionControleur.utilisateurConnecte = utilisateurConnecte;
 	}
 
 }

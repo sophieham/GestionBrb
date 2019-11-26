@@ -183,10 +183,10 @@ public class CommandeControleur implements Initializable {
 											}
 											if(!doublon) {
 												produitCommande.add(prod);
-												bddUtil.dbQueryExecute("INSERT INTO `contenirproduit` (`idProduit`, `idCommande`, `qte`) VALUES ("
+												bddUtil.dbQueryExecute("INSERT INTO `contenirproduit` (`idProduit`, `idCommande`, `qte`, serveurID) VALUES ("
 														+ mapNomParId.get(produit.getKey()) + ", "
 														+ CommandeControleur.this.commande.getIdCommande() + ", "
-														+ "'1') ");
+														+ "'1', '"+ConnexionControleur.getUtilisateurConnecte().getIdentifiant()+"')");
 											}
 
 											ResultSet commandeDB = conn.createStatement().executeQuery("SELECT sum(contenirproduit.qte*produit.prix) as prixt FROM `contenirproduit` INNER JOIN produit on contenirproduit.idProduit = produit.idProduit WHERE idCommande ="+CommandeControleur.this.commande.getIdCommande());
