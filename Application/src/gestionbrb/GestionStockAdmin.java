@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
-import gestionbrb.controleur.GestionStockServController;
 import gestionbrb.model.Fournisseur;
 
 import javafx.application.Application;

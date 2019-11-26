@@ -33,6 +33,7 @@ import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
 import gestionbrb.CommandeIngredients;
 import gestionbrb.GestionStockAdmin;
+import gestionbrb.controleur.GestionStockAdminController;
 /**
  * 
  * @author Linxin
@@ -96,7 +97,7 @@ public CommandeIngredientsController() {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	 	String Nom = GestionStockController.Nom;
+	 	String Nom = GestionStockAdminController.Nom;
 	 	NomIngredients.setText(Nom);
 	 
 			//initSpinner();
@@ -124,7 +125,7 @@ public CommandeIngredientsController() {
 		System.out.println(data);**/
 		String query = "SELECT fournisseur.nom FROM fournisseur INNER JOIN ingredients ON fournisseur.idfournisseur = ingredients.idfournisseur WHERE ingredients.nomIngredient = ?";
 		pst = conn.prepareStatement(query);
-		pst.setString(1, GestionStockController.Nom);
+		pst.setString(1, GestionStockAdminController.Nom);
 		rs = pst.executeQuery();
 		data = FXCollections.observableArrayList();
 		while(rs.next()) {
@@ -143,11 +144,11 @@ public CommandeIngredientsController() {
 		
 		try {
 		pst = conn.prepareStatement(query);
-		pst.setString(1, GestionStockController.Nom);	
+		pst.setString(1, GestionStockAdminController.Nom);	
 		pst.setString(2, output);
 		rs = pst.executeQuery();
 		while(rs.next()) {
-		prixunite.setText(rs.getString("prixIngredient") + "¢ã");
+		prixunite.setText(rs.getString("prixIngredient") + "ï¿½ï¿½");
 		prix = rs.getInt("prixIngredient");
 		}
 		
@@ -211,7 +212,7 @@ public CommandeIngredientsController() {
 
 	System.out.println(value);
 	//System.out.println(prix*value);
-	prixtotal.setText(InttoString(prix*value)+"¢ã");
+	prixtotal.setText(InttoString(prix*value)+"ï¿½ï¿½");
 	}
 	
 	
@@ -289,7 +290,7 @@ public static int StringtoInt(String n) {
 		
 		try {
 		pst = conn.prepareStatement(query);
-		pst.setString(1, GestionStockController.Nom);	
+		pst.setString(1, GestionStockAdminController.Nom);	
 		pst.setString(2, output);
 		rqte = pst.executeQuery();
 		while(rqte.next()) {
@@ -310,7 +311,7 @@ public static int StringtoInt(String n) {
         String query= "UPDATE ingredients INNER JOIN fournisseur ON ingredients.idfournisseur = fournisseur.idfournisseur SET ingredients.qteRestante = ? WHERE ingredients.nomIngredient = ? AND fournisseur.nom = ? ";
         pst = conn.prepareStatement(query);
 		pst.setString(1, InttoString(n));
-		pst.setString(2, GestionStockController.Nom);
+		pst.setString(2, GestionStockAdminController.Nom);
 		pst.setString(3, output);
 		int r = pst.executeUpdate();
 		refresh();
@@ -321,15 +322,15 @@ public static int StringtoInt(String n) {
 			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `fourniringredients`(`idOperation`,`idIngredient`, `idFournisseur`, `qteCommandee`, `dateCommande`, `prixTotal`) "
 															+ "VALUES (null,?,?,?,now(), ?)");
 			
-			pstmt.setInt(1, StringtoInt(GestionStockController.idIngredient));
-			pstmt.setInt(2,StringtoInt(GestionStockController.idFournisseur));
+			pstmt.setInt(1, StringtoInt(GestionStockAdminController.idIngredient));
+			pstmt.setInt(2,StringtoInt(GestionStockAdminController.idFournisseur));
 			pstmt.setInt(3, value);
 			//pstmt.setString(4,date(now()));
 			pstmt.setString(4, InttoString(value*prix));
 			pstmt.execute();
 			//refresh();
-			//alerteInfo("Ajout ¨¦ffectu¨¦", null, "Les informations ont ¨¦t¨¦ ajout¨¦es avec succ¨¨s!");
-			System.out.println(StringtoInt(GestionStockController.idFournisseur));
+			//alerteInfo("Ajout ï¿½ï¿½ffectuï¿½ï¿½", null, "Les informations ont ï¿½ï¿½tï¿½ï¿½ ajoutï¿½ï¿½es avec succï¿½ï¿½s!");
+			System.out.println(StringtoInt(GestionStockAdminController.idFournisseur));
 		
 	
 	}	
@@ -368,8 +369,5 @@ public static int StringtoInt(String n) {
 	public Label getNomIngredients() {
 		return NomIngredients;
 	}
-	
-	
-
 	
 }

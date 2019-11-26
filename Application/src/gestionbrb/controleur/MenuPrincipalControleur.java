@@ -57,7 +57,7 @@ public class MenuPrincipalControleur {
 
 	@FXML
 	public void fenetreStock() {
-		try {
+		/*try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionStock.fxml"));
 			Parent gestionStock = (Parent) loader.load();
 			fenetre.getChildren().setAll(gestionStock);
@@ -67,7 +67,7 @@ public class MenuPrincipalControleur {
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	@FXML
