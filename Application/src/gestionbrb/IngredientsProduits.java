@@ -38,14 +38,14 @@ public class IngredientsProduits extends Application {
 		try {
 			Connection conn = bddUtil.dbConnect();
 			ResultSet rs = conn.createStatement().executeQuery("SELECT idIngredient, nomIngredient, prixIngredient, qteRestante, ingredients.idfournisseur, fournisseur.nom from ingredients INNER JOIN fournisseur on ingredients.idfournisseur = fournisseur.idFournisseur ");
-			ResultSet res = conn.createStatement().executeQuery("SELECT `idProduit`, produit.`nom`, `qte`, `description`, `prix`, produit.idType, type_produit.nom FROM `produit` INNER JOIN type_produit on produit.idType = type_produit.idType ");
+			ResultSet res = conn.createStatement().executeQuery("SELECT `idProduit`, produit.`nom`, `qte`, `description`, `prix`, produit.idType, type_produit.nom, ingredients FROM `produit` INNER JOIN type_produit on produit.idType = type_produit.idType ");
 			ResultSet resu = conn.createStatement().executeQuery("SELECT `idType`, `nom` FROM `type_produit`");
 			while (rs.next()) {
 				listeingredients.add(new Ingredients(rs.getInt("idIngredient"), rs.getString("nomIngredient"), rs.getInt("prixIngredient"), rs.getInt("qteRestante"), rs.getString("nom")));
 			}
 			rs.close();
-			while (res.next()) { tu rajoute les ingredients ici aussi
-				listeproduits.add(new Produit(res.getInt("idProduit"), res.getString("nom"),res.getInt("qte"),res.getString("description"),res.getInt("prix"), res.getString("type_produit.nom")));
+			while (res.next()) {
+				listeproduits.add(new Produit(res.getInt("idProduit"), res.getString("nom"),res.getInt("qte"),res.getString("description"),res.getInt("prix"), res.getString("type_produit.nom"), res.getString("ingredients")));
 			}
 			res.close();
 			while (resu.next()) {

@@ -10,9 +10,10 @@ import gestionbrb.model.Produit;
 import gestionbrb.model.Type;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * 
@@ -57,6 +58,8 @@ public class IngredientsProduitsControleur {
 	private TableColumn<Type, String> colonneNomType;
 
 	private IngredientsProduits mainApp;
+	
+	@SuppressWarnings("unused")
 	private AdministrationControleur parent;
 
 	public IngredientsProduitsControleur() {
@@ -69,8 +72,6 @@ public class IngredientsProduitsControleur {
  * @throws ClassNotFoundException
  */
 
-	Maj du Scenebuiler (rajouter un bouton dans un tableview tu regardes sur internet)
-	Tu rajoutes la colonne que t'as crée dans le initialize aussi
 @FXML
 private void initialize() throws ClassNotFoundException, SQLException {
 
@@ -128,8 +129,30 @@ private void initialize() throws ClassNotFoundException, SQLException {
 			FonctionsControleurs.alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 		}
 	}
+	
+	@FXML
+	private void afficheIngredients() throws ClassNotFoundException, SQLException {
+		Produit selectedProduit = tableProduit.getSelectionModel().getSelectedItem();
+		if (selectedProduit != null) {
+			Connection conn = bddUtil.dbConnect();
+			ResultSet afficheDB = conn.createStatement().executeQuery(
+					"SELECT nom, ingredients FROM `produit` WHERE idProduit = "+ selectedProduit.getIdProduit());
+			while (afficheDB.next()) {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Ingredients");
+				alert.setHeaderText("Ingrédients de "+afficheDB.getString("nom"));
+				alert.setContentText(afficheDB.getString("ingredients"));
+				alert.showAndWait();
+			}
+			
+			refresh();
+		}
+			else {
+				FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun produit de sélectionné!",
+						"Selectionnez un produit pour pouvoir la modifier");
+			}
+		}
 
-	tu ajoute ingredients dans la base de donnée
 	/**
 	 * Appelé quand l'utilisateur clique sur le bouton ajouter. Ouvre une nouvelle
 	 * page pour effectuer la modification
@@ -145,12 +168,13 @@ private void initialize() throws ClassNotFoundException, SQLException {
 			if (okClicked) {
 				Connection conn = bddUtil.dbConnect();
 				PreparedStatement ajoutDB = conn.prepareStatement(
-						"INSERT INTO `produit` (`idProduit`, `nom`, `qte`, `description`, `prix`, `idType`) VALUES (NULL, ?, ?, ?, ?, ?)");
+						"INSERT INTO `produit` (`idProduit`, `nom`, `qte`, `description`, `prix`, `idType`, `ingredients`) VALUES (NULL, ?, ?, ?, ?, ?, ?)");
 				ajoutDB.setString(1, tempProduit.getNomProduit());
 				ajoutDB.setFloat(4, tempProduit.getPrixProduit());
 				ajoutDB.setInt(2, tempProduit.getQuantiteProduit());
 				ajoutDB.setString(3, tempProduit.getDescriptionProduit());
 				ajoutDB.setInt(5, FonctionsControleurs.retrouveID(tempProduit.getType()));
+				ajoutDB.setString(6, tempProduit.getIngredients());
 				ajoutDB.execute();
 				refreshProduit();
 				FonctionsControleurs.alerteInfo("Ajout éffectué", null,
@@ -212,14 +236,15 @@ private void initialize() throws ClassNotFoundException, SQLException {
 private void refreshProduit() throws ClassNotFoundException, SQLException {
 	IngredientsProduits.getProduitData().clear();
 	Connection conn = bddUtil.dbConnect();
-	ResultSet requete = conn.createStatement().executeQuery("SELECT `idProduit`, produit.`nom`, `qte`, `description`, `prix`, produit.idType, type_produit.nom FROM `produit` INNER JOIN type_produit on produit.idType = type_produit.idType ");
+	ResultSet requete = conn.createStatement().executeQuery("SELECT `idProduit`, produit.`nom`, `qte`, `description`, `prix`, ingredients, produit.idType, type_produit.nom FROM `produit` INNER JOIN type_produit on produit.idType = type_produit.idType ");
 	while(requete.next()) { // j'ai modifié Produit.java, tu modifies ça en conséquence
 		IngredientsProduits.getProduitData().add(new Produit(requete.getInt("idProduit"), 
 															 requete.getString("nom"),
 															 requete.getInt("qte"),
 															 requete.getString("description"),
 															 requete.getInt("prix"), 
-															 requete.getString("type_produit.nom")));
+															 requete.getString("type_produit.nom"),
+															 requete.getString("ingredients")));
 		tableProduit.setItems(IngredientsProduits.getProduitData());
 
 		}
@@ -260,7 +285,7 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 				requete.execute();
 				refresh();
 				FonctionsControleurs.alerteInfo("Suppression réussie", null,
-						"La table " + selectedIngredient.getNomIngredient() + " vient d'être supprimée!");
+						"L'ingrédient " + selectedIngredient.getNomIngredient() + " vient d'être supprimé!");
 				conn.close();
 				requete.close();
 			} catch (Exception e) {
@@ -270,8 +295,8 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 
 		} else {
 			// Si rien n'est séléctionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
-					"Selectionnez une table pour pouvoir la supprimer");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun ingrédient de sélectionné!",
+					"Selectionnez un ingrédient pour pouvoir le supprimer");
 		}
 	}
 
@@ -293,7 +318,7 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 				requete.execute();
 				refreshProduit();
 				FonctionsControleurs.alerteInfo("Suppression réussie", null,
-						"La table " + selectedProduit.getNomProduit() + " vient d'être supprimée!");
+						"Le produit " + selectedProduit.getNomProduit() + " vient d'être supprimé!");
 				conn.close();
 				requete.close();
 			} catch (Exception e) {
@@ -302,8 +327,8 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 
 		} else {
 			// Si rien n'est séléctionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
-					"Selectionnez une table pour pouvoir la supprimer");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun produit de sélectionné!",
+					"Selectionnez un produit pour pouvoir le supprimer");
 		}
 	}
 
@@ -325,7 +350,7 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 				requete.execute();
 				refreshType();
 				FonctionsControleurs.alerteInfo("Suppression réussie", null,
-						"La table " + selectedType.getNomType() + " vient d'être supprimée!");
+						"Le type " + selectedType.getNomType() + " vient d'être supprimée!");
 				conn.close();
 				requete.close();
 			} catch (Exception e) {
@@ -334,8 +359,8 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 			}
 		} else {
 			// Si rien n'est séléctionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
-					"Selectionnez une table pour pouvoir la supprimer");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun type de sélectionné!",
+					"Selectionnez un type pour pouvoir le supprimer");
 		}
 	}
 
@@ -365,8 +390,8 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 
 		} else {
 			// Si rien n'est selectionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
-					"Selectionnez une réservation pour pouvoir la modifier");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun ingrédient de sélectionné!",
+					"Selectionnez un ingrédient pour pouvoir la modifier");
 		}
 	}
 
@@ -398,8 +423,8 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 
 			} else {
 				// Si rien n'est selectionné
-				FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
-						"Selectionnez une réservation pour pouvoir la modifier");
+				FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun produit de séléctionné!",
+						"Selectionnez un produit pour pouvoir la modifier");
 			}
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: " + e);
@@ -428,8 +453,8 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 
 		} else {
 			// Si rien n'est selectionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
-					"Selectionnez une réservation pour pouvoir la modifier");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun type de sélectionné!",
+					"Selectionnez un type pour pouvoir la modifier");
 		}
 	}
 

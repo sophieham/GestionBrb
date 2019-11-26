@@ -79,7 +79,6 @@ public class ModifierProduitsControleur {
 		this.mainApp = mainApp;
 	}
 	
-	oublie pas d'ajouter  ici
 	public void setProduit(Produit produit) throws SQLException, ClassNotFoundException {
 		this.produit = produit;
 		chNomProduit.setText(produit.getNomProduit());
