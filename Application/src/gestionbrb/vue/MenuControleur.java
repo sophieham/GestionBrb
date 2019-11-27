@@ -23,6 +23,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -83,6 +84,9 @@ public class MenuControleur implements Initializable {
 				}
 				for (Entry<String, Tab> tab : mapTypeParOnglet.entrySet()) {
 					FlowPane fp = new FlowPane();
+					fp.setPadding(new Insets(5,5,5,5));
+					fp.setHgap(5);
+					fp.setVgap(5);
 					tab.getValue().setOnSelectionChanged(new EventHandler<Event>() {
 						public void handle(Event event) {
 							fp.getChildren().clear();

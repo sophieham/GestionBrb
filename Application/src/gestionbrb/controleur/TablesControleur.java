@@ -1,17 +1,24 @@
 package gestionbrb.controleur;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import gestionbrb.Tables;
 import gestionbrb.model.Table;
 import gestionbrb.util.bddUtil;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * 
@@ -19,6 +26,7 @@ import javafx.scene.control.TableView;
  *
  */
 public class TablesControleur {
+	private static ObservableList<Table> tables = FXCollections.observableArrayList();
 	@FXML
 	private TableView<Table> tableTable;
 	@FXML
@@ -34,14 +42,11 @@ public class TablesControleur {
 	private Label champNbCouvertMax;
 	@FXML
 	private Label champNbCouvertMin;
-	// Reference to the main application.
-	private Tables mainApp;
 	private AdministrationControleur parent;
 
-	/**
-	 * The constructor. The constructor is called before the initialize() method.
-	 */
+	
 	public TablesControleur() {
+		
 	}
 
 	/**
@@ -53,21 +58,16 @@ public class TablesControleur {
 
 	@FXML
 	private void initialize() throws ClassNotFoundException, SQLException {
-
+		Connection conn = bddUtil.dbConnect();
+		ResultSet rs = conn.createStatement().executeQuery("select * from tables");
+		while (rs.next()) {
+			tables.add(new Table(rs.getInt("idTable"), rs.getInt("noTable"), rs.getInt("nbCouverts_Min"), rs.getInt("nbCouverts_Max"), rs.getInt("occupation")));
+		}
 		colonneNoTable.setCellValueFactory(cellData -> cellData.getValue().NoTableProperty());
 		colonneNbCouvertsMax.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMaxProperty());
 		colonneNbCouvertsMin.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMinProperty());
 	}
 
-	/**
-	 * @param mainApp
-	 */
-	public void setMainApp(Tables mainApp) {
-		this.mainApp = mainApp;
-
-		tableTable.setItems(Tables.getTableData());
-	}
-	
 	/**
 	 * Appelé quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
 	 * nouvelle page pour effectuer la modification
@@ -76,9 +76,10 @@ public class TablesControleur {
 	 * @throws ClassNotFoundException
 	 */
 	@FXML
-	private void ajoutTable() throws ClassNotFoundException, SQLException {
+	private void ajoutTable() {
         Table tempTable = new Table();
-        boolean okClicked = mainApp.fenetreModification(tempTable);
+        try {
+        boolean okClicked = fenetreModification(tempTable);
         if (okClicked) {
 				Connection conn = bddUtil.dbConnect();
 				PreparedStatement calendrierDB = conn.prepareStatement
@@ -90,6 +91,11 @@ public class TablesControleur {
 				refresh();
 				FonctionsControleurs.alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 			}
+        }
+        catch(Exception e) {
+        	FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			e.printStackTrace();
+		}
 	}
 
 	/** 
@@ -98,12 +104,12 @@ public class TablesControleur {
 	 * @throws SQLException
 	 */
 	private void refresh() throws ClassNotFoundException, SQLException {
-		Tables.getTableData().clear();
+		tables.clear();
 		Connection conn = bddUtil.dbConnect();
 		ResultSet tableDB = conn.createStatement().executeQuery("SELECT * FROM tables");
 		while(tableDB.next()) {
-			Tables.getTableData().add(new Table (tableDB.getInt(1), tableDB.getInt(2),tableDB.getInt(3),tableDB.getInt(4),tableDB.getInt(5)));
-			tableTable.setItems(Tables.getTableData());
+			tables.add(new Table (tableDB.getInt(1), tableDB.getInt(2),tableDB.getInt(3),tableDB.getInt(4),tableDB.getInt(5)));
+			tableTable.setItems(tables);
 		}
 		
 	}
@@ -152,7 +158,7 @@ public class TablesControleur {
 	private void modifierTable() throws ClassNotFoundException, SQLException {
 		Table selectedTable = tableTable.getSelectionModel().getSelectedItem();
 		if (selectedTable != null) {
-			boolean okClicked = mainApp.fenetreModification(selectedTable);
+			boolean okClicked = fenetreModification(selectedTable);
 			if (okClicked) {
 				bddUtil.dbQueryExecute("UPDATE `tables` SET " 
 						+ "`NoTable` = '"+selectedTable.getNoTable()+"', "
@@ -170,11 +176,49 @@ public class TablesControleur {
 					"Selectionnez une réservation pour pouvoir la modifier");
 		}
 	}
+	
+	public boolean fenetreModification(Table table) throws ClassNotFoundException, SQLException {
+		try {
+			// Charge le fichier fxml et l'ouvre en pop-up
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(TablesControleur.class.getResource("../vue/ModifierTables.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Crée une nouvelle page
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Gestion des tables");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Définition du controleur pour la fenetre
+			ModifierTablesControleur controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setTable(table);
+
+			// Affiche la page et attend que l'utilisateur la ferme.
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	public void setParent(AdministrationControleur administrationControleur) {
 		// TODO Auto-generated method stub
 		this.parent = administrationControleur;
-		tableTable.setItems(Tables.getTableData());
+		tableTable.setItems(tables);
+	}
+
+	public static ObservableList<Table> getTableData() {
+		return tables;
+	}
+
+	public static void setTableData(ObservableList<Table> tables) {
+		TablesControleur.tables = tables;
 	}
 
 }

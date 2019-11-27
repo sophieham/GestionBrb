@@ -31,9 +31,9 @@ import javafx.scene.layout.BorderPane;
 public class GestionStockAdmin extends Application {
 	private Connection conn;
 	@FXML
-	private static ObservableList<Ingredients> data= FXCollections.observableArrayList();;
+	private static ObservableList<Ingredients> data= FXCollections.observableArrayList(); // Ca tu le déplace dans ton controleur
 	@FXML
-	private AnchorPane GestionStockAdminController;
+	private AnchorPane GestionStockAdminController; // tout ça je crois que tu l'as déjà dans ton controleur donc pas besoin
 	@FXML
 	private TableColumn<Ingredients,Integer> colID;
 	@FXML
@@ -49,12 +49,12 @@ public class GestionStockAdmin extends Application {
 	private Ingredients mainApp;
 
 	
-	public static ObservableList<Ingredients> getTableData() {
+	public static ObservableList<Ingredients> getTableData() { // ça aussi t'en aura besoin dans le controleur
 		return data;
 	}
 
 	@Override
-	public void start(Stage stage) {
+	public void start(Stage stage) { // ça il y en a pas besoin 
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GestionStockAdmin.class.getResource("vue/GestionStockAdmin.fxml"));
@@ -85,7 +85,7 @@ public class GestionStockAdmin extends Application {
 	}
 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) { // pas besoin
 		launch(args);
 	}
 }

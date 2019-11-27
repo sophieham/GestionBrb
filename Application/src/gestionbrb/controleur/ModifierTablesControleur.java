@@ -2,7 +2,6 @@ package gestionbrb.controleur;
 
 import java.sql.SQLException;
 
-import gestionbrb.Tables;
 import gestionbrb.model.Table;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -25,8 +24,7 @@ public class ModifierTablesControleur {
 	private Stage dialogStage;
 	private Table table;
 	private boolean okClicked = false;
-	Tables mainApp;
-
+	private TablesControleur parent;
 
 	@FXML
 	private void initialize() {
@@ -36,8 +34,8 @@ public class ModifierTablesControleur {
 		this.dialogStage = dialogStage;
 	}
 	
-	public void setMainApp(Tables mainApp) {
-		this.mainApp = mainApp;
+	public void setMainApp(TablesControleur parent) {
+		this.parent = parent;
 	}
 
 	/**
@@ -97,7 +95,10 @@ public class ModifierTablesControleur {
 			erreurMsg += "Veuillez remplir le nombre de couvert maximum\n";
 		} else {
 			try {
-				Integer.parseInt(champNoTable.getText());
+				int parse = Integer.parseInt(champNoTable.getText());
+				if(parse>999) {
+					erreurMsg += "Erreur! Le champ No. Table est trop grand\n";
+				}
 			} catch (NumberFormatException e) {
 				erreurMsg += "Erreur! Le champ No. Table n'accepte que les nombres\n";
 			}

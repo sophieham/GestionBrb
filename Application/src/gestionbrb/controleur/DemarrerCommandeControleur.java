@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import gestionbrb.Tables;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Table;
 import gestionbrb.util.bddUtil;
@@ -110,7 +109,7 @@ public class DemarrerCommandeControleur {
 			ResultSet TableDB = conn.createStatement().executeQuery("select * from tables");
 
 			while (TableDB.next()) {
-				Tables.getTableData().add(new Table(TableDB.getInt("idTable"), 
+				TablesControleur.getTableData().add(new Table(TableDB.getInt("idTable"), 
 													TableDB.getInt("noTable"),
 													TableDB.getInt("nbCouverts_Min"), 
 													TableDB.getInt("nbCouverts_Max"), 
@@ -170,19 +169,19 @@ public class DemarrerCommandeControleur {
 	 * @throws IOException
 	 */
 	public void afficherMenuPrincipal() {
-		System.out.println("attends c'est pas fini");
+		MenuPrincipalControleur.getDemarrerCommande().close();
 	}
 
 	/** 
 	 * Actualise les données de la page lorsqu'une nouvelle commande est lancée.
 	 */
 	public void refreshMain() {
-			Tables.getTableData().clear();
-			tablesLibre.clear();
-			noTables.clear();
-			champNoTable.setValue(null);
-			champChoixTable.setValue(null);
-			initialize();
+		TablesControleur.getTableData().clear();
+		tablesLibre.clear();
+		noTables.clear();
+		champNoTable.setValue(null);
+		champChoixTable.setValue(null);
+		initialize();
 	}
 	
 	public boolean isOkClicked() {
@@ -379,7 +378,7 @@ public class DemarrerCommandeControleur {
 	 */
 	public void setParent(MenuPrincipalControleur menuPrincipalControleurTest) {
 		this.parent = menuPrincipalControleurTest;
-		tableTable.setItems(Tables.getTableData()); 
+		tableTable.setItems(TablesControleur.getTableData()); 
 		
 	}
 

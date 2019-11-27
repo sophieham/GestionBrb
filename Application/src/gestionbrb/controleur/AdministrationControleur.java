@@ -1,5 +1,8 @@
 package gestionbrb.controleur;
 
+import gestionbrb.model.Table;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class AdministrationControleur extends FonctionsControleurs {
+
 	private static Stage historiqueCommande;
 	private static Stage fournisseurs;
 	private static Stage tables;
@@ -32,6 +36,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			CalendrierControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -49,6 +54,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			FournisseursControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -65,7 +71,9 @@ public class AdministrationControleur extends FonctionsControleurs {
 
 			TablesControleur controller = loader.getController();
 			controller.setParent(this);
+			
 		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -83,6 +91,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			UtilisateursControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -101,6 +110,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			IngredientsProduitsControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 			e.printStackTrace();
 		}
 	
@@ -161,6 +171,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 	public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
 		this.parent = menuPrincipalControleur;
 	}
+
 
 	
 	
