@@ -31,8 +31,8 @@ import java.util.ResourceBundle;
 
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
-import gestionbrb.CommandeIngredients;
-import gestionbrb.GestionStockAdmin;
+//import gestionbrb.CommandeIngredients;
+//import gestionbrb.GestionStockAdmin;
 import gestionbrb.controleur.GestionStockAdminController;
 /**
  * 
@@ -243,9 +243,9 @@ public static int StringtoInt(String n) {
                System.out.println(((MenuItem)e.getSource()).getText());
                Parent root;
    	        try {
-   	            root = FXMLLoader.load(CommandeIngredients.class.getResource("vue/GererIngredientsProduits.fxml"));
+   	            root = FXMLLoader.load(CommandeIngredientsController.class.getResource("../vue/GererIngredientsProduits.fxml"));
    	            Stage stage = new Stage();
-   	            stage.setTitle("My New Stage Title");
+   	            stage.setTitle("GererIngredientsProduits");
    	            stage.setScene(new Scene(root));
    	            stage.show();
    	            // Hide this current window (if this is what you want)
@@ -265,9 +265,9 @@ public static int StringtoInt(String n) {
                System.out.println(((MenuItem)e.getSource()).getText());
                Parent root;
    	        try {
-   	            root = FXMLLoader.load(CommandeIngredients.class.getResource("vue/GestionFournisseurs.fxml"));
+   	            root = FXMLLoader.load(CommandeIngredientsController.class.getResource("../vue/GestionFournisseurs.fxml"));
    	            Stage stage = new Stage();
-   	            stage.setTitle("My New Stage Title");
+   	            stage.setTitle("GestionFournisseurs");
    	            stage.setScene(new Scene(root));
    	            stage.show();
    	            // Hide this current window (if this is what you want)
@@ -337,11 +337,11 @@ public static int StringtoInt(String n) {
     
 	
 	private void refresh() throws ClassNotFoundException, SQLException {
-		GestionStockAdmin.getTableData().clear();
+		GestionStockAdminController.getTableData().clear();
 		Connection conn = bddUtil.dbConnect();
 		ResultSet c = conn.createStatement().executeQuery("select * from ingredients");
 		while(c.next()) {
-			GestionStockAdmin.getTableData().add(new Ingredients(c.getInt("idIngredient"),c.getString("nomIngredient"),c.getInt("prixIngredient"),c.getInt("qteRestante"), c.getString("idfournisseur")));
+			GestionStockAdminController.getTableData().add(new Ingredients(c.getInt("idIngredient"),c.getString("nomIngredient"),c.getInt("prixIngredient"),c.getInt("qteRestante"), c.getString("idfournisseur")));
 		}
 		//GestionStockAdmin.getTview().setItems(GestionStockAdmin.getTableData());
 		
