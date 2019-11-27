@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="fenetre" prefHeight="747.0" prefWidth="1037.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.vue.MenuControleur">
+<AnchorPane fx:id="fenetre" prefHeight="747.0" prefWidth="1037.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.MenuControleur">
    <children>
       <TabPane fx:id="typeProduit" layoutY="220.0" prefHeight="614.0" prefWidth="1218.0" tabClosingPolicy="UNAVAILABLE" />
       <ImageView fitHeight="171.0" fitWidth="323.0" layoutX="457.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">

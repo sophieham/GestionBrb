@@ -4,16 +4,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import gestionbrb.IngredientsProduits;
 import gestionbrb.model.Ingredients;
 import gestionbrb.model.Produit;
 import gestionbrb.model.Type;
 import gestionbrb.util.bddUtil;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * 
@@ -22,6 +28,10 @@ import javafx.scene.control.Alert.AlertType;
  */
 
 public class IngredientsProduitsControleur {
+	private static ObservableList<Ingredients> listeingredients = FXCollections.observableArrayList();
+	private static ObservableList<Produit> listeproduits = FXCollections.observableArrayList();
+	private static ObservableList<Type> listeType = FXCollections.observableArrayList();
+	
 	@FXML
 	private TableView<Ingredients> tableIngredients;
 	@FXML
@@ -56,13 +66,31 @@ public class IngredientsProduitsControleur {
 	private TableColumn<Type, Number> colonneIdType;
 	@FXML
 	private TableColumn<Type, String> colonneNomType;
-
-	private IngredientsProduits mainApp;
 	
 	@SuppressWarnings("unused")
 	private AdministrationControleur parent;
 
 	public IngredientsProduitsControleur() {
+		try {
+			Connection conn = bddUtil.dbConnect();
+			ResultSet rs = conn.createStatement().executeQuery("SELECT idIngredient, nomIngredient, prixIngredient, qteRestante, ingredients.idfournisseur, fournisseur.nom from ingredients INNER JOIN fournisseur on ingredients.idfournisseur = fournisseur.idFournisseur ");
+			ResultSet res = conn.createStatement().executeQuery("SELECT `idProduit`, produit.`nom`, `qte`, `description`, `prix`, produit.idType, type_produit.nom, ingredients FROM `produit` INNER JOIN type_produit on produit.idType = type_produit.idType ");
+			ResultSet resu = conn.createStatement().executeQuery("SELECT `idType`, `nom` FROM `type_produit`");
+			while (rs.next()) {
+				listeingredients.add(new Ingredients(rs.getInt("idIngredient"), rs.getString("nomIngredient"), rs.getInt("prixIngredient"), rs.getInt("qteRestante"), rs.getString("nom")));
+			}
+			rs.close();
+			while (res.next()) {
+				listeproduits.add(new Produit(res.getInt("idProduit"), res.getString("nom"),res.getInt("qte"),res.getString("description"),res.getInt("prix"), res.getString("type_produit.nom"), res.getString("ingredients")));
+			}
+			res.close();
+			while (resu.next()) {
+				listeType.add(new Type(resu.getInt("idType"), resu.getString("nom")));
+			}
+			resu.close();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -90,19 +118,13 @@ private void initialize() throws ClassNotFoundException, SQLException {
 
 	colonneIdType.setCellValueFactory(cellData -> cellData.getValue().idTypeProperty());
 	colonneNomType.setCellValueFactory(cellData -> cellData.getValue().nomTypeProperty());
+	
+
+	tableIngredients.setItems(getIngredientsData());
+	tableProduit.setItems(getProduitData());
+	tableType.setItems(getTypeData());
 }
 
-
-	/**
-	 * @param mainApp
-	 */
-	public void setMainApp(IngredientsProduits mainApp) {
-		this.mainApp = mainApp;
-
-		tableIngredients.setItems(IngredientsProduits.getIngredientsData());
-		tableProduit.setItems(IngredientsProduits.getProduitData());
-		tableType.setItems(IngredientsProduits.getTypeData());
-	}
 
 
 /**
@@ -115,7 +137,7 @@ private void initialize() throws ClassNotFoundException, SQLException {
 	@FXML
 	private void ajoutIngredient() throws ClassNotFoundException, SQLException {
 		Ingredients tempIngredient = new Ingredients();
-		boolean okClicked = mainApp.fenetreModification(tempIngredient);
+		boolean okClicked = fenetreModification(tempIngredient);
 		if (okClicked) {
 			Connection conn = bddUtil.dbConnect();
 			PreparedStatement ajoutDB = conn.prepareStatement(
@@ -164,7 +186,7 @@ private void initialize() throws ClassNotFoundException, SQLException {
 	private void ajoutProduit() {
 		Produit tempProduit = new Produit();
 		try {
-			boolean okClicked = mainApp.fenetreModification(tempProduit);
+			boolean okClicked = fenetreModification(tempProduit);
 			if (okClicked) {
 				Connection conn = bddUtil.dbConnect();
 				PreparedStatement ajoutDB = conn.prepareStatement(
@@ -196,7 +218,7 @@ private void initialize() throws ClassNotFoundException, SQLException {
 	private void ajoutType() throws ClassNotFoundException, SQLException {
 		Type tempType = new Type();
 		try {
-			boolean okClicked = mainApp.fenetreModification(tempType);
+			boolean okClicked = fenetreModification(tempType);
 			if (okClicked) {
 				Connection conn = bddUtil.dbConnect();
 				PreparedStatement ajoutDB = conn
@@ -220,32 +242,32 @@ private void initialize() throws ClassNotFoundException, SQLException {
 	 * @throws SQLException
 	 */
 	private void refresh() throws ClassNotFoundException, SQLException {
-		IngredientsProduits.getIngredientsData().clear();
+		getIngredientsData().clear();
 		Connection conn = bddUtil.dbConnect();
 		ResultSet rs = conn.createStatement().executeQuery(
 				"SELECT idIngredient, nomIngredient, prixIngredient, qteRestante, ingredients.idfournisseur, fournisseur.nom from ingredients INNER JOIN fournisseur on ingredients.idfournisseur = fournisseur.idFournisseur ");
 		while (rs.next()) {
-			IngredientsProduits.getIngredientsData()
+			getIngredientsData()
 					.add(new Ingredients(rs.getInt("idIngredient"), rs.getString("nomIngredient"),
 							rs.getInt("prixIngredient"), rs.getInt("qteRestante"), rs.getString("nom")));
 
-			tableIngredients.setItems(IngredientsProduits.getIngredientsData());
+			tableIngredients.setItems(getIngredientsData());
 		}
 	}
 	
 private void refreshProduit() throws ClassNotFoundException, SQLException {
-	IngredientsProduits.getProduitData().clear();
+	getProduitData().clear();
 	Connection conn = bddUtil.dbConnect();
 	ResultSet requete = conn.createStatement().executeQuery("SELECT `idProduit`, produit.`nom`, `qte`, `description`, `prix`, ingredients, produit.idType, type_produit.nom FROM `produit` INNER JOIN type_produit on produit.idType = type_produit.idType ");
 	while(requete.next()) { // j'ai modifié Produit.java, tu modifies ça en conséquence
-		IngredientsProduits.getProduitData().add(new Produit(requete.getInt("idProduit"), 
+		getProduitData().add(new Produit(requete.getInt("idProduit"), 
 															 requete.getString("nom"),
 															 requete.getInt("qte"),
 															 requete.getString("description"),
 															 requete.getInt("prix"), 
 															 requete.getString("type_produit.nom"),
 															 requete.getString("ingredients")));
-		tableProduit.setItems(IngredientsProduits.getProduitData());
+		tableProduit.setItems(getProduitData());
 
 		}
 	}
@@ -258,12 +280,12 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 	 */
 
 	private void refreshType() throws ClassNotFoundException, SQLException {
-		IngredientsProduits.getTypeData().clear();
+		getTypeData().clear();
 		Connection conn = bddUtil.dbConnect();
 		ResultSet requete = conn.createStatement().executeQuery("select idType, nom from type_produit ");
 		while (requete.next()) {
-			IngredientsProduits.getTypeData().add(new Type(requete.getInt("idType"), requete.getString("nom")));
-			tableType.setItems(IngredientsProduits.getTypeData());
+			getTypeData().add(new Type(requete.getInt("idType"), requete.getString("nom")));
+			tableType.setItems(getTypeData());
 		}
 	}
 
@@ -375,7 +397,7 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 	private void modifierIngredient() throws ClassNotFoundException, SQLException {
 		Ingredients selectedIngredient = tableIngredients.getSelectionModel().getSelectedItem();
 		if (selectedIngredient != null) {
-			boolean okClicked = mainApp.fenetreModification(selectedIngredient);
+			boolean okClicked = fenetreModification(selectedIngredient);
 			if (okClicked) {
 				bddUtil.dbQueryExecute("UPDATE `ingredients` SET `nomIngredient` = '"
 						+ selectedIngredient.getNomIngredient() + "', " + "`prixIngredient` = "
@@ -407,7 +429,7 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 		try {
 			Produit selectedProduit = tableProduit.getSelectionModel().getSelectedItem();
 			if (selectedProduit != null) {
-				boolean okClicked = mainApp.fenetreModification(selectedProduit);
+				boolean okClicked = fenetreModification(selectedProduit);
 				if (okClicked) {
 					bddUtil.dbQueryExecute("UPDATE `Produit` SET `nom` = '" + selectedProduit.getNomProduit() + "', "
 							+ "`qte` = " + selectedProduit.getQuantiteProduit() + ", " + "`description` = '"
@@ -442,7 +464,7 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 	private void modifierType() throws ClassNotFoundException, SQLException {
 		Type selectedType = tableType.getSelectionModel().getSelectedItem();
 		if (selectedType != null) {
-			boolean okClicked = mainApp.fenetreModification(selectedType);
+			boolean okClicked = fenetreModification(selectedType);
 			if (okClicked) {
 				bddUtil.dbQueryExecute("UPDATE `type_produit` SET `nom` = '" + selectedType.getNomType()
 						+ "' WHERE idType= " + selectedType.getIdType() + ";");
@@ -459,9 +481,104 @@ private void refreshProduit() throws ClassNotFoundException, SQLException {
 	}
 
 	public void setParent(AdministrationControleur administrationControleur) {
-		// TODO Auto-generated method stub
 		this.parent = administrationControleur;
-		tableIngredients.setItems(IngredientsProduits.getIngredientsData());
-		tableProduit.setItems(IngredientsProduits.getProduitData());
 	}
+	
+	public boolean fenetreModification(Ingredients ingredient) throws ClassNotFoundException, SQLException {
+		try {
+			// Charge le fichier fxml et l'ouvre en pop-up
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(IngredientsProduitsControleur.class.getResource("../vue/ModifierIngredients.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Crée une nouvelle page
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Gestion liste ingredients");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Définition du controleur pour la fenetre
+			ModifierIngredientsControleur controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setIngredients(ingredient);
+
+			// Affiche la page et attend que l'utilisateur la ferme.
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Erreur d'éxecution", "Détails: "+e);
+			return false;
+		}
+} 
+public boolean fenetreModification(Produit produit) throws ClassNotFoundException, SQLException {
+	try {
+		// Charge le fichier fxml et l'ouvre en pop-up
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(IngredientsProduitsControleur.class.getResource("../vue/ModifierProduits.fxml"));
+		AnchorPane page = (AnchorPane) loader.load();
+
+		// Crée une nouvelle page
+		Stage dialogStage = new Stage();
+		dialogStage.setTitle("Gestion liste ingredients");
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		Scene scene = new Scene(page);
+		dialogStage.setScene(scene);
+
+		// Définition du controleur pour la fenetre
+		ModifierProduitsControleur controller = loader.getController();
+		controller.setDialogStage(dialogStage);
+		controller.setProduit(produit);
+
+		// Affiche la page et attend que l'utilisateur la ferme.
+		dialogStage.showAndWait();
+
+		return controller.isOkClicked();
+	} catch (Exception e) {
+		FonctionsControleurs.alerteErreur("Erreur", "Erreur d'éxecution", "Détails: "+e);
+		return false;
+	}
+} 
+public boolean fenetreModification(Type type) throws ClassNotFoundException, SQLException {
+	try {
+		// Charge le fichier fxml et l'ouvre en pop-up
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(IngredientsProduitsControleur.class.getResource("../vue/ModifierType.fxml"));
+		AnchorPane page = (AnchorPane) loader.load();
+
+		// Crée une nouvelle page
+		Stage dialogStage = new Stage();
+		dialogStage.setTitle("Gestion liste type");
+		dialogStage.initModality(Modality.WINDOW_MODAL);
+		Scene scene = new Scene(page);
+		dialogStage.setScene(scene);
+
+		// Définition du controleur pour la fenetre
+		ModifierTypesControleur controller = loader.getController();
+		controller.setDialogStage(dialogStage);
+		controller.setType(type);
+
+		// Affiche la page et attend que l'utilisateur la ferme.
+		dialogStage.showAndWait();
+
+		return controller.isOkClicked();
+	} catch (Exception e) {
+		e.printStackTrace();
+		FonctionsControleurs.alerteErreur("Erreur", "Erreur d'éxecution", "Détails: "+e);
+		return false;
+	}
+}
+
+	public static ObservableList<Ingredients> getIngredientsData() {
+		return listeingredients;
+	}
+	
+	public static ObservableList<Produit> getProduitData() {
+		return listeproduits;
+	}
+	public static ObservableList<Type> getTypeData() {
+		return listeType;
+	}
+	
 }

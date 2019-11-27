@@ -117,6 +117,11 @@ public class AdministrationControleur extends FonctionsControleurs {
 
 	}
 	
+	@FXML
+	public void fermerFenetre() {
+		MenuPrincipalControleur.getAdministration().close();
+	}
+	
 
 	
 

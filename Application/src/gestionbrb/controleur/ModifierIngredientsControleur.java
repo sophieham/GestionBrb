@@ -3,7 +3,6 @@ package gestionbrb.controleur;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import gestionbrb.IngredientsProduits;
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
@@ -33,7 +32,7 @@ public class ModifierIngredientsControleur {
 	private ChoiceBox<String> chChoixFournisseur;
 	
 	private Stage dialogStage;
-	IngredientsProduits mainApp;
+	IngredientsProduitsControleur mainApp;
 	private Ingredients ingredient;
 	private boolean okClicked = false;
 	
@@ -59,7 +58,7 @@ public class ModifierIngredientsControleur {
 		this.dialogStage = dialogStage;
 	}
 	
-	public void setMainApp(IngredientsProduits mainApp) {
+	public void setMainApp(IngredientsProduitsControleur mainApp) {
 		this.mainApp = mainApp;
 	}
 	public void setIngredients(Ingredients ingredient) throws SQLException, ClassNotFoundException {

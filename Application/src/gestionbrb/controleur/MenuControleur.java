@@ -1,4 +1,4 @@
-package gestionbrb.vue;
+package gestionbrb.controleur;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -11,9 +11,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
 
-import gestionbrb.controleur.CommandeControleur;
-import gestionbrb.controleur.FonctionsControleurs;
-import gestionbrb.controleur.MenuPrincipalControleur;
 import gestionbrb.model.Produit;
 import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
@@ -153,13 +150,11 @@ public class MenuControleur implements Initializable {
 			}
 		}
 		
-	public void afficherPopup() {
-		
-	}
+
     @FXML
     void retourMenuPrincipal(MouseEvent event) {
-
-    }
+    	MenuPrincipalControleur.getCarte().close();
+    	}
 
 
 	public void setParent(MenuPrincipalControleur menuPrincipalControleur) {

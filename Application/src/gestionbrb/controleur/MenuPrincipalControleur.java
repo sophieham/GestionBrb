@@ -1,10 +1,11 @@
 package gestionbrb.controleur;
 
-import gestionbrb.vue.MenuControleur;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -14,6 +15,10 @@ import javafx.stage.Stage;
  *
  */
 public class MenuPrincipalControleur {
+	@FXML
+	private Label infoCompteLbl;
+	@FXML
+	private Button btnAdministration;
 	private static Stage demarrerCommande;
 	private static Stage stockAdmin;
 	private static Stage stockServeur;
@@ -27,6 +32,14 @@ public class MenuPrincipalControleur {
 	private AnchorPane fenetre;
 
 	@FXML
+	public void initialize() {
+		infoCompteLbl.setText(ConnexionControleur.getUtilisateurConnecte().getIdentifiant());
+		if(ConnexionControleur.getUtilisateurConnecte().getPrivileges()==0) {
+			btnAdministration.setVisible(false);
+		}
+	}
+	
+	@FXML
 	public void fenetreNouvelleCommande() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/DemarrerCommande.fxml"));
@@ -39,6 +52,7 @@ public class MenuPrincipalControleur {
 			DemarrerCommandeControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -46,16 +60,17 @@ public class MenuPrincipalControleur {
 	@FXML
 	public void fenetreStock() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GererStockAdmin.fxml"));
-			Parent vueGestionStockAdmin = (Parent) loader.load();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionStock.fxml"));
+			Parent vueGestionStock = (Parent) loader.load();
 			setStockAdmin(new Stage());
-			getStockAdmin().setScene(new Scene(vueGestionStockAdmin));
+			getStockAdmin().setScene(new Scene(vueGestionStock));
 			getStockAdmin().show();
 			getStockAdmin().setTitle("Gestion du stock");
 
 			GestionStockAdminController controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -73,6 +88,7 @@ public class MenuPrincipalControleur {
 			MenuControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -90,6 +106,7 @@ public class MenuPrincipalControleur {
 		ParametresControleur controller = loader.getController();
 		controller.setParent(this);
 		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -108,6 +125,7 @@ public class MenuPrincipalControleur {
 			AdministrationControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	

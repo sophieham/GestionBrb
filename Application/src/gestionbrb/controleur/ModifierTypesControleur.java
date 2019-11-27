@@ -1,6 +1,5 @@
 package gestionbrb.controleur;
 
-import gestionbrb.IngredientsProduits;
 import gestionbrb.model.Type;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -16,7 +15,7 @@ public class ModifierTypesControleur {
 	private TextField chNomType;
 	
 	private Stage dialogStage;
-	IngredientsProduits mainApp;
+	IngredientsProduitsControleur mainApp;
 	private Type type;
 	private boolean okClicked = false;
 	
@@ -28,7 +27,7 @@ public class ModifierTypesControleur {
 		this.dialogStage = dialogStage;
 	}
 	
-	public void setMainApp(IngredientsProduits mainApp) {
+	public void setMainApp(IngredientsProduitsControleur mainApp) {
 		this.mainApp = mainApp;
 	}
 	
@@ -36,9 +35,11 @@ public class ModifierTypesControleur {
 		this.type = type;
 		chNomType.setText(type.getNomType());
 	}
+	
 	public boolean isOkClicked() {
 		return okClicked;
 	}
+	
 	@FXML
 	public void actionValider() {
 		
@@ -51,7 +52,10 @@ public class ModifierTypesControleur {
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 		}
-	}@FXML
+		
+	}
+	
+	@FXML
 	private void actionAnnuler() {
 		dialogStage.close();
 	}

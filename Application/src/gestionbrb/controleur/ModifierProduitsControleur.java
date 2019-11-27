@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import gestionbrb.IngredientsProduits;
 import gestionbrb.model.Produit;
 import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
@@ -44,7 +43,7 @@ public class ModifierProduitsControleur {
 	private Produit produit;
 	private Stage dialogStage;
 	private boolean okClicked = false;
-	IngredientsProduits mainApp;
+	IngredientsProduitsControleur mainApp;
 	
 	@FXML
 	private void initialize() {
@@ -75,7 +74,7 @@ public class ModifierProduitsControleur {
 		this.dialogStage = dialogStage;
 	}
 	
-	public void setMainApp(IngredientsProduits mainApp) {
+	public void setMainApp(IngredientsProduitsControleur mainApp) {
 		this.mainApp = mainApp;
 	}
 	

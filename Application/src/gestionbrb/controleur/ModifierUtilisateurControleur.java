@@ -2,14 +2,14 @@ package gestionbrb.controleur;
 
 import java.sql.SQLException;
 
-import gestionbrb.Utilisateurs;
 import gestionbrb.model.Utilisateur;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
 /**
- * 
+ * Gérer les utilisateurs (Modifier/Ajouter des serveurs ou administrateurs)
  * @author Roman
  *
  */
@@ -31,8 +31,6 @@ public class ModifierUtilisateurControleur {
 	private Utilisateur compte;
 	private boolean okClicked = false;
 	private int role;
-	@SuppressWarnings("unused")
-	private Utilisateurs mainApp;
 	
 	@FXML
 	private void setRoleAdmin() {
@@ -54,10 +52,6 @@ public class ModifierUtilisateurControleur {
 
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
-	}
-
-	public void setMainApp(Utilisateurs mainApp) {
-		this.mainApp = mainApp;
 	}
 
 	/**

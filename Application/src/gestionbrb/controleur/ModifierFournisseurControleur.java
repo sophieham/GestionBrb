@@ -2,7 +2,6 @@ package gestionbrb.controleur;
 
 import java.sql.SQLException;
 
-import gestionbrb.Fournisseurs;
 import gestionbrb.model.Fournisseur;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -31,8 +30,7 @@ public class ModifierFournisseurControleur {
 	private Stage dialogStage;
 	private Fournisseur fournisseur;
 	private boolean okClicked = false;
-	Fournisseurs mainApp;
-	
+
 	@FXML
 	private void initialize() {
 	}
@@ -41,9 +39,6 @@ public class ModifierFournisseurControleur {
 		this.dialogStage = dialogStage;
 	}
 
-	public void setMainApp(Fournisseurs mainApp) {
-		this.mainApp = mainApp;
-	}
 
 	/**
 	 * 

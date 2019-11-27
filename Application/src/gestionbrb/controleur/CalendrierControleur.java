@@ -5,14 +5,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import gestionbrb.Calendrier;
 import gestionbrb.model.Reservations;
 import gestionbrb.util.bddUtil;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * 
@@ -21,6 +27,9 @@ import javafx.scene.control.TableView;
  */
 
 public class CalendrierControleur {
+	
+    private static ObservableList<Reservations> reservationData = FXCollections.observableArrayList();
+
 	@FXML
 	private TableView<Reservations> reservationTable;
 	@FXML
@@ -100,7 +109,7 @@ public class CalendrierControleur {
 	public void setMainApp(DemarrerCommandeControleur mainApp) {
 		this.mainApp = mainApp;
 
-		reservationTable.setItems(Calendrier.getReservationData());
+		reservationTable.setItems(getReservationData());
 	}
 
 	/**
@@ -191,7 +200,7 @@ public class CalendrierControleur {
 	private void modifierReservation() throws ClassNotFoundException, SQLException {
 		Reservations selectedReservation = reservationTable.getSelectionModel().getSelectedItem();
 		if (selectedReservation != null) {
-			boolean okClicked = Calendrier.fenetreModification(selectedReservation);
+			boolean okClicked = fenetreModification(selectedReservation);
 			if (okClicked) {
 				reservationTable.getItems().clear();
 				Connection conn = bddUtil.dbConnect();
@@ -284,9 +293,44 @@ public class CalendrierControleur {
 	public void setParent(AdministrationControleur administrationControleur) {
 		// TODO Auto-generated method stub
 		this.parent = administrationControleur;
-		reservationTable.setItems(Calendrier.getReservationData());
+		reservationTable.setItems(getReservationData());
 		
 	}
+	
+	 /**
+     * Ouvre une fenêtre pour modifier les reservations.
+     * 
+     * @param reservation la reservation a modifier
+     * @return true si l'utilisateur appuie sur modifier, false sinon
+     */
+    
+    public static boolean fenetreModification(Reservations reservation) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(CalendrierControleur.class.getResource("../vue/ModifierReservation.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
 
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Modifier une reservation");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            ModifierCalendrierControleur controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setReservation(reservation);
+
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (Exception e) {
+            FonctionsControleurs.alerteErreur("Erreur d'éxécution", null, "Détails:"+e);
+            return false;
+        }
+    }
+
+    public static ObservableList<Reservations> getReservationData() {
+        return reservationData;
+    }
 
 }

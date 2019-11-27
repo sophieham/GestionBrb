@@ -5,19 +5,28 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import gestionbrb.Utilisateurs;
 import gestionbrb.model.Utilisateur;
 import gestionbrb.util.bddUtil;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 /**
  * 
  * @author Roman
  *
  */
 public class UtilisateursControleur {
+	
+	private static ObservableList<Utilisateur> comptes = FXCollections.observableArrayList();
+	
 	@FXML
 	private TableView<Utilisateur> utilisateursTable;
 	@FXML
@@ -38,10 +47,24 @@ public class UtilisateursControleur {
 	@FXML
 	private Label champIdentifiant;
 
-	private Utilisateurs mainApp;
 	private AdministrationControleur parent;
+	
 
 	public UtilisateursControleur() {
+		try {
+			Connection conn = bddUtil.dbConnect();
+			ResultSet rs = conn.createStatement().executeQuery("select * from utilisateurs");
+			while (rs.next()) {
+				comptes.add(new Utilisateur(rs.getInt("idCompte"),  
+											rs.getString("identifiant"), 
+											rs.getString("pass"), 
+											rs.getString("nom"), 
+											rs.getString("prenom"), 
+											rs.getInt("typeCompte")));
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -59,13 +82,7 @@ public class UtilisateursControleur {
 		colonneRoles.setCellValueFactory(cellData -> cellData.getValue().privilegesProperty());
 	}
 
-	/**
-	 * @param mainApp
-	 */
-	public void setMainApp(Utilisateurs mainApp) {
-		this.mainApp = mainApp;
-		utilisateursTable.setItems(Utilisateurs.getTableData());
-	}
+
 
 	/**
 	 * Appelé quand l'utilisateur clique sur le bouton ajouter un utilisateur. Ouvre
@@ -77,7 +94,7 @@ public class UtilisateursControleur {
 	@FXML
 	private void ajoutUtilisateur() throws ClassNotFoundException, SQLException {
 		Utilisateur tempUtilisateur = new Utilisateur();
-		boolean okClicked = mainApp.fenetreModification(tempUtilisateur);
+		boolean okClicked = fenetreModification(tempUtilisateur);
 		if (okClicked) {
 			Connection conn = bddUtil.dbConnect();
 			PreparedStatement utilisateursDB = conn.prepareStatement("INSERT INTO `utilisateurs` (`idCompte`, `identifiant`, `pass`, `nom`, `prenom`, `typeCompte`) "
@@ -102,17 +119,17 @@ public class UtilisateursControleur {
 	 * @throws SQLException
 	 */
 	private void refresh() throws ClassNotFoundException, SQLException {
-		Utilisateurs.getTableData().clear();
+		getTableData().clear();
 		Connection conn = bddUtil.dbConnect();
 		ResultSet utilisateursDB = conn.createStatement().executeQuery("SELECT * FROM utilisateurs");
 		while (utilisateursDB.next()) {
-			Utilisateurs.getTableData().add(new Utilisateur(Integer.parseInt(utilisateursDB.getString("idCompte")), 
+			getTableData().add(new Utilisateur(Integer.parseInt(utilisateursDB.getString("idCompte")), 
 															utilisateursDB.getString("identifiant"),
 															utilisateursDB.getString("pass"), 
 															utilisateursDB.getString("nom"), 
 															utilisateursDB.getString("prenom"),
 															utilisateursDB.getInt("typeCompte")));
-			utilisateursTable.setItems(Utilisateurs.getTableData());
+			utilisateursTable.setItems(getTableData());
 		}
 
 	}
@@ -143,7 +160,7 @@ public class UtilisateursControleur {
 
 		} else {
 			// Si rien n'est séléctionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionnée!", "Selectionnez un compte pour pouvoir la supprimer");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionné!", "Selectionnez un compte pour pouvoir le supprimer");
 		}
 	}
 
@@ -158,7 +175,7 @@ public class UtilisateursControleur {
 	private void modifierUtilisateur() throws ClassNotFoundException, SQLException {
 		Utilisateur selectedUtilisateur = utilisateursTable.getSelectionModel().getSelectedItem();
 		if (selectedUtilisateur != null) {
-			boolean okClicked = mainApp.fenetreModification(selectedUtilisateur);
+			boolean okClicked = fenetreModification(selectedUtilisateur);
 			if (okClicked) {
 				bddUtil.dbQueryExecute("UPDATE `utilisateurs` SET `identifiant` = '"+ selectedUtilisateur.getIdentifiant() + "', "
 						+ "`pass` = '"+ selectedUtilisateur.getMotdepasse() + "', "
@@ -173,14 +190,59 @@ public class UtilisateursControleur {
 
 		} else {
 			// Si rien n'est selectionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionnée!", "Selectionnez un compte pour pouvoir le modifier");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionné!", "Selectionnez un compte pour pouvoir le modifier");
 		}
 	}
 
 	public void setParent(AdministrationControleur administrationControleur) {
 		// TODO Auto-generated method stub
 		this.parent = administrationControleur;
-		utilisateursTable.setItems(Utilisateurs.getTableData());
+		utilisateursTable.setItems(getTableData());
 	}
+	
+	/**
+	 * affiche la fenetre de modification/ajout d'un utilisateur
+	 * 
+	 * @param compte
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @see ajoutUtilisateur
+	 * @see modifierUtilisateur
+	 */
+		public boolean fenetreModification(Utilisateur compte) throws ClassNotFoundException, SQLException {
+			try {
+				// Charge le fichier fxml et l'ouvre en pop-up
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(UtilisateursControleur.class.getResource("../vue/ModifierComptes.fxml"));
+				AnchorPane page = (AnchorPane) loader.load();
+
+				// Crée une nouvelle page
+				Stage dialogStage = new Stage();
+				dialogStage.setTitle("Gestion des comptes");
+				dialogStage.initModality(Modality.WINDOW_MODAL);
+				Scene scene = new Scene(page);
+				dialogStage.setScene(scene);
+
+				// Définition du controleur pour la fenetre
+				ModifierUtilisateurControleur controller = loader.getController();
+				controller.setDialogStage(dialogStage);
+				controller.setUtilisateur(compte);
+
+				// Affiche la page et attend que l'utilisateur la ferme.
+				dialogStage.showAndWait();
+
+				return controller.isOkClicked();
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+				e.printStackTrace();
+				return false;
+			}
+		}
+	
+	public static ObservableList<Utilisateur> getTableData() {
+		return comptes;
+	}
+
 
 }
