@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import gestionbrb.Tables;
 import gestionbrb.Utilisateurs;
 import gestionbrb.model.Utilisateur;
 import gestionbrb.util.bddUtil;
