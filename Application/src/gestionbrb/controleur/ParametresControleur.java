@@ -7,16 +7,20 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
-
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.event.ActionEvent;
@@ -66,8 +70,22 @@ public class ParametresControleur implements Initializable{
 	@FXML
 	 public void Onbutton(ActionEvent event) {
 		//btnHello.setText("change");
-
-	 }
+		
+		try {
+	            Parent root = FXMLLoader.load(CommandeIngredientsController.class.getResource("../vue/MenuPrincipal.fxml"));
+	            Stage stage = new Stage();
+	            stage.setTitle("GererIngredientsProduits");
+	            stage.setScene(new Scene(root));
+	            stage.show();
+	            
+	          
+	            
+	        }
+	        catch (IOException e1) {
+	            e1.printStackTrace();
+	        }
+        }
+	 
 	
 
 		public void OnBackground(ActionEvent event) {
