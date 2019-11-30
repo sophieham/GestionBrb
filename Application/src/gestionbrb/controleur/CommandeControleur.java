@@ -65,6 +65,8 @@ public class CommandeControleur implements Initializable {
 	@FXML
 	private Label totalPrix;
 	@FXML
+	private Label devise;
+	@FXML
 	private Label totalQte;
 	@FXML
 	private TabPane typeProduit;
@@ -112,6 +114,16 @@ public class CommandeControleur implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		try {
+			Connection conn = bddUtil.dbConnect();
+			ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
+			while (deviseDB.next()) {
+				devise.setText(deviseDB.getString("devise"));
+				}
+			}catch(Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+				e.printStackTrace();		
+			}
 		commande = DemarrerCommandeControleur.getCommande();
 		infoTable.setText("Table "+commande.getNoTable()+" ("+commande.getNbCouverts()+" couvert(s))");
 		colonneProduit.setCellValueFactory(cellData -> cellData.getValue().nomProduitProperty());
@@ -132,16 +144,21 @@ public class CommandeControleur implements Initializable {
 	 */
 	public void etablirCommande() {
 		try {
+			String devise = "";
 		Connection conn = bddUtil.dbConnect();
 			listeProduits.clear();
 			listeOnglets.clear();
 			listeProduits.clear();
 			ResultSet produitDB = conn.createStatement().executeQuery("select idProduit, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.idType=type_produit.idType");
+			ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
+			while (deviseDB.next()) {
+				devise = deviseDB.getString("devise"); 
+			}
 			while (produitDB.next()) {
 				Tab tab = new Tab(produitDB.getString("type_produit.nom"));
 				mapTypeParOnglet.put(produitDB.getString("type_produit.nom"), tab);
 				String typeProduit = produitDB.getString("type_produit.nom");
-				String nomProduit = produitDB.getString("produit.nom")+"\n €"+produitDB.getString("prix");
+				String nomProduit = produitDB.getString("produit.nom")+"\n "+devise+""+produitDB.getString("prix");
 				int idProduit = produitDB.getInt("idProduit");
 				mapNomParId.put(nomProduit, idProduit);
 				mapNomParType.put(nomProduit, typeProduit);
@@ -167,7 +184,7 @@ public class CommandeControleur implements Initializable {
 											String rgx = "\n";
 											String[] tabResultat = produit.getKey().split(rgx); // tab[0] -> nom ;
 																								// tab[1] -> prix
-											String subPrix = tabResultat[1].substring(2); // coupe le signe €
+											String subPrix = tabResultat[1].substring(3); // coupe la devise 
 											float prix = Float.parseFloat(subPrix);
 											Produit prod = new Produit(tabResultat[0], prix, 1);
 											prod.setIdProduit(mapNomParId.get(produit.getKey()));
@@ -226,8 +243,10 @@ public class CommandeControleur implements Initializable {
 			typeProduit.getTabs().addAll(mapTypeParOnglet.values());
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			e.printStackTrace();
 		}
 	}
+	
 	
 	@FXML
 	public void afficherAddition() {
@@ -262,7 +281,6 @@ public class CommandeControleur implements Initializable {
 			try {
 				Connection conn = bddUtil.dbConnect();
 				//System.out.println(selectionProduit.);
-				
 			PreparedStatement suppression = conn.prepareStatement("DELETE FROM `contenirproduit` WHERE `contenirproduit`.`idProduit` = ? AND `contenirproduit`.`idCommande` = "+CommandeControleur.this.commande.getIdCommande());
 			System.out.println(suppression);
 			suppression.setInt(1, (selectionProduit.getIdProduit()));
@@ -274,7 +292,7 @@ public class CommandeControleur implements Initializable {
 			ResultSet qteTotal = conn.createStatement().executeQuery("SELECT sum(qte) FROM `contenirproduit` WHERE idCommande = '"+CommandeControleur.this.commande.getIdCommande()+"'");
 			while (commandeDB.next()) {
 				String tprix = commandeDB.getString("prixt");
-				totalPrix.setText(tprix+" €");
+				totalPrix.setText(tprix);
 	
 			}
 			while(qteTotal.next()) {

@@ -64,16 +64,21 @@ public class MenuControleur implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
+			String devise = "";
 			Connection conn = bddUtil.dbConnect();
 				listeProduits.clear();
 				listeOnglets.clear();
 				listeProduits.clear();
 				ResultSet produitDB = conn.createStatement().executeQuery("select idProduit, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.idType=type_produit.idType");
+				ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
+				while (deviseDB.next()) {
+					devise = deviseDB.getString("devise"); 
+				}
 				while (produitDB.next()) {
 					Tab tab = new Tab(produitDB.getString("type_produit.nom"));
 					mapTypeParOnglet.put(produitDB.getString("type_produit.nom"), tab);
 					String typeProduit = produitDB.getString("type_produit.nom");
-					String nomProduit = produitDB.getString("produit.nom")+"\n €"+produitDB.getString("prix");
+					String nomProduit = produitDB.getString("produit.nom")+"\n "+devise+""+produitDB.getString("prix");
 					int idProduit = produitDB.getInt("idProduit");
 					mapNomParId.put(nomProduit, idProduit);
 					mapNomParType.put(nomProduit, typeProduit);

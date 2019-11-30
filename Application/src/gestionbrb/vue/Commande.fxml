@@ -37,7 +37,7 @@
             </TableView>
             <HBox prefHeight="35.0" prefWidth="418.0">
                <children>
-                  <Label prefHeight="34.0" prefWidth="71.0" text="Total:">
+                  <Label prefHeight="34.0" prefWidth="241.0" text="Total:">
                      <font>
                         <Font size="23.0" />
                      </font>
@@ -45,7 +45,7 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="totalProduit" text="0">
+                  <Label fx:id="totalProduit" prefHeight="34.0" prefWidth="79.0" text="0">
                      <font>
                         <Font size="23.0" />
                      </font>
@@ -56,18 +56,23 @@
                         <Insets left="5.0" />
                      </padding>
                   </Label>
-                  <Separator orientation="VERTICAL" prefHeight="35.0" prefWidth="7.0">
+                  <Separator orientation="VERTICAL" prefHeight="35.0" prefWidth="0.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Separator>
-                  <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="94.0" text="0,00€">
+                  <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="244.0" text="0,00">
                      <font>
                         <Font size="23.0" />
                      </font>
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
+                  </Label>
+                  <Label fx:id="devise" prefHeight="33.0" prefWidth="215.0">
+                     <font>
+                        <Font size="23.0" />
+                     </font>
                   </Label>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
                   <Label fx:id="totalQte" alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="42.0" text="0">

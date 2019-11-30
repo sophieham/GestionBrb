@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,18 +18,18 @@
 
 <AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.ParametresControleur">
    <children>
-      <HBox layoutX="165.0" layoutY="291.0" prefHeight="359.0" prefWidth="972.0">
+      <HBox layoutX="165.0" layoutY="291.0" prefHeight="188.0" prefWidth="972.0">
          <children>
-            <TitledPane fx:id="title" prefHeight="485.0" prefWidth="483.0" text="%key4">
+            <TitledPane fx:id="title" prefHeight="236.0" prefWidth="453.0" text="%key4">
                <content>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
+                  <Pane prefHeight="123.0" prefWidth="451.0">
                      <children>
-                        <Label fx:id="lblTextByController" layoutX="137.0" layoutY="81.0" text="%key1">
+                        <Label fx:id="lblTextByController" layoutX="165.0" layoutY="38.0" text="%key1">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <ChoiceBox fx:id="choicebox" layoutX="137.0" layoutY="133.0" onAction="#choiceMade" prefHeight="31.0" prefWidth="207.0">
+                        <ChoiceBox fx:id="choicebox" layoutX="137.0" layoutY="68.0" onAction="#choiceMade" prefHeight="31.0" prefWidth="207.0">
                     	<items>
                     	<FXCollections fx:factory="observableArrayList">
                     	<String fx:value="Chinese" />
@@ -44,16 +45,16 @@
                   <Insets left="15.0" right="15.0" />
                </HBox.margin>
             </TitledPane>
-            <TitledPane fx:id="choiceCouleur" prefHeight="485.0" prefWidth="489.0" text="%key2">
+            <TitledPane fx:id="choiceCouleur" prefHeight="193.0" prefWidth="474.0" text="%key2">
                <content>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="choiceBackground" layoutX="100.0" layoutY="88.0" text="%key3">
+                        <Label fx:id="choiceBackground" layoutX="93.0" layoutY="36.0" text="%key3">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <ColorPicker fx:id="btnbackground" layoutX="147.0" layoutY="133.0" onAction="#OnBackground" prefHeight="31.0" prefWidth="194.0" />
+                        <ColorPicker fx:id="btnbackground" layoutX="136.0" layoutY="66.0" onAction="#OnBackground" prefHeight="31.0" prefWidth="194.0" />
                      </children>
                   </Pane>
                </content>
@@ -73,5 +74,43 @@
             <Image url="@../../../../Modelisation/logo_light_transparent.png" />
          </image>
       </ImageView>
+      <TitledPane animated="false" layoutX="180.0" layoutY="500.0" prefHeight="176.0" prefWidth="446.0" text="Devise">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Label layoutX="6.0" layoutY="43.0" text="Entrez le code ISO de la devise">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="chDevise" layoutX="259.0" layoutY="44.0" prefWidth="164.0" promptText="exemple: EUR" />
+                  <Button layoutX="124.0" layoutY="106.0" mnemonicParsing="false" onAction="#actionValiderDevise" prefHeight="30.0" prefWidth="197.0" text="Valider">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutX="655.0" layoutY="500.0" prefHeight="176.0" prefWidth="467.0" text="Nom du restaurant">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Label layoutX="90.0" layoutY="14.0" text="Entrez le nom de votre restaurant">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="91.0" layoutY="50.0" prefHeight="25.0" prefWidth="268.0" />
+                  <Button layoutX="124.0" layoutY="106.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="197.0" text="Valider">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
    </children>
 </AnchorPane>

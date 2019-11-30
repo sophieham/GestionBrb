@@ -45,12 +45,17 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="72.0" text="0,00€">
+                        <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="60.0" text="0,00">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalQte" alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="36.0" text="0">
+                        <Label fx:id="devise1" prefHeight="35.0" prefWidth="34.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalQte" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="16.0" text="0">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -76,7 +81,7 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label layoutX="315.0" layoutY="10.0" text="€">
+                        <Label fx:id="devise" layoutX="315.0" layoutY="10.0" prefHeight="35.0" prefWidth="27.0">
                            <font>
                               <Font size="24.0" />
                            </font>

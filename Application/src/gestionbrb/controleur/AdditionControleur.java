@@ -44,6 +44,10 @@ public class AdditionControleur implements Initializable {
 	@FXML
 	private Label totalPrix;
 	@FXML
+	private Label devise;
+	@FXML
+	private Label devise1;
+	@FXML
 	private Label totalProduits;
 	@FXML
 	private Label totalQte;
@@ -62,12 +66,23 @@ public class AdditionControleur implements Initializable {
 		
 	}
 
-	
 	/**
 	 * Affiche le tableau recapitulatif de la commande et affiche des infos sur la table
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		try {
+		Connection conn = bddUtil.dbConnect();
+		ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
+		while (deviseDB.next()) {
+			devise.setText(deviseDB.getString("devise"));
+			devise1.setText(deviseDB.getString("devise"));
+		}
+		}
+		catch(Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();		
+		}
 		commande = DemarrerCommandeControleur.getCommande();
 		colonneProduit.setCellValueFactory(cellData -> cellData.getValue().nomProduitProperty());
 		colonnePrix.setCellValueFactory(cellData -> cellData.getValue().prixProduitProperty());
@@ -107,6 +122,7 @@ public class AdditionControleur implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
 	
 	/**
 	 * Ferme la page
