@@ -1,13 +1,9 @@
 package gestionbrb.controleur;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import gestionbrb.DAO.DAOTables;
 import gestionbrb.model.Table;
-import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -42,7 +38,10 @@ public class TablesControleur {
 	private Label champNbCouvertMax;
 	@FXML
 	private Label champNbCouvertMin;
+	@SuppressWarnings("unused")
 	private AdministrationControleur parent;
+	
+	DAOTables daoTables = new DAOTables();
 
 	
 	public TablesControleur() {
@@ -55,17 +54,17 @@ public class TablesControleur {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-
 	@FXML
-	private void initialize() throws ClassNotFoundException, SQLException {
-		Connection conn = bddUtil.dbConnect();
-		ResultSet rs = conn.createStatement().executeQuery("select * from tables");
-		while (rs.next()) {
-			tables.add(new Table(rs.getInt("idTable"), rs.getInt("noTable"), rs.getInt("nbCouverts_Min"), rs.getInt("nbCouverts_Max"), rs.getInt("occupation")));
+	private void initialize() {
+		try {
+			colonneNoTable.setCellValueFactory(cellData -> cellData.getValue().NoTableProperty());
+			colonneNbCouvertsMax.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMaxProperty());
+			colonneNbCouvertsMin.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMinProperty());
+			tableTable.setItems(daoTables.afficher());
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();
 		}
-		colonneNoTable.setCellValueFactory(cellData -> cellData.getValue().NoTableProperty());
-		colonneNbCouvertsMax.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMaxProperty());
-		colonneNbCouvertsMin.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMinProperty());
 	}
 
 	/**
@@ -81,13 +80,7 @@ public class TablesControleur {
         try {
         boolean okClicked = fenetreModification(tempTable);
         if (okClicked) {
-				Connection conn = bddUtil.dbConnect();
-				PreparedStatement calendrierDB = conn.prepareStatement
-						("INSERT INTO `tables` (`idTable`, `NoTable`, `nbCouverts_min`, `nbCouverts_max`, `idReservation`) VALUES (NULL, ?, ?, ?, NULL)");
-				calendrierDB.setInt(1, tempTable.getNoTable());
-				calendrierDB.setInt(2, tempTable.getNbCouvertsMin());
-				calendrierDB.setInt(3, tempTable.getNbCouvertsMax());
-				calendrierDB.execute();
+        		daoTables.ajouter(tempTable);
 				refresh();
 				FonctionsControleurs.alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 			}
@@ -100,18 +93,16 @@ public class TablesControleur {
 
 	/** 
 	 * Rafraichit les colonnes après un ajout, une modification ou une suppression d'éléments.
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
-	private void refresh() throws ClassNotFoundException, SQLException {
+	private void refresh() {
+		tableTable.getItems().clear();
 		tables.clear();
-		Connection conn = bddUtil.dbConnect();
-		ResultSet tableDB = conn.createStatement().executeQuery("SELECT * FROM tables");
-		while(tableDB.next()) {
-			tables.add(new Table (tableDB.getInt(1), tableDB.getInt(2),tableDB.getInt(3),tableDB.getInt(4),tableDB.getInt(5)));
-			tableTable.setItems(tables);
+		try {
+			tableTable.setItems(daoTables.afficher());
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			e.printStackTrace();
 		}
-		
 	}
 	/**
 	 * Appellé quand l'utilisateur clique sur le bouton supprimer
@@ -125,17 +116,13 @@ public class TablesControleur {
 		int selectedIndex = tableTable.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
 			try {
-			Connection conn = bddUtil.dbConnect();
-			PreparedStatement tables = conn.prepareStatement("DELETE FROM `tables` WHERE idTable=?");
-			tables.setInt(1, (selectedTable.getIdTable()));
-			tables.execute();
+			daoTables.supprimer(selectedTable);
 			refresh();
 			FonctionsControleurs.alerteInfo("Suppression réussie", null, "La table "+selectedTable.getNoTable()+" vient d'être supprimée!");
-			conn.close();
-			tables.close();
 			}
 			catch(SQLException e) {
-				System.out.println("Erreur dans le code sql"+e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+				e.printStackTrace();
 			}
 			
 		
@@ -160,20 +147,20 @@ public class TablesControleur {
 		if (selectedTable != null) {
 			boolean okClicked = fenetreModification(selectedTable);
 			if (okClicked) {
-				bddUtil.dbQueryExecute("UPDATE `tables` SET " 
-						+ "`NoTable` = '"+selectedTable.getNoTable()+"', "
-						+ "`nbCouverts_Min` = '" +selectedTable.getNbCouvertsMin()+ "', "
-						+ "`nbCouverts_Max` = '" +selectedTable.getNbCouvertsMax()+ "', "
-						+ "`idReservation` = NULL WHERE `idTable`="+selectedTable.getIdTable()+";");
-
-				refresh();
-				FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+				try {
+					daoTables.modifier(selectedTable);
+					refresh();
+					FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+				} catch (Exception e) {
+					FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+					e.printStackTrace();
+				}
 			}
 
 		} else {
 			// Si rien n'est selectionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!",
-					"Selectionnez une réservation pour pouvoir la modifier");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
+					"Selectionnez une table pour pouvoir la modifier");
 		}
 	}
 	
@@ -210,7 +197,6 @@ public class TablesControleur {
 	public void setParent(AdministrationControleur administrationControleur) {
 		// TODO Auto-generated method stub
 		this.parent = administrationControleur;
-		tableTable.setItems(tables);
 	}
 
 	public static ObservableList<Table> getTableData() {

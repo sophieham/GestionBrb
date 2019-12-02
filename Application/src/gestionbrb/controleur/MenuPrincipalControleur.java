@@ -1,5 +1,8 @@
 package gestionbrb.controleur;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -96,7 +99,10 @@ public class MenuPrincipalControleur {
 	@FXML
 	public void fenetreParametres() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Menu.fxml"));
+			 Locale locale = new Locale("fr", "FR");  
+
+				ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr",locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Parametres.fxml"),bundle);
 		Parent vueParametre = (Parent) loader.load();
 		setParametres(new Stage());
 		getParametres().setScene(new Scene(vueParametre));

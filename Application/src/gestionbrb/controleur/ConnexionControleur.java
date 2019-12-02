@@ -13,6 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 /**
  * 
@@ -25,6 +27,7 @@ public class ConnexionControleur extends Connexion {
 	@FXML private PasswordField pass;
 	Connexion parent;
 	private static Utilisateur utilisateurConnecte;
+	@SuppressWarnings("unused")
 	private MenuPrincipalControleur mainApp;
 	
 	@FXML
@@ -52,7 +55,32 @@ public class ConnexionControleur extends Connexion {
 		}
 
 	}
-	
+
+	@FXML
+	public void keyPressed(KeyEvent key){
+	    KeyCode kc = key.getCode();
+		if(kc==KeyCode.ENTER){
+			Connection con = bddUtil.dbConnect();
+			PreparedStatement requete = null;
+			ResultSet connex = null; 
+			String sql = "SELECT * FROM utilisateurs WHERE identifiant = ? AND pass = ?";
+			try {
+				requete = con.prepareStatement(sql);
+				requete.setString(1, identifiant.getText().toString());
+				requete.setString(2, pass.getText().toString());
+				connex = requete.executeQuery();
+				if(connex.next()) {
+					setUtilisateurConnecte(new Utilisateur(connex.getInt("idCompte"), connex.getString("identifiant"), connex.getString("nom"),  connex.getString("prenom"), connex.getInt("typeCompte")));
+					afficherMenuPrincipal();
+				}else {
+					FonctionsControleurs.alerteErreur("Erreur de connexion", "Combinaison identifiant/mot de passe incorrecte", "Veuillez réessayer.");
+				}
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur", "Un erreur est survenue!", "Détails: "+e);
+			}
+
+	    }
+	}
 	@FXML
 	public void afficherMenuPrincipal() {
 		try {

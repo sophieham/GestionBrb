@@ -3,7 +3,7 @@ package gestionbrb.controleur;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +27,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -39,8 +38,7 @@ import javafx.scene.text.TextAlignment;
 
 public class MenuControleur implements Initializable {
 	private static ObservableList<Produit> produitCommande = FXCollections.observableArrayList();
-	private TextArea textArea = new TextArea();
-	
+
 	List<Button> listeProduits = new ArrayList<>();
 	List<Tab> listeOnglets = new ArrayList<>();
 	
@@ -59,21 +57,27 @@ public class MenuControleur implements Initializable {
     @FXML
     private TabPane typeProduit;
     
-    private MenuPrincipalControleur parent;
+    @SuppressWarnings("unused")
+	private MenuPrincipalControleur parent;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
+			String devise = "";
 			Connection conn = bddUtil.dbConnect();
 				listeProduits.clear();
 				listeOnglets.clear();
 				listeProduits.clear();
 				ResultSet produitDB = conn.createStatement().executeQuery("select idProduit, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.idType=type_produit.idType");
+				ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
+				while (deviseDB.next()) {
+					devise = deviseDB.getString("devise"); 
+				}
 				while (produitDB.next()) {
 					Tab tab = new Tab(produitDB.getString("type_produit.nom"));
 					mapTypeParOnglet.put(produitDB.getString("type_produit.nom"), tab);
 					String typeProduit = produitDB.getString("type_produit.nom");
-					String nomProduit = produitDB.getString("produit.nom")+"\n €"+produitDB.getString("prix");
+					String nomProduit = produitDB.getString("produit.nom")+"\n "+devise+""+produitDB.getString("prix");
 					int idProduit = produitDB.getInt("idProduit");
 					mapNomParId.put(nomProduit, idProduit);
 					mapNomParType.put(nomProduit, typeProduit);
@@ -118,9 +122,6 @@ public class MenuControleur implements Initializable {
 												conteneur.getChildren().addAll(description, ingredients);
 												alert.getDialogPane().setContent(conteneur);
 												}
-									 
-												// Set content for Dialog Pane
-												//alert.getDialogPane().setContent(conteneur);
 
 												alert.showAndWait();
 											} catch (Exception e) {

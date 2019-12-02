@@ -1,8 +1,5 @@
 package gestionbrb.controleur;
 
-import gestionbrb.model.Table;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,14 +23,14 @@ public class AdministrationControleur extends FonctionsControleurs {
 	@FXML
 	public void fenetreHistoriqueCommandes() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/CalendrierReservations.fxml"));
-			Parent vueDCommande = (Parent) loader.load();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/HistoriqueCommande.fxml"));
+			Parent vueHistoriqueCommande = (Parent) loader.load();
 			setHistoriqueCommande(new Stage());
-			getHistoriqueCommande().setScene(new Scene(vueDCommande));
+			getHistoriqueCommande().setScene(new Scene(vueHistoriqueCommande));
 			getHistoriqueCommande().show();
 			getHistoriqueCommande().setTitle("Historique des commandes");
 
-			CalendrierControleur controller = loader.getController();
+			HistoriqueCommandeControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
@@ -49,7 +46,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			setFournisseurs(new Stage());
 			getFournisseurs().setScene(new Scene(vueGestionStockAdmin));
 			getFournisseurs().show();
-			getFournisseurs().setTitle("Gestion du stock");
+			getFournisseurs().setTitle("Gestion des fournisseurs");
 
 			FournisseursControleur controller = loader.getController();
 			controller.setParent(this);
@@ -67,7 +64,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			setTables(new Stage());
 			getTables().setScene(new Scene(vueParametre));
 			getTables().show();
-			getTables().setTitle("Tables");
+			getTables().setTitle("Gestion des tables");
 
 			TablesControleur controller = loader.getController();
 			controller.setParent(this);
@@ -86,7 +83,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			setUtilisateur(new Stage());
 			getUtilisateur().setScene(new Scene(vueParametre));
 			getUtilisateur().show();
-			getUtilisateur().setTitle("Liste des utilisateurs");
+			getUtilisateur().setTitle("Liste du personnel");
 
 			UtilisateursControleur controller = loader.getController();
 			controller.setParent(this);
@@ -105,7 +102,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			setPlatsIngredients(new Stage());
 			getPlatsIngredients().setScene(new Scene(vueAdministration));
 			getPlatsIngredients().show();
-			getPlatsIngredients().setTitle("Plats Ingredients");
+			getPlatsIngredients().setTitle("Plats & Ingredients");
 
 			IngredientsProduitsControleur controller = loader.getController();
 			controller.setParent(this);

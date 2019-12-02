@@ -3,20 +3,27 @@ package gestionbrb.controleur;
 import java.io.IOException;
 //import java.awt.event.ActionEvent;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
-
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.event.ActionEvent;
@@ -27,6 +34,8 @@ import javafx.event.ActionEvent;
  *
  */
 public class ParametresControleur implements Initializable{
+	@FXML
+	private TextField chDevise;
 	@FXML
 	private  Label lblTextByController;
 	@FXML
@@ -66,8 +75,22 @@ public class ParametresControleur implements Initializable{
 	@FXML
 	 public void Onbutton(ActionEvent event) {
 		//btnHello.setText("change");
-
-	 }
+		
+		try {
+	            Parent root = FXMLLoader.load(CommandeIngredientsController.class.getResource("../vue/MenuPrincipal.fxml"));
+	            Stage stage = new Stage();
+	            stage.setTitle("GererIngredientsProduits");
+	            stage.setScene(new Scene(root));
+	            stage.show();
+	            
+	          
+	            
+	        }
+	        catch (IOException e1) {
+	            e1.printStackTrace();
+	        }
+        }
+	 
 	
 
 		public void OnBackground(ActionEvent event) {
@@ -76,7 +99,38 @@ public class ParametresControleur implements Initializable{
 		
 	}
 	
+		@FXML
+		public void actionValiderDevise() {
+			chDevise.getText().toUpperCase();
+			try {
+				if (estValide()) {
+				bddUtil.dbQueryExecute("UPDATE preference SET devise = '"+ chDevise.getText().toUpperCase() +"' WHERE iddevise = 1");
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+				e.printStackTrace();
+			}
+		}
+		
+		public boolean estValide() {
+			String erreurMsg = "";
+		if (chDevise.getText() == null || chDevise.getText().length() == 0) {
+			erreurMsg += "Veuillez remplir la devise\n";
+			}
+		if (chDevise.getText().length() >3) {
+			erreurMsg += "Veuillez remplir une devise code ISO valide\n";
+			}
+		if (erreurMsg.length() == 0) {
+			return true;
+		} else {
+			// Affiche un message d'erreur
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier les informations",
+					erreurMsg);
 
+			return false;
+			}
+		}
+		
 		public void choiceMade(ActionEvent event) throws IOException {
 		String output = choicebox.getSelectionModel().getSelectedItem().toString();
 		System.out.println(output);
@@ -202,6 +256,7 @@ public class ParametresControleur implements Initializable{
 
 
 
+		
 
 		public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
 			this.parent = menuPrincipalControleur;

@@ -1,6 +1,8 @@
 package gestionbrb.controleur;
 
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import gestionbrb.model.Fournisseur;
 import javafx.fxml.FXML;
@@ -118,7 +120,13 @@ public class ModifierFournisseurControleur {
 
 		}
 		if (champNumTel.getText() == null || champNumTel.getText().length() == 0) {
-			erreurMsg += "Veuillez remplir le champ numéro de telephone\n";
+			erreurMsg += "Veuillez rentrer le numéro de téléphone\n";
+		} else {
+			Pattern p = Pattern.compile("(0|\\+)[0-9]{8,12}");
+			Matcher m = p.matcher(champNumTel.getText());
+			if (!(m.find() && m.group().equals(champNumTel.getText()))) {
+				erreurMsg += "Erreur! Le champ no. téléphone n'accepte que les numéros commençant par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
+			}
 		}
 		if (champVille.getText() == null || champVille.getText().length() == 0) {
 			erreurMsg += "Veuillez remplir le champ ville\n";

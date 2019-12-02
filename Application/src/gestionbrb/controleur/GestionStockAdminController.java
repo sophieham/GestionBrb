@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
-import gestionbrb.GestionStockAdmin;
+//import gestionbrb.GestionStockAdmin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -47,7 +47,7 @@ public class GestionStockAdminController implements Initializable {
 	@FXML
 	private TableView<Ingredients> tview;
 	@FXML
-	private ObservableList<Ingredients> data;
+	private static ObservableList<Ingredients> data= FXCollections.observableArrayList(); ;
 	private Ingredients mainApp;
 	private Connection conn;
 	private MenuPrincipalControleur parent;
@@ -122,14 +122,14 @@ public class GestionStockAdminController implements Initializable {
 	}
 
 	private void refresh() throws ClassNotFoundException, SQLException {
-		GestionStockAdmin.getTableData().clear();
+		getTableData().clear();
 		Connection conn = bddUtil.dbConnect();
 		ResultSet c = conn.createStatement().executeQuery("select * from ingredients");
 		while (c.next()) {
-			GestionStockAdmin.getTableData().add(new Ingredients(c.getInt("idIngredient"), c.getString("nomIngredient"),
+			getTableData().add(new Ingredients(c.getInt("idIngredient"), c.getString("nomIngredient"),
 					c.getInt("prixIngredient"), c.getInt("qteRestante"), c.getString("idfournisseur")));
 		}
-		tview.setItems(GestionStockAdmin.getTableData());
+		tview.setItems(getTableData());
 
 	}
 
@@ -137,7 +137,7 @@ public class GestionStockAdminController implements Initializable {
 	public void RetourMenuPrincipal(ActionEvent event) {
 		Parent root;
 		try {
-			root = FXMLLoader.load(GestionStockAdmin.class.getResource("vue/MenuPrincipal.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../vue/MenuPrincipal.fxml"));
 			Stage stage = new Stage();
 			stage.setTitle("My New Stage Title");
 			stage.setScene(new Scene(root));
@@ -153,7 +153,7 @@ public class GestionStockAdminController implements Initializable {
 	public void CommanderIngredients(ActionEvent event) {
 		Parent root;
 		try {
-			root = FXMLLoader.load(GestionStockAdmin.class.getResource("vue/CommanderIngredients.fxml"));
+			root = FXMLLoader.load(GestionStockAdminController.class.getResource("../vue/CommanderIngredients.fxml"));
 			Stage stage = new Stage();
 			stage.setTitle("Commande_Ingredients");
 			stage.setScene(new Scene(root));
@@ -180,8 +180,11 @@ public class GestionStockAdminController implements Initializable {
 	public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
 		// TODO Auto-generated method stub
 		this.parent = menuPrincipalControleur;
-		tview.setItems(GestionStockAdmin.getTableData());
+		tview.setItems(getTableData());
 
+	}
+	public static ObservableList<Ingredients> getTableData() { // ça aussi t'en aura besoin dans le controleur
+		return data;
 	}
 
 }

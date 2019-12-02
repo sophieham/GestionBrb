@@ -1,11 +1,6 @@
 package gestionbrb.controleur;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,11 +8,11 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
 
+import gestionbrb.DAO.DAOCommande;
+import gestionbrb.DAO.DAOProduit;
+import gestionbrb.DAO.DAOType;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
-import gestionbrb.model.Reservations;
-import gestionbrb.model.Table;
-import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,6 +21,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -39,7 +35,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
@@ -65,6 +60,8 @@ public class CommandeControleur implements Initializable {
 	@FXML
 	private Label totalPrix;
 	@FXML
+	private Label devise;
+	@FXML
 	private Label totalQte;
 	@FXML
 	private TabPane typeProduit;
@@ -76,9 +73,9 @@ public class CommandeControleur implements Initializable {
 	List<Tab> listeOnglets = new ArrayList<>();
 	
 	Map<String, Tab> mapTypeParOnglet= new HashMap<>();
-	Map<String, Integer> mapNomParId = new HashMap<>();
+	//Map<String, Integer> mapNomParId = new HashMap<>();
 	// clé : nom produit ; value = type produit
-	Map<String, String> mapNomParType = new HashMap<>();
+	//Map<String, String> mapNomParType = new HashMap<>();
 	ArrayList<String> nomProduits = new ArrayList<>();
 	
 	private Commande commande;
@@ -90,6 +87,10 @@ public class CommandeControleur implements Initializable {
     
     @FXML
     private AnchorPane fenetre;
+    
+    DAOCommande daoCommande = new DAOCommande();
+    DAOType daoType = new DAOType();
+    DAOProduit daoProduit = new DAOProduit();
 	
 	public CommandeControleur() {
 	}
@@ -112,6 +113,21 @@ public class CommandeControleur implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+<<<<<<< HEAD
+		produitCommande.clear();
+		tableRecap.getItems().clear();
+=======
+		try {
+			Connection conn = bddUtil.dbConnect();
+			ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
+			while (deviseDB.next()) {
+				devise.setText(deviseDB.getString("devise"));
+				}
+			}catch(Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+				e.printStackTrace();		
+			}
+>>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
 		commande = DemarrerCommandeControleur.getCommande();
 		infoTable.setText("Table "+commande.getNoTable()+" ("+commande.getNbCouverts()+" couvert(s))");
 		colonneProduit.setCellValueFactory(cellData -> cellData.getValue().nomProduitProperty());
@@ -132,28 +148,52 @@ public class CommandeControleur implements Initializable {
 	 */
 	public void etablirCommande() {
 		try {
+<<<<<<< HEAD
+			devise.setText(daoCommande.recupererDevise());
+			listeProduits.clear();
+			listeOnglets.clear();
+			listeProduits.clear();
+			
+			for (String nom : daoType.recupererType()) {
+				Tab tab = new Tab(nom);
+				mapTypeParOnglet.put(nom, tab);
+=======
+			String devise = "";
 		Connection conn = bddUtil.dbConnect();
 			listeProduits.clear();
 			listeOnglets.clear();
 			listeProduits.clear();
 			ResultSet produitDB = conn.createStatement().executeQuery("select idProduit, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.idType=type_produit.idType");
+			ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
+			while (deviseDB.next()) {
+				devise = deviseDB.getString("devise"); 
+			}
 			while (produitDB.next()) {
 				Tab tab = new Tab(produitDB.getString("type_produit.nom"));
 				mapTypeParOnglet.put(produitDB.getString("type_produit.nom"), tab);
 				String typeProduit = produitDB.getString("type_produit.nom");
-				String nomProduit = produitDB.getString("produit.nom")+"\n €"+produitDB.getString("prix");
+				String nomProduit = produitDB.getString("produit.nom")+"\n "+devise+""+produitDB.getString("prix");
 				int idProduit = produitDB.getInt("idProduit");
 				mapNomParId.put(nomProduit, idProduit);
 				mapNomParType.put(nomProduit, typeProduit);
 				nomProduits.add(nomProduit);
+>>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
 			}
+			
+			Map<String, Integer> mapNomParId = daoProduit.recupererIDProduit();
+			
+			Map<String, String> mapNomParType = daoProduit.recupererTypeProduit();
+			nomProduits.addAll(daoProduit.recupererNomProduit());
+
 			for (Entry<String, Tab> tab : mapTypeParOnglet.entrySet()) {
 				FlowPane fp = new FlowPane();
 				tab.getValue().setOnSelectionChanged(new EventHandler<Event>() {
 					public void handle(Event event) {
 						fp.getChildren().clear();
 						fp.setAlignment(Pos.BASELINE_CENTER);
-						
+						fp.setPadding(new Insets(5,5,5,5));
+						fp.setHgap(5);
+						fp.setVgap(5);
 						for (Map.Entry<String, String> produit : mapNomParType.entrySet()) {
 							if (tab.getKey().equals(produit.getValue())) {
 								Button btnPlat = new Button(produit.getKey());
@@ -167,43 +207,36 @@ public class CommandeControleur implements Initializable {
 											String rgx = "\n";
 											String[] tabResultat = produit.getKey().split(rgx); // tab[0] -> nom ;
 																								// tab[1] -> prix
-											String subPrix = tabResultat[1].substring(2); // coupe le signe €
+<<<<<<< HEAD
+											String subPrix = tabResultat[1].substring(4); // coupe la devise 
+											
+=======
+											String subPrix = tabResultat[1].substring(3); // coupe la devise 
+>>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
 											float prix = Float.parseFloat(subPrix);
 											Produit prod = new Produit(tabResultat[0], prix, 1);
-											prod.setIdProduit(mapNomParId.get(produit.getKey()));
+											prod.setIdProduit(mapNomParId.get(tabResultat[0]));
 											listePrix.add(prix);
-											mapNomParId.get(produit.getKey());
+											mapNomParId.get(tabResultat[0]);
 											boolean doublon = false;
 											for (Produit prdt : produitCommande) {
 												if (prdt.getNomProduit().equals(prod.getNomProduit())) {
 													prdt.setQuantiteProduit(prdt.getQuantiteProduit()+1);
-													bddUtil.dbQueryExecute("UPDATE `contenirproduit` SET qte='"+prdt.getQuantiteProduit()+"' WHERE idProduit = "+mapNomParId.get(produit.getKey())+" AND idCommande = "+CommandeControleur.this.commande.getIdCommande());
+													daoCommande.modifier(commande.getIdCommande(), mapNomParId.get(tabResultat[0]), prdt);
 													doublon = true;
 												}
 											}
 											if(!doublon) {
 												produitCommande.add(prod);
-												bddUtil.dbQueryExecute("INSERT INTO `contenirproduit` (`idProduit`, `idCommande`, `qte`, serveurID) VALUES ("
-														+ mapNomParId.get(produit.getKey()) + ", "
-														+ CommandeControleur.this.commande.getIdCommande() + ", "
-														+ "'1', '"+ConnexionControleur.getUtilisateurConnecte().getIdentifiant()+"')");
+												daoCommande.ajouterProduitCommande(commande.getIdCommande(), mapNomParId.get(tabResultat[0]), prod);
 											}
-
-											ResultSet commandeDB = conn.createStatement().executeQuery("SELECT sum(contenirproduit.qte*produit.prix) as prixt FROM `contenirproduit` INNER JOIN produit on contenirproduit.idProduit = produit.idProduit WHERE idCommande ="+CommandeControleur.this.commande.getIdCommande());
 											
-											ResultSet qteTotal = conn.createStatement().executeQuery("SELECT sum(qte) FROM `contenirproduit` WHERE idCommande = '"+CommandeControleur.this.commande.getIdCommande()+"'");
-											while (commandeDB.next()) {
-												String tprix = commandeDB.getString("prixt");
-												totalPrix.setText(tprix);
-									
-											}
-											bddUtil.dbQueryExecute("UPDATE `commande` SET prixTotal='"+totalPrix.getText()+"' WHERE idCommande = "+CommandeControleur.this.commande.getIdCommande());
-
-											while(qteTotal.next()) {
-												int qte = qteTotal.getInt("sum(qte)");
-												totalProduit.setText(""+qte);
-												totalQte.setText(qte+"");
-											}
+											totalPrix.setText(daoCommande.afficherPrixTotal(commande)+"");
+											daoCommande.majPrix(commande, prix);
+											int qte = daoCommande.afficherQteTotal(commande);
+											
+											totalProduit.setText(""+qte);
+											totalQte.setText(qte+"");
 										} catch (Exception e) {
 											FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
 											e.printStackTrace();
@@ -219,15 +252,13 @@ public class CommandeControleur implements Initializable {
 					}
 				});
 			}
-			for (Produit prdt : produitCommande) {
-				System.out.println(prdt.getNomProduit());
-				System.out.println("après nomproduit:");
-			}
 			typeProduit.getTabs().addAll(mapTypeParOnglet.values());
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			e.printStackTrace();
 		}
 	}
+	
 	
 	@FXML
 	public void afficherAddition() {
@@ -239,8 +270,7 @@ public class CommandeControleur implements Initializable {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/AdditionCommande.fxml"));
 				Parent vueAdditionCommande = (Parent) loader.load();
 				setFenetreAddition(new Stage());
-				getFenetreAddition()
-						.setTitle("-- Addition de la table " + CommandeControleur.this.commande.getNoTable() + " --");
+				getFenetreAddition().setTitle("-- Addition de la table " + CommandeControleur.this.commande.getNoTable() + " --");
 				getFenetreAddition().setScene(new Scene(vueAdditionCommande));
 				getFenetreAddition().show();
 
@@ -258,11 +288,14 @@ public class CommandeControleur implements Initializable {
 		Produit selectionProduit = tableRecap.getSelectionModel().getSelectedItem();
 		int indexSelection = tableRecap.getSelectionModel().getSelectedIndex();
 		if (indexSelection >= 0) {
-			System.out.println(selectionProduit.getIdProduit());
 			try {
+<<<<<<< HEAD
+			daoCommande.supprimer(commande, selectionProduit);
+			produitCommande.remove(indexSelection);
+			FonctionsControleurs.alerteInfo("Suppression réussie", null, "Le produit "+selectionProduit.getIdProduit()+" vient d'être supprimée!");
+=======
 				Connection conn = bddUtil.dbConnect();
 				//System.out.println(selectionProduit.);
-				
 			PreparedStatement suppression = conn.prepareStatement("DELETE FROM `contenirproduit` WHERE `contenirproduit`.`idProduit` = ? AND `contenirproduit`.`idCommande` = "+CommandeControleur.this.commande.getIdCommande());
 			System.out.println(suppression);
 			suppression.setInt(1, (selectionProduit.getIdProduit()));
@@ -274,7 +307,7 @@ public class CommandeControleur implements Initializable {
 			ResultSet qteTotal = conn.createStatement().executeQuery("SELECT sum(qte) FROM `contenirproduit` WHERE idCommande = '"+CommandeControleur.this.commande.getIdCommande()+"'");
 			while (commandeDB.next()) {
 				String tprix = commandeDB.getString("prixt");
-				totalPrix.setText(tprix+" €");
+				totalPrix.setText(tprix);
 	
 			}
 			while(qteTotal.next()) {
@@ -284,7 +317,10 @@ public class CommandeControleur implements Initializable {
 			
 			conn.close();
 			suppression.close();
+>>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
 			
+			totalPrix.setText(daoCommande.afficherPrixTotal(commande)+""+daoCommande.recupererDevise());
+			totalProduit.setText(daoCommande.afficherQteTotal(commande)+"");
 			}
 			catch(Exception e) {
 				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);

@@ -1,16 +1,11 @@
 package gestionbrb.controleur;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import gestionbrb.DAO.DAOCommande;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
-import gestionbrb.model.Table;
-import gestionbrb.util.bddUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -44,6 +38,10 @@ public class AdditionControleur implements Initializable {
 	@FXML
 	private Label totalPrix;
 	@FXML
+	private Label devise;
+	@FXML
+	private Label devise1;
+	@FXML
 	private Label totalProduits;
 	@FXML
 	private Label totalQte;
@@ -52,22 +50,37 @@ public class AdditionControleur implements Initializable {
 	@FXML
 	private AnchorPane fenetre;
 	private static Stage imprimerAddition;
+	private static Stage paiementAddition;
 	
 	
+	PaiementAdditionControleur paiementAdditionControleur;
 	CommandeControleur parent;
 	Commande commande;
+	
+	DAOCommande daoCommande = new DAOCommande();
 
 	public void setParent(CommandeControleur commandeControleur) {
 		this.parent = commandeControleur;
 		
 	}
 
-	
 	/**
 	 * Affiche le tableau recapitulatif de la commande et affiche des infos sur la table
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		try {
+		Connection conn = bddUtil.dbConnect();
+		ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
+		while (deviseDB.next()) {
+			devise.setText(deviseDB.getString("devise"));
+			devise1.setText(deviseDB.getString("devise"));
+		}
+		}
+		catch(Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();		
+		}
 		commande = DemarrerCommandeControleur.getCommande();
 		colonneProduit.setCellValueFactory(cellData -> cellData.getValue().nomProduitProperty());
 		colonnePrix.setCellValueFactory(cellData -> cellData.getValue().prixProduitProperty());
@@ -84,22 +97,18 @@ public class AdditionControleur implements Initializable {
 	 */
 	public void calculTotal() throws NumberFormatException {
 		try {
+			// 0: qte, 1; prix, 2: totalproduit, 3: resteapayer
 			Label valeurReste = new Label();
-			Connection conn = bddUtil.dbConnect();
-			ResultSet commandeDB = conn.createStatement().executeQuery("SELECT sum(contenirproduit.qte), count(contenirproduit.idProduit), contenirproduit.idProduit, commande.idCommande, contenirproduit.qte, sum(produit.prix), commande.Reste_A_Payer FROM `contenirproduit` inner join produit on contenirproduit.idProduit = produit.idProduit inner join commande on contenirproduit.idCommande = commande.idCommande where commande.idCommande = "+commande.getIdCommande());
-			while (commandeDB.next()) {
-				int qte = commandeDB.getInt("contenirproduit.qte");
-				float tprix = commandeDB.getFloat("sum(produit.prix)")*qte;
-				totalPrix.setText(tprix+"");
-				int totalprdt = commandeDB.getInt("count(contenirproduit.idProduit)")*qte;
-				totalProduits.setText("Total: "+totalprdt+" produit(s)");
-				totalQte.setText(commandeDB.getString("sum(contenirproduit.qte)"));
-				totalAPayer.setText(tprix+"");
-				valeurReste.setText(commandeDB.getString("commande.Reste_A_Payer"));
-			}
+			totalPrix.setText(daoCommande.afficherAddition(commande).get(1));
+			
+			totalProduits.setText("Total: "+daoCommande.afficherAddition(commande).get(2)+" produit(s)");
+			totalQte.setText(daoCommande.afficherAddition(commande).get(0));
+			totalAPayer.setText(daoCommande.afficherAddition(commande).get(1));
+			
+			valeurReste.setText(daoCommande.afficherAddition(commande).get(3));
 				if (valeurReste.getText()==null) {
 				totalAPayer.setText(totalPrix.getText());
-				bddUtil.dbQueryExecute("UPDATE `commande` SET `prixTotal` = '"+totalPrix.getText()+"', `Reste_A_Payer` = '"+totalPrix.getText()+"'  WHERE `commande`.`idCommande` = "+commande.getIdCommande()+"; ");
+				daoCommande.majTotalAPayer(commande, Float.parseFloat(totalPrix.getText()));
 				}
 				else totalAPayer.setText(valeurReste.getText());
 			} catch (Exception e) {
@@ -107,6 +116,7 @@ public class AdditionControleur implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
 	
 	/**
 	 * Ferme la page
@@ -176,11 +186,25 @@ public class AdditionControleur implements Initializable {
 	public static Stage getImprimerAddition() {
 		return imprimerAddition;
 	}
-
-
+	
 	public static void setImprimerAddition(Stage imprimerAddition) {
 		AdditionControleur.imprimerAddition = imprimerAddition;
 	}
+	public static Stage getFenetrePaiement() {
+		return paiementAddition;
+	}
+	
+	public static void setFenetrePaiement(Stage paiementAddition) {
+		AdditionControleur.paiementAddition = paiementAddition;
+	}
+
+
+	public void setParent(PaiementAdditionControleur parent) {
+		this.paiementAdditionControleur = parent;
+		
+	}
+
+	
 
 	
 

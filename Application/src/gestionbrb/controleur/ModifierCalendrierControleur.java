@@ -1,16 +1,14 @@
 package gestionbrb.controleur;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gestionbrb.DAO.DAOCalendrier;
 import gestionbrb.model.Reservations;
-import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
@@ -39,9 +37,11 @@ public class ModifierCalendrierControleur implements Initializable{
     @FXML
     private TextField champDemandeSpe;
 
-
+    DAOCalendrier daoCalendrier = new DAOCalendrier();
+    
     private Stage dialogStage;
-    private Reservations reservation;
+    @SuppressWarnings("unused")
+	private Reservations reservation;
     private boolean okClicked = false;
     
 	@Override
@@ -53,24 +53,25 @@ public class ModifierCalendrierControleur implements Initializable{
     }
 
     /**
-     * Rempli les champs avec les données déjà existantes sur la réservation.
+     * Remplit les champs avec les données déjà existantes sur la réservation.
      * 
      * @param reservation
      * @throws SQLException 
      * @throws ClassNotFoundException 
      */
-    public void setReservation(Reservations reservation) throws SQLException, ClassNotFoundException {
-        this.reservation = reservation;
-		Connection conn = bddUtil.dbConnect();
-		ResultSet reservationDB = conn.createStatement().executeQuery("select * from calendrier where idReservation = "+reservation.getID());
-		while (reservationDB.next()) {
-			champNom.setText(reservationDB.getString("nom"));
-			champPrenom.setText(reservationDB.getString("prenom"));
-			champNumTel.setText(reservationDB.getString("numeroTel"));
-			champDate.setValue(LocalDate.parse(reservationDB.getString("dateReservation")));
-			champHeure.setText(reservationDB.getString("heureReservation"));
-			champNbCouvertsReservation.setText(Integer.toString(reservationDB.getInt("nbCouverts")));
-			champDemandeSpe.setText(reservationDB.getString("demandeSpe"));
+    public void setReservation(Reservations r) {
+    	try {
+			this.reservation = r;
+				champNom.setText(r.getNom());
+				champPrenom.setText(r.getPrenom());
+				champNumTel.setText(r.getNumTel());
+				champDate.setValue(LocalDate.parse(r.getDate()));
+				champHeure.setText(r.getHeure());
+				champNbCouvertsReservation.setText(Integer.toString(r.getNbCouverts()));
+				champDemandeSpe.setText(r.getDemandeSpe());
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();
 		}
     }
 
@@ -82,28 +83,28 @@ public class ModifierCalendrierControleur implements Initializable{
     }
 
     /**
-     * Appellé quand l'utilisateur appuie sur "modifier" <br>
-     * Modifie la réservation si tout les champs sont valides
-     * @throws SQLException 
-     * @throws ClassNotFoundException 
-     * @throws NumberFormatException 
-     */
-    @FXML
-    private void actionModifier() throws NumberFormatException, ClassNotFoundException, SQLException {
-        if (estValide()) {
-        	bddUtil.dbQueryExecute("UPDATE `calendrier` SET "
-        			+ "`nom` = '"+champNom.getText()+"', "
-        			+ "`prenom` = '"+champPrenom.getText()+"', "
-        			+ "`numeroTel` = '"+champNumTel.getText()+"', "
-        			+ "`dateReservation` = '"+champDate.getValue()+"', "
-        			+ "`heureReservation` = '"+champHeure.getText()+"', "
-        			+ "`nbCouverts` = '"+Integer.parseInt(champNbCouvertsReservation.getText())+"', "
-        			+ "`demandeSpe` = '"+champDemandeSpe.getText()+"' "
-        			+ "WHERE `calendrier`.`idReservation` = '"+reservation.getID()+"'");
-            okClicked = true;
-            dialogStage.close();
-        }
-    }
+	 * Appellé quand l'utilisateur appuie sur "modifier" <br>
+	 * Modifie la réservation si tout les champs sont valides
+	 */
+	@FXML
+	private void actionModifier() {
+	    if (estValide()) {
+	    	try {
+				reservation.setNom(champNom.getText());
+				reservation.setPrenom(champNom.getText());
+				reservation.setNumTel(champNumTel.getText());
+				reservation.setDate(champDate.getValue());
+				reservation.setHeure(champHeure.getText());
+				reservation.setNbCouverts(Integer.parseInt(champNbCouvertsReservation.getText()));
+				reservation.setDemandeSpe(champDemandeSpe.getText());
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+				e.printStackTrace();
+			}
+	        okClicked = true;
+	        dialogStage.close();
+	    }
+	}
 
     /**
      * Appellé quand le bouton annuler est appuyé.

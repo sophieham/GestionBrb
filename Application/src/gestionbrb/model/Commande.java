@@ -1,10 +1,13 @@
 package gestionbrb.model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
+import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * 
@@ -15,17 +18,25 @@ public class Commande
 {
 	private IntegerProperty idCommande;
 	private ArrayList<Produit> listeProduitCommande;
-	private IntegerProperty prixTotal;
+	private FloatProperty prixTotal;
 	private IntegerProperty noTable;
 	private IntegerProperty nbCouverts;
-	private IntegerProperty qteTotal;
-	private LocalDate date;
+	private SimpleStringProperty date;
+	private SimpleStringProperty serveur;
 
 	public Commande(int id, int noTable, int nbCouverts){
 		this.idCommande=new SimpleIntegerProperty(id);
 		this.noTable = new SimpleIntegerProperty(noTable);
 		this.nbCouverts = new SimpleIntegerProperty(nbCouverts);
-		this.date=LocalDate.now();		
+	}
+	
+	public Commande(int id, int noTable, int nbCouverts, float prixTotal, String date, String serveur) {
+		this.idCommande=new SimpleIntegerProperty(id);
+		this.noTable = new SimpleIntegerProperty(noTable);
+		this.prixTotal = new SimpleFloatProperty(prixTotal);
+		this.nbCouverts = new SimpleIntegerProperty(nbCouverts);
+		this.serveur = new SimpleStringProperty(serveur);
+		this.date= new SimpleStringProperty(date);	
 	}
 	
     public IntegerProperty idCommandeProperty() {
@@ -53,15 +64,15 @@ public class Commande
 		this.listeProduitCommande.addAll(listeProduitCommande);
 	}
 
-    public IntegerProperty prixTotalProperty() {
+    public FloatProperty prixTotalProperty() {
         return prixTotal;
     }
 
-	public int getPrixTotal() {
+	public float getPrixTotal() {
 		return prixTotal.get();
 	}
 
-	public void setPrixTotal(int prixTotal) {
+	public void setPrixTotal(float prixTotal) {
 		this.prixTotal.set(prixTotal);
 	}
 	
@@ -90,33 +101,27 @@ public class Commande
 		this.nbCouverts.set(nbCouverts);
 	}
 	
-    public IntegerProperty qteTotalProperty() {
-        return qteTotal;
-    }
 
-	public int getQte() {
-		return qteTotal.get();
-	}
-
-	public void setQte(int qte) {
-		this.qteTotal.set(qte);
-	}
-
-    public LocalDate dateProperty() {
+    public StringProperty dateProperty() {
         return date;
     }
     
-	public LocalDate getDate() {
-		return date;
+	public String getDate() {
+		return date.get();
+	}
+	
+	public StringProperty serveurProperty() {
+		return serveur;
+	}
+	
+	public String getServeur() {
+		return serveur.get();
+	}
+	
+	public void setServeur(String serveur) {
+		this.serveur.set(serveur);
 	}
 
-	public void modifierCommande() {
-		// TODO implement me	
-	}
-
-	public void voirCommande() {
-		// TODO implement me	
-	}
 	
 }
 

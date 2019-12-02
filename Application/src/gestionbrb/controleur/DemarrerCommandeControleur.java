@@ -1,15 +1,16 @@
 package gestionbrb.controleur;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gestionbrb.DAO.DAOCalendrier;
+import gestionbrb.DAO.DAOCommande;
+import gestionbrb.DAO.DAOTables;
 import gestionbrb.model.Commande;
+import gestionbrb.model.Reservations;
 import gestionbrb.model.Table;
-import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -70,6 +71,10 @@ public class DemarrerCommandeControleur {
 	@FXML
 	private Label lblOccupation;
 
+	DAOCalendrier daoCalendrier = new DAOCalendrier();
+	DAOTables daoTables = new DAOTables();
+	DAOCommande daoCommande = new DAOCommande();
+	
 	@SuppressWarnings("unused")
 	private Table table;
 	@SuppressWarnings("unused")
@@ -100,36 +105,20 @@ public class DemarrerCommandeControleur {
 
 	@FXML
 	private void initialize() {
+		tableTable.getItems().clear();
+		
 		colonneNoTable.setCellValueFactory(cellData -> cellData.getValue().NoTableProperty());
 		colonneNbCouvertsMax.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMaxProperty());
 		colonneStatut.setCellValueFactory(cellData -> cellData.getValue().occupationStrProperty());
-
 		try {
-			Connection conn = bddUtil.dbConnect();
-			ResultSet TableDB = conn.createStatement().executeQuery("select * from tables");
-
-			while (TableDB.next()) {
-				TablesControleur.getTableData().add(new Table(TableDB.getInt("idTable"), 
-													TableDB.getInt("noTable"),
-													TableDB.getInt("nbCouverts_Min"), 
-													TableDB.getInt("nbCouverts_Max"), 
-													TableDB.getInt("occupation")));
-				
-				noTables.add("Table n°" + TableDB.getInt(2) + " [" + TableDB.getInt(3) + " à " + TableDB.getInt(4) + " couverts]");
-				
-				if(TableDB.getInt("occupation")==0) {
-					tablesLibre.add("Table n°" + TableDB.getInt(2) + " [" + TableDB.getInt(3) + " à " + TableDB.getInt(4) + " couverts]");
-				}
-
-			}
-			lblOccupation.setText((noTables.size()-tablesLibre.size())+" tables occupée(s), "+tablesLibre.size()+" libres");
-			champNoTable.setItems(noTables);
-			champChoixTable.setItems(tablesLibre);
-			TableDB.close();
-			conn.close();
+			daoTables.afficher().clear();
+			tableTable.setItems(daoTables.afficher());
+			lblOccupation.setText((daoTables.afficherNoTables().size()-daoTables.afficherTablesLibres().size())+" tables occupée(s), "+daoTables.afficherTablesLibres().size()+" libres");
+			champNoTable.setItems(daoTables.afficherNoTables());
+			champChoixTable.setItems(daoTables.afficherTablesLibres());
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", null, "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 
@@ -176,11 +165,16 @@ public class DemarrerCommandeControleur {
 	 * Actualise les données de la page lorsqu'une nouvelle commande est lancée.
 	 */
 	public void refreshMain() {
-		TablesControleur.getTableData().clear();
-		tablesLibre.clear();
-		noTables.clear();
+		tableTable.getItems().clear();
 		champNoTable.setValue(null);
 		champChoixTable.setValue(null);
+		try {
+			daoTables.afficherNoTables().clear();
+			daoTables.afficherTablesLibres().clear();
+		} catch (SQLException e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: "+e);
+			e.printStackTrace();
+		}
 		initialize();
 	}
 	
@@ -197,20 +191,14 @@ public class DemarrerCommandeControleur {
 	 */
 	public void lancerCommande() {
 		try {
+			
 			int nombreCouverts = Integer.parseInt(champNbCouverts.getText());
 			int numTable = getNumero(champChoixTable);
 			
-			//!!! a remplacer occupation =0 par 1 une fois commande paramétré
-			bddUtil.dbQueryExecute("UPDATE `tables` SET occupation = 1 WHERE noTable="+numTable);
+			daoTables.modifierOccupation(numTable);
 			refreshMain();
-			Connection conn = bddUtil.dbConnect();
-			ResultSet commandeDB = conn.createStatement().executeQuery("select count(*) from commande");
-			while (commandeDB.next()) {
-				int id=commandeDB.getInt(1);
-				id++;
-				commande= new Commande(id, numTable, nombreCouverts);
-			}
-			bddUtil.dbQueryExecute("INSERT INTO `commande` (`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `qteTotal`, `date`) VALUES ("+commande.getIdCommande()+", '"+numTable+"', NULL, '"+nombreCouverts+"', NULL, current_timestamp())");
+			commande= new Commande(daoCommande.recupererID(), numTable, nombreCouverts);
+			daoCommande.ajouter(commande);
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Commande.fxml"));
 			Parent vueCommande = (Parent) loader.load();
 			setFenetreCommande(new Stage());
@@ -226,9 +214,6 @@ public class DemarrerCommandeControleur {
 			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
 			e.printStackTrace();
 		}
-		/*catch(NumberFormatException e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Veuillez saisir uniquement des chiffres", "Détails: "+e);
-		}*/
 	}
 
 	/**
@@ -278,14 +263,25 @@ public class DemarrerCommandeControleur {
 	 */
 	@FXML
 	private void actionAjouter() throws ClassNotFoundException, SQLException {
+		
 		if (estValide()) {
-			bddUtil.dbQueryExecute("INSERT INTO `calendrier` (`idReservation`, `nom`, `prenom`, `numeroTel`, `dateReservation`, `heureReservation`, `nbCouverts`, `demandeSpe`, `noTable`) "
-									+ "VALUES (NULL, '" + champNom.getText() + "', '" + champPrenom.getText() + "','"
-									+ champNumTel.getText() + "' , '" + champDate.getValue() + "', '" + champHeure.getText()
-									+ "', '" + champNbCouvertsReservation.getText() + "', '" + champDemandeSpe.getText() + "', '"
-									+ getNumero(champNoTable) + "');");
-
-			FonctionsControleurs.alerteInfo("Reservation enregistrée!", "", "La reservation à bien été enregistrée!");
+			
+			try {
+				Reservations tempReservation = new Reservations(0, 
+																champNom.getText(), 
+																champPrenom.getText(), 
+																champNumTel.getText(), 
+																champDate.getValue().toString(), 
+																champHeure.getText(), 
+																Integer.parseInt(champNbCouvertsReservation.getText()), 
+																champDemandeSpe.getText());
+				int noTable = getNumero(champNoTable);
+				daoCalendrier.ajouter(tempReservation, noTable);
+				FonctionsControleurs.alerteInfo("Reservation enregistrée!", "", "La reservation à bien été enregistrée!");
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: " + e);
+				e.printStackTrace();
+			}
 
 			champNom.clear();
 			champPrenom.clear();
@@ -378,8 +374,6 @@ public class DemarrerCommandeControleur {
 	 */
 	public void setParent(MenuPrincipalControleur menuPrincipalControleurTest) {
 		this.parent = menuPrincipalControleurTest;
-		tableTable.setItems(TablesControleur.getTableData()); 
-		
 	}
 
 

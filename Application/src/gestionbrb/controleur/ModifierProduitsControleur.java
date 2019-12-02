@@ -1,13 +1,12 @@
 package gestionbrb.controleur;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import gestionbrb.DAO.DAOIngredients;
+import gestionbrb.DAO.DAOType;
 import gestionbrb.model.Produit;
-import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,12 +16,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+
 /**
+ * Fenetre de modification/ajout de produits
  * @author Leo
  */
-
-
-
 public class ModifierProduitsControleur {
 	@FXML
 	private TextField chNomProduit;
@@ -45,20 +44,18 @@ public class ModifierProduitsControleur {
 	private boolean okClicked = false;
 	IngredientsProduitsControleur mainApp;
 	
+	DAOType daoType = new DAOType();
+	DAOIngredients daoIngredients = new DAOIngredients();
+	
+	
+	/**
+	 * Initialise les valeurs du menu déroulant et des boutons à cocher avec des valeurs provenant de la base de données.
+	 */
 	@FXML
 	private void initialize() {
 		try {
-		Connection conn = bddUtil.dbConnect();
-		ResultSet typeDB = conn.createStatement().executeQuery("select idType, nom from type_produit");
-		ResultSet ingredientDB = conn.createStatement().executeQuery("select nomIngredient from ingredients");
-		while (typeDB.next()) {
-			listeType.add("ID: "+typeDB.getInt("idType")+" -> "+typeDB.getString("nom"));
-		}
-		chChoixType.setItems(listeType);
-		while(ingredientDB.next()) {
-			String nomIngredient = ingredientDB.getString("nomIngredient");
-			listeNomIngredient.add(nomIngredient);
-		}
+		listeNomIngredient.addAll(daoIngredients.listeIngredients());
+		chChoixType.setItems(daoType.choixType());
 		for (int i = 0; i < listeNomIngredient.size(); i++) {
 			RadioButton radiobtn = new RadioButton(listeNomIngredient.get(i));
 			listebouton.add(radiobtn);
@@ -78,6 +75,13 @@ public class ModifierProduitsControleur {
 		this.mainApp = mainApp;
 	}
 	
+	/**
+	 * Affiche les détails du produits (notamment pour la modification de produits)
+	 * 
+	 * @param produit le produit qu'on affiche
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public void setProduit(Produit produit) throws SQLException, ClassNotFoundException {
 		this.produit = produit;
 		chNomProduit.setText(produit.getNomProduit());
@@ -91,17 +95,22 @@ public class ModifierProduitsControleur {
 		return okClicked;
 	}
 	
-	List<String> liste = new ArrayList<>();
+	/**
+	 * Appellé lorsqu'on valide l'ajout/la modification. <br>
+	 * Vérifie les valeurs rentrées et concatène le nom des ingredients cochés pour les enrengistrer dans une liste.
+	 */
+	
 	@FXML
 	public void actionValider() {
+	List<String> liste = new ArrayList<>();
 	String ingredients = "";
 		try {
 			for (int j = 0; j < listebouton.size(); j++) {
 				if (listebouton.get(j).isSelected()) {
-					String listeSelection = listebouton.get(j).toString(); // recupere la valeur du bouton
-					String ingSplit[] = listeSelection.split("'"); // extrait le nom de l'ingredient
-					liste.add(ingSplit[1]); // rajoute cet ingredient à une liste
-					ingredients = String.join(", ", liste); // stocke dans une variable la liste des ingredients séparé par une virgule
+					String listeSelection = listebouton.get(j).toString();
+					String ingSplit[] = listeSelection.split("'"); 
+					liste.add(ingSplit[1]);
+					ingredients = String.join(", ", liste);
 				}
 			}
 			if (estValide()) {
@@ -123,6 +132,14 @@ public class ModifierProduitsControleur {
 	private void actionAnnuler() {
 		dialogStage.close();
 	}
+	
+	/**
+	 * Vérifie si les entrées sont correctes. <br>
+	 * A chaque fois qu'une entrée n'est pas valide, il incrémente le compteur d'erreurs 
+	 * et affiche ensuite les erreurs dans une boite de dialogue.
+	 * 
+	 * @return true si il n'y a pas d'erreur, false sinon
+	 */
 	
 	public boolean estValide() {
 		String erreurMsg = "";

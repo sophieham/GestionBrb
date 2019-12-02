@@ -35,7 +35,7 @@ public class ModifierTablesControleur {
 	}
 	
 	public void setMainApp(TablesControleur parent) {
-		this.parent = parent;
+		this.setParent(parent);
 	}
 
 	/**
@@ -133,6 +133,14 @@ public class ModifierTablesControleur {
 
 			return false;
 		}
+	}
+
+	public TablesControleur getParent() {
+		return parent;
+	}
+
+	public void setParent(TablesControleur parent) {
+		this.parent = parent;
 	}
 
 }

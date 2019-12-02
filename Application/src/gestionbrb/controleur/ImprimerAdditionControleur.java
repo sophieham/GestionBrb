@@ -1,10 +1,9 @@
 package gestionbrb.controleur;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
+import gestionbrb.DAO.DAOCommande;
 import gestionbrb.model.Commande;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
@@ -46,43 +45,35 @@ public class ImprimerAdditionControleur implements Initializable {
 	
 	private Window window;
 
+	DAOCommande daoCommande = new DAOCommande();
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
 			commande = DemarrerCommandeControleur.getCommande();
-			Connection conn = bddUtil.dbConnect();
-			ResultSet produitCommandeDB = conn.createStatement().executeQuery(
-					"SELECT produit.nom, produit.prix, contenirproduit.qte from contenirproduit "
-					+ "INNER JOIN produit on contenirproduit.idProduit = produit.idProduit "
-					+ "WHERE contenirproduit.idCommande ="+commande.getIdCommande());
-			ResultSet commandeDB = conn.createStatement().executeQuery(""
-					+ "SELECT sum(contenirproduit.qte) AS 'qte', prixTotal, substring(date,1,10) as 'date', substring(date,12,15) as 'heure', noTable, nbCouverts "
-					+ "FROM commande INNER JOIN contenirproduit on commande.idCommande = contenirproduit.idCommande where commande.idcommande = "+commande.getIdCommande());
-			while(produitCommandeDB.next()) {
+
+			for(int i=0; i<daoCommande.afficherProduitCommande(commande).get(0).size(); i++) {
 				HBox produitBox = new HBox();
 				
-				Label nom = new Label(produitCommandeDB.getString("produit.nom"));
+				Label nom = new Label(daoCommande.afficherProduitCommande(commande).get(0).get(i));
 				nom.setPrefSize(293,30);
 				nom.setFont((new Font("System", 20)));
-				Label prix = new Label(produitCommandeDB.getString("produit.prix"));
+				Label prix = new Label(daoCommande.afficherProduitCommande(commande).get(1).get(i));
 				prix.setPrefSize(96,30);
 				prix.setAlignment(Pos.CENTER);
 				prix.setFont((new Font("System", 20)));
-				Label qte = new Label(produitCommandeDB.getString("contenirproduit.qte"));
+				Label qte = new Label(daoCommande.afficherProduitCommande(commande).get(2).get(i));
 				qte.setPrefSize(106,30);
 				qte.setAlignment(Pos.CENTER);
 				qte.setFont((new Font("System", 20)));
 				produitBox.getChildren().addAll(nom, prix, qte);
 				HBox.setMargin(nom, new Insets(0,0,0,5));
 				vboxProduits.getChildren().add(produitBox);
-
 			}
-			
-			while(commandeDB.next()) {
-				infoTableLbl.setText("Addition de la table n°"+commandeDB.getInt("noTable")+" ("+commandeDB.getInt("nbCouverts")+" couverts)");
-				dateCommandeLbl.setText("Commande effectuée le "+commandeDB.getDate("date")+" à "+commandeDB.getString("heure"));
-				totalLbl.setText("Total: "+commandeDB.getInt("qte")+" produits pour "+commandeDB.getFloat("prixTotal")+" €");
-			}
+				infoTableLbl.setText("Addition de la table n°"+daoCommande.afficherTicket(commande).get(0)+" ("+daoCommande.afficherTicket(commande).get(1)+" couverts)");
+				dateCommandeLbl.setText("Commande effectuée le "+daoCommande.afficherTicket(commande).get(2)+" à "+daoCommande.afficherTicket(commande).get(3));
+				totalLbl.setText("Total: "+daoCommande.afficherTicket(commande).get(4)+" produits pour "+daoCommande.afficherTicket(commande).get(5));
+				serveurLbl.setText("Vous avez été servi par "+daoCommande.afficherTicket(commande).get(6));
 			
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
@@ -96,7 +87,7 @@ public class ImprimerAdditionControleur implements Initializable {
 			bddUtil.dbQueryExecute("UPDATE `tables` SET occupation = 0 WHERE noTable="+commande.getNoTable());
 			PrinterJob job = PrinterJob.createPrinterJob();
 			 if(job != null){
-			   job.showPrintDialog(window); // Window must be your main Stage
+			   job.showPrintDialog(window);
 			   job.printPage(fenetre);
 			   job.endJob();
 			   AdditionControleur.getImprimerAddition().close();

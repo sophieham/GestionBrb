@@ -1,12 +1,9 @@
 package gestionbrb.controleur;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import gestionbrb.DAO.DAOCalendrier;
 import gestionbrb.model.Reservations;
-import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -63,7 +60,8 @@ public class CalendrierControleur {
 	private Label nbTotalReservations;
 
 	DemarrerCommandeControleur mainApp;
-	private AdministrationControleur parent;
+	
+	DAOCalendrier daoCalendrier = new DAOCalendrier();
 
 	public CalendrierControleur() {
 	}
@@ -78,27 +76,28 @@ public class CalendrierControleur {
 	 */
 
 	@FXML
-	private void initialize() throws ClassNotFoundException, SQLException {
+	private void initialize() {
 
 		colonneNom.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
 		colonneDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
 		colonneHeure.setCellValueFactory(cellData -> cellData.getValue().heureProperty());
 		colonneNbCouverts.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsProperty());
 
-		Connection conn = bddUtil.dbConnect();
-		ResultSet nbTotalReserv = conn.createStatement().executeQuery("select count(*) from calendrier");
-		while(nbTotalReserv.next()) {
-		nbTotalReservations.setText(nbTotalReserv.getString("count(*)")+" réservations au total");}
-		
-		reservationTable.getSelectionModel().selectedItemProperty().addListener((observable, ancienneValeur, nouvelleValeur) -> {
-			try {
-				detailsReservation(nouvelleValeur);
-			} catch (ClassNotFoundException e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Erreur du programme", ""+e);
-			} catch (SQLException e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Erreur SQL", ""+e);
-			}
-		});
+		try {
+			nbTotalReservations.setText(daoCalendrier.nombreTotalRsv()+" réservations au total");
+			reservationTable.getSelectionModel().selectedItemProperty().addListener((observable, ancienneValeur, nouvelleValeur) -> {
+					try {
+						detailsReservation(nouvelleValeur);
+					} catch (Exception e) {
+						FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+						e.printStackTrace();
+					}
+			});
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
@@ -108,8 +107,7 @@ public class CalendrierControleur {
 	 */
 	public void setMainApp(DemarrerCommandeControleur mainApp) {
 		this.mainApp = mainApp;
-
-		reservationTable.setItems(getReservationData());
+		reservationTable.setItems(reservationData);
 	}
 
 	/**
@@ -124,20 +122,16 @@ public class CalendrierControleur {
 	 */
 
 	private void detailsReservation(Reservations reservation) throws SQLException, ClassNotFoundException {
-		Connection conn = bddUtil.dbConnect();		
-		ResultSet entreeCalendrier = conn.createStatement().executeQuery("select * from calendrier");
 		try {
 			if (reservation != null) {
-				while (entreeCalendrier.next()) {
-					champID.setText(Integer.toString(reservation.getID()));
-					champNom.setText(reservation.getNom());
-					champPrenom.setText(reservation.getPrenom());
-					champNumTel.setText(reservation.getNumTel());
-					champDate.setText(reservation.getDate());
-					champHeure.setText(reservation.getHeure());
-					champNbCouverts.setText(Integer.toString(reservation.getNbCouverts()));
-					champDemandeSpe.setText(reservation.getDemandeSpe());
-				}
+				champID.setText(Integer.toString(reservation.getID()));
+				champNom.setText(reservation.getNom());
+				champPrenom.setText(reservation.getPrenom());
+				champNumTel.setText(reservation.getNumTel());
+				champDate.setText(reservation.getDate());
+				champHeure.setText(reservation.getHeure());
+				champNbCouverts.setText(Integer.toString(reservation.getNbCouverts()));
+				champDemandeSpe.setText(reservation.getDemandeSpe());
 			} else {
 				champID.setText("");
 				champNom.setText("");
@@ -148,11 +142,8 @@ public class CalendrierControleur {
 				champNbCouverts.setText("");
 				champDemandeSpe.setText("");
 			}
-		} catch (SQLException e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Erreur dans le code SQL",""+e);
-		} finally {
-			conn.close();
-			entreeCalendrier.close();
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 		}
 	}
 	
@@ -173,14 +164,13 @@ public class CalendrierControleur {
 		Reservations reservationSelectionnee = reservationTable.getSelectionModel().getSelectedItem();
 		int indexSelection = reservationTable.getSelectionModel().getSelectedIndex();
 		if (indexSelection >= 0) {
-			Connection conn = bddUtil.dbConnect();
-			PreparedStatement suppression = conn.prepareStatement("DELETE FROM `calendrier` WHERE idReservation=?");
-			suppression.setInt(1, (reservationSelectionnee.getID()));
-			suppression.execute();
-			reservationTable.getItems().remove(indexSelection);
-			suppression.close();
-			conn.close();
-			
+			try {
+				daoCalendrier.supprimer(reservationSelectionnee);
+				reservationTable.getItems().remove(indexSelection);
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+				e.printStackTrace();
+			}
 		} else {
 			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune réservation de sélectionnée!", "Selectionnez une réservation pour pouvoir la modifier");
 		}
@@ -200,24 +190,16 @@ public class CalendrierControleur {
 	private void modifierReservation() throws ClassNotFoundException, SQLException {
 		Reservations selectedReservation = reservationTable.getSelectionModel().getSelectedItem();
 		if (selectedReservation != null) {
-			boolean okClicked = fenetreModification(selectedReservation);
-			if (okClicked) {
-				reservationTable.getItems().clear();
-				Connection conn = bddUtil.dbConnect();
-				ResultSet calendrier = conn.createStatement().executeQuery("select * from calendrier");
-				while (calendrier.next()) {
-					reservationTable.getItems().add(new Reservations(
-							calendrier.getInt("idReservation"),
-							calendrier.getString("nom"),
-							calendrier.getString("prenom"), 
-							calendrier.getString("numeroTel"), 
-							calendrier.getString("dateReservation"),
-							calendrier.getString("heureReservation"), 
-							calendrier.getInt("nbCouverts"), 
-							calendrier.getString("demandeSpe")));
+			try {
+				boolean okClicked = fenetreModification(selectedReservation);
+				if (okClicked) {
+					daoCalendrier.modifier(selectedReservation);
+					initialize();
+					FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 				}
-				detailsReservation(null);
-				FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+				e.printStackTrace();
 			}
 
 		} else {
@@ -238,27 +220,14 @@ public class CalendrierControleur {
 		reservationTable.getItems().clear();
 		String date = rechercheDate.getValue().toString();
 		detailsReservation(null);
-		Connection conn = bddUtil.dbConnect();
-		ResultSet nbTotalResv = conn.createStatement().executeQuery("select count(*) from calendrier where dateReservation LIKE '"+date+"'");
-		while(nbTotalResv.next()) {
-		nbTotalReservations.setText(nbTotalResv.getString("count(*)")+" réservations le "+date);}
-		PreparedStatement recherche = conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");
-		recherche.setString(1, date);
-		ResultSet calendrier = recherche.executeQuery();
-		while (calendrier.next()) {
-			reservationTable.getItems().add(new Reservations(
-							calendrier.getInt("idReservation"), 
-							calendrier.getString("nom"), 
-							calendrier.getString("prenom"),
-							calendrier.getString("numeroTel"), 
-							calendrier.getString("dateReservation"),
-							calendrier.getString("heureReservation"), 
-							calendrier.getInt("nbCouverts"), 
-							calendrier.getString("demandeSpe")));
+		try {
+			nbTotalReservations.setText(daoCalendrier.nombreTotalRsv(date)+" réservations le "+date);
+			daoCalendrier.recherche(date);
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();
 		}
 
-		conn.close();
-		calendrier.close();
 	}
 	
 	
@@ -272,30 +241,16 @@ public class CalendrierControleur {
 	@FXML
 	public void afficherTout() throws ClassNotFoundException, SQLException {
 		reservationTable.getItems().clear();
-		Connection conn = bddUtil.dbConnect();
-		ResultSet nbTotalResv = conn.createStatement().executeQuery("select count(*) from calendrier");
-		while(nbTotalResv.next()) {
-		nbTotalReservations.setText(nbTotalResv.getString("count(*)")+" réservations au total");}
-		ResultSet calendrier = conn.createStatement().executeQuery("select * from calendrier");
-		while (calendrier.next()) {
-			reservationTable.getItems().add(new Reservations(calendrier.getInt("idReservation"), 
-															 calendrier.getString("nom"), 
-															 calendrier.getString("prenom"),
-															 calendrier.getString("numeroTel"), 
-															 calendrier.getString("dateReservation"),
-															 calendrier.getString("heureReservation"), 
-															 calendrier.getInt("nbCouverts"), 
-															 calendrier.getString("demandeSpe")));
+		try {
+			nbTotalReservations.setText(daoCalendrier.nombreTotalRsv()+" réservations au total");
+			reservationTable.setItems(daoCalendrier.afficher());
+			detailsReservation(null);
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();
 		}
-		detailsReservation(null);
 	}
 
-	public void setParent(AdministrationControleur administrationControleur) {
-		// TODO Auto-generated method stub
-		this.parent = administrationControleur;
-		reservationTable.setItems(getReservationData());
-		
-	}
 	
 	 /**
      * Ouvre une fenêtre pour modifier les reservations.

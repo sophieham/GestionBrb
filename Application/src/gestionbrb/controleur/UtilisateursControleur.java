@@ -1,12 +1,9 @@
 package gestionbrb.controleur;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Utilisateur;
-import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,8 +15,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 /**
- * 
+ * Gère les utilisateurs et leurs fonctions.
  * @author Roman
  *
  */
@@ -47,24 +45,12 @@ public class UtilisateursControleur {
 	@FXML
 	private Label champIdentifiant;
 
+	@SuppressWarnings("unused")
 	private AdministrationControleur parent;
 	
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 
 	public UtilisateursControleur() {
-		try {
-			Connection conn = bddUtil.dbConnect();
-			ResultSet rs = conn.createStatement().executeQuery("select * from utilisateurs");
-			while (rs.next()) {
-				comptes.add(new Utilisateur(rs.getInt("idCompte"),  
-											rs.getString("identifiant"), 
-											rs.getString("pass"), 
-											rs.getString("nom"), 
-											rs.getString("prenom"), 
-											rs.getInt("typeCompte")));
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -80,6 +66,12 @@ public class UtilisateursControleur {
 		colonneNom.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
 		colonnePrenom.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
 		colonneRoles.setCellValueFactory(cellData -> cellData.getValue().privilegesProperty());
+		try {
+			utilisateursTable.setItems(daoUtilisateur.afficher());
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			e.printStackTrace();
+		}
 	}
 
 
@@ -96,17 +88,14 @@ public class UtilisateursControleur {
 		Utilisateur tempUtilisateur = new Utilisateur();
 		boolean okClicked = fenetreModification(tempUtilisateur);
 		if (okClicked) {
-			Connection conn = bddUtil.dbConnect();
-			PreparedStatement utilisateursDB = conn.prepareStatement("INSERT INTO `utilisateurs` (`idCompte`, `identifiant`, `pass`, `nom`, `prenom`, `typeCompte`) "
-															+ "VALUES (NULL, ?, ?, ?, ?, ?)");
-			utilisateursDB.setInt(5, tempUtilisateur.getPrivileges());
-			utilisateursDB.setString(4, tempUtilisateur.getPrenom());
-			utilisateursDB.setString(3, tempUtilisateur.getNom());
-			utilisateursDB.setString(2, tempUtilisateur.getMotdepasse());
-			utilisateursDB.setString(1, tempUtilisateur.getIdentifiant());
-			utilisateursDB.execute();
-			refresh();
-			FonctionsControleurs.alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+			try {
+				daoUtilisateur.ajouter(tempUtilisateur);
+				refresh();
+				FonctionsControleurs.alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+				e.printStackTrace();
+			}
 
 		}
 	}
@@ -119,17 +108,13 @@ public class UtilisateursControleur {
 	 * @throws SQLException
 	 */
 	private void refresh() throws ClassNotFoundException, SQLException {
-		getTableData().clear();
-		Connection conn = bddUtil.dbConnect();
-		ResultSet utilisateursDB = conn.createStatement().executeQuery("SELECT * FROM utilisateurs");
-		while (utilisateursDB.next()) {
-			getTableData().add(new Utilisateur(Integer.parseInt(utilisateursDB.getString("idCompte")), 
-															utilisateursDB.getString("identifiant"),
-															utilisateursDB.getString("pass"), 
-															utilisateursDB.getString("nom"), 
-															utilisateursDB.getString("prenom"),
-															utilisateursDB.getInt("typeCompte")));
-			utilisateursTable.setItems(getTableData());
+		utilisateursTable.getItems().clear();
+		comptes.clear();
+		try {
+			utilisateursTable.setItems(daoUtilisateur.afficher());
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			e.printStackTrace();
 		}
 
 	}
@@ -142,22 +127,17 @@ public class UtilisateursControleur {
 	 */
 	@FXML
 	private void supprimerUtilisateur() throws ClassNotFoundException {
-		Utilisateur selectedTable = utilisateursTable.getSelectionModel().getSelectedItem();
+		Utilisateur selectedUtilisateur = utilisateursTable.getSelectionModel().getSelectedItem();
 		int selectedIndex = utilisateursTable.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
 			try {
-				Connection conn = bddUtil.dbConnect();
-				PreparedStatement utilisateursDB = conn.prepareStatement("DELETE FROM `utilisateurs` WHERE identifiant=?");
-				utilisateursDB.setString(1, (selectedTable.getIdentifiant()));
-				utilisateursDB.execute();
+				daoUtilisateur.supprimer(selectedUtilisateur);
 				refresh();
-				FonctionsControleurs.alerteInfo("Suppression réussie", null, "L'utilisateur " + selectedTable.getIdentifiant() + " vient d'être supprimée!");
-				conn.close();
-				utilisateursDB.close();
-			} catch (SQLException e) {
-				  System.out.println("Erreur dans le code sql" + e);
+				FonctionsControleurs.alerteInfo("Suppression réussie", null, "L'utilisateur " + selectedUtilisateur.getIdentifiant() + " vient d'être supprimée!");
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+				e.printStackTrace();
 			}
-
 		} else {
 			// Si rien n'est séléctionné
 			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionné!", "Selectionnez un compte pour pouvoir le supprimer");
@@ -177,15 +157,14 @@ public class UtilisateursControleur {
 		if (selectedUtilisateur != null) {
 			boolean okClicked = fenetreModification(selectedUtilisateur);
 			if (okClicked) {
-				bddUtil.dbQueryExecute("UPDATE `utilisateurs` SET `identifiant` = '"+ selectedUtilisateur.getIdentifiant() + "', "
-						+ "`pass` = '"+ selectedUtilisateur.getMotdepasse() + "', "
-						+ "`nom` = '" + selectedUtilisateur.getNom()+ "', "
-						+ "`prenom` = '" + selectedUtilisateur.getPrenom() + "', "
-						+ "`typeCompte` = '"+ selectedUtilisateur.getPrivileges() 
-						+ "' WHERE `utilisateurs`.`idCompte` = "+ selectedUtilisateur.getIdUtilisateur() + ";");
-
-				refresh();
-				FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+				try {
+					daoUtilisateur.modifier(selectedUtilisateur);
+					refresh();
+					FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+				} catch (Exception e) {
+					FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+					e.printStackTrace();
+				}
 			}
 
 		} else {
@@ -197,7 +176,6 @@ public class UtilisateursControleur {
 	public void setParent(AdministrationControleur administrationControleur) {
 		// TODO Auto-generated method stub
 		this.parent = administrationControleur;
-		utilisateursTable.setItems(getTableData());
 	}
 	
 	/**

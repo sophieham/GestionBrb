@@ -1,13 +1,10 @@
 package gestionbrb.controleur;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import gestionbrb.DAO.DAOFournisseur;
 import gestionbrb.model.Fournisseur;
-import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -58,18 +55,19 @@ public class FournisseursControleur extends FonctionsControleurs {
 	@FXML
 	private Label champMail;
 
+	@SuppressWarnings("unused")
 	private AdministrationControleur parent;
-	public FournisseursControleur() {
-		try {
-			Connection conn = bddUtil.dbConnect();
-			ResultSet rs = conn.createStatement().executeQuery("select * from fournisseur");
-			while (rs.next()) {
-				fournisseurs.add(new Fournisseur(rs.getInt("idFournisseur"),  rs.getString("nom"), rs.getInt("numTel"), rs.getString("adresseMail"), rs.getString("adresseDepot"), rs.getInt("cpDepot"),  rs.getString("villeDepot")));
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
+	
+	DAOFournisseur daoFournisseur = new DAOFournisseur();
+
+	public FournisseursControleur() throws ClassNotFoundException, SQLException {
 	}
+	
+	public void setParent(AdministrationControleur administrationControleur) throws SQLException {
+		// TODO Auto-generated method stub
+		this.parent = administrationControleur;
+	}
+	
 
 	/**
 	 * Initialise la classe controleur avec les données par défaut du tableau
@@ -80,12 +78,14 @@ public class FournisseursControleur extends FonctionsControleurs {
 
 	@FXML
 	private void initialize() throws ClassNotFoundException, SQLException {
+		
 		colonneId.setCellValueFactory(cellData -> cellData.getValue().idFournisseurProperty());
 		colonneNom.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
 		colonneMail.setCellValueFactory(cellData -> cellData.getValue().mailProperty());
 		colonneTel.setCellValueFactory(cellData -> cellData.getValue().numTelProperty());
 		colonneAdresse.setCellValueFactory(cellData -> cellData.getValue().adresseProperty());
 		colonneVille.setCellValueFactory(cellData -> cellData.getValue().nomVilleProperty());
+		fournisseursTable.setItems(daoFournisseur.afficher());
 
 	}
 
@@ -102,18 +102,16 @@ public class FournisseursControleur extends FonctionsControleurs {
 		Fournisseur tempFournisseur = new Fournisseur();
 		boolean okClicked = fenetreModification(tempFournisseur);
 		if (okClicked) {
-			Connection conn = bddUtil.dbConnect();
-			PreparedStatement fournisseur = conn.prepareStatement("INSERT INTO `fournisseur` (`idFournisseur`, `nom`, `numTel`, `adresseMail`, `adresseDepot`, `cpDepot`, `villeDepot`) "
-														+ "VALUES (NULL, ?, ?, ?, ?, ?, ?)");
-			fournisseur.setString(6, tempFournisseur.getNomVille());
-			fournisseur.setInt(5, tempFournisseur.getCodePostal());
-			fournisseur.setString(4, tempFournisseur.getAdresse());
-			fournisseur.setString(3, tempFournisseur.getMail());
-			fournisseur.setInt(2, tempFournisseur.getNumTel());
-			fournisseur.setString(1, tempFournisseur.getNom());
-			fournisseur.execute();
-			refresh();
-			alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+			try {
+				
+				daoFournisseur.ajouter(tempFournisseur);
+				
+				refresh();
+				alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+				e.printStackTrace();
+			}
 
 		}
 	}
@@ -125,21 +123,15 @@ public class FournisseursControleur extends FonctionsControleurs {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	private void refresh() throws ClassNotFoundException, SQLException {
-		getTableData().clear();
-		Connection conn = bddUtil.dbConnect();
-		ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM fournisseur");
-		while (rs.next()) {
-			getTableData().add(new Fournisseur(rs.getInt("idFournisseur"),
-										 					rs.getString("nom"),
-										 					rs.getInt("numTel"), 
-										 					rs.getString("adresseMail"), 
-										 					rs.getString("adresseDepot"),
-										 					rs.getInt("cpDepot"), 
-										 					rs.getString("villeDepot")));
-			fournisseursTable.setItems(getTableData());
+	private void refresh() {
+		fournisseursTable.getItems().clear();
+		fournisseurs.clear();
+		try {
+			fournisseursTable.setItems(daoFournisseur.afficher());
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -154,16 +146,12 @@ public class FournisseursControleur extends FonctionsControleurs {
 		int selectedIndex = fournisseursTable.getSelectionModel().getSelectedIndex();
 		if (selectedIndex >= 0) {
 			try {
-				Connection conn = bddUtil.dbConnect();
-				PreparedStatement suppression = conn.prepareStatement("DELETE FROM `fournisseur` WHERE idFournisseur=?");
-				suppression.setInt(1, (selectedTable.getIdFournisseur()));
-				suppression.execute();
+				daoFournisseur.supprimer(selectedTable);
 				refresh();
 				alerteInfo("Suppression réussie", null, "Le fournisseur " + selectedTable.getIdFournisseur() + " vient d'être supprimée!");
-				conn.close();
-				suppression.close();
-			} catch (SQLException e) {
-				  System.out.println("Erreur dans le code sql" + e);
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+				e.printStackTrace();
 			}
 
 		} else {
@@ -185,16 +173,14 @@ public class FournisseursControleur extends FonctionsControleurs {
 		if (selectedFournisseur != null) {
 			boolean okClicked = fenetreModification(selectedFournisseur);
 			if (okClicked) {
-				bddUtil.dbQueryExecute("UPDATE `fournisseur` SET `nom` = '" + selectedFournisseur.getNom()+"', "
-											+ "`numTel` = '" + selectedFournisseur.getNumTel() + "', "
-											+ "`adresseMail` = '"+selectedFournisseur.getMail() + "', "
-											+ "`adresseDepot` = '" + selectedFournisseur.getAdresse()+"', "
-											+ "`cpDepot` = '" + selectedFournisseur.getCodePostal() + "', "
-											+ "`villeDepot` = '"+ selectedFournisseur.getNomVille() + "' "
-											+ "WHERE `fournisseur`.`idFournisseur` = "+ selectedFournisseur.getIdFournisseur() + ";");
-
-				refresh();
-				FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+				try {
+					daoFournisseur.modifier(selectedFournisseur);
+					//refresh();
+					FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+				} catch (Exception e) {
+					FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun fournisseur de sélectionnée!","Selectionnez un fournisseur pour pouvoir la supprimer");
+					e.printStackTrace();
+				}
 			}
 
 		} else {
@@ -203,12 +189,6 @@ public class FournisseursControleur extends FonctionsControleurs {
 		}
 	}
 
-	public void setParent(AdministrationControleur administrationControleur) {
-		// TODO Auto-generated method stub
-		this.parent = administrationControleur;
-		fournisseursTable.setItems(FournisseursControleur.getTableData());
-		
-	}
 	
 	/**
 	 * Appellé pour afficher la fenetre de modification/ajout d'un fournisseur

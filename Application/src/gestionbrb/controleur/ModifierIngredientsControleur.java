@@ -1,10 +1,9 @@
 package gestionbrb.controleur;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import gestionbrb.DAO.DAOFournisseur;
 import gestionbrb.model.Ingredients;
-import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -36,17 +35,13 @@ public class ModifierIngredientsControleur {
 	private Ingredients ingredient;
 	private boolean okClicked = false;
 	
+	DAOFournisseur daoFournisseur = new DAOFournisseur();
+	
 	@FXML
 	private void initialize() {
 		try {
-			Connection conn = bddUtil.dbConnect();
-			ResultSet fournisseurDB = conn.createStatement().executeQuery("select idFournisseur, nom from fournisseur");
-
-			while (fournisseurDB.next()) {
-				listeFournisseur.add("ID: "+fournisseurDB.getInt("idFournisseur")+" -> "+fournisseurDB.getString("nom"));
-				System.out.println("ID: "+fournisseurDB.getInt("idFournisseur")+" -> "+fournisseurDB.getString("nom"));
-			}
-			chChoixFournisseur.setItems(listeFournisseur);
+			
+			chChoixFournisseur.setItems(daoFournisseur.choixFournisseur());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,7 +108,7 @@ public class ModifierIngredientsControleur {
 			erreurMsg += "Veuillez remplir le prix de l'ingredient\n";
 		} else {
 			try {
-				Integer.parseInt(chPrixIngredient.getText());
+				Float.parseFloat(chPrixIngredient.getText());
 			} catch (NumberFormatException e) {
 				erreurMsg += "Erreur! Le champ prix n'accepte que les nombres\n";
 			}
