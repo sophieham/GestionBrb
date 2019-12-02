@@ -72,31 +72,26 @@
                   </Label>
                </children>
             </HBox>
-            <VBox fx:id="vboxProduits" prefHeight="312.0" prefWidth="496.0" />
+            <VBox fx:id="vboxProduits" prefHeight="456.0" prefWidth="496.0" />
             <Pane prefHeight="18.0" prefWidth="486.0">
                <children>
                   <Separator layoutX="26.0" prefHeight="16.0" prefWidth="435.0" />
                </children>
             </Pane>
-            <Label fx:id="totalLbl" alignment="CENTER" prefHeight="35.0" prefWidth="488.0" text="Total: ? produits pour ? €">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Pane prefHeight="18.0" prefWidth="486.0">
+            <HBox prefHeight="40.0" prefWidth="496.0">
                <children>
-                  <Separator layoutX="26.0" prefHeight="16.0" prefWidth="435.0" />
+                  <Label fx:id="totalLbl" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="362.0" text="Total: ? produits pour ? ">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label text="€">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
                </children>
-            </Pane>
-            <Label prefHeight="35.0" prefWidth="488.0" text="Moyen de paiement:">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="10.0" />
-               </VBox.margin>
-            </Label>
-            <VBox fx:id="vboxPaiement" prefHeight="80.0" prefWidth="496.0" />
+            </HBox>
             <Pane prefHeight="18.0" prefWidth="486.0">
                <children>
                   <Separator layoutX="26.0" prefHeight="16.0" prefWidth="435.0" />

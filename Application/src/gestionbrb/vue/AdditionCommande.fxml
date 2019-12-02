@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -13,11 +15,16 @@
 
 <AnchorPane fx:id="fenetre" prefHeight="400.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.AdditionControleur">
    <children>
+      <ImageView fitHeight="428.0" fitWidth="714.0" pickOnBounds="true">
+         <image>
+            <Image url="@images/fond.png" />
+         </image>
+      </ImageView>
       <HBox prefHeight="428.0" prefWidth="714.0">
          <children>
             <VBox prefHeight="428.0" prefWidth="523.0">
                <children>
-                  <Label fx:id="infoTable" alignment="CENTER" prefHeight="49.0" prefWidth="314.0" text="Table 0 (0 couverts)">
+                  <Label fx:id="infoTable" alignment="CENTER" prefHeight="49.0" prefWidth="314.0" text="Table 0 (0 couverts)" textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="5.0" left="25.0" top="25.0" />
                      </VBox.margin>
@@ -37,7 +44,7 @@
                   </TableView>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="totalProduits" prefHeight="30.0" prefWidth="200.0" text="Total: 0 produit(s)">
+                        <Label fx:id="totalProduits" prefHeight="30.0" prefWidth="200.0" text="Total: 0 produit(s)" textFill="WHITE">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -45,12 +52,25 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="72.0" text="0,00€">
+<<<<<<< HEAD
+                        <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="72.0" text="0,00€" textFill="WHITE">
+=======
+                        <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="60.0" text="0,00">
+>>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalQte" alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="36.0" text="0">
+<<<<<<< HEAD
+                        <Label fx:id="totalQte" alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="36.0" text="0" textFill="WHITE">
+=======
+                        <Label fx:id="devise1" prefHeight="35.0" prefWidth="34.0">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalQte" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="16.0" text="0">
+>>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -66,17 +86,21 @@
                <children>
                   <Pane prefHeight="50.0" prefWidth="334.0">
                      <children>
-                        <Label layoutX="14.0" layoutY="8.0" text="Reste à payer: ">
+                        <Label layoutX="14.0" layoutY="8.0" text="Reste à payer: " textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalAPayer" alignment="CENTER_RIGHT" layoutX="168.0" layoutY="10.0" prefHeight="35.0" prefWidth="147.0" text="0,00">
+                        <Label fx:id="totalAPayer" alignment="CENTER_RIGHT" layoutX="168.0" layoutY="10.0" prefHeight="35.0" prefWidth="147.0" text="0,00" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label layoutX="315.0" layoutY="10.0" text="€">
+<<<<<<< HEAD
+                        <Label layoutX="315.0" layoutY="9.0" text="€" textFill="WHITE">
+=======
+                        <Label fx:id="devise" layoutX="315.0" layoutY="10.0" prefHeight="35.0" prefWidth="27.0">
+>>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
                            <font>
                               <Font size="24.0" />
                            </font>
