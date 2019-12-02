@@ -52,25 +52,18 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-<<<<<<< HEAD
-                        <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="72.0" text="0,00€" textFill="WHITE">
-=======
-                        <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="60.0" text="0,00">
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
+                        <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="60.0" text="0,00" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-<<<<<<< HEAD
-                        <Label fx:id="totalQte" alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="36.0" text="0" textFill="WHITE">
-=======
                         <Label fx:id="devise1" prefHeight="35.0" prefWidth="34.0">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
                         <Label fx:id="totalQte" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="16.0" text="0">
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
+
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -96,11 +89,8 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-<<<<<<< HEAD
                         <Label layoutX="315.0" layoutY="9.0" text="€" textFill="WHITE">
-=======
                         <Label fx:id="devise" layoutX="315.0" layoutY="10.0" prefHeight="35.0" prefWidth="27.0">
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
                            <font>
                               <Font size="24.0" />
                            </font>

@@ -113,21 +113,9 @@ public class CommandeControleur implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-<<<<<<< HEAD
 		produitCommande.clear();
 		tableRecap.getItems().clear();
-=======
-		try {
-			Connection conn = bddUtil.dbConnect();
-			ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
-			while (deviseDB.next()) {
-				devise.setText(deviseDB.getString("devise"));
-				}
-			}catch(Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
-				e.printStackTrace();		
-			}
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
+
 		commande = DemarrerCommandeControleur.getCommande();
 		infoTable.setText("Table "+commande.getNoTable()+" ("+commande.getNbCouverts()+" couvert(s))");
 		colonneProduit.setCellValueFactory(cellData -> cellData.getValue().nomProduitProperty());
@@ -148,7 +136,6 @@ public class CommandeControleur implements Initializable {
 	 */
 	public void etablirCommande() {
 		try {
-<<<<<<< HEAD
 			devise.setText(daoCommande.recupererDevise());
 			listeProduits.clear();
 			listeOnglets.clear();
@@ -157,28 +144,6 @@ public class CommandeControleur implements Initializable {
 			for (String nom : daoType.recupererType()) {
 				Tab tab = new Tab(nom);
 				mapTypeParOnglet.put(nom, tab);
-=======
-			String devise = "";
-		Connection conn = bddUtil.dbConnect();
-			listeProduits.clear();
-			listeOnglets.clear();
-			listeProduits.clear();
-			ResultSet produitDB = conn.createStatement().executeQuery("select idProduit, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.idType=type_produit.idType");
-			ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
-			while (deviseDB.next()) {
-				devise = deviseDB.getString("devise"); 
-			}
-			while (produitDB.next()) {
-				Tab tab = new Tab(produitDB.getString("type_produit.nom"));
-				mapTypeParOnglet.put(produitDB.getString("type_produit.nom"), tab);
-				String typeProduit = produitDB.getString("type_produit.nom");
-				String nomProduit = produitDB.getString("produit.nom")+"\n "+devise+""+produitDB.getString("prix");
-				int idProduit = produitDB.getInt("idProduit");
-				mapNomParId.put(nomProduit, idProduit);
-				mapNomParType.put(nomProduit, typeProduit);
-				nomProduits.add(nomProduit);
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
-			}
 			
 			Map<String, Integer> mapNomParId = daoProduit.recupererIDProduit();
 			
@@ -207,12 +172,8 @@ public class CommandeControleur implements Initializable {
 											String rgx = "\n";
 											String[] tabResultat = produit.getKey().split(rgx); // tab[0] -> nom ;
 																								// tab[1] -> prix
-<<<<<<< HEAD
 											String subPrix = tabResultat[1].substring(4); // coupe la devise 
 											
-=======
-											String subPrix = tabResultat[1].substring(3); // coupe la devise 
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
 											float prix = Float.parseFloat(subPrix);
 											Produit prod = new Produit(tabResultat[0], prix, 1);
 											prod.setIdProduit(mapNomParId.get(tabResultat[0]));
@@ -289,35 +250,9 @@ public class CommandeControleur implements Initializable {
 		int indexSelection = tableRecap.getSelectionModel().getSelectedIndex();
 		if (indexSelection >= 0) {
 			try {
-<<<<<<< HEAD
 			daoCommande.supprimer(commande, selectionProduit);
 			produitCommande.remove(indexSelection);
 			FonctionsControleurs.alerteInfo("Suppression réussie", null, "Le produit "+selectionProduit.getIdProduit()+" vient d'être supprimée!");
-=======
-				Connection conn = bddUtil.dbConnect();
-				//System.out.println(selectionProduit.);
-			PreparedStatement suppression = conn.prepareStatement("DELETE FROM `contenirproduit` WHERE `contenirproduit`.`idProduit` = ? AND `contenirproduit`.`idCommande` = "+CommandeControleur.this.commande.getIdCommande());
-			System.out.println(suppression);
-			suppression.setInt(1, (selectionProduit.getIdProduit()));
-			suppression.execute();
-			FonctionsControleurs.alerteInfo("Suppression réussie", null, "Le produit "+selectionProduit.getIdProduit()+" vient d'être supprimée!");
-			produitCommande.remove(indexSelection);
-			ResultSet commandeDB = conn.createStatement().executeQuery("SELECT sum(contenirproduit.qte*produit.prix) as prixt FROM `contenirproduit` INNER JOIN produit on contenirproduit.idProduit = produit.idProduit WHERE idCommande ="+CommandeControleur.this.commande.getIdCommande());
-			
-			ResultSet qteTotal = conn.createStatement().executeQuery("SELECT sum(qte) FROM `contenirproduit` WHERE idCommande = '"+CommandeControleur.this.commande.getIdCommande()+"'");
-			while (commandeDB.next()) {
-				String tprix = commandeDB.getString("prixt");
-				totalPrix.setText(tprix);
-	
-			}
-			while(qteTotal.next()) {
-				int qte = qteTotal.getInt("sum(qte)");
-				totalProduit.setText(""+qte);
-			}
-			
-			conn.close();
-			suppression.close();
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
 			
 			totalPrix.setText(daoCommande.afficherPrixTotal(commande)+""+daoCommande.recupererDevise());
 			totalProduit.setText(daoCommande.afficherQteTotal(commande)+"");

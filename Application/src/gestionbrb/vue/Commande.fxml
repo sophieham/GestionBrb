@@ -44,11 +44,7 @@
             </TableView>
             <HBox prefHeight="34.0" prefWidth="613.0">
                <children>
-<<<<<<< HEAD
                   <Label prefHeight="34.0" prefWidth="86.0" text="Total:" textFill="WHITE">
-=======
-                  <Label prefHeight="34.0" prefWidth="241.0" text="Total:">
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
                      <font>
                         <Font size="23.0" />
                      </font>
@@ -56,11 +52,7 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Label>
-<<<<<<< HEAD
                   <Label fx:id="totalProduit" prefHeight="34.0" prefWidth="102.0" text="0" textFill="WHITE">
-=======
-                  <Label fx:id="totalProduit" prefHeight="34.0" prefWidth="79.0" text="0">
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
                      <font>
                         <Font size="23.0" />
                      </font>
@@ -71,20 +63,12 @@
                         <Insets left="5.0" />
                      </padding>
                   </Label>
-<<<<<<< HEAD
                   <Separator orientation="VERTICAL" prefHeight="35.0" prefWidth="12.0">
-=======
-                  <Separator orientation="VERTICAL" prefHeight="35.0" prefWidth="0.0">
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Separator>
-<<<<<<< HEAD
                   <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="171.0" text="0,00" textFill="WHITE">
-=======
-                  <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="244.0" text="0,00">
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
                      <font>
                         <Font size="23.0" />
                      </font>
@@ -92,11 +76,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Label>
-<<<<<<< HEAD
                   <Label fx:id="devise" prefHeight="34.0" prefWidth="72.0" textFill="WHITE">
-=======
-                  <Label fx:id="devise" prefHeight="33.0" prefWidth="215.0">
->>>>>>> aa097cc3e3da44fb445ac84e2115c5db7ba65114
                      <font>
                         <Font size="23.0" />
                      </font>
