@@ -19,14 +19,14 @@ public class DAOCalendrier extends DAO<Reservations> {
 	public ObservableList<Reservations> afficher() throws SQLException {
 		ResultSet calendrierDB = conn.createStatement().executeQuery("select * from calendrier");
 		while (calendrierDB.next()) {
-			reservationData.add(new Reservations(calendrierDB.getInt("idReservation"), 
-															 calendrierDB.getString("nom"), 
-															 calendrierDB.getString("prenom"),
-															 calendrierDB.getString("numeroTel"), 
-															 calendrierDB.getString("dateReservation"),
-															 calendrierDB.getString("heureReservation"), 
-															 calendrierDB.getInt("nbCouverts"), 
-															 calendrierDB.getString("demandeSpe")));
+			reservationData.add(new Reservations(calendrierDB.getInt("ReservationID"), 
+															 calendrierDB.getString("Nom"), 
+															 calendrierDB.getString("Prenom"),
+															 calendrierDB.getString("Numero_Tel"), 
+															 calendrierDB.getString("Date_Reservation"),
+															 calendrierDB.getString("Heure_Reservation"), 
+															 calendrierDB.getInt("Nombre_Couverts"), 
+															 calendrierDB.getString("Demande_Speciale")));
 		}
 		return reservationData;
 		
@@ -36,14 +36,14 @@ public class DAOCalendrier extends DAO<Reservations> {
 		ResultSet calendrierDB = conn.createStatement().executeQuery("select * from calendrier");
 		Reservations resv = new Reservations();
 		while (calendrierDB.next()) {
-			resv.setID(calendrierDB.getInt("idReservation"));
-			resv.setNom(calendrierDB.getString("nom"));
-			resv.setPrenom(calendrierDB.getString("prenom"));
-			resv.setNumTel(calendrierDB.getString("numeroTel"));
-			resv.setDate(LocalDate.parse(calendrierDB.getString("dateReservation")));
-			resv.setHeure(calendrierDB.getString("heureReservation"));
-			resv.setNbCouverts(calendrierDB.getInt("nbCouverts"));
-			resv.setDemandeSpe(calendrierDB.getString("demandeSpe"));
+			resv.setID(calendrierDB.getInt("ReservationID"));
+			resv.setNom(calendrierDB.getString("Nom"));
+			resv.setPrenom(calendrierDB.getString("Prenom"));
+			resv.setNumTel(calendrierDB.getString("Numero_Tel"));
+			resv.setDate(LocalDate.parse(calendrierDB.getString("Date_Reservation")));
+			resv.setHeure(calendrierDB.getString("Heure_Reservation"));
+			resv.setNbCouverts(calendrierDB.getInt("Nombre_Couverts"));
+			resv.setDemandeSpe(calendrierDB.getString("Demande_Speciale"));
 		}
 		return resv;
 		
@@ -52,7 +52,7 @@ public class DAOCalendrier extends DAO<Reservations> {
 	
 	public void ajouter(Reservations r, int noTable) throws SQLException {
 		PreparedStatement ajout = 
-				conn.prepareStatement("INSERT INTO `calendrier` (`idReservation`, `nom`, `prenom`, `numeroTel`, `dateReservation`, `heureReservation`, `nbCouverts`, `demandeSpe`, `noTable`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)");
+				conn.prepareStatement("INSERT INTO `calendrier` (`ReservationID`, `Nom`, `Prenom`, `Numero_Tel`, `Date_Reservation`, `Heure_Reservation`, `Nombre_Couverts`, `Demande_Speciale`, `noTable`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)");
 		ajout.setString(1, r.getNom());
 		ajout.setString(2, r.getPrenom());
 		ajout.setString(3, r.getNumTel());
@@ -68,7 +68,7 @@ public class DAOCalendrier extends DAO<Reservations> {
 
 	@Override
 	public void supprimer(Reservations r) throws SQLException {
-		PreparedStatement suppression = conn.prepareStatement("DELETE FROM `calendrier` WHERE idReservation=?");
+		PreparedStatement suppression = conn.prepareStatement("DELETE FROM `calendrier` WHERE ReservationID=?");
 		suppression.setInt(1, (r.getID()));
 		suppression.execute();
 		
@@ -78,7 +78,7 @@ public class DAOCalendrier extends DAO<Reservations> {
 	public void modifier(Reservations r) {
 		
 		try {
-			PreparedStatement ajout = conn.prepareStatement("UPDATE `calendrier` SET nom= ?, prenom = ?, numeroTel= ?, dateReservation= ?, heureReservation= ?, nbCouverts= ?, demandeSpe= ? WHERE idReservation = ?");
+			PreparedStatement ajout = conn.prepareStatement("UPDATE `calendrier` SET Nom= ?, Prenom = ?, Numero_Tel= ?, Date_Reservation= ?, Heure_Reservation= ?, Nombre_Couverts= ?, Demande_Speciale= ? WHERE ReservationID = ?");
 			ajout.setString(1, r.getNom());
 			ajout.setString(2, r.getPrenom());
 			ajout.setString(3, r.getNumTel());
@@ -97,7 +97,7 @@ public class DAOCalendrier extends DAO<Reservations> {
 	
 	public String nombreTotalRsv(String date) throws SQLException {
 		String nbTotalDate = null;
-		ResultSet requete = conn.createStatement().executeQuery("select count(*) from calendrier where dateReservation LIKE '" + date + "'");
+		ResultSet requete = conn.createStatement().executeQuery("select count(*) from calendrier where Date_Reservation LIKE '" + date + "'");
 		while (requete.next()) {
 			nbTotalDate = requete.getString("count(*)");
 		}
@@ -116,19 +116,19 @@ public class DAOCalendrier extends DAO<Reservations> {
 	}
 
 	public void recherche(String date) throws SQLException {
-		PreparedStatement recherche = conn.prepareStatement("select * from calendrier where dateReservation LIKE ?");
+		PreparedStatement recherche = conn.prepareStatement("select * from calendrier where Date_Reservation LIKE ?");
 		recherche.setString(1, date);
 		ResultSet calendrier = recherche.executeQuery();
 		while (calendrier.next()) {
 			reservationData.add(new Reservations(
-							calendrier.getInt("idReservation"), 
-							calendrier.getString("nom"), 
-							calendrier.getString("prenom"),
-							calendrier.getString("numeroTel"), 
-							calendrier.getString("dateReservation"),
-							calendrier.getString("heureReservation"), 
-							calendrier.getInt("nbCouverts"), 
-							calendrier.getString("demandeSpe")));
+							calendrier.getInt("ReservationID"), 
+							calendrier.getString("Nom"), 
+							calendrier.getString("Prenom"),
+							calendrier.getString("Numero_Tel"), 
+							calendrier.getString("Date_Reservation"),
+							calendrier.getString("Heure_Reservation"), 
+							calendrier.getInt("Nombre_Couverts"), 
+							calendrier.getString("Demande_Speciale")));
 		}
 		
 	}

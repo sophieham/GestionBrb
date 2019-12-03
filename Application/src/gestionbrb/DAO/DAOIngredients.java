@@ -17,9 +17,9 @@ public class DAOIngredients extends DAO<Ingredients>{
 	public static Connection conn = bddUtil.dbConnect();
 
 	public ObservableList<Ingredients> afficher() throws SQLException {
-			ResultSet rs = conn.createStatement().executeQuery("SELECT idIngredient, nomIngredient, prixIngredient, qteRestante, ingredients.idfournisseur, fournisseur.nom from ingredients INNER JOIN fournisseur on ingredients.idfournisseur = fournisseur.idFournisseur ");
+			ResultSet rs = conn.createStatement().executeQuery("SELECT IngredientID, nomIngredient, prixIngredient, qteRestante, ingredients.idfournisseur, fournisseur.nom from ingredients INNER JOIN fournisseur on ingredients.idfournisseur = fournisseur.idFournisseur ");
 			while (rs.next()) {
-				listeIngredients.add(new Ingredients(rs.getInt("idIngredient"), rs.getString("nomIngredient"), rs.getInt("prixIngredient"), rs.getInt("qteRestante"), rs.getString("nom")));
+				listeIngredients.add(new Ingredients(rs.getInt("IngredientID"), rs.getString("nomIngredient"), rs.getInt("prixIngredient"), rs.getInt("qteRestante"), rs.getString("nom")));
 			}
 			rs.close();
 			return listeIngredients;
@@ -38,7 +38,7 @@ public class DAOIngredients extends DAO<Ingredients>{
 	@Override
 	public void ajouter(Ingredients i) throws SQLException {
 		PreparedStatement ajoutDB = conn.prepareStatement(
-				"INSERT INTO `ingredients` (`idIngredient`, `nomIngredient`, `prixIngredient`, `qteRestante`, `idFournisseur`) VALUES (NULL, ?, ?, ?, ?)");
+				"INSERT INTO `ingredients` (`IngredientID`, `nomIngredient`, `prixIngredient`, `qteRestante`, `idFournisseur`) VALUES (NULL, ?, ?, ?, ?)");
 		ajoutDB.setString(1, i.getNomIngredient());
 		ajoutDB.setFloat(2, i.getPrixIngredient());
 		ajoutDB.setInt(3, i.getQuantiteIngredient());
@@ -49,7 +49,7 @@ public class DAOIngredients extends DAO<Ingredients>{
 
 	@Override
 	public void supprimer(Ingredients i) throws SQLException {
-		PreparedStatement requete = conn.prepareStatement("DELETE FROM `ingredients` WHERE idIngredient=?");
+		PreparedStatement requete = conn.prepareStatement("DELETE FROM `ingredients` WHERE IngredientID=?");
 		requete.setInt(1, i.getIdIngredient());
 		requete.execute();
 		requete.close();
@@ -58,7 +58,7 @@ public class DAOIngredients extends DAO<Ingredients>{
 
 	@Override
 	public void modifier(Ingredients i) throws SQLException {
-		PreparedStatement requete = conn.prepareStatement("UPDATE `ingredients` SET `nomIngredient` = ?, prixIngredient = ?, qteRestante = ?, idfournisseur = ? WHERE idIngredient = ?");
+		PreparedStatement requete = conn.prepareStatement("UPDATE `ingredients` SET `nomIngredient` = ?, prixIngredient = ?, qteRestante = ?, idfournisseur = ? WHERE IngredientID = ?");
 		requete.setString(1, (i.getNomIngredient()));
 		requete.setFloat(2, (i.getPrixIngredient()));
 		requete.setInt(3, (i.getQuantiteIngredient()));

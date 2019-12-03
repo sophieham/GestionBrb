@@ -17,10 +17,10 @@ public class DAOType extends DAO<Type>{
 	public static Connection conn = bddUtil.dbConnect();
 
 	public ObservableList<Type> afficher() throws SQLException {
-			ResultSet typeDB = conn.createStatement().executeQuery("SELECT `idType`, `nom` FROM `type_produit`");
+			ResultSet typeDB = conn.createStatement().executeQuery("SELECT `TypeID`, `nom` FROM `type_produit`");
 
 			while (typeDB.next()) {
-				listeType.add(new Type(typeDB.getInt("idType"), typeDB.getString("nom")));
+				listeType.add(new Type(typeDB.getInt("TypeID"), typeDB.getString("nom")));
 			}
 			typeDB.close();
 		return listeType;
@@ -28,9 +28,9 @@ public class DAOType extends DAO<Type>{
 	
 	public ObservableList<String> choixType() throws SQLException{
 		ObservableList<String> choixType =  FXCollections.observableArrayList();
-		ResultSet typeDB = conn.createStatement().executeQuery("select idType, nom from type_produit");
+		ResultSet typeDB = conn.createStatement().executeQuery("select TypeID, nom from type_produit");
 		while (typeDB.next()) {
-			choixType.add("ID: "+typeDB.getInt("idType")+" -> "+typeDB.getString("nom"));
+			choixType.add("ID: "+typeDB.getInt("TypeID")+" -> "+typeDB.getString("nom"));
 		}
 		return choixType;
 	}
@@ -48,7 +48,7 @@ public class DAOType extends DAO<Type>{
 	
 @Override
 public void ajouter(Type t)  throws SQLException{
-	PreparedStatement ajoutDB = conn.prepareStatement("INSERT INTO `type_produit` (`idType`, `nom`) VALUES (NULL, ?)");
+	PreparedStatement ajoutDB = conn.prepareStatement("INSERT INTO `type_produit` (`TypeID`, `nom`) VALUES (NULL, ?)");
 	ajoutDB.setString(1, t.getNomType());
 	ajoutDB.execute();
 	
@@ -56,7 +56,7 @@ public void ajouter(Type t)  throws SQLException{
 
 @Override
 public void supprimer(Type t) throws SQLException {
-	PreparedStatement suppression = conn.prepareStatement("DELETE FROM `type_produit` WHERE idType=?");
+	PreparedStatement suppression = conn.prepareStatement("DELETE FROM `type_produit` WHERE TypeID=?");
 	suppression.setInt(1, t.getIdType());
 	suppression.execute();
 	
@@ -64,7 +64,7 @@ public void supprimer(Type t) throws SQLException {
 
 @Override
 public void modifier(Type t) throws SQLException{
-	PreparedStatement requete = conn.prepareStatement("UPDATE `Produit` SET `nom` = ? WHERE idType = ?");
+	PreparedStatement requete = conn.prepareStatement("UPDATE `Produit` SET `nom` = ? WHERE TypeID = ?");
 	requete.setString(1, (t.getNomType()));
 	requete.setInt(2, (t.getIdType()));
 	requete.execute();

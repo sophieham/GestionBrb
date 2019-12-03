@@ -19,7 +19,7 @@ public class DAOUtilisateur extends DAO<Utilisateur> {
 	public ObservableList<Utilisateur> afficher() throws SQLException {
 		ResultSet rs = conn.createStatement().executeQuery("select * from utilisateurs");
 		while (rs.next()) {
-			listeComptes.add(new Utilisateur(rs.getInt("idCompte"),  
+			listeComptes.add(new Utilisateur(rs.getInt("CompteID"),  
 										rs.getString("identifiant"), 
 										rs.getString("pass"), 
 										rs.getString("nom"), 
@@ -31,7 +31,7 @@ public class DAOUtilisateur extends DAO<Utilisateur> {
 
 	@Override
 	public void ajouter(Utilisateur u) throws SQLException {
-		PreparedStatement utilisateursDB = conn.prepareStatement("INSERT INTO `utilisateurs` (`idCompte`, `identifiant`, `pass`, `nom`, `prenom`, `typeCompte`) VALUES (NULL, ?, ?, ?, ?, ?)");
+		PreparedStatement utilisateursDB = conn.prepareStatement("INSERT INTO `utilisateurs` (`CompteID`, `identifiant`, `pass`, `nom`, `prenom`, `typeCompte`) VALUES (NULL, ?, ?, ?, ?, ?)");
 		utilisateursDB.setInt(5, u.getPrivileges());
 		utilisateursDB.setString(4, u.getPrenom());
 		utilisateursDB.setString(3, u.getNom());
@@ -50,7 +50,7 @@ public class DAOUtilisateur extends DAO<Utilisateur> {
 
 	@Override
 	public void modifier(Utilisateur u) throws SQLException {
-		PreparedStatement utilisateursDB = conn.prepareStatement("UPDATE `utilisateurs` SET `idCompte` = ?, `identifiant` = ?, `pass` = ?, `nom` = ?, `prenom` = ?, `typeCompte` = ? WHERE `utilisateurs`.`idCompte` = ? ");
+		PreparedStatement utilisateursDB = conn.prepareStatement("UPDATE `utilisateurs` SET `CompteID` = ?, `identifiant` = ?, `pass` = ?, `nom` = ?, `prenom` = ?, `typeCompte` = ? WHERE `utilisateurs`.`CompteID` = ? ");
 		utilisateursDB.setInt(7,  u.getIdUtilisateur());
 		utilisateursDB.setInt(6, u.getPrivileges());
 		utilisateursDB.setString(5, u.getPrenom());
@@ -77,7 +77,7 @@ public class DAOUtilisateur extends DAO<Utilisateur> {
 		Utilisateur utilisateur = new Utilisateur();
 		ResultSet combinaison = conn.createStatement().executeQuery("select * from utilisateurs");
 		if(combinaison.next()) {
-			utilisateur = new Utilisateur(combinaison.getInt("idCompte"),  
+			utilisateur = new Utilisateur(combinaison.getInt("CompteID"),  
 					combinaison.getString("identifiant"), 
 					combinaison.getString("pass"), 
 					combinaison.getString("nom"), 

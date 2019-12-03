@@ -21,7 +21,7 @@ public class DAOTables extends DAO<Table> {
 		listeTables.clear();
 		ResultSet TableDB = conn.createStatement().executeQuery("select * from tables");
 		while (TableDB.next()) {
-			listeTables.add(new Table(TableDB.getInt("idTable"), TableDB.getInt("noTable"), TableDB.getInt("nbCouverts_Min"), TableDB.getInt("nbCouverts_Max"), TableDB.getInt("occupation")));
+			listeTables.add(new Table(TableDB.getInt("TableID"), TableDB.getInt("noTable"), TableDB.getInt("nbCouverts_Min"), TableDB.getInt("nbCouverts_Max"), TableDB.getInt("occupation")));
 		}
 		return listeTables;
 	}
@@ -50,7 +50,7 @@ public class DAOTables extends DAO<Table> {
 	@Override
 	public void ajouter(Table t) throws SQLException {
 		PreparedStatement ajout = conn.prepareStatement
-				("INSERT INTO `tables` (`idTable`, `NoTable`, `nbCouverts_min`, `nbCouverts_max`, `idReservation`) VALUES (NULL, ?, ?, ?, NULL)");
+				("INSERT INTO `tables` (`TableID`, `NoTable`, `nbCouverts_min`, `nbCouverts_max`, `ReservationID`) VALUES (NULL, ?, ?, ?, NULL)");
 		ajout.setInt(1, t.getNoTable());
 		ajout.setInt(2, t.getNbCouvertsMin());
 		ajout.setInt(3, t.getNbCouvertsMax());
@@ -60,7 +60,7 @@ public class DAOTables extends DAO<Table> {
 
 	@Override
 	public void supprimer(Table t) throws SQLException {
-		PreparedStatement tables = conn.prepareStatement("DELETE FROM `tables` WHERE idTable=?");
+		PreparedStatement tables = conn.prepareStatement("DELETE FROM `tables` WHERE TableID=?");
 		tables.setInt(1, (t.getIdTable()));
 		tables.execute();
 		
@@ -68,7 +68,7 @@ public class DAOTables extends DAO<Table> {
 
 	@Override
 	public void modifier(Table t) throws SQLException {
-		PreparedStatement supprimer = conn.prepareStatement("UPDATE `tables` SET `NoTable` = ?, `nbCouverts_Min`= ?, `nbCouverts_Max`= ?, `idReservation` = NULL WHERE `idTable`= ?");
+		PreparedStatement supprimer = conn.prepareStatement("UPDATE `tables` SET `NoTable` = ?, `nbCouverts_Min`= ?, `nbCouverts_Max`= ?, `ReservationID` = NULL WHERE `TableID`= ?");
 		supprimer.setInt(1, t.getNoTable());
 		supprimer.setInt(2, t.getNbCouvertsMin());
 		supprimer.setInt(3, t.getNbCouvertsMax());

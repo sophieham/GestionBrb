@@ -20,9 +20,9 @@ public class DAOCommande extends DAO<Commande>{
 	
 	@Override
 	public ObservableList<Commande> afficher() throws SQLException {
-		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.idCommande = contenirproduit.idCommande group by commande.idCommande order by year(date) desc, month(date) desc, day(date) desc");
+		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`CommandeID`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID group by commande.CommandeID order by year(date) desc, month(date) desc, day(date) desc");
 		while (commandeDB.next()) {
-			listeCommande.add(new Commande(	commandeDB.getInt("idCommande"), 
+			listeCommande.add(new Commande(	commandeDB.getInt("CommandeID"), 
 											commandeDB.getInt("noTable"), 
 											commandeDB.getInt("nbCouverts"), 
 											commandeDB.getFloat("prixTotal"), 
@@ -35,7 +35,7 @@ public class DAOCommande extends DAO<Commande>{
 	
 	public float afficherPrixTotal(Commande c) throws SQLException {
 		float prixTotal = 0;
-		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT sum(contenirproduit.qte*produit.prix) as prixt FROM `contenirproduit` INNER JOIN produit on contenirproduit.idProduit = produit.idProduit WHERE idCommande = "+c.getIdCommande());
+		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT sum(contenirproduit.qte*produit.prix) as prixt FROM `contenirproduit` INNER JOIN produit on contenirproduit.ProduitID = produit.ProduitID WHERE CommandeID = "+c.getIdCommande());
 		while (commandeDB.next()) {
 		prixTotal = Float.parseFloat(commandeDB.getString("prixt"));
 		}
@@ -43,14 +43,14 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	public void majPrix(Commande c, float prix) throws SQLException {
-		PreparedStatement requete = conn.prepareStatement("UPDATE `commande` SET prixTotal= ? WHERE idCommande = ?");
+		PreparedStatement requete = conn.prepareStatement("UPDATE `commande` SET prixTotal= ? WHERE CommandeID = ?");
 		requete.setFloat(1, prix);
 		requete.setInt(2, c.getIdCommande());
 		requete.execute();
 	}
 	
 	public int afficherQteTotal(Commande c) throws SQLException {
-		ResultSet qteTotal = conn.createStatement().executeQuery("SELECT sum(qte) FROM `contenirproduit` WHERE idCommande = '"+c.getIdCommande()+"'");
+		ResultSet qteTotal = conn.createStatement().executeQuery("SELECT sum(qte) FROM `contenirproduit` WHERE CommandeID = '"+c.getIdCommande()+"'");
 		qteTotal.next();
 		int qte = qteTotal.getInt("sum(qte)");
 		return qte;
@@ -78,7 +78,7 @@ public class DAOCommande extends DAO<Commande>{
 
 	@Override
 	public void ajouter(Commande c) throws SQLException {
-		PreparedStatement ajout = conn.prepareStatement("INSERT INTO `commande` (`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `date`) VALUES (?, ?, NULL, ?, current_timestamp())");
+		PreparedStatement ajout = conn.prepareStatement("INSERT INTO `commande` (`CommandeID`, `noTable`, `prixTotal`, `nbCouverts`, `date`) VALUES (?, ?, NULL, ?, current_timestamp())");
 		ajout.setInt(1, c.getIdCommande());
 		ajout.setInt(2, c.getNoTable());
 		ajout.setInt(3, c.getNbCouverts());
@@ -93,7 +93,7 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	public void supprimer(Commande c, Produit p) throws SQLException {
-		PreparedStatement suppression = conn.prepareStatement("DELETE FROM `contenirproduit` WHERE `contenirproduit`.`idProduit` = ? AND `contenirproduit`.`idCommande` = "+c.getIdCommande());
+		PreparedStatement suppression = conn.prepareStatement("DELETE FROM `contenirproduit` WHERE `contenirproduit`.`ProduitID` = ? AND `contenirproduit`.`CommandeID` = "+c.getIdCommande());
 		suppression.setInt(1, (p.getIdProduit()));
 		suppression.execute();
 		
@@ -106,11 +106,11 @@ public class DAOCommande extends DAO<Commande>{
 	
 	public ArrayList<String> afficherAddition(Commande c) throws SQLException {
 		ArrayList<String> addition = new ArrayList<>();
-		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT sum(contenirproduit.qte), count(contenirproduit.idProduit), contenirproduit.idProduit, commande.idCommande, contenirproduit.qte, sum(produit.prix), commande.Reste_A_Payer FROM `contenirproduit` inner join produit on contenirproduit.idProduit = produit.idProduit inner join commande on contenirproduit.idCommande = commande.idCommande where commande.idCommande = "+c.getIdCommande());
+		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT sum(contenirproduit.qte), count(contenirproduit.ProduitID), contenirproduit.ProduitID, commande.CommandeID, contenirproduit.qte, sum(produit.prix), commande.Reste_A_Payer FROM `contenirproduit` INNER JOIN produit on contenirproduit.ProduitID = produit.ProduitID inner join commande on contenirproduit.CommandeID = commande.CommandeID where commande.CommandeID = "+c.getIdCommande());
 		while (commandeDB.next()) {
 			int qte = commandeDB.getInt("contenirproduit.qte");
 			float tprix = commandeDB.getFloat("sum(produit.prix)")*qte;
-			int totalprdt = commandeDB.getInt("count(contenirproduit.idProduit)")*qte;
+			int totalprdt = commandeDB.getInt("count(contenirproduit.ProduitID)")*qte;
  
 			addition.add(Integer.toString(qte));
 			addition.add(Float.toString(tprix));
@@ -153,7 +153,7 @@ public class DAOCommande extends DAO<Commande>{
 		ArrayList<ArrayList<String> > liste = new ArrayList<ArrayList<String>>();
 		ResultSet produitCommandeDB = conn.createStatement().executeQuery(
 				"SELECT produit.nom, produit.prix, contenirproduit.qte from contenirproduit "
-				+ "INNER JOIN produit on contenirproduit.idProduit = produit.idProduit "
+				+ "INNER JOIN produit on contenirproduit.ProduitID = produit.ProduitID "
 				+ "WHERE contenirproduit.idCommande ="+c.getIdCommande());
 		while(produitCommandeDB.next()) {
 			listeProduit.add(produitCommandeDB.getString("produit.nom"));
@@ -169,7 +169,7 @@ public class DAOCommande extends DAO<Commande>{
 	public ArrayList<String> afficherTicket(Commande c) throws SQLException{
 		ArrayList<String> listeAddition = new ArrayList<>();
 		ResultSet commandeDB = conn.createStatement().executeQuery(""
-				+ "SELECT count(DISTINCT contenirproduit.idProduit) as 'qte', sum(DISTINCT prixTotal) as 'prixTotal', substring(date,1,10) as 'date', substring(date,12,15) as 'heure', noTable, nbCouverts, serveurID FROM commande INNER JOIN contenirproduit on commande.idCommande = contenirproduit.idCommande where commande.idcommande = "+c.getIdCommande());
+				+ "SELECT count(DISTINCT contenirproduit.ProduitID) as 'qte', sum(DISTINCT prixTotal) as 'prixTotal', substring(date,1,10) as 'date', substring(date,12,15) as 'heure', noTable, nbCouverts, serveurID FROM commande INNER JOIN contenirproduit on commande.idCommande = contenirproduit.idCommande where commande.idcommande = "+c.getIdCommande());
 		while (commandeDB.next()) {
 			listeAddition.add(commandeDB.getString("noTable"));
 			listeAddition.add(commandeDB.getString("nbCouverts"));
@@ -182,7 +182,7 @@ public class DAOCommande extends DAO<Commande>{
 		return listeAddition;
 	}
 	public void modifier(int idCommande, int idProduit, Produit p) throws SQLException {
-		PreparedStatement requete = conn.prepareStatement("UPDATE `contenirproduit` SET qte= ? WHERE idProduit = ? AND idCommande = ?");
+		PreparedStatement requete = conn.prepareStatement("UPDATE `contenirproduit` SET qte= ? WHERE ProduitID = ? AND idCommande = ?");
 		
 		requete.setInt(1, p.getQuantiteProduit());
 		requete.setInt(2, idProduit);
@@ -191,7 +191,7 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	public void ajouterProduitCommande(int idCommande, int idProduit, Produit p) throws SQLException {
-		PreparedStatement requete = conn.prepareStatement("INSERT INTO `contenirproduit` (`idProduit`, `idCommande`, `qte`, serveurID) VALUES (?, ?, 1, ?)");
+		PreparedStatement requete = conn.prepareStatement("INSERT INTO `contenirproduit` (`ProduitID`, `CommandeID`, `qte`, serveurID) VALUES (?, ?, 1, ?)");
 		requete.setInt(1, idProduit);
 		requete.setInt(2, idCommande);
 		requete.setString(3, ConnexionControleur.getUtilisateurConnecte().getIdentifiant());
@@ -203,7 +203,7 @@ public class DAOCommande extends DAO<Commande>{
 	
 	public ArrayList<Integer> compterTout() throws SQLException{
 		stats.clear();
-		ResultSet count = conn.createStatement().executeQuery("SELECT count(DISTINCT commande.idCommande), count(DISTINCT contenirproduit.serveurID), sum(DISTINCT prixTotal) FROM `commande` INNER JOIN contenirproduit ON commande.idCommande = contenirproduit.idCommande");
+		ResultSet count = conn.createStatement().executeQuery("SELECT count(DISTINCT commande.CommandeID), count(DISTINCT contenirproduit.serveurID), sum(DISTINCT prixTotal) FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID");
 		if(!count.next()) {
 			for(int i =0; i<3; i++) {
 				stats.add(0);
@@ -211,7 +211,7 @@ public class DAOCommande extends DAO<Commande>{
 		}	
 		else {
 		count.last();
-			stats.add(count.getInt("count(DISTINCT commande.idCommande)"));
+			stats.add(count.getInt("count(DISTINCT commande.CommandeID)"));
 			stats.add(count.getInt("sum(DISTINCT prixTotal)"));
 			stats.add(count.getInt("count(DISTINCT contenirproduit.serveurID)"));
 		}
@@ -219,9 +219,9 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	public void trierParJour() throws SQLException{
-		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.idCommande = contenirproduit.idCommande WHERE CURRENT_DATE = substring(date, 1, 10) group by commande.idCommande ORDER BY hour(date) desc, minute(date) desc ");
+		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`CommandeID`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE CURRENT_DATE = substring(date, 1, 10) group by commande.CommandeID ORDER BY hour(date) desc, minute(date) desc ");
 		while (commandeDB.next()) {
-			listeCommande.add(new Commande(	commandeDB.getInt("commande.idCommande"), 
+			listeCommande.add(new Commande(	commandeDB.getInt("commande.CommandeID"), 
 											commandeDB.getInt("noTable"), 
 											commandeDB.getInt("nbCouverts"), 
 											commandeDB.getFloat("prixTotal"), 
@@ -232,7 +232,7 @@ public class DAOCommande extends DAO<Commande>{
 	
 	public ArrayList<Integer> compterParJour() throws SQLException{
 		stats.clear();
-		ResultSet count = conn.createStatement().executeQuery("SELECT count(DISTINCT commande.idCommande), count(DISTINCT contenirproduit.serveurID), sum(DISTINCT prixTotal) FROM `commande` INNER JOIN contenirproduit ON commande.idCommande = contenirproduit.idCommande WHERE CURRENT_DATE = substring(date, 1, 10) ORDER BY hour(date) desc, minute(date) desc ");
+		ResultSet count = conn.createStatement().executeQuery("SELECT count(DISTINCT commande.CommandeID), count(DISTINCT contenirproduit.serveurID), sum(DISTINCT prixTotal) FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE CURRENT_DATE = substring(date, 1, 10) ORDER BY hour(date) desc, minute(date) desc ");
 		if(!count.next()) {
 			for(int i =0; i<3; i++) {
 				stats.add(0);
@@ -240,7 +240,7 @@ public class DAOCommande extends DAO<Commande>{
 		}	
 		else {
 		count.last();
-		stats.add(count.getInt("count(DISTINCT commande.idCommande)"));
+		stats.add(count.getInt("count(DISTINCT commande.CommandeID)"));
 		stats.add(count.getInt("sum(DISTINCT prixTotal)"));
 		stats.add(count.getInt("count(DISTINCT contenirproduit.serveurID)"));
 		}
@@ -248,9 +248,9 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	public void trierParSemaine() throws SQLException{
-		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.idCommande = contenirproduit.idCommande WHERE week(date) = week(CURRENT_DATE) group by commande.idCommande  order by hour(date) desc");
+		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`CommandeID`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE week(date) = week(CURRENT_DATE) group by commande.CommandeID  order by hour(date) desc");
 		while (commandeDB.next()) {
-			listeCommande.add(new Commande(	commandeDB.getInt("commande.idCommande"), 
+			listeCommande.add(new Commande(	commandeDB.getInt("commande.CommandeID"), 
 											commandeDB.getInt("noTable"), 
 											commandeDB.getInt("nbCouverts"), 
 											commandeDB.getFloat("prixTotal"), 
@@ -261,7 +261,7 @@ public class DAOCommande extends DAO<Commande>{
 	
 	public ArrayList<Integer> compterParSemaine() throws SQLException{
 		stats.clear();
-		ResultSet count = conn.createStatement().executeQuery("SELECT count(DISTINCT commande.idCommande), count(DISTINCT contenirproduit.serveurID), sum(DISTINCT prixTotal) FROM `commande` INNER JOIN contenirproduit ON commande.idCommande = contenirproduit.idCommande WHERE week(date) = week(CURRENT_DATE) order by hour(date) desc");
+		ResultSet count = conn.createStatement().executeQuery("SELECT count(DISTINCT commande.CommandeID), count(DISTINCT contenirproduit.serveurID), sum(DISTINCT prixTotal) FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE week(date) = week(CURRENT_DATE) order by hour(date) desc");
 		if(!count.next()) {
 			for(int i =0; i<3; i++) {
 				stats.add(0);
@@ -269,7 +269,7 @@ public class DAOCommande extends DAO<Commande>{
 		}	
 		else {
 		count.last();
-		stats.add(count.getInt("count(DISTINCT commande.idCommande)"));
+		stats.add(count.getInt("count(DISTINCT commande.CommandeID)"));
 		stats.add(count.getInt("sum(DISTINCT prixTotal)"));
 		stats.add(count.getInt("count(DISTINCT contenirproduit.serveurID)"));
 		}
@@ -277,9 +277,9 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	public void trierParMois() throws SQLException{
-		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.idCommande = contenirproduit.idCommande WHERE substring(CURRENT_DATE, 1, 7) = substring(date, 1, 7) group by commande.idCommande ORDER BY DAY(date) desc"); 
+		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`CommandeID`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE substring(CURRENT_DATE, 1, 7) = substring(date, 1, 7) group by commande.CommandeID ORDER BY DAY(date) desc"); 
 		while (commandeDB.next()) {
-			listeCommande.add(new Commande(	commandeDB.getInt("commande.idCommande"), 
+			listeCommande.add(new Commande(	commandeDB.getInt("commande.CommandeID"), 
 											commandeDB.getInt("noTable"), 
 											commandeDB.getInt("nbCouverts"), 
 											commandeDB.getFloat("prixTotal"), 
@@ -290,7 +290,7 @@ public class DAOCommande extends DAO<Commande>{
 	
 	public ArrayList<Integer> compterParMois() throws SQLException{
 		stats.clear();
-		ResultSet count = conn.createStatement().executeQuery("SELECT count(DISTINCT commande.idCommande), count(DISTINCT contenirproduit.serveurID), sum(DISTINCT prixTotal) FROM `commande` INNER JOIN contenirproduit ON commande.idCommande = contenirproduit.idCommande WHERE substring(CURRENT_DATE, 1, 7) = substring(date, 1, 7) ORDER BY DAY(date) desc"); 
+		ResultSet count = conn.createStatement().executeQuery("SELECT count(DISTINCT commande.CommandeID), count(DISTINCT contenirproduit.serveurID), sum(DISTINCT prixTotal) FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE substring(CURRENT_DATE, 1, 7) = substring(date, 1, 7) ORDER BY DAY(date) desc"); 
 		if(!count.next()) {
 			for(int i =0; i<3; i++) {
 				stats.add(0);
@@ -298,7 +298,7 @@ public class DAOCommande extends DAO<Commande>{
 		}	
 		else {
 		count.last();
-		stats.add(count.getInt("count(DISTINCT commande.idCommande)"));
+		stats.add(count.getInt("count(DISTINCT commande.CommandeID)"));
 		stats.add(count.getInt("sum(DISTINCT prixTotal)"));
 		stats.add(count.getInt("count(DISTINCT contenirproduit.serveurID)"));
 		}
@@ -306,9 +306,9 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	public void trierParAnnee() throws SQLException{
-		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`idCommande`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.idCommande = contenirproduit.idCommande WHERE substring(CURRENT_DATE, 1, 4) = substring(date, 1, 4) group by commande.idCommande  ORDER BY MONTH(date) desc, DAY(date) DESC"); 
+		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`CommandeID`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE substring(CURRENT_DATE, 1, 4) = substring(date, 1, 4) group by commande.CommandeID  ORDER BY MONTH(date) desc, DAY(date) DESC"); 
 		while (commandeDB.next()) {
-			listeCommande.add(new Commande( commandeDB.getInt("commande.idCommande"), 
+			listeCommande.add(new Commande( commandeDB.getInt("commande.CommandeID"), 
 											commandeDB.getInt("noTable"),
 											commandeDB.getInt("prixTotal"), 
 											commandeDB.getFloat("nbCouverts"), 
@@ -319,7 +319,7 @@ public class DAOCommande extends DAO<Commande>{
 	
 	public ArrayList<Integer> compterParAnnee() throws SQLException{
 		stats.clear();
-		ResultSet count = conn.createStatement().executeQuery("SELECT count(DISTINCT commande.idCommande), count(DISTINCT contenirproduit.serveurID), sum(DISTINCT prixTotal) FROM `commande` INNER JOIN contenirproduit ON commande.idCommande = contenirproduit.idCommande WHERE substring(CURRENT_DATE, 1, 4) = substring(date, 1, 4) ORDER BY MONTH(date) desc, DAY(date) DESC"); 
+		ResultSet count = conn.createStatement().executeQuery("SELECT count(DISTINCT commande.CommandeID), count(DISTINCT contenirproduit.serveurID), sum(DISTINCT prixTotal) FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE substring(CURRENT_DATE, 1, 4) = substring(date, 1, 4) ORDER BY MONTH(date) desc, DAY(date) DESC"); 
 		if(!count.next()) {
 			for(int i =0; i<3; i++) {
 				stats.add(0);
@@ -327,7 +327,7 @@ public class DAOCommande extends DAO<Commande>{
 		}	
 		else {
 		count.last();
-		stats.add(count.getInt("count(DISTINCT commande.idCommande)"));
+		stats.add(count.getInt("count(DISTINCT commande.CommandeID)"));
 		stats.add(count.getInt("sum(DISTINCT prixTotal)"));
 		stats.add(count.getInt("count(DISTINCT contenirproduit.serveurID)"));
 		}
