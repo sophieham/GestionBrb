@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import gestionbrb.controleur.ConnexionControleur;
 import gestionbrb.model.Utilisateur;
 import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
@@ -58,5 +60,53 @@ public class DAOUtilisateur extends DAO<Utilisateur> {
 		utilisateursDB.setInt(1, u.getIdUtilisateur());
 		utilisateursDB.execute();
 	}
+	
+	
+	public boolean combinaisonEstValide(String user, String pass) throws SQLException{
+		PreparedStatement requete = conn.prepareStatement("SELECT * FROM utilisateurs WHERE identifiant = ? AND pass = ?");
+			requete.setString(1, user);
+			requete.setString(2, pass);
+			ResultSet combinaison = requete.executeQuery();
+		if(combinaison.next()) {
+			return true;
+		}
+		else return false;
+	}
+	
+	public Utilisateur connexion() throws SQLException{
+		Utilisateur utilisateur = new Utilisateur();
+		ResultSet combinaison = conn.createStatement().executeQuery("select * from utilisateurs");
+		if(combinaison.next()) {
+			utilisateur = new Utilisateur(combinaison.getInt("idCompte"),  
+					combinaison.getString("identifiant"), 
+					combinaison.getString("pass"), 
+					combinaison.getString("nom"), 
+					combinaison.getString("prenom"), 
+					combinaison.getInt("typeCompte"));
+			return utilisateur;
+		}
+		return utilisateur;
+		
+	}
+	
+	public void modifierLangue(String langue) throws SQLException {
+		PreparedStatement modifierLangue = conn.prepareStatement("UPDATE utilisateurs SET langue = ? WHERE identifiant = ? ");
+		modifierLangue.setString(1, langue);
+		modifierLangue.setString(2, ConnexionControleur.getUtilisateurConnecte().getIdentifiant());
+		modifierLangue.execute();
+		System.out.println(modifierLangue);
+	}
+	
+	public String recupererLangue(int id) throws SQLException{
+		String langue = "fr";
+		ResultSet requete = conn.createStatement().executeQuery("select langue from utilisateurs WHERE identifiant = "+id);
+		System.out.println(id);
+		while(requete.next()) {
+			langue = requete.getString("langue");
+		}
+		
+		return langue;
+	}
+	
 
 }

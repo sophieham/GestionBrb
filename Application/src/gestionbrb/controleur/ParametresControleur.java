@@ -3,10 +3,14 @@ package gestionbrb.controleur;
 import java.io.IOException;
 //import java.awt.event.ActionEvent;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import gestionbrb.Connexion;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,7 +60,7 @@ public class ParametresControleur implements Initializable{
 	private AnchorPane AnchorPane;
 	
 	private MenuPrincipalControleur parent;
-
+ DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 
 
 	@Override
@@ -132,131 +136,43 @@ public class ParametresControleur implements Initializable{
 		}
 		
 		public void choiceMade(ActionEvent event) throws IOException {
-		String output = choicebox.getSelectionModel().getSelectedItem().toString();
-		System.out.println(output);
-		switch(output) {
-		case "Chinese":
-			System.out.println("chinese");
-			
-			Locale locale = new Locale("zh","CN");  
-			
-			//FXMLLoader fxmlLoader = new FXMLLoader(); 
-			//fxmlLoader.setResources(ResourceBundle.getBundle("MyBundle_zh")); 
-			//Pane pane = (BorderPane) fxmlLoader.load(this.getClass().getResource("Application.fxml").openStream());
-			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_zh");
-
-			//Parent root = FXMLLoader.load(getClass()
-		             //.getResource("/application/Application.fxml"));
-			String a =  bundle.getString("key1");
-			lblTextByController=getblTextByController();
-			lblTextByController.setText(a);
-			String b = bundle.getString("key2");
-			choiceCouleur=getchoiceCouleur();
-			choiceCouleur.setText(b);
-			String c = bundle.getString("key3");
-			choiceBackground=getchoiceBackground();
-			choiceBackground.setText(c);
-			String d = bundle.getString("key4");
-			title=gettitle();
-			title.setText(d);
-			String e = bundle.getString("key5");
-			btnHello=getbtnHello();
-			btnHello.setText(e);
-			
-			
-			
-			break;
-		case "English":
-			Locale locale1 = new Locale("en","US");  
-			ResourceBundle bundle1 = ResourceBundle.getBundle("gestionbrb/language/Language_en",locale1);
-			//bundle = ResourceBundle.getBundle("Language/MyBundle");		
-			 String A =  bundle1.getString("key1");
-				lblTextByController=getblTextByController();
-				lblTextByController.setText(A);
-				String B = bundle1.getString("key2");
-				choiceCouleur=getchoiceCouleur();
-				choiceCouleur.setText(B);
-				String C = bundle1.getString("key3");
-				choiceBackground=getchoiceBackground();
-				choiceBackground.setText(C);
-				String D = bundle1.getString("key4");
-				title=gettitle();
-				title.setText(D);
-				
-				String E = bundle1.getString("key5");
-				btnHello=getbtnHello();
-				btnHello.setText(E);
+		try {
+			String output = choicebox.getSelectionModel().getSelectedItem().toString();
+			switch(output) {
+			case "Chinese":
+				loadLang("zh", "CN");
 				break;
-			
-		case "Francais":
-			Locale locale2 = new Locale("en","US");  
-			ResourceBundle bundle2 = ResourceBundle.getBundle("gestionbrb/language/Language_fr",locale2);
-			//bundle = ResourceBundle.getBundle("Language/MyBundle");		
-			 String Aa =  bundle2.getString("key1");
-				lblTextByController=getblTextByController();
-				lblTextByController.setText(Aa);
-				String Bb = bundle2.getString("key2");
-				choiceCouleur=getchoiceCouleur();
-				choiceCouleur.setText(Bb);
-				String Cc = bundle2.getString("key3");
-				choiceBackground=getchoiceBackground();
-				choiceBackground.setText(Cc);
-				String Dd = bundle2.getString("key4");
-				title=gettitle();
-				title.setText(Dd);
-				
-				String Ee = bundle2.getString("key5");
-				btnHello=getbtnHello();
-				btnHello.setText(Ee);
+			case "English":
+				loadLang("en", "US");
 				break;
-			
+			case "Francais":
+				loadLang("fr", "FR");
+				break;
+			}
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Changement de langue impossible", "Détails: " + e);
+			e.printStackTrace();
 		}
 		
 	}
 
 
-
-
-		private Button getbtnHello() {
-			// TODO Auto-generated method stub
-			return btnHello;
+		private void loadLang(String lang, String LANG) {
+			Locale locale = new Locale(lang, LANG);  
+			try {
+				daoUtilisateur.modifierLangue(lang);
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Changement de langue impossible", "Détails: " + e);
+				e.printStackTrace();
+			}
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang,locale);
+			lblTextByController.setText(bundle.getString("key1"));
+			choiceCouleur.setText(bundle.getString("key2"));
+			choiceBackground.setText(bundle.getString("key3"));
+			title.setText(bundle.getString("key4"));
+			btnHello.setText(bundle.getString("key5"));
+			
 		}
-
-
-
-
-		private TitledPane gettitle() {
-			// TODO Auto-generated method stub
-			return title;
-		}
-
-
-
-
-		private Label getchoiceBackground() {
-			// TODO Auto-generated method stub
-			return choiceBackground;
-		}
-
-
-
-
-		private TitledPane getchoiceCouleur() {
-			// TODO Auto-generated method stub
-			return choiceCouleur;
-		}
-
-
-
-
-		private Label getblTextByController() {
-			// TODO Auto-generated method stub
-			return lblTextByController;
-		}
-
-
-
-		
 
 		public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
 			this.parent = menuPrincipalControleur;

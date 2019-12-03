@@ -1,10 +1,14 @@
 package gestionbrb.controleur;
 
+import java.net.URL;
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import gestionbrb.DAO.DAOUtilisateur;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,11 +21,19 @@ import javafx.stage.Stage;
  * @author Roman
  *
  */
-public class MenuPrincipalControleur {
+public class MenuPrincipalControleur implements Initializable {
 	@FXML
 	private Label infoCompteLbl;
 	@FXML
 	private Button btnAdministration;
+	@FXML
+	private Button btnNvelleCommande;
+	@FXML
+	private Button btnStock;
+	@FXML
+	private ResourceBundle bundle;
+	
+	
 	private static Stage demarrerCommande;
 	private static Stage stockAdmin;
 	private static Stage stockServeur;
@@ -34,14 +46,53 @@ public class MenuPrincipalControleur {
 	@FXML
 	private AnchorPane fenetre;
 
-	@FXML
-	public void initialize() {
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		bundle = resources;
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			System.out.println(langue);
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		infoCompteLbl.setText(ConnexionControleur.getUtilisateurConnecte().getIdentifiant());
-		if(ConnexionControleur.getUtilisateurConnecte().getPrivileges()==0) {
+		if(ConnexionControleur.getUtilisateurConnecte().getIdentifiant().equals("client")) {
+			btnAdministration.setVisible(false);
+			btnNvelleCommande.setVisible(false);
+			btnStock.setVisible(false);
+		}
+		else if(ConnexionControleur.getUtilisateurConnecte().getPrivileges()==0) {
 			btnAdministration.setVisible(false);
 		}
 	}
+
 	
+	private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		System.out.println(bundle);
+		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		System.out.println(bundle.getString("key6"));
+		System.out.println(bundle.getString("%key6"));
+		btnNvelleCommande.setText(bundle.getString("%key6"));
+
+		
+	}
+
 	@FXML
 	public void fenetreNouvelleCommande() {
 		try {
@@ -212,5 +263,6 @@ public class MenuPrincipalControleur {
 	public void setParent(ConnexionControleur connexionProfil) {
 		this.parent = connexionProfil;
 	}
+
 
 }

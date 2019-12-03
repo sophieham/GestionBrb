@@ -2,7 +2,6 @@
 
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
@@ -12,15 +11,43 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.ParametresControleur">
+<AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.ParametresControleur">
    <children>
-      <HBox layoutX="165.0" layoutY="291.0" prefHeight="188.0" prefWidth="972.0">
+      <ImageView fitHeight="1106.0" fitWidth="1948.0" layoutX="-14.0" layoutY="-15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/fond.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="btnHello" layoutX="639.0" layoutY="941.0" mnemonicParsing="false" onAction="#Onbutton" prefHeight="51.0" prefWidth="589.0" text="%key5">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+     <ImageView fitHeight="348.0" fitWidth="436.0" layoutX="721.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Modelisation/logo_light_transparent.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="408.0" layoutY="389.0" prefHeight="510.0" prefWidth="1064.0">
          <children>
-            <TitledPane fx:id="title" prefHeight="236.0" prefWidth="453.0" text="%key4">
+            <TitledPane fx:id="choiceCouleur" layoutX="47.0" layoutY="14.0" prefHeight="193.0" prefWidth="446.0" text="%key2">
+               <content>
+                  <Pane prefHeight="161.0" prefWidth="457.0">
+                     <children>
+                        <Label fx:id="choiceBackground" layoutX="93.0" layoutY="36.0" text="%key3">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <ColorPicker fx:id="btnbackground" layoutX="136.0" layoutY="66.0" onAction="#OnBackground" prefHeight="31.0" prefWidth="194.0" />
+                     </children>
+                  </Pane>
+               </content>
+            </TitledPane>
+            <TitledPane fx:id="title" layoutX="580.0" layoutY="14.0" prefHeight="193.0" prefWidth="446.0" text="%key4">
                <content>
                   <Pane prefHeight="123.0" prefWidth="451.0">
                      <children>
@@ -41,76 +68,27 @@
                      </children>
                   </Pane>
                </content>
-               <HBox.margin>
-                  <Insets left="15.0" right="15.0" />
-               </HBox.margin>
             </TitledPane>
-            <TitledPane fx:id="choiceCouleur" prefHeight="193.0" prefWidth="474.0" text="%key2">
-               <content>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
+            <TitledPane animated="false" layoutX="312.0" layoutY="259.0" prefHeight="176.0" prefWidth="446.0" text="Devise">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="choiceBackground" layoutX="93.0" layoutY="36.0" text="%key3">
+                        <Label layoutX="6.0" layoutY="43.0" text="Entrez le code ISO de la devise">
                            <font>
-                              <Font size="20.0" />
+                              <Font size="18.0" />
                            </font>
                         </Label>
-                        <ColorPicker fx:id="btnbackground" layoutX="136.0" layoutY="66.0" onAction="#OnBackground" prefHeight="31.0" prefWidth="194.0" />
+                        <TextField fx:id="chDevise" layoutX="259.0" layoutY="44.0" prefWidth="164.0" promptText="exemple: EUR" />
+                        <Button layoutX="124.0" layoutY="106.0" mnemonicParsing="false" onAction="#actionValiderDevise" prefHeight="30.0" prefWidth="197.0" text="Valider">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
                      </children>
-                  </Pane>
-               </content>
-               <HBox.margin>
-                  <Insets left="15.0" right="15.0" />
-               </HBox.margin>
+                  </AnchorPane>
+              </content>
             </TitledPane>
          </children>
-      </HBox>
-      <Button fx:id="btnHello" layoutX="406.0" layoutY="717.0" mnemonicParsing="false" onAction="#Onbutton" prefHeight="51.0" prefWidth="491.0" text="%key5">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
-     <ImageView fitHeight="348.0" fitWidth="436.0" layoutX="422.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../Modelisation/logo_light_transparent.png" />
-         </image>
-      </ImageView>
-      <TitledPane animated="false" layoutX="180.0" layoutY="500.0" prefHeight="176.0" prefWidth="446.0" text="Devise">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <Label layoutX="6.0" layoutY="43.0" text="Entrez le code ISO de la devise">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="chDevise" layoutX="259.0" layoutY="44.0" prefWidth="164.0" promptText="exemple: EUR" />
-                  <Button layoutX="124.0" layoutY="106.0" mnemonicParsing="false" onAction="#actionValiderDevise" prefHeight="30.0" prefWidth="197.0" text="Valider">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Button>
-               </children>
-            </AnchorPane>
-        </content>
-      </TitledPane>
-      <TitledPane animated="false" layoutX="655.0" layoutY="500.0" prefHeight="176.0" prefWidth="467.0" text="Nom du restaurant">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <Label layoutX="90.0" layoutY="14.0" text="Entrez le nom de votre restaurant">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField layoutX="91.0" layoutY="50.0" prefHeight="25.0" prefWidth="268.0" />
-                  <Button layoutX="124.0" layoutY="106.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="197.0" text="Valider">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Button>
-               </children>
-            </AnchorPane>
-         </content>
-      </TitledPane>
+      </Pane>
    </children>
 </AnchorPane>

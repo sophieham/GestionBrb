@@ -82,8 +82,11 @@ public class CalendrierControleur {
 		colonneDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
 		colonneHeure.setCellValueFactory(cellData -> cellData.getValue().heureProperty());
 		colonneNbCouverts.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsProperty());
-
 		try {
+			colonneNom.setResizable(false);
+			colonneDate.setResizable(false);
+			colonneHeure.setResizable(false);
+			colonneNbCouverts.setResizable(false);
 			nbTotalReservations.setText(daoCalendrier.nombreTotalRsv()+" réservations au total");
 			reservationTable.getSelectionModel().selectedItemProperty().addListener((observable, ancienneValeur, nouvelleValeur) -> {
 					try {

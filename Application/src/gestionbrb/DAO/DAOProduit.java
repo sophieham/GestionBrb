@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gestionbrb.controleur.FonctionsControleurs;
+import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
 import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
@@ -58,6 +59,19 @@ public class DAOProduit extends DAO<Produit>{
 		}
 		return listeNomProduits;	
 	}
+	
+	public ArrayList<String> afficherDetailsProduit(int idProduit) throws SQLException {
+		ArrayList<String> listeProduit = new ArrayList<>();
+		ResultSet produitDB = conn.createStatement().executeQuery("SELECT idProduit,`nom`,`description`,`ingredients` FROM `produit` WHERE idProduit ="+idProduit);
+		while(produitDB.next()) {
+			listeProduit.add(produitDB.getString("nom"));
+			listeProduit.add(produitDB.getString("description"));
+			listeProduit.add(produitDB.getString("ingredients"));
+		}
+		return listeProduit;
+	}
+	
+
 	
 @Override
 public void ajouter(Produit p) throws SQLException{

@@ -128,9 +128,11 @@ public class CommandeControleur implements Initializable {
 	
 	/**
 	 * Fonction principale du controleur. <br>
-	 * Il affiche des onglets en fonction du nombre et du nom des types, et affiche dans ces onglets les differents produits qui sont du même type. <br>
-	 * Il permet également de sélectionner les produits que le client souhaite commander et l'affiche d'un tableau contenant le nom et le prix des produits commandés
-	 * <br>
+	 * Il affiche des onglets en fonction du nombre et du nom des types, et affiche
+	 * dans ces onglets les differents produits qui sont du même type. <br>
+	 * Il permet également de sélectionner les produits que le client souhaite
+	 * commander et l'affiche d'un tableau contenant le nom et le prix des produits
+	 * commandés <br>
 	 * <br>
 	 * Affiche une boite de dialogue si la fonction génére une erreur
 	 */
@@ -140,13 +142,13 @@ public class CommandeControleur implements Initializable {
 			listeProduits.clear();
 			listeOnglets.clear();
 			listeProduits.clear();
-			
+
 			for (String nom : daoType.recupererType()) {
 				Tab tab = new Tab(nom);
 				mapTypeParOnglet.put(nom, tab);
-			
+			}
 			Map<String, Integer> mapNomParId = daoProduit.recupererIDProduit();
-			
+
 			Map<String, String> mapNomParType = daoProduit.recupererTypeProduit();
 			nomProduits.addAll(daoProduit.recupererNomProduit());
 
@@ -156,7 +158,7 @@ public class CommandeControleur implements Initializable {
 					public void handle(Event event) {
 						fp.getChildren().clear();
 						fp.setAlignment(Pos.BASELINE_CENTER);
-						fp.setPadding(new Insets(5,5,5,5));
+						fp.setPadding(new Insets(5, 5, 5, 5));
 						fp.setHgap(5);
 						fp.setVgap(5);
 						for (Map.Entry<String, String> produit : mapNomParType.entrySet()) {
@@ -172,8 +174,8 @@ public class CommandeControleur implements Initializable {
 											String rgx = "\n";
 											String[] tabResultat = produit.getKey().split(rgx); // tab[0] -> nom ;
 																								// tab[1] -> prix
-											String subPrix = tabResultat[1].substring(4); // coupe la devise 
-											
+											String subPrix = tabResultat[1].substring(4); // coupe la devise
+
 											float prix = Float.parseFloat(subPrix);
 											Produit prod = new Produit(tabResultat[0], prix, 1);
 											prod.setIdProduit(mapNomParId.get(tabResultat[0]));
@@ -182,29 +184,32 @@ public class CommandeControleur implements Initializable {
 											boolean doublon = false;
 											for (Produit prdt : produitCommande) {
 												if (prdt.getNomProduit().equals(prod.getNomProduit())) {
-													prdt.setQuantiteProduit(prdt.getQuantiteProduit()+1);
-													daoCommande.modifier(commande.getIdCommande(), mapNomParId.get(tabResultat[0]), prdt);
+													prdt.setQuantiteProduit(prdt.getQuantiteProduit() + 1);
+													daoCommande.modifier(commande.getIdCommande(),
+															mapNomParId.get(tabResultat[0]), prdt);
 													doublon = true;
 												}
 											}
-											if(!doublon) {
+											if (!doublon) {
 												produitCommande.add(prod);
-												daoCommande.ajouterProduitCommande(commande.getIdCommande(), mapNomParId.get(tabResultat[0]), prod);
+												daoCommande.ajouterProduitCommande(commande.getIdCommande(),
+														mapNomParId.get(tabResultat[0]), prod);
 											}
-											
-											totalPrix.setText(daoCommande.afficherPrixTotal(commande)+"");
+
+											totalPrix.setText(daoCommande.afficherPrixTotal(commande) + "");
 											daoCommande.majPrix(commande, prix);
 											int qte = daoCommande.afficherQteTotal(commande);
-											
-											totalProduit.setText(""+qte);
-											totalQte.setText(qte+"");
+
+											totalProduit.setText("" + qte);
+											totalQte.setText(qte + "");
 										} catch (Exception e) {
-											FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+											FonctionsControleurs.alerteErreur("Erreur d'éxécution",
+													"Une erreur est survenue", "Détails: " + e);
 											e.printStackTrace();
 										}
 									}
 								});
-	
+
 								fp.getChildren().add(btnPlat);
 							}
 						}
@@ -215,11 +220,10 @@ public class CommandeControleur implements Initializable {
 			}
 			typeProduit.getTabs().addAll(mapTypeParOnglet.values());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
-	
 	
 	@FXML
 	public void afficherAddition() {

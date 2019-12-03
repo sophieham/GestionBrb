@@ -11,6 +11,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
 
+import gestionbrb.DAO.DAOCommande;
+import gestionbrb.DAO.DAOProduit;
+import gestionbrb.DAO.DAOType;
 import gestionbrb.model.Produit;
 import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
@@ -51,6 +54,10 @@ public class MenuControleur implements Initializable {
 	Map<String, String> mapNomParType = new HashMap<>();
 	ArrayList<String> nomProduits = new ArrayList<>();
 
+	DAOCommande daoCommande = new DAOCommande();
+	DAOType daoType = new DAOType();
+	DAOProduit daoProduit = new DAOProduit();
+	
     @FXML
     private AnchorPane fenetre;
 
@@ -63,93 +70,79 @@ public class MenuControleur implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
-			String devise = "";
-			Connection conn = bddUtil.dbConnect();
-				listeProduits.clear();
-				listeOnglets.clear();
-				listeProduits.clear();
-				ResultSet produitDB = conn.createStatement().executeQuery("select idProduit, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.idType=type_produit.idType");
-				ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
-				while (deviseDB.next()) {
-					devise = deviseDB.getString("devise"); 
-				}
-				while (produitDB.next()) {
-					Tab tab = new Tab(produitDB.getString("type_produit.nom"));
-					mapTypeParOnglet.put(produitDB.getString("type_produit.nom"), tab);
-					String typeProduit = produitDB.getString("type_produit.nom");
-					String nomProduit = produitDB.getString("produit.nom")+"\n "+devise+""+produitDB.getString("prix");
-					int idProduit = produitDB.getInt("idProduit");
-					mapNomParId.put(nomProduit, idProduit);
-					mapNomParType.put(nomProduit, typeProduit);
-					nomProduits.add(nomProduit);
-				}
-				for (Entry<String, Tab> tab : mapTypeParOnglet.entrySet()) {
-					FlowPane fp = new FlowPane();
-					fp.setPadding(new Insets(5,5,5,5));
-					fp.setHgap(5);
-					fp.setVgap(5);
-					tab.getValue().setOnSelectionChanged(new EventHandler<Event>() {
-						public void handle(Event event) {
-							fp.getChildren().clear();
-							fp.setAlignment(Pos.BASELINE_CENTER);
-							
-							for (Map.Entry<String, String> produit : mapNomParType.entrySet()) {
-								if (tab.getKey().equals(produit.getValue())) {
-									Button btnPlat = new Button(produit.getKey());
-									btnPlat.setPrefSize(200, 100);
-									btnPlat.setTextAlignment(TextAlignment.CENTER);
-									btnPlat.setAlignment(Pos.CENTER);
-									btnPlat.setOnAction(new EventHandler<ActionEvent>() {
-										@Override
-										public void handle(ActionEvent event) {
-											try {
-												Connection conn = bddUtil.dbConnect();
-												Alert alert = new Alert(AlertType.INFORMATION);
-												int idProd = mapNomParId.get(btnPlat.getText());
-												ResultSet produitsDB = conn.createStatement().executeQuery("SELECT idProduit,`nom`,`description`,`ingredients` FROM `produit` WHERE idProduit = "+idProd);
-												while(produitsDB.next()) {
-												alert.setTitle("Détails du produit n°"+idProd);
-												alert.setHeaderText(produitsDB.getString("nom"));
-												VBox conteneur = new VBox();
-												conteneur.setPrefWidth(500);
-												conteneur.setPrefHeight(100);
-												conteneur.setAlignment(Pos.CENTER);
-												Label description = new Label(produitsDB.getString("description"));
-												description.setFont(Font.font("Arial", FontPosture.ITALIC, 20));
-												description.setWrapText(true);
-												Label ingredients = new Label(produitsDB.getString("ingredients"));
-												ingredients.setWrapText(true);
-												conteneur.getChildren().addAll(description, ingredients);
-												alert.getDialogPane().setContent(conteneur);
-												}
+			listeProduits.clear();
+			listeOnglets.clear();
+			listeProduits.clear();
 
-												alert.showAndWait();
-											} catch (Exception e) {
-												FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
-												e.printStackTrace();
-											}
-										}
-											
-									});
-		
-									fp.getChildren().add(btnPlat);
-								}
-							}
-							tab.getValue().setContent(fp);
-
-						}
-					});
-				}
-				for (Produit prdt : produitCommande) {
-					System.out.println(prdt.getNomProduit());
-					System.out.println("après nomproduit:");
-				}
-				typeProduit.getTabs().addAll(mapTypeParOnglet.values());
-			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
-				e.printStackTrace();
+			for (String nom : daoType.recupererType()) {
+				Tab tab = new Tab(nom);
+				mapTypeParOnglet.put(nom, tab);
 			}
+			Map<String, Integer> mapNomParId = daoProduit.recupererIDProduit();
+
+			Map<String, String> mapNomParType = daoProduit.recupererTypeProduit();
+			nomProduits.addAll(daoProduit.recupererNomProduit());
+
+			for (Entry<String, Tab> tab : mapTypeParOnglet.entrySet()) {
+				FlowPane fp = new FlowPane();
+				tab.getValue().setOnSelectionChanged(new EventHandler<Event>() {
+					public void handle(Event event) {
+						fp.getChildren().clear();
+						fp.setAlignment(Pos.BASELINE_CENTER);
+						fp.setPadding(new Insets(5, 5, 5, 5));
+						fp.setHgap(5);
+						fp.setVgap(5);
+						for (Map.Entry<String, String> produit : mapNomParType.entrySet()) {
+							if (tab.getKey().equals(produit.getValue())) {
+								Button btnPlat = new Button(produit.getKey());
+								btnPlat.setPrefSize(200, 100);
+								btnPlat.setTextAlignment(TextAlignment.CENTER);
+								btnPlat.setAlignment(Pos.CENTER);
+								btnPlat.setOnAction(new EventHandler<ActionEvent>() {
+									@Override
+									public void handle(ActionEvent arg0) {
+										try {
+											String rgx = "\n";
+											String[] tabResultat = produit.getKey().split(rgx); // tab[0] -> nom ;
+											Alert alert = new Alert(AlertType.INFORMATION);
+											int idProd = mapNomParId.get(tabResultat[0]);
+											alert.setTitle("Détails du produit n°"+idProd);
+											alert.setHeaderText(daoProduit.afficherDetailsProduit(idProd).get(0));
+											VBox conteneur = new VBox();
+											conteneur.setPrefWidth(500);
+											conteneur.setPrefHeight(100);
+											conteneur.setAlignment(Pos.CENTER);
+											Label description = new Label(daoProduit.afficherDetailsProduit(idProd).get(1));
+											description.setFont(Font.font("Arial", FontPosture.ITALIC, 20));
+											description.setWrapText(true);
+											Label ingredients = new Label(daoProduit.afficherDetailsProduit(idProd).get(2));
+											ingredients.setWrapText(true);
+											conteneur.getChildren().addAll(description, ingredients);
+											alert.getDialogPane().setContent(conteneur);
+											
+
+											alert.showAndWait(); 
+										} catch (Exception e) {
+											FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+											e.printStackTrace();
+										}
+									}
+								});
+
+								fp.getChildren().add(btnPlat);
+							}
+						}
+						tab.getValue().setContent(fp);
+
+					}
+				});
+			}
+			typeProduit.getTabs().addAll(mapTypeParOnglet.values());
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: " + e);
+			e.printStackTrace();
 		}
+	}
 		
 
     @FXML
@@ -161,6 +154,16 @@ public class MenuControleur implements Initializable {
 	public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
 		this.parent = menuPrincipalControleur;
 		
+	}
+
+
+	public static ObservableList<Produit> getProduitCommande() {
+		return produitCommande;
+	}
+
+
+	public static void setProduitCommande(ObservableList<Produit> produitCommande) {
+		MenuControleur.produitCommande = produitCommande;
 	}
 
 }

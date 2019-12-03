@@ -140,6 +140,8 @@ public class DemarrerCommandeControleur {
 			Parent vueCalendrier = (Parent) loader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(vueCalendrier));
+			stage.setTitle("Calendrier");
+			stage.setResizable(false);
 			stage.show();
 			
 			CalendrierControleur controller = loader.getController();

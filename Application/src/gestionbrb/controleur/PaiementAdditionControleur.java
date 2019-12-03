@@ -186,6 +186,7 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 	public double calculRenduEspece() {
 		double rendu = 0;
 		try {
+			//champ
 			double totalAPayer = daoCommande.afficherRendu(commande);
 			double montant = Double.parseDouble(champMontant.getText());
 			if (montant < totalAPayer) {

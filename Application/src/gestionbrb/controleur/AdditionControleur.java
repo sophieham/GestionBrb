@@ -70,25 +70,20 @@ public class AdditionControleur implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-		Connection conn = bddUtil.dbConnect();
-		ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preference");
-		while (deviseDB.next()) {
-			devise.setText(deviseDB.getString("devise"));
-			devise1.setText(deviseDB.getString("devise"));
-		}
-		}
-		catch(Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
-			e.printStackTrace();		
+			devise.setText(daoCommande.recupererDevise());
+			devise1.setText(daoCommande.recupererDevise());
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			e.printStackTrace();
 		}
 		commande = DemarrerCommandeControleur.getCommande();
 		colonneProduit.setCellValueFactory(cellData -> cellData.getValue().nomProduitProperty());
 		colonnePrix.setCellValueFactory(cellData -> cellData.getValue().prixProduitProperty());
 		colonneQte.setCellValueFactory(cellData -> cellData.getValue().quantiteProduitProperty());
 		tableRecap.setItems(CommandeControleur.getCommandeData());
-		infoTable.setText("Table "+commande.getNoTable()+" ("+commande.getNbCouverts()+" couvert(s))");
+		infoTable.setText("Table " + commande.getNoTable() + " (" + commande.getNbCouverts() + " couvert(s))");
 		calculTotal();
-		
+
 	}
 	/**
 	 * Affiche le nombre de produits commandés et calcule le montant total de la commande.
