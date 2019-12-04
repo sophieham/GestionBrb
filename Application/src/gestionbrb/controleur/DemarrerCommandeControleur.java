@@ -197,7 +197,7 @@ public class DemarrerCommandeControleur {
 			int nombreCouverts = Integer.parseInt(champNbCouverts.getText());
 			int numTable = getNumero(champChoixTable);
 			
-			daoTables.modifierOccupation(numTable);
+			daoTables.modifierOccupation(numTable, 1);
 			refreshMain();
 			commande= new Commande(daoCommande.recupererID(), numTable, nombreCouverts);
 			daoCommande.ajouter(commande);

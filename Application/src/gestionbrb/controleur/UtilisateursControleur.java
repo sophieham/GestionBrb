@@ -197,6 +197,7 @@ public class UtilisateursControleur {
 
 				// Crée une nouvelle page
 				Stage dialogStage = new Stage();
+				dialogStage.setResizable(false);
 				dialogStage.setTitle("Gestion des comptes");
 				dialogStage.initModality(Modality.WINDOW_MODAL);
 				Scene scene = new Scene(page);

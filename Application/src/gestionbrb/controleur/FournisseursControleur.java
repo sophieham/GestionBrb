@@ -207,6 +207,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 
 			// Crée une nouvelle page
 			Stage dialogStage = new Stage();
+			dialogStage.setResizable(false);
 			dialogStage.setTitle("Gestion des fournisseurs");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			Scene scene = new Scene(page);

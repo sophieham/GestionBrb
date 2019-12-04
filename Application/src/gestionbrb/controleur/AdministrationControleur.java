@@ -117,7 +117,17 @@ public class AdministrationControleur extends FonctionsControleurs {
 	
 	@FXML
 	public void fermerFenetre() {
-		MenuPrincipalControleur.getAdministration().close();
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/MenuPrincipal.fxml"));
+			Parent menuPrincipal = (Parent) loader.load();
+			fenetre.getChildren().setAll(menuPrincipal); // remplace la fenetre de connexion par celle du menu principal
+			
+			MenuPrincipalControleur controller = loader.getController();
+			controller.setParent(this);
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();
+		}
 	}
 	
 

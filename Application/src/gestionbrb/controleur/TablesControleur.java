@@ -173,6 +173,7 @@ public class TablesControleur {
 
 			// Crée une nouvelle page
 			Stage dialogStage = new Stage();
+			dialogStage.setResizable(false);
 			dialogStage.setTitle("Gestion des tables");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			Scene scene = new Scene(page);

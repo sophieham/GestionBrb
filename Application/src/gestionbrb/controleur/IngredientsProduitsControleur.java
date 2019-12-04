@@ -447,6 +447,7 @@ private void initialize(){
 			AnchorPane page = (AnchorPane) loader.load();
 
 			Stage dialogStage = new Stage();
+			dialogStage.setResizable(false);
 			dialogStage.setTitle("Gestion liste ingredients");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			Scene scene = new Scene(page);
@@ -479,6 +480,7 @@ public boolean fenetreModification(Produit produit) {
 		AnchorPane page = (AnchorPane) loader.load();
 
 		Stage dialogStage = new Stage();
+		dialogStage.setResizable(false);
 		dialogStage.setTitle("Gestion liste ingredients");
 		dialogStage.initModality(Modality.WINDOW_MODAL);
 		Scene scene = new Scene(page);
@@ -511,6 +513,7 @@ public boolean fenetreModification(Produit produit) {
 			AnchorPane page = (AnchorPane) loader.load();
 
 			Stage dialogStage = new Stage();
+			dialogStage.setResizable(false);
 			dialogStage.setTitle("Gestion liste type");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			Scene scene = new Scene(page);

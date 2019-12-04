@@ -153,20 +153,20 @@ public class AdditionControleur implements Initializable {
 	public void imprimerAddition() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ImpressionAddition.fxml"));
-			Parent addition = (Parent) loader.load();		
+			Parent addition = (Parent) loader.load();
 			setImprimerAddition(new Stage());
+			getImprimerAddition().setResizable(false);
 			getImprimerAddition().setTitle("-- Addition de la table " + commande.getNoTable() + " --");
 			getImprimerAddition().setScene(new Scene(addition));
 			getImprimerAddition().show();
 			ImprimerAdditionControleur controller = loader.getController();
 			controller.setParent(this);
 			CommandeControleur.getFenetreAddition().close();
-	} catch (Exception e) {
-		FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
-		e.printStackTrace();
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			e.printStackTrace();
+		}
 	}
-	}
-	
 	
 	
 	/**

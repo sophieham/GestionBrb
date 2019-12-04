@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import gestionbrb.DAO.DAOCommande;
+import gestionbrb.DAO.DAOTables;
 import gestionbrb.model.Commande;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
@@ -46,6 +47,7 @@ public class ImprimerAdditionControleur implements Initializable {
 	private Window window;
 
 	DAOCommande daoCommande = new DAOCommande();
+	DAOTables daoTable = new DAOTables();
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -84,7 +86,7 @@ public class ImprimerAdditionControleur implements Initializable {
 
 	public void imprimer() {
 		try {
-			bddUtil.dbQueryExecute("UPDATE `tables` SET occupation = 0 WHERE noTable="+commande.getNoTable());
+			daoTable.modifierOccupation(commande.getNoTable(), 0);
 			PrinterJob job = PrinterJob.createPrinterJob();
 			 if(job != null){
 			   job.showPrintDialog(window);

@@ -269,6 +269,7 @@ public class CalendrierControleur {
             AnchorPane page = (AnchorPane) loader.load();
 
             Stage dialogStage = new Stage();
+            dialogStage.setResizable(false);
             dialogStage.setTitle("Modifier une reservation");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             Scene scene = new Scene(page);

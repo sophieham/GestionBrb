@@ -16,7 +16,9 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -31,7 +33,10 @@ import java.util.ResourceBundle;
 
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
-import gestionbrb.controleur.GestionStockAdminController;
+import gestionbrb.DAO.DAOCommande;
+import gestionbrb.DAO.DAOFournisseur;
+import gestionbrb.DAO.DAOIngredients;
+import gestionbrb.controleur.GestionStockController;
 /**
  * 
  * @author Linxin
@@ -63,18 +68,16 @@ public class CommandeIngredientsController implements Initializable{
 	@FXML
 	private MenuButton menubutton;
 	@FXML
-	private MenuItem a;
-	@FXML
-	private MenuItem b;
 	private ObservableList<String> data;
-	private Connection conn;
-	private PreparedStatement pst = null;
-	private ResultSet rs = null;
-	private ResultSet rqte = null;
 	private static String output;
 	private static int value;
 	private static int prix;
 	private static int qteRest;
+	
+	private static Stage factureIngredient; 
+	
+	DAOFournisseur daoFournisseur = new DAOFournisseur();
+	DAOIngredients daoIngredient = new DAOIngredients();
 	
 public CommandeIngredientsController() {
 	
@@ -85,15 +88,12 @@ public CommandeIngredientsController() {
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 	 	try {
-			 conn = bddUtil.dbConnect();
-			 
-				
-		
+	 		
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 			e.printStackTrace();
 		}
-	 	String Nom = GestionStockAdminController.Nom;
+	 	String Nom = GestionStockController.Nom;
 	 	NomIngredients.setText(Nom);
 	 
 			//initSpinner();
@@ -105,49 +105,31 @@ public CommandeIngredientsController() {
 				e.printStackTrace();
 			}
 			
-			menubutton();
-			
 			
 		
 	}
 	@FXML
 	public void choice() throws SQLException {
-		/**ResultSet c = conn.createStatement().executeQuery("SELECT * FROM fournisseur INNER JOIN ingredients ON fournisseur.idfournisseur = ingredients.idfournisseur ");
-		while(c.next()) {
-			data.add(new CommandIngredients(c.getString("nom")));
-			choiceFournisseur.addAll(c.getString("fournisseur.nom"));
-		}
-		
-		System.out.println(data);**/
-		String query = "SELECT fournisseur.nom FROM fournisseur INNER JOIN ingredients ON fournisseur.idfournisseur = ingredients.idfournisseur WHERE ingredients.nomIngredient = ?";
-		pst = conn.prepareStatement(query);
-		pst.setString(1, GestionStockAdminController.Nom);
-		rs = pst.executeQuery();
-		data = FXCollections.observableArrayList();
-		while(rs.next()) {
+		try {
+			ObservableList<String> data = FXCollections.observableArrayList();
 			
-			data.add(rs.getString("nom"));
+			data.addAll(daoFournisseur.afficherNomFournisseur(GestionStockController.Nom));
+			System.out.println(GestionStockController.Nom);
 			choiceFournisseur.setItems(data);
+			System.out.println("idx of: "+ GestionStockController.Nom+ " " +daoFournisseur.choixFournisseur().indexOf(GestionStockController.Nom));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		
 		}
 	
 	@FXML
 	public void prixunite() throws SQLException {
-	
-		String query = "SELECT ingredients.prixIngredient FROM ingredients INNER JOIN fournisseur ON fournisseur.idfournisseur = ingredients.idfournisseur WHERE ingredients.nomIngredient = ? AND fournisseur.nom = ? ";
-		
 		try {
-		pst = conn.prepareStatement(query);
-		pst.setString(1, GestionStockAdminController.Nom);	
-		pst.setString(2, output);
-		rs = pst.executeQuery();
-		while(rs.next()) {
-		prixunite.setText(rs.getString("prixIngredient") + "ï¿½ï¿½");
-		prix = rs.getInt("prixIngredient");
-		}
-		
+			for (int i = 0; i <daoIngredient.afficherPrixIngredient(GestionStockController.Nom, output).size(); i++) {
+				prixunite.setText(daoIngredient.afficherPrixIngredient(GestionStockController.Nom, output).get(i));
+				prix = Integer.parseInt(daoIngredient.afficherPrixIngredient(GestionStockController.Nom, output).get(i));
+			}
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -204,11 +186,16 @@ public CommandeIngredientsController() {
 	
 @FXML
 	public void prixtotal() throws SQLException {
-	System.out.println(prix);
+	try {
+		System.out.println(prix);
 
-	System.out.println(value);
-	//System.out.println(prix*value);
-	prixtotal.setText(InttoString(prix*value)+"ï¿½ï¿½");
+		System.out.println(value);
+		//System.out.println(prix*value);
+		prixtotal.setText(InttoString(prix*value)+DAOCommande.recupererDevise());
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	}
 	
 	
@@ -223,76 +210,26 @@ public static int StringtoInt(String n) {
 }
 
 	public void choice(ActionEvent event) throws IOException, SQLException {
-		output = choiceFournisseur.getSelectionModel().getSelectedItem().toString();
-		System.out.println(output);
-		
-		
-		prixunite();
-		initSpinner();
-		
-	}
-	
-	public void menubutton()  {
-		EventHandler<ActionEvent> event1 = new EventHandler<ActionEvent>() { 
-            public void handle(ActionEvent e) 
-            { 
-               System.out.println(((MenuItem)e.getSource()).getText());
-               Parent root;
-   	        try {
-   	            root = FXMLLoader.load(CommandeIngredientsController.class.getResource("vue/GererIngredientsProduits.fxml"));
-   	            Stage stage = new Stage();
-   	            stage.setTitle("My New Stage Title");
-   	            stage.setScene(new Scene(root));
-   	            stage.show();
-   	            // Hide this current window (if this is what you want)
-   	          
-   	            
-   	        }
-   	        catch (IOException e1) {
-   	            e1.printStackTrace();
-   	        }
-               
-            } 
-        }; 
-        
-        EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() { 
-            public void handle(ActionEvent e) 
-            { 
-               System.out.println(((MenuItem)e.getSource()).getText());
-               Parent root;
-   	        try {
-   	            root = FXMLLoader.load(CommandeIngredientsController.class.getResource("vue/GestionFournisseurs.fxml"));
-   	            Stage stage = new Stage();
-   	            stage.setTitle("My New Stage Title");
-   	            stage.setScene(new Scene(root));
-   	            stage.show();
-   	            // Hide this current window (if this is what you want)
-   	          
-   	            
-   	        }
-   	        catch (IOException e1) {
-   	            e1.printStackTrace();
-   	        }
-               
-            } 
-        }; 
-        a.setOnAction(event1);
-        b.setOnAction(event2);
-	}
-	
-	public void qteRest() throws SQLException {
-		
-		String query = "SELECT ingredients.qteRestante FROM ingredients INNER JOIN fournisseur ON fournisseur.idfournisseur = ingredients.idfournisseur WHERE ingredients.nomIngredient = ? AND fournisseur.nom = ? ";
-		
 		try {
-		pst = conn.prepareStatement(query);
-		pst.setString(1, GestionStockAdminController.Nom);	
-		pst.setString(2, output);
-		rqte = pst.executeQuery();
-		while(rqte.next()) {
-			qteRest=rqte.getInt("qteRestante");
+			output = choiceFournisseur.getSelectionModel().getSelectedItem().toString();
+			System.out.println(output);
+			
+			
+			prixunite();
+			initSpinner();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
+	}
+	
+	
+	public void qteRest() throws SQLException {
+		try {
+			for (int i = 0; i <daoIngredient.afficherQteRestante(GestionStockController.Nom, output).size(); i++) {
+				qteRest = Integer.parseInt(daoIngredient.afficherQteRestante(GestionStockController.Nom, output).get(i));
+			}
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -300,50 +237,53 @@ public static int StringtoInt(String n) {
 		
 	}
 	@FXML
-    public void Commande(ActionEvent event) throws SQLException, IOException, ClassNotFoundException {
-		qteRest();
-		int n = qteRest+value;
-        System.out.println("nouveauquantite" +n);
-        String query= "UPDATE ingredients INNER JOIN fournisseur ON ingredients.idfournisseur = fournisseur.idfournisseur SET ingredients.qteRestante = ? WHERE ingredients.nomIngredient = ? AND fournisseur.nom = ? ";
-        pst = conn.prepareStatement(query);
-		pst.setString(1, InttoString(n));
-		pst.setString(2, GestionStockAdminController.Nom);
-		pst.setString(3, output);
-		int r = pst.executeUpdate();
-		refresh();
-		//fournisseurIngredients();
-
-		
-			Connection conn = bddUtil.dbConnect();
-			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `fourniringredients`(`idOperation`,`idIngredient`, `idFournisseur`, `qteCommandee`, `dateCommande`, `prixTotal`) "
-															+ "VALUES (null,?,?,?,now(), ?)");
-			
-			pstmt.setInt(1, StringtoInt(GestionStockAdminController.idIngredient));
-			pstmt.setInt(2,StringtoInt(GestionStockAdminController.idFournisseur));
-			pstmt.setInt(3, value);
-			//pstmt.setString(4,date(now()));
-			pstmt.setString(4, InttoString(value*prix));
-			pstmt.execute();
-			//refresh();
-			//alerteInfo("Ajout ï¿½ï¿½ffectuï¿½ï¿½", null, "Les informations ont ï¿½ï¿½tï¿½ï¿½ ajoutï¿½ï¿½es avec succï¿½ï¿½s!");
-			System.out.println(StringtoInt(GestionStockAdminController.idFournisseur));
+    public void Commande (ActionEvent event) throws SQLException, IOException, ClassNotFoundException {
+		try {
+			qteRest();
+			int n = qteRest+value;
+			daoIngredient.commanderIngredients(InttoString(n), GestionStockController.Nom, output);
+			System.out.println("nouveauquantite" +n);
+			refresh();
+						daoFournisseur.fournirIngredient(StringtoInt(GestionStockController.idIngredient), daoFournisseur.afficherIDFournisseur(GestionStockController.Nom), value, InttoString(value*prix));
+				//refresh();
+						GestionStockController.getStage().close();
+				FonctionsControleurs.alerteInfo("Ajout effectué", null, "La commande a été éffectuée avec succès!");
+				afficherFacture();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	
 	}	
     
+	public void afficherFacture() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/FactureIngredient.fxml"));
+			Parent vueFacture= (Parent) loader.load();
+			setFactureIngredient((new Stage()));
+			getFactureIngredient().setScene(new Scene(vueFacture));
+			getFactureIngredient().show();
+			getFactureIngredient().setTitle("Facture");
+
+			FactureIngredientControleur controller = loader.getController();
+			controller.setParent(this);
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			e.printStackTrace();
+		}
+	}
 	
 	private void refresh() throws ClassNotFoundException, SQLException {
-		GestionStockAdminController.getTableData().clear();
-		Connection conn = bddUtil.dbConnect();
-		ResultSet c = conn.createStatement().executeQuery("select * from ingredients");
-		while(c.next()) {
-			GestionStockAdminController.getTableData().add(new Ingredients(c.getInt("idIngredient"),c.getString("nomIngredient"),c.getInt("prixIngredient"),c.getInt("qteRestante"), c.getString("idfournisseur")));
-		}
-		//GestionStockAdmin.getTview().setItems(GestionStockAdmin.getTableData());
+		GestionStockController.getTableData().clear();
+		GestionStockController.getTableData().addAll(daoIngredient.afficher());
 		
 	}
 	
 	
+	public static float getPrix() {
+		return prix;
+	}
 	public VBox getVbox() {
 		return vbox;
 	}
@@ -364,6 +304,14 @@ public static int StringtoInt(String n) {
 	}
 	public Label getNomIngredients() {
 		return NomIngredients;
+	}
+
+	public static Stage getFactureIngredient() {
+		return factureIngredient;
+	}
+
+	public static void setFactureIngredient(Stage factureIngredient) {
+		CommandeIngredientsController.factureIngredient = factureIngredient;
 	}
 	
 }

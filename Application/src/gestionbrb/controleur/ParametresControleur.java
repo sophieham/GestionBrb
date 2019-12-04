@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import gestionbrb.Connexion;
+import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
@@ -61,6 +62,7 @@ public class ParametresControleur implements Initializable{
 	
 	private MenuPrincipalControleur parent;
  DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+ DAOCommande daoCommande = new DAOCommande();
 
 
 	@Override
@@ -81,16 +83,22 @@ public class ParametresControleur implements Initializable{
 		//btnHello.setText("change");
 		
 		try {
-	            Parent root = FXMLLoader.load(CommandeIngredientsController.class.getResource("../vue/MenuPrincipal.fxml"));
-	            Stage stage = new Stage();
-	            stage.setTitle("GererIngredientsProduits");
-	            stage.setScene(new Scene(root));
-	            stage.show();
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/MenuPrincipal.fxml"));
+				Parent menuPrincipal = (Parent) loader.load();
+				AnchorPane.getChildren().setAll(menuPrincipal); // remplace la fenetre de connexion par celle du menu principal
+				
+				MenuPrincipalControleur controller = loader.getController();
+				controller.setParent(this);
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+				e.printStackTrace();
+			}
 	            
 	          
 	            
 	        }
-	        catch (IOException e1) {
+	        catch (Exception e1) {
 	            e1.printStackTrace();
 	        }
         }
@@ -108,9 +116,10 @@ public class ParametresControleur implements Initializable{
 			chDevise.getText().toUpperCase();
 			try {
 				if (estValide()) {
-				bddUtil.dbQueryExecute("UPDATE preference SET devise = '"+ chDevise.getText().toUpperCase() +"' WHERE iddevise = 1");
+				daoCommande.majDevise(chDevise.getText());
+				FonctionsControleurs.alerteInfo("Modification effectuée", null, "La modification à bien été prise en compte!");
 				}
-			} catch (ClassNotFoundException | SQLException e) {
+			} catch (Exception e) {
 				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
 				e.printStackTrace();
 			}
