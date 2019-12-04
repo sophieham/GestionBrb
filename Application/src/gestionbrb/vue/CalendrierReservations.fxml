@@ -19,7 +19,7 @@
    <children>
       <ImageView fitHeight="579.0" fitWidth="800.0" layoutX="-3.0" layoutY="-9.0" pickOnBounds="true">
          <image>
-            <Image url="@images/fond.png" />
+            <Image url="@images/fond7_favourite.png" />
          </image>
       </ImageView>
       <DatePicker fx:id="rechercheDate" layoutX="146.0" layoutY="59.0" onAction="#rechercherReservation" prefHeight="31.0" prefWidth="316.0" />

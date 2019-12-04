@@ -12,9 +12,9 @@
 
 <AnchorPane fx:id="fenetre" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.MenuPrincipalControleur">
    <children>
-      <ImageView fitHeight="1090.0" fitWidth="1928.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="1090.0" fitWidth="1928.0" pickOnBounds="true">
          <image>
-            <Image url="@images/fond.png" />
+            <Image url="@images/fond7_favourite.png" />
          </image>
       </ImageView>
       <VBox layoutX="599.0" layoutY="50.0" prefHeight="995.0" prefWidth="715.0">
@@ -27,7 +27,7 @@
                   <Insets bottom="25.0" left="80.0" />
                </VBox.margin>
             </ImageView>
-            <Button fx:id="btnNvelleCommande" mnemonicParsing="false" onAction="#fenetreNouvelleCommande" prefHeight="65.0" prefWidth="781.0" text="Nouvelle Commande">
+            <Button fx:id="btnNvelleCommande" mnemonicParsing="false" onAction="#fenetreNouvelleCommande" prefHeight="65.0" prefWidth="781.0" text="%key6">
                <font>
                   <Font size="36.0" />
                </font>

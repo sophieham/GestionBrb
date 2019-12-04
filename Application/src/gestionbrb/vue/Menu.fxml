@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="1092.0" fitWidth="1931.0" pickOnBounds="true">
          <image>
-            <Image url="@images/fond.png" />
+            <Image url="@images/fond7_favourite.png" />
          </image>
       </ImageView>
       <TabPane fx:id="typeProduit" layoutX="125.0" layoutY="409.0" prefHeight="614.0" prefWidth="1590.0" tabClosingPolicy="UNAVAILABLE" />
