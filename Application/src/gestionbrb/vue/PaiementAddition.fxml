@@ -34,7 +34,7 @@
                               <Insets top="10.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="devise" layoutX="361.0" layoutY="18.0" text="€">
+                        <Label fx:id="devise" layoutX="361.0" layoutY="18.0">
                            <font>
                               <Font size="28.0" />
                            </font>
