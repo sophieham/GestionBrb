@@ -22,7 +22,7 @@ public class DAOProduit extends DAO<Produit>{
 	public static Connection conn = bddUtil.dbConnect();
 
 	public ObservableList<Produit> afficher() throws SQLException {
-				ResultSet res = conn.createStatement().executeQuery("SELECT `ProduitID`, produit.`nom`, `qte`, `description`, `prix`, produit.idType, type_produit.nom, ingredients FROM `produit` INNER JOIN type_produit on produit.idType = type_produit.idType ");
+				ResultSet res = conn.createStatement().executeQuery("SELECT `ProduitID`, produit.`nom`, `qte`, `description`, `prix`, produit.TypeID, type_produit.nom, ingredients FROM `produit` INNER JOIN type_produit on produit.TypeID = type_produit.TypeID ");
 				while (res.next()) {
 					listeproduits.add(new Produit(res.getInt("ProduitID"), res.getString("nom"),res.getInt("qte"),res.getString("description"),res.getInt("prix"), res.getString("type_produit.nom"), res.getString("ingredients")));
 				}
@@ -40,7 +40,7 @@ public class DAOProduit extends DAO<Produit>{
 	
 	@SuppressWarnings("unused")
 	public Map<String, String> recupererTypeProduit() throws SQLException {
-		ResultSet requete = conn.createStatement().executeQuery("SELECT ProduitID, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.idType=type_produit.idType");
+		ResultSet requete = conn.createStatement().executeQuery("SELECT ProduitID, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.TypeID=type_produit.TypeID");
 		int i = 0;
 		while(requete.next()) {
 			mapNomParType.put(requete.getString("produit.nom")+"\n "+commandeDAO.recupererDevise()+""+requete.getString("prix"), requete.getString("type_produit.nom"));
@@ -75,7 +75,7 @@ public class DAOProduit extends DAO<Produit>{
 @Override
 public void ajouter(Produit p) throws SQLException{
 	PreparedStatement ajoutDB = conn.prepareStatement(
-			"INSERT INTO `produit` (`ProduitID`, `nom`, `qte`, `description`, `prix`, `idType`, `ingredients`) VALUES (NULL, ?, ?, ?, ?, ?, ?)");
+			"INSERT INTO `produit` (`ProduitID`, `nom`, `qte`, `description`, `prix`, `TypeID`, `ingredients`) VALUES (NULL, ?, ?, ?, ?, ?, ?)");
 	ajoutDB.setString(1, p.getNomProduit());
 	ajoutDB.setInt(2, p.getQuantiteProduit());
 	ajoutDB.setString(3, p.getDescriptionProduit());
@@ -101,7 +101,7 @@ public void supprimer(Produit p) throws SQLException{
 @Override
 public void modifier(Produit p) throws SQLException {
 	try {
-		PreparedStatement requete = conn.prepareStatement("UPDATE `Produit` SET `nom` = ?, qte = ?, description = ?, prix = ?, idType = ? WHERE ProduitID = ?");
+		PreparedStatement requete = conn.prepareStatement("UPDATE `Produit` SET `nom` = ?, qte = ?, description = ?, prix = ?, TypeID = ? WHERE ProduitID = ?");
 		requete.setString(1, (p.getNomProduit()));
 		requete.setInt(2, (p.getQuantiteProduit()));
 		requete.setString(3, (p.getDescriptionProduit()));
