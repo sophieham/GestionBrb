@@ -29,7 +29,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			getHistoriqueCommande().setScene(new Scene(vueHistoriqueCommande));
 			getHistoriqueCommande().show();
 			getHistoriqueCommande().setTitle("Historique des commandes");
-
+			getHistoriqueCommande().setResizable(false);
 			HistoriqueCommandeControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
@@ -47,7 +47,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			getFournisseurs().setScene(new Scene(vueGestionStockAdmin));
 			getFournisseurs().show();
 			getFournisseurs().setTitle("Gestion des fournisseurs");
-
+			getFournisseurs().setResizable(false);
 			FournisseursControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
@@ -65,7 +65,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			getTables().setScene(new Scene(vueParametre));
 			getTables().show();
 			getTables().setTitle("Gestion des tables");
-
+			getTables().setResizable(false);
 			TablesControleur controller = loader.getController();
 			controller.setParent(this);
 			
@@ -84,7 +84,8 @@ public class AdministrationControleur extends FonctionsControleurs {
 			getUtilisateur().setScene(new Scene(vueParametre));
 			getUtilisateur().show();
 			getUtilisateur().setTitle("Liste du personnel");
-
+			getUtilisateur().setResizable(false);
+			
 			UtilisateursControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
@@ -103,7 +104,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			getPlatsIngredients().setScene(new Scene(vueAdministration));
 			getPlatsIngredients().show();
 			getPlatsIngredients().setTitle("Plats & Ingredients");
-
+			getPlatsIngredients().setResizable(false);
 			IngredientsProduitsControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {

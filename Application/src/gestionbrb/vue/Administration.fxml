@@ -14,10 +14,10 @@
    <children>
       <ImageView fitHeight="1086.0" fitWidth="1927.0" layoutX="-3.0" layoutY="-2.0" pickOnBounds="true">
          <image>
-            <Image url="@images/fond.png" />
+            <Image url="@images/fond7_favourite.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="460.0" fitWidth="727.0" layoutX="602.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="297.0" fitWidth="601.0" layoutX="719.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/logo_light_transparent.png" />
          </image>

@@ -6,13 +6,20 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.IngredientsProduitsControleur">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.IngredientsProduitsControleur">
    <children>
-      <TabPane layoutX="46.0" layoutY="75.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fitHeight="485.0" fitWidth="735.0" layoutX="-34.0" layoutY="-22.0" pickOnBounds="true">
+         <image>
+            <Image url="@images/fond7_favourite.png" />
+         </image>
+      </ImageView>
+      <TabPane layoutX="40.0" layoutY="21.0" prefHeight="422.0" prefWidth="601.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="39.0" AnchorPane.topAnchor="21.0">
         <tabs>
           <Tab text="Ingredients">
             <content>
@@ -29,7 +36,7 @@
                         </TableView>
                         <Pane layoutY="288.0" prefHeight="74.0" prefWidth="600.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.topAnchor="288.0">
                            <children>
-                              <ButtonBar layoutX="53.0" layoutY="15.0" prefHeight="45.0" prefWidth="495.0">
+                              <ButtonBar layoutX="53.0" layoutY="30.0" prefHeight="45.0" prefWidth="495.0">
                                 <buttons>
                                     <Button mnemonicParsing="false" onAction="#ajoutIngredient" prefHeight="41.0" prefWidth="160.0" text="Ajouter">
                                        <font>
@@ -98,12 +105,12 @@
           </Tab>
             <Tab text="Types">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="161.0" prefWidth="329.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="301.0" prefWidth="603.0">
                      <children>
                         <TableView fx:id="tableType" layoutX="82.0" layoutY="20.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn fx:id="colonneIdType" prefWidth="92.0" text="ID" />
-                            <TableColumn fx:id="colonneNomType" prefWidth="507.0" text="Nom" />
+                            <TableColumn fx:id="colonneIdType" prefWidth="131.0" text="ID" />
+                            <TableColumn fx:id="colonneNomType" prefWidth="468.0" text="Nom" />
                           </columns>
                         </TableView>
                         <Button layoutX="27.0" layoutY="306.0" mnemonicParsing="false" onAction="#ajoutType" prefHeight="40.0" prefWidth="160.0" text="Ajouter">

@@ -1,7 +1,6 @@
 package gestionbrb.controleur;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -50,7 +49,7 @@ public class MenuPrincipalControleur implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		bundle = resources;
+	/*	bundle = resources;
 		try {
 			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
 			System.out.println(langue);
@@ -69,7 +68,7 @@ public class MenuPrincipalControleur implements Initializable {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		infoCompteLbl.setText(ConnexionControleur.getUtilisateurConnecte().getIdentifiant());
 		if(ConnexionControleur.getUtilisateurConnecte().getIdentifiant().equals("client")) {
 			btnAdministration.setVisible(false);
@@ -82,7 +81,7 @@ public class MenuPrincipalControleur implements Initializable {
 	}
 
 	
-	private void loadLang(String lang, String LANG) {
+	/*private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		System.out.println(bundle);
 		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
@@ -91,7 +90,7 @@ public class MenuPrincipalControleur implements Initializable {
 		btnNvelleCommande.setText(bundle.getString("%key6"));
 
 		
-	}
+	}*/
 
 	@FXML
 	public void fenetreNouvelleCommande() {

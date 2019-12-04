@@ -9,23 +9,35 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.HistoriqueCommandeControleur">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.HistoriqueCommandeControleur">
    <children>
-      <TabPane prefHeight="480.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ImageView fitHeight="538.0" fitWidth="723.0" layoutX="-19.0" layoutY="-20.0" pickOnBounds="true">
+         <image>
+            <Image url="@images/fond7_favourite.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="385.0" fitWidth="646.0" layoutX="20.0" layoutY="52.0" pickOnBounds="true">
+         <image>
+            <Image url="@images/fond9.jpg" />
+         </image>
+      </ImageView>
+      <TabPane layoutX="20.0" layoutY="14.0" prefHeight="484.0" prefWidth="646.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="14.0">
         <tabs>
           <Tab text="Historique des commandes">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="422.0" prefWidth="632.0">
                      <children>
-                        <Button layoutX="18.0" layoutY="383.0" mnemonicParsing="false" onAction="#voirDetails" prefHeight="39.0" prefWidth="277.0" text="Détails commande selectionnée">
+                        <Button layoutX="32.0" layoutY="392.0" mnemonicParsing="false" onAction="#voirDetails" prefHeight="39.0" prefWidth="277.0" text="Détails commande selectionnée">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Button>
-                        <Button cancelButton="true" layoutX="354.0" layoutY="384.0" mnemonicParsing="false" onAction="#fermer" prefHeight="38.0" prefWidth="222.0" text="Fermer la fenetre" />
+                        <Button cancelButton="true" layoutX="372.0" layoutY="393.0" mnemonicParsing="false" onAction="#fermer" prefHeight="38.0" prefWidth="222.0" text="Fermer la fenetre" />
                         <Label fx:id="totalServeurLbl" alignment="CENTER" layoutX="438.0" layoutY="343.0" prefHeight="38.0" prefWidth="176.0" text="Total serveurs: 0">
                            <font>
                               <Font size="20.0" />
@@ -41,7 +53,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="commandeTable" layoutX="17.0" layoutY="80.0" prefHeight="254.0" prefWidth="607.0">
+                        <TableView fx:id="commandeTable" layoutX="17.0" layoutY="61.0" prefHeight="273.0" prefWidth="607.0">
                            <columns>
                               <TableColumn fx:id="colonneIDCommande" prefWidth="83.0" resizable="false" text="ID" />
                               <TableColumn fx:id="colonneTable" prefWidth="148.0" resizable="false" text="Table" />
@@ -83,7 +95,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="connexionTable" layoutX="43.0" layoutY="81.0" prefHeight="301.0" prefWidth="554.0">
+                        <TableView fx:id="connexionTable" layoutX="46.0" layoutY="72.0" prefHeight="291.0" prefWidth="554.0">
                           <columns>
                             <TableColumn fx:id="colonneID" prefWidth="75.0" text="ID" />
                             <TableColumn fx:id="colonneIdentifiant" prefWidth="231.0" text="Identifiant" />
@@ -109,12 +121,12 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalConnexionsLbl" alignment="CENTER" layoutX="43.0" layoutY="390.0" prefHeight="30.0" prefWidth="341.0" text="Total: 0 connexion(s)">
+                        <Label fx:id="totalConnexionsLbl" alignment="CENTER" layoutX="43.0" layoutY="398.0" prefHeight="30.0" prefWidth="341.0" text="Total: 0 connexion(s)" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button cancelButton="true" layoutX="375.0" layoutY="387.0" mnemonicParsing="false" onAction="#fermer" prefHeight="38.0" prefWidth="222.0" text="Fermer la fenetre" />
+                        <Button cancelButton="true" layoutX="375.0" layoutY="394.0" mnemonicParsing="false" onAction="#fermer" prefHeight="38.0" prefWidth="222.0" text="Fermer la fenetre" />
                      </children>
                   </AnchorPane>
             </content>

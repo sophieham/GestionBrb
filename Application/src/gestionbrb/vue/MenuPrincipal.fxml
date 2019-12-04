@@ -27,7 +27,7 @@
                   <Insets bottom="25.0" left="80.0" />
                </VBox.margin>
             </ImageView>
-            <Button fx:id="btnNvelleCommande" mnemonicParsing="false" onAction="#fenetreNouvelleCommande" prefHeight="65.0" prefWidth="781.0" text="%key6">
+            <Button fx:id="btnNvelleCommande" mnemonicParsing="false" onAction="#fenetreNouvelleCommande" prefHeight="65.0" prefWidth="781.0" text="Nouvelle Commande">
                <font>
                   <Font size="36.0" />
                </font>

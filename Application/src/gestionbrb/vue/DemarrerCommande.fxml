@@ -6,7 +6,6 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -21,45 +20,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.DemarrerCommandeControleur">
+<AnchorPane fx:id="mainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.DemarrerCommandeControleur">
    <children>
-      <BorderPane onMouseClicked="#refreshMain" prefHeight="800.0" prefWidth="1280.0">
-         <left>
-            <SplitPane dividerPositions="0.898176291793313" orientation="VERTICAL" prefHeight="590.0" prefWidth="275.0" BorderPane.alignment="CENTER">
-              <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="603.0" prefWidth="287.0">
-                     <children>
-                        <TableView fx:id="tableTable" layoutX="-1.0" layoutY="-3.0" prefHeight="593.0" prefWidth="280.0">
-                          <columns>
-                            <TableColumn fx:id="colonneNoTable" minWidth="0.0" prefWidth="84.0" resizable="false" text="No. Table" />
-                              <TableColumn fx:id="colonneNbCouvertsMax" prefWidth="99.0" resizable="false" text="Max Couv." />
-                              <TableColumn fx:id="colonneStatut" prefWidth="89.0" resizable="false" text="Statut" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="85.0" prefWidth="259.0">
-                     <children>
-                        <Label fx:id="lblOccupation" layoutX="15.0" layoutY="12.0" prefHeight="40.0" prefWidth="244.0" text="x tables occupée(s), x libres" textAlignment="CENTER">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-              </items>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <BorderPane.margin>
-                  <Insets bottom="55.0" left="25.0" right="25.0" top="85.0" />
-               </BorderPane.margin>
-            </SplitPane>
-         </left>
+      <ImageView fitHeight="1102.0" fitWidth="1938.0" pickOnBounds="true">
+         <image>
+            <Image url="@images/fond7_favourite.png" />
+         </image>
+      </ImageView>
+      <BorderPane onMouseClicked="#refreshMain" prefHeight="1078.0" prefWidth="1922.0">
          <center>
-            <AnchorPane prefHeight="542.0" prefWidth="408.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="1078.0" prefWidth="633.0" BorderPane.alignment="CENTER">
                <children>
-                  <TitledPane animated="false" layoutX="62.0" layoutY="247.0" prefHeight="307.0" prefWidth="459.0" text="Démarrer la commande pour une table">
+                  <TitledPane animated="false" layoutX="132.0" layoutY="354.0" prefHeight="307.0" prefWidth="459.0" text="Démarrer la commande pour une table">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="234.0" prefWidth="302.0">
                            <children>
@@ -84,22 +56,22 @@
                         </AnchorPane>
                     </content>
                   </TitledPane>
-                  <Button layoutX="95.0" layoutY="594.0" mnemonicParsing="false" onAction="#afficherCalendrier" prefHeight="51.0" prefWidth="392.0" text="Voir le calendrier des réservations">
+                  <Button layoutX="162.0" layoutY="767.0" mnemonicParsing="false" onAction="#afficherCalendrier" prefHeight="51.0" prefWidth="392.0" text="Voir le calendrier des réservations">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <ImageView cache="true" fitHeight="202.0" fitWidth="366.0" layoutX="112.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView cache="true" fitHeight="202.0" fitWidth="366.0" layoutX="176.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/logo_light_transparent.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="96.0" layoutY="667.0" mnemonicParsing="false" onAction="#afficherMenuPrincipal" prefHeight="51.0" prefWidth="392.0" text="Retour au menu principal">
+                  <Button layoutX="161.0" layoutY="849.0" mnemonicParsing="false" onAction="#afficherMenuPrincipal" prefHeight="51.0" prefWidth="392.0" text="Retour au menu principal">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Separator layoutX="9.0" layoutY="14.0" orientation="VERTICAL" prefHeight="765.0" prefWidth="8.0" />
+                  <Separator layoutX="9.0" layoutY="183.0" orientation="VERTICAL" prefHeight="765.0" prefWidth="8.0" />
                </children>
                <BorderPane.margin>
                   <Insets right="25.0" />
@@ -107,12 +79,12 @@
             </AnchorPane>
          </center>
          <right>
-            <Pane prefHeight="800.0" prefWidth="390.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="1078.0" prefWidth="658.0" BorderPane.alignment="CENTER">
                <children>
-                  <GridPane layoutX="17.0" layoutY="165.0" prefHeight="490.0" prefWidth="357.0">
+                  <GridPane layoutX="83.0" layoutY="262.0" prefHeight="510.0" prefWidth="493.0">
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="155.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="202.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="278.0" minWidth="10.0" prefWidth="196.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" prefWidth="265.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -125,37 +97,37 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label text="Nom">
+                        <Label text="Nom" textFill="WHITE">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
-                        <Label text="Prenom" GridPane.rowIndex="1">
+                        <Label text="Prenom" textFill="WHITE" GridPane.rowIndex="1">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
-                        <Label text="Heure" GridPane.rowIndex="4">
+                        <Label text="Heure" textFill="WHITE" GridPane.rowIndex="4">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
-                        <Label text="Nb de couverts" GridPane.rowIndex="5">
+                        <Label text="Nombre de couverts" textFill="WHITE" GridPane.rowIndex="5">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
-                        <Label text="N° téléphone" GridPane.rowIndex="2">
+                        <Label text="N° téléphone" textFill="WHITE" GridPane.rowIndex="2">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
-                        <Label text="Date" GridPane.rowIndex="3">
+                        <Label text="Date" textFill="WHITE" GridPane.rowIndex="3">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
-                        <Label text="Demande Spé" GridPane.rowIndex="6">
+                        <Label text="Demande Spéciale?" textFill="WHITE" GridPane.rowIndex="6">
                            <font>
                               <Font size="22.0" />
                            </font>
@@ -168,27 +140,50 @@
                         <TextField fx:id="champDemandeSpe" prefHeight="32.0" prefWidth="223.0" promptText="mots-clés uniquement" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         <DatePicker fx:id="champDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <ChoiceBox fx:id="champNoTable" prefHeight="31.0" prefWidth="216.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <Label text="No. Table" GridPane.rowIndex="7">
+                        <Label text="No. Table" textFill="WHITE" GridPane.rowIndex="7">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
                      </children>
                   </GridPane>
-                  <Button layoutX="94.0" layoutY="687.0" mnemonicParsing="false" onAction="#actionAjouter" prefHeight="39.0" prefWidth="204.0" text="Réserver">
+                  <Button layoutX="182.0" layoutY="841.0" mnemonicParsing="false" onAction="#actionAjouter" prefHeight="54.0" prefWidth="310.0" text="Réserver">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="25.0" />
                      </font>
                   </Button>
-                  <Separator layoutX="-8.0" layoutY="14.0" orientation="VERTICAL" prefHeight="765.0" prefWidth="8.0" />
-                  <Label layoutX="85.0" layoutY="99.0" text="Réserver une table">
+                  <Separator layoutX="-8.0" layoutY="186.0" orientation="VERTICAL" prefHeight="765.0" prefWidth="8.0" />
+                  <Label alignment="CENTER" layoutX="82.0" layoutY="165.0" prefHeight="53.0" prefWidth="504.0" text="Réserver une table" textFill="WHITE">
                      <font>
-                        <Font size="27.0" />
+                        <Font name="Calibri Light Italic" size="30.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
          </right>
+         <left>
+            <Pane prefHeight="1078.0" prefWidth="558.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="tableTable" layoutX="128.0" layoutY="175.0" prefHeight="693.0" prefWidth="316.0">
+                    <columns>
+                      <TableColumn fx:id="colonneNoTable" minWidth="0.0" prefWidth="78.0" resizable="false" text="No. Table" />
+                        <TableColumn fx:id="colonneNbCouvertsMax" prefWidth="119.0" resizable="false" text="Max Couverts" />
+                        <TableColumn fx:id="colonneStatut" prefWidth="118.0" resizable="false" text="Statut" />
+                    </columns>
+                  </TableView>
+                  <Label fx:id="lblOccupation" alignment="CENTER" layoutX="4.0" layoutY="876.0" prefHeight="40.0" prefWidth="556.0" text="x tables occupée(s), x libres" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Italic" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="135.0" layoutY="96.0" prefHeight="32.0" prefWidth="303.0" text="Occupation des tables" textFill="WHITE">
+                     <font>
+                        <Font name="Calibri Light" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </left>
       </BorderPane>
    </children>
 </AnchorPane>
