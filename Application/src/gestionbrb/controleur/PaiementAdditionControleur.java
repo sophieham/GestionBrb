@@ -33,6 +33,8 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 	@FXML
 	private Button btnToutPayer;
 	@FXML
+	private Label devise;
+	@FXML
 	private AnchorPane fenetre;
 	AdditionControleur parent;
 	DemarrerCommandeControleur parentC;
@@ -65,7 +67,12 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		try {
+		devise.setText(daoCommande.recupererDevise());
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			e.printStackTrace();
+		}
 		btnCalculMonnaie.setVisible(false);
 		commande = DemarrerCommandeControleur.getCommande();
 		String moyenDePaiement = getMoyenPaiement();

@@ -41,7 +41,7 @@
                               <Insets top="10.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="devise" layoutX="361.0" layoutY="18.0" text="€" textFill="WHITE">
+                        <Label fx:id="devise" layoutX="361.0" layoutY="18.0" text="" textFill="WHITE">
                            <font>
                               <Font size="28.0" />
                            </font>
@@ -97,7 +97,7 @@
                         <Font size="19.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnToutPayer1" alignment="CENTER" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" prefWidth="392.0" text="Revenir en arrière">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" prefWidth="392.0" text="Revenir en arrière">
                      <font>
                         <Font size="19.0" />
                      </font>
