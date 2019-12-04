@@ -56,7 +56,13 @@ public class DAOCommande extends DAO<Commande>{
 		return qte;
 	}
 	
-	public String recupererDevise() throws SQLException{
+	public void majDevise(String devise) throws SQLException {
+		PreparedStatement maj = conn.prepareStatement("UPDATE preferences SET devise = ? WHERE PreferenceID = 1");
+		maj.setString(1, devise);
+		maj.execute();
+	}
+	
+	public static String recupererDevise() throws SQLException{
 		String devise = null;
 		ResultSet deviseDB = conn.createStatement().executeQuery("select devise from preferences");
 		while (deviseDB.next()) {
@@ -121,7 +127,7 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	public void majTotalAPayer(Commande c, float prix) throws SQLException {
-		PreparedStatement requete = conn.prepareStatement("UPDATE `commande` SET `prixTotal` = ?, `Reste_A_Payer` = ?  WHERE `commande`.`idCommande` = ?");
+		PreparedStatement requete = conn.prepareStatement("UPDATE `commande` SET `prixTotal` = ?, `Reste_A_Payer` = ?  WHERE `commande`.`CommandeID` = ?");
 		System.out.println(requete);
 		requete.setFloat(1, prix);
 		requete.setFloat(2, prix);
@@ -131,7 +137,7 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	public void majPaiement(Commande c, float reste) throws SQLException {
-		PreparedStatement requete = conn.prepareStatement("UPDATE `commande` SET `Reste_A_Payer` = ? WHERE `commande`.`idCommande`= ?");
+		PreparedStatement requete = conn.prepareStatement("UPDATE `commande` SET `Reste_A_Payer` = ? WHERE `commande`.`CommandeID`= ?");
 		requete.setFloat(1, reste);
 		requete.setInt(2, c.getIdCommande());
 		requete.execute();
@@ -139,7 +145,7 @@ public class DAOCommande extends DAO<Commande>{
 	
 	public double afficherRendu(Commande c) throws SQLException {
 		double rendu = 0.00;
-		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT Reste_A_Payer from commande where idCommande = "+c.getIdCommande());
+		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT Reste_A_Payer from commande where CommandeID = "+c.getIdCommande());
 		while (commandeDB.next()) {
 			rendu = commandeDB.getDouble("Reste_A_Payer");
 		}
@@ -154,7 +160,7 @@ public class DAOCommande extends DAO<Commande>{
 		ResultSet produitCommandeDB = conn.createStatement().executeQuery(
 				"SELECT produit.nom, produit.prix, contenirproduit.qte from contenirproduit "
 				+ "INNER JOIN produit on contenirproduit.ProduitID = produit.ProduitID "
-				+ "WHERE contenirproduit.idCommande ="+c.getIdCommande());
+				+ "WHERE contenirproduit.CommandeID ="+c.getIdCommande());
 		while(produitCommandeDB.next()) {
 			listeProduit.add(produitCommandeDB.getString("produit.nom"));
 			listePrix.add(produitCommandeDB.getString("produit.prix"));
@@ -169,7 +175,7 @@ public class DAOCommande extends DAO<Commande>{
 	public ArrayList<String> afficherTicket(Commande c) throws SQLException{
 		ArrayList<String> listeAddition = new ArrayList<>();
 		ResultSet commandeDB = conn.createStatement().executeQuery(""
-				+ "SELECT count(DISTINCT contenirproduit.ProduitID) as 'qte', sum(DISTINCT prixTotal) as 'prixTotal', substring(date,1,10) as 'date', substring(date,12,15) as 'heure', noTable, nbCouverts, serveurID FROM commande INNER JOIN contenirproduit on commande.idCommande = contenirproduit.idCommande where commande.idcommande = "+c.getIdCommande());
+				+ "SELECT count(DISTINCT contenirproduit.ProduitID) as 'qte', sum(DISTINCT prixTotal) as 'prixTotal', substring(date,1,10) as 'date', substring(date,12,15) as 'heure', noTable, nbCouverts, serveurID FROM commande INNER JOIN contenirproduit on commande.CommandeID = contenirproduit.CommandeID where commande.CommandeID = "+c.getIdCommande());
 		while (commandeDB.next()) {
 			listeAddition.add(commandeDB.getString("noTable"));
 			listeAddition.add(commandeDB.getString("nbCouverts"));
@@ -182,7 +188,7 @@ public class DAOCommande extends DAO<Commande>{
 		return listeAddition;
 	}
 	public void modifier(int idCommande, int idProduit, Produit p) throws SQLException {
-		PreparedStatement requete = conn.prepareStatement("UPDATE `contenirproduit` SET qte= ? WHERE ProduitID = ? AND idCommande = ?");
+		PreparedStatement requete = conn.prepareStatement("UPDATE `contenirproduit` SET qte= ? WHERE ProduitID = ? AND CommandeID = ?");
 		
 		requete.setInt(1, p.getQuantiteProduit());
 		requete.setInt(2, idProduit);

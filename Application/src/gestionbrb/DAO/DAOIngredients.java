@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import gestionbrb.controleur.FonctionsControleurs;
+import gestionbrb.controleur.GestionStockController;
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
@@ -17,7 +18,7 @@ public class DAOIngredients extends DAO<Ingredients>{
 	public static Connection conn = bddUtil.dbConnect();
 
 	public ObservableList<Ingredients> afficher() throws SQLException {
-			ResultSet rs = conn.createStatement().executeQuery("SELECT IngredientID, nomIngredient, prixIngredient, qteRestante, ingredients.idfournisseur, fournisseur.nom from ingredients INNER JOIN fournisseur on ingredients.idfournisseur = fournisseur.idFournisseur ");
+			ResultSet rs = conn.createStatement().executeQuery("SELECT IngredientID, nomIngredient, prixIngredient, qteRestante, ingredients.FournisseurID, fournisseur.nom from ingredients INNER JOIN fournisseur on ingredients.FournisseurID = fournisseur.FournisseurID ");
 			while (rs.next()) {
 				listeIngredients.add(new Ingredients(rs.getInt("IngredientID"), rs.getString("nomIngredient"), rs.getInt("prixIngredient"), rs.getInt("qteRestante"), rs.getString("nom")));
 			}
@@ -38,7 +39,7 @@ public class DAOIngredients extends DAO<Ingredients>{
 	@Override
 	public void ajouter(Ingredients i) throws SQLException {
 		PreparedStatement ajoutDB = conn.prepareStatement(
-				"INSERT INTO `ingredients` (`IngredientID`, `nomIngredient`, `prixIngredient`, `qteRestante`, `idFournisseur`) VALUES (NULL, ?, ?, ?, ?)");
+				"INSERT INTO `ingredients` (`IngredientID`, `nomIngredient`, `prixIngredient`, `qteRestante`, `FournisseurID`) VALUES (NULL, ?, ?, ?, ?)");
 		ajoutDB.setString(1, i.getNomIngredient());
 		ajoutDB.setFloat(2, i.getPrixIngredient());
 		ajoutDB.setInt(3, i.getQuantiteIngredient());
@@ -67,5 +68,32 @@ public class DAOIngredients extends DAO<Ingredients>{
 		requete.execute();
 		requete.close();
 	}
+	
+	public ArrayList<String> afficherPrixIngredient(String nomIngredient, String nomFournisseur) throws SQLException{
+		ArrayList<String> prixIngredient = new ArrayList<>();
+		ResultSet rs = conn.createStatement().executeQuery("SELECT ingredients.prixIngredient FROM ingredients INNER JOIN fournisseur ON fournisseur.FournisseurID = ingredients.FournisseurID WHERE ingredients.nomIngredient = '"+nomIngredient+"' AND fournisseur.nom =  '"+nomFournisseur+"'");
+		while (rs.next()) {
+			prixIngredient.add(rs.getString("ingredients.prixIngredient"));
+		}
+		return prixIngredient;
+	}
+	
+	public ArrayList<String> afficherQteRestante(String nomIngredient, String nomFournisseur) throws SQLException{
+		ArrayList<String> qteR = new ArrayList<>();
+		ResultSet rs = conn.createStatement().executeQuery("SELECT ingredients.qteRestante FROM ingredients INNER JOIN fournisseur ON fournisseur.FournisseurID = ingredients.FournisseurID WHERE ingredients.nomIngredient = '"+nomIngredient+"' AND fournisseur.nom =  '"+nomFournisseur+"'");
+		while (rs.next()) {
+			qteR.add(rs.getString("ingredients.qteRestante"));
+		}
+		return qteR;
+	}
+	
+	public void commanderIngredients(String n, String nomIngredient, String output) throws SQLException{
+		PreparedStatement requete = conn.prepareStatement("UPDATE ingredients INNER JOIN fournisseur ON ingredients.FournisseurID = fournisseur.FournisseurID SET ingredients.qteRestante = ? WHERE ingredients.nomIngredient = ? AND fournisseur.nom = ?");
+		requete.setString(1, n);
+		requete.setString(2, GestionStockController.Nom);
+		requete.setString(3, output);
+		requete.execute();
+	}
+	
 
 }

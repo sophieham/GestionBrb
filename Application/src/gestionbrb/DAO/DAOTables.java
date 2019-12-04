@@ -76,11 +76,11 @@ public class DAOTables extends DAO<Table> {
 		supprimer.execute();
 	}
 	
-	public void modifierOccupation(int numeroTable) throws SQLException{
-		PreparedStatement occupation = conn.prepareStatement("UPDATE `tables` SET occupation = ? WHERE noTable=?");
-		occupation.setInt(1, 1);
-		occupation.setInt(2, numeroTable);
-		occupation.execute();
+	public void modifierOccupation(int numeroTable, int occupation) throws SQLException{
+		PreparedStatement modifierOccupation = conn.prepareStatement("UPDATE `tables` SET occupation = ? WHERE noTable=?");
+		modifierOccupation.setInt(1, occupation);
+		modifierOccupation.setInt(2, numeroTable);
+		modifierOccupation.execute();
 	}
 	
 

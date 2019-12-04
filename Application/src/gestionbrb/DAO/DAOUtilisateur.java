@@ -102,17 +102,16 @@ public class DAOUtilisateur extends DAO<Utilisateur> {
 		modifierLangue.setString(1, langue);
 		modifierLangue.setString(2, ConnexionControleur.getUtilisateurConnecte().getIdentifiant());
 		modifierLangue.execute();
-		System.out.println(modifierLangue);
 	}
 	
 	public String recupererLangue(int id) throws SQLException{
-		String langue = "fr";
-		ResultSet requete = conn.createStatement().executeQuery("select langue from utilisateurs WHERE identifiant = "+id);
+		//String langue = "fr";
+		ResultSet requete = conn.createStatement().executeQuery("select langue from utilisateurs WHERE CompteID = " + id);
 		System.out.println(id);
-		while(requete.next()) {
-			langue = requete.getString("langue");
-		}
-		
+		requete.next();
+		String langue = requete.getString("langue");
+		System.out.println("langue db: " + langue);
+
 		return langue;
 	}
 	

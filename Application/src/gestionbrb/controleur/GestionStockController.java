@@ -12,13 +12,12 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import gestionbrb.DAO.DAOIngredients;
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
 //import gestionbrb.GestionStockAdmin;
@@ -31,9 +30,9 @@ import javafx.event.ActionEvent;
  * @author Linxin
  *
  */
-public class GestionStockAdminController implements Initializable {
+public class GestionStockController implements Initializable {
 	@FXML
-	private AnchorPane GestionStockAdminController;
+	private static AnchorPane fenetre;
 	@FXML
 	private TableColumn<Ingredients, Integer> colID;
 	@FXML
@@ -47,16 +46,20 @@ public class GestionStockAdminController implements Initializable {
 	@FXML
 	private TableView<Ingredients> tview;
 	@FXML
-	private static ObservableList<Ingredients> data= FXCollections.observableArrayList(); ;
+	private static ObservableList<Ingredients> data= FXCollections.observableArrayList();
 	private Ingredients mainApp;
 	private Connection conn;
 	private MenuPrincipalControleur parent;
+	boolean isSelected = false;
 	public static String Nom;
 	public static String qteRest;
 	public static String idFournisseur;
 	public static String idIngredient;
+	
+	private static Stage stage;
 
-	public GestionStockAdminController() {
+	DAOIngredients daoIngredient = new DAOIngredients();
+	public GestionStockController() {
 
 	}
 
@@ -68,8 +71,7 @@ public class GestionStockAdminController implements Initializable {
 			data = FXCollections.observableArrayList();
 			setCellTable();
 			loadDataFrombase();
-			refresh();
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -87,24 +89,16 @@ public class GestionStockAdminController implements Initializable {
 
 	private void loadDataFrombase() {
 		try {
-			ResultSet c = conn.createStatement().executeQuery("select * from ingredients");
-			while (c.next()) {
-				data.add(new Ingredients(c.getInt("idIngredient"), c.getString("nomIngredient"),
-						c.getInt("prixIngredient"), c.getInt("qteRestante"), null));
-			}
+			getTableData().addAll(daoIngredient.afficher());
 			tview.setRowFactory(tv -> {
 				TableRow<Ingredients> row = new TableRow<>();
 				row.setOnMouseClicked(event -> {
-					if (event.getClickCount() == 2 && (!row.isEmpty())) {
-						Ingredients rowData = row.getItem();
-						System.out.println(rowData);
-						Nom = tview.getColumns().get(1).getCellObservableValue(rowData).getValue().toString();
-						System.out.println(Nom);
-						qteRest = tview.getColumns().get(3).getCellObservableValue(rowData).getValue().toString();
-						idFournisseur = tview.getColumns().get(4).getCellObservableValue(rowData).getValue().toString();
-						idIngredient = tview.getColumns().get(0).getCellObservableValue(rowData).getValue().toString();
-
-					}
+					Ingredients rowData = row.getItem();
+					Nom = tview.getColumns().get(1).getCellObservableValue(rowData).getValue().toString();
+					qteRest = tview.getColumns().get(3).getCellObservableValue(rowData).getValue().toString();
+					idFournisseur = tview.getColumns().get(4).getCellObservableValue(rowData).getValue().toString();
+					idIngredient = tview.getColumns().get(0).getCellObservableValue(rowData).getValue().toString();
+					isSelected=true;
 				});
 				return row;
 			});
@@ -121,30 +115,13 @@ public class GestionStockAdminController implements Initializable {
 
 	}
 
-	private void refresh() throws ClassNotFoundException, SQLException {
-		getTableData().clear();
-		Connection conn = bddUtil.dbConnect();
-		ResultSet c = conn.createStatement().executeQuery("select * from ingredients");
-		while (c.next()) {
-			getTableData().add(new Ingredients(c.getInt("idIngredient"), c.getString("nomIngredient"),
-					c.getInt("prixIngredient"), c.getInt("qteRestante"), c.getString("idfournisseur")));
-		}
-		tview.setItems(getTableData());
-
-	}
 
 	@FXML
 	public void RetourMenuPrincipal(ActionEvent event) {
-		Parent root;
 		try {
-			root = FXMLLoader.load(getClass().getResource("../vue/MenuPrincipal.fxml"));
-			Stage stage = new Stage();
-			stage.setTitle("My New Stage Title");
-			stage.setScene(new Scene(root));
-			stage.show();
-			// Hide this current window (if this is what you want)
+			MenuPrincipalControleur.getStock().close();
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -153,13 +130,19 @@ public class GestionStockAdminController implements Initializable {
 	public void CommanderIngredients(ActionEvent event) {
 		Parent root;
 		try {
-			root = FXMLLoader.load(GestionStockAdminController.class.getResource("../vue/CommanderIngredients.fxml"));
-			Stage stage = new Stage();
-			stage.setTitle("Commande_Ingredients");
-			stage.setScene(new Scene(root));
-			stage.show();
+			if(isSelected) {
+			root = FXMLLoader.load(GestionStockController.class.getResource("../vue/CommanderIngredients.fxml"));
+			setStage(new Stage());
+			getStage().setTitle("Commande Ingredients");
+			getStage().setScene(new Scene(root));
+			getStage().show();
+			}
+			else {
+				FonctionsControleurs.alerteAttention("Attention!", null, "Veuillez sélectionner un ingredient pour pouvoir commander");
+			}
+			
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
@@ -176,6 +159,14 @@ public class GestionStockAdminController implements Initializable {
 	public static String getIdfournisseur() {
 		return idFournisseur;
 	}
+	
+	public static Stage getStage() {
+		return stage;
+	}
+
+	public static void setStage(Stage stage) {
+		GestionStockController.stage = stage;
+	}
 
 	public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
 		// TODO Auto-generated method stub
@@ -183,8 +174,9 @@ public class GestionStockAdminController implements Initializable {
 		tview.setItems(getTableData());
 
 	}
-	public static ObservableList<Ingredients> getTableData() { // ça aussi t'en aura besoin dans le controleur
+	public static ObservableList<Ingredients> getTableData() {
 		return data;
 	}
+
 
 }
