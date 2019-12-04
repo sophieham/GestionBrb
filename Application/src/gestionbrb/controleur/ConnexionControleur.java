@@ -1,5 +1,8 @@
 package gestionbrb.controleur;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Utilisateur;
@@ -59,7 +62,10 @@ public class ConnexionControleur extends Connexion {
 	@FXML
 	public void afficherMenuPrincipal() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/MenuPrincipal.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/MenuPrincipal.fxml"), bundle);
 			Parent menuPrincipal = (Parent) loader.load();
 			fenetre.getChildren().setAll(menuPrincipal); // remplace la fenetre de connexion par celle du menu principal
 			

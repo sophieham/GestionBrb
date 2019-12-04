@@ -34,13 +34,14 @@ public class MenuPrincipalControleur implements Initializable {
 	
 	
 	private static Stage demarrerCommande;
-	private static Stage stockAdmin;
-	private static Stage stockServeur;
+	private static Stage stock;
 	private static Stage carte;
 	private static Stage parametres;
 	private static Stage administration;
 
-	ConnexionControleur parent;
+	ConnexionControleur connexionControleur;
+	AdministrationControleur administrationControleur;
+	ParametresControleur parametresControleur;
 
 	@FXML
 	private AnchorPane fenetre;
@@ -49,7 +50,7 @@ public class MenuPrincipalControleur implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	/*	bundle = resources;
+		bundle = resources;
 		try {
 			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
 			System.out.println(langue);
@@ -65,10 +66,10 @@ public class MenuPrincipalControleur implements Initializable {
 				break;
 			}
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		infoCompteLbl.setText(ConnexionControleur.getUtilisateurConnecte().getIdentifiant());
 		if(ConnexionControleur.getUtilisateurConnecte().getIdentifiant().equals("client")) {
 			btnAdministration.setVisible(false);
@@ -81,21 +82,24 @@ public class MenuPrincipalControleur implements Initializable {
 	}
 
 	
-	/*private void loadLang(String lang, String LANG) {
+	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		System.out.println(bundle);
 		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
 		System.out.println(bundle.getString("key6"));
-		System.out.println(bundle.getString("%key6"));
-		btnNvelleCommande.setText(bundle.getString("%key6"));
+		btnNvelleCommande.setText(bundle.getString("key6"));
 
 		
-	}*/
+	}
 
 	@FXML
 	public void fenetreNouvelleCommande() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/DemarrerCommande.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/DemarrerCommande.fxml"), bundle);
 			Parent vueDCommande = (Parent) loader.load();
 			setDemarrerCommande(new Stage());
 			getDemarrerCommande().setScene(new Scene(vueDCommande));
@@ -115,12 +119,12 @@ public class MenuPrincipalControleur implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionStock.fxml"));
 			Parent vueGestionStock = (Parent) loader.load();
-			setStockAdmin(new Stage());
-			getStockAdmin().setScene(new Scene(vueGestionStock));
-			getStockAdmin().show();
-			getStockAdmin().setTitle("Gestion du stock");
+			setStock(new Stage());
+			getStock().setScene(new Scene(vueGestionStock));
+			getStock().show();
+			getStock().setTitle("Gestion du stock");
 
-			GestionStockAdminController controller = loader.getController();
+			GestionStockController controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
@@ -149,18 +153,16 @@ public class MenuPrincipalControleur implements Initializable {
 	@FXML
 	public void fenetreParametres() {
 		try {
-			 Locale locale = new Locale("fr", "FR");  
+			Locale locale = new Locale("fr", "FR");
 
-				ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr",locale);
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Parametres.fxml"),bundle);
-		Parent vueParametre = (Parent) loader.load();
-		setParametres(new Stage());
-		getParametres().setScene(new Scene(vueParametre));
-		getParametres().show();
-		getParametres().setTitle("Paramètres");
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
 
-		ParametresControleur controller = loader.getController();
-		controller.setParent(this);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Parametres.fxml"), bundle);
+			Parent menuAdministration = (Parent) loader.load();
+			fenetre.getChildren().setAll(menuAdministration);
+
+			ParametresControleur controller = loader.getController();
+			controller.setParent(this);
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
@@ -172,11 +174,8 @@ public class MenuPrincipalControleur implements Initializable {
 
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Administration.fxml"));
-			Parent vueAdministration= (Parent) loader.load();
-			setAdministration(new Stage());
-			getAdministration().setScene(new Scene(vueAdministration));
-			getAdministration().show();
-			getAdministration().setTitle("Administration");
+			Parent menuAdministration = (Parent) loader.load();
+			fenetre.getChildren().setAll(menuAdministration);
 
 			AdministrationControleur controller = loader.getController();
 			controller.setParent(this);
@@ -213,20 +212,12 @@ public class MenuPrincipalControleur implements Initializable {
 		MenuPrincipalControleur.demarrerCommande = demarrerCommande;
 	}
 
-	public static Stage getStockAdmin() {
-		return stockAdmin;
+	public static Stage getStock() {
+		return stock;
 	}
 
-	public static void setStockAdmin(Stage stockAdmin) {
-		MenuPrincipalControleur.stockAdmin = stockAdmin;
-	}
-
-	public static Stage getStockServeur() {
-		return stockServeur;
-	}
-
-	public static void setStockServeur(Stage stockServeur) {
-		MenuPrincipalControleur.stockServeur = stockServeur;
+	public static void setStock(Stage stock) {
+		MenuPrincipalControleur.stock = stock;
 	}
 
 	public static Stage getCarte() {
@@ -259,8 +250,20 @@ public class MenuPrincipalControleur implements Initializable {
 	 * 
 	 * @param connexionProfil
 	 */
-	public void setParent(ConnexionControleur connexionProfil) {
-		this.parent = connexionProfil;
+	public void setParent(ConnexionControleur parent) {
+		this.connexionControleur = parent;
+	}
+
+
+	public void setParent(AdministrationControleur parent) {
+		this.administrationControleur = parent;
+		
+	}
+
+
+	public void setParent(ParametresControleur parent) {
+		this.parametresControleur = parent;
+		
 	}
 
 
