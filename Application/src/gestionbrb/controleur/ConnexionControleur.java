@@ -1,14 +1,8 @@
 package gestionbrb.controleur;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Utilisateur;
-import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,13 +31,14 @@ public class ConnexionControleur extends Connexion {
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 
 	@FXML 
-	public void connexion() throws SQLException, ClassNotFoundException {
+	public void connexion(){
 		try {
 			if(daoUtilisateur.combinaisonEstValide(identifiant.getText(), pass.getText())) {
-				setUtilisateurConnecte(daoUtilisateur.connexion());
+				setUtilisateurConnecte(daoUtilisateur.connexion(identifiant.getText(), pass.getText()));
+				daoUtilisateur.log(getUtilisateurConnecte());
 				afficherMenuPrincipal();
 			} else if(identifiant.getText().isEmpty() && pass.getText().isEmpty()) {
-				setUtilisateurConnecte(new Utilisateur("client"));
+				setUtilisateurConnecte(new Utilisateur(0, "client", null));
 				afficherMenuPrincipal();
 			}else{
 				FonctionsControleurs.alerteErreur("Erreur de connexion", "Combinaison identifiant/mot de passe incorrecte", "Veuillez réessayer.");
@@ -55,29 +50,11 @@ public class ConnexionControleur extends Connexion {
 	}
 
 	@FXML
-	public void keyPressed(KeyEvent key){
-	    KeyCode kc = key.getCode();
-		if(kc==KeyCode.ENTER){
-			Connection con = bddUtil.dbConnect();
-			PreparedStatement requete = null;
-			ResultSet connex = null; 
-			String sql = "SELECT * FROM utilisateurs WHERE identifiant = ? AND pass = ?";
-			try {
-				requete = con.prepareStatement(sql);
-				requete.setString(1, identifiant.getText().toString());
-				requete.setString(2, pass.getText().toString());
-				connex = requete.executeQuery();
-				if(connex.next()) {
-					setUtilisateurConnecte(new Utilisateur(connex.getInt("idCompte"), connex.getString("identifiant"), connex.getString("nom"),  connex.getString("prenom"), connex.getInt("typeCompte")));
-					afficherMenuPrincipal();
-				}else {
-					FonctionsControleurs.alerteErreur("Erreur de connexion", "Combinaison identifiant/mot de passe incorrecte", "Veuillez réessayer.");
-				}
-			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Un erreur est survenue!", "Détails: "+e);
-			}
-
-	    }
+	public void keyPressed(KeyEvent key) {
+		KeyCode kc = key.getCode();
+		if (kc == KeyCode.ENTER) {
+			connexion();
+		}
 	}
 	@FXML
 	public void afficherMenuPrincipal() {

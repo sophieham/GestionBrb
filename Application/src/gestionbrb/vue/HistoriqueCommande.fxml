@@ -31,7 +31,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalMontantLbl" alignment="CENTER_RIGHT" layoutX="272.0" layoutY="347.0" prefHeight="30.0" prefWidth="163.0" text="0,00">
+                        <Label fx:id="totalMontantLbl" alignment="CENTER_RIGHT" layoutX="271.0" layoutY="347.0" prefHeight="30.0" prefWidth="142.0" text="0,00">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -43,7 +43,7 @@
                         </Label>
                         <TableView fx:id="commandeTable" layoutX="17.0" layoutY="80.0" prefHeight="254.0" prefWidth="607.0">
                            <columns>
-                              <TableColumn fx:id="colonneID" prefWidth="83.0" resizable="false" text="ID" />
+                              <TableColumn fx:id="colonneIDCommande" prefWidth="83.0" resizable="false" text="ID" />
                               <TableColumn fx:id="colonneTable" prefWidth="148.0" resizable="false" text="Table" />
                               <TableColumn fx:id="colonneDate" prefWidth="167.0" resizable="false" text="Date" />
                               <TableColumn fx:id="colonneMontant" minWidth="0.0" prefWidth="208.0" resizable="false" text="Montant" />
@@ -68,7 +68,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="devise" layoutX="438.0" layoutY="347.0" text="€">
+                        <Label fx:id="devise" layoutX="413.0" layoutY="347.0">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -83,11 +83,11 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="43.0" layoutY="81.0" prefHeight="301.0" prefWidth="554.0">
+                        <TableView fx:id="connexionTable" layoutX="43.0" layoutY="81.0" prefHeight="301.0" prefWidth="554.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="ID Log" />
-                            <TableColumn prefWidth="231.0" text="Identifiant" />
-                              <TableColumn prefWidth="247.0" text="Date &amp; Heure" />
+                            <TableColumn fx:id="colonneID" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="colonneIdentifiant" prefWidth="231.0" text="Identifiant" />
+                              <TableColumn fx:id="colonneDateConnexion" prefWidth="247.0" text="Date &amp; Heure" />
                           </columns>
                         </TableView>
                         <Label alignment="CENTER" layoutY="25.0" prefHeight="30.0" prefWidth="264.0" text="Affichage:">
@@ -97,23 +97,24 @@
                         </Label>
                         <MenuButton layoutX="199.0" layoutY="25.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="176.0" text="Afficher seulement">
                            <items>
-                              <MenuItem mnemonicParsing="false" onAction="#afficherAujourdhui" text="Ce jour-ci" />
-                              <MenuItem mnemonicParsing="false" onAction="#afficherSemaine" text="Cette semaine" />
-                              <MenuItem mnemonicParsing="false" onAction="#afficherMois" text="Ce mois" />
-                              <MenuItem mnemonicParsing="false" onAction="#afficherAnnee" text="Cette année" />
+                              <MenuItem mnemonicParsing="false" onAction="#afficherConnexionsAujourdhui" text="Ce jour-ci" />
+                              <MenuItem mnemonicParsing="false" onAction="#afficherConnexionsSemaine" text="Cette semaine" />
+                              <MenuItem mnemonicParsing="false" onAction="#afficherConnexionsMois" text="Ce mois" />
+                              <MenuItem mnemonicParsing="false" onAction="#afficherConnexionsAnnee" text="Cette année" />
                               <MenuItem mnemonicParsing="false" onAction="#afficherTout" text="Tout" />
                            </items>
                         </MenuButton>
-                        <Label fx:id="affichage1" layoutX="389.0" layoutY="25.0" prefHeight="30.0" prefWidth="251.0" text="Affichage par défaut">
+                        <Label fx:id="affichages" layoutX="389.0" layoutY="25.0" prefHeight="30.0" prefWidth="251.0" text="Affichage par défaut">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalCommandeLbl1" alignment="CENTER" layoutX="43.0" layoutY="382.0" prefHeight="30.0" prefWidth="553.0" text="Total: 0 connexion(s)">
+                        <Label fx:id="totalConnexionsLbl" alignment="CENTER" layoutX="43.0" layoutY="390.0" prefHeight="30.0" prefWidth="341.0" text="Total: 0 connexion(s)">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
+                        <Button cancelButton="true" layoutX="375.0" layoutY="387.0" mnemonicParsing="false" onAction="#fermer" prefHeight="38.0" prefWidth="222.0" text="Fermer la fenetre" />
                      </children>
                   </AnchorPane>
             </content>

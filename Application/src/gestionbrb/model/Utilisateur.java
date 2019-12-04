@@ -18,6 +18,7 @@ public class Utilisateur {
 	private final StringProperty nom;
 	private final StringProperty prenom;
 	private final IntegerProperty privileges;
+	private final StringProperty date;
 
 	/**
 	 * Constructeur pour de utilisateur
@@ -35,6 +36,7 @@ public class Utilisateur {
 		this.motdepasse = new SimpleStringProperty(motdepasse);
 		this.nom = new SimpleStringProperty(nom);
 		this.prenom = new SimpleStringProperty(prenom);
+		this.date = new SimpleStringProperty(null);
 
 	}
 
@@ -42,13 +44,16 @@ public class Utilisateur {
 		this(0, "", "", "", "", 0);
 	}
 	
-	public Utilisateur(String identifiant) {
-		this.idUtilisateur = new SimpleIntegerProperty(0);
+	
+	
+	public Utilisateur(int id, String identifiant, String date) {
+		this.idUtilisateur = new SimpleIntegerProperty(id);
 		this.privileges = new SimpleIntegerProperty(-1);
 		this.identifiant = new SimpleStringProperty(identifiant);
 		this.motdepasse = new SimpleStringProperty(null);
 		this.nom = new SimpleStringProperty(null);
 		this.prenom = new SimpleStringProperty(null);
+		this.date = new SimpleStringProperty(date);
 	}
 
 	public Utilisateur(int id, String identifiant, String nom, String prenom, int privileges) {
@@ -57,7 +62,9 @@ public class Utilisateur {
 		this.identifiant = new SimpleStringProperty(identifiant);
 		this.motdepasse = new SimpleStringProperty("");
 		this.nom = new SimpleStringProperty(nom);
-		this.prenom = new SimpleStringProperty(prenom);	}
+		this.prenom = new SimpleStringProperty(prenom);	
+		this.date = new SimpleStringProperty(null);
+		}
 
 	public final StringProperty identifiantProperty() {
 		return this.identifiant;
@@ -129,6 +136,18 @@ public class Utilisateur {
 
 	public int getIdUtilisateur() {
 		return this.idUtilisateurProperty().get();
+	}
+	
+	public final StringProperty dateProperty() {
+		return this.date;
+	}
+
+	public final String getDate() {
+		return this.dateProperty().get();
+	}
+
+	public final void setDate(final String date) {
+		this.dateProperty().set(date);
 	}
 
 }

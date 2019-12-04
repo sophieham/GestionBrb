@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import gestionbrb.controleur.ConnexionControleur;
 import gestionbrb.model.Utilisateur;
@@ -14,6 +13,7 @@ import javafx.collections.ObservableList;
 
 public class DAOUtilisateur extends DAO<Utilisateur> {
 	private ObservableList<Utilisateur> listeComptes = FXCollections.observableArrayList();
+	private ObservableList<Utilisateur> connexions = FXCollections.observableArrayList();
 	public static Connection conn = bddUtil.dbConnect();
 	@Override
 	public ObservableList<Utilisateur> afficher() throws SQLException {
@@ -62,31 +62,39 @@ public class DAOUtilisateur extends DAO<Utilisateur> {
 	}
 	
 	
-	public boolean combinaisonEstValide(String user, String pass) throws SQLException{
+	public boolean combinaisonEstValide(String user, String pass) throws SQLException {
 		PreparedStatement requete = conn.prepareStatement("SELECT * FROM utilisateurs WHERE identifiant = ? AND pass = ?");
-			requete.setString(1, user);
-			requete.setString(2, pass);
-			ResultSet combinaison = requete.executeQuery();
-		if(combinaison.next()) {
+		requete.setString(1, user);
+		requete.setString(2, pass);
+		ResultSet combinaison = requete.executeQuery();
+		if (combinaison.next()) {
 			return true;
-		}
-		else return false;
+		} else
+			return false;
 	}
-	
-	public Utilisateur connexion() throws SQLException{
+
+	public Utilisateur connexion(String user, String pass) throws SQLException {
 		Utilisateur utilisateur = new Utilisateur();
-		ResultSet combinaison = conn.createStatement().executeQuery("select * from utilisateurs");
-		if(combinaison.next()) {
-			utilisateur = new Utilisateur(combinaison.getInt("CompteID"),  
-					combinaison.getString("identifiant"), 
+		ResultSet combinaison = conn.createStatement().executeQuery(
+				"SELECT * FROM utilisateurs WHERE identifiant = '" + user + "' AND pass = '" + pass + "'");
+
+		while (combinaison.next()) {
+			utilisateur = new Utilisateur(combinaison.getInt("CompteID"), 
+					combinaison.getString("identifiant"),
 					combinaison.getString("pass"), 
 					combinaison.getString("nom"), 
-					combinaison.getString("prenom"), 
+					combinaison.getString("prenom"),
 					combinaison.getInt("typeCompte"));
 			return utilisateur;
 		}
 		return utilisateur;
-		
+
+	}
+	
+	public void log(Utilisateur u) throws SQLException{
+		PreparedStatement utilisateursDB = conn.prepareStatement("INSERT INTO `logs` (`ID`, `identifiant`, `timestamp`) VALUES (NULL, ?, current_timestamp())");
+		utilisateursDB.setString(1, u.getIdentifiant());
+		utilisateursDB.execute();
 	}
 	
 	public void modifierLangue(String langue) throws SQLException {
@@ -106,6 +114,94 @@ public class DAOUtilisateur extends DAO<Utilisateur> {
 		}
 		
 		return langue;
+	}
+	
+	/**************************************************************/
+
+	public ObservableList<Utilisateur> afficherTout() throws SQLException{
+		ResultSet connexionsDB = conn.createStatement().executeQuery("SELECT * from logs ORDER BY day(timestamp) desc");
+		while (connexionsDB.next()) {
+			connexions.add(new Utilisateur(connexionsDB.getInt("ID"),
+											connexionsDB.getString("identifiant"),
+											connexionsDB.getString("timestamp")));
+		}
+		return connexions;
+	}
+	
+	public String compterTout() throws SQLException{
+		ResultSet count = conn.createStatement().executeQuery("SELECT count(ID) from logs ORDER BY ID desc");
+		String stat = 0+"";
+		count.last();
+		stat = count.getString("count(ID)");
+		return stat;
+	}
+	
+	public void trierParJour() throws SQLException{
+		ResultSet connexionsDB = conn.createStatement().executeQuery("SELECT * from logs WHERE CURRENT_DATE = substring(timestamp, 1, 10) ORDER BY hour(timestamp) desc, minute(timestamp) desc");
+		while (connexionsDB.next()) {
+			connexions.add(new Utilisateur(connexionsDB.getInt("ID"),
+											connexionsDB.getString("identifiant"),
+											connexionsDB.getString("timestamp")));
+		}
+	}
+	
+	public String compterParJour() throws SQLException{
+		ResultSet count = conn.createStatement().executeQuery("SELECT count(ID) from logs WHERE CURRENT_DATE = substring(timestamp, 1, 10) ORDER BY ID desc ");
+		String stat = 0+"";
+		count.last();
+		stat = count.getString("count(ID)");
+		return stat;
+	}
+	
+	public void trierParSemaine() throws SQLException{
+		ResultSet connexionsDB = conn.createStatement().executeQuery("SELECT * FROM logs WHERE week(timestamp) = week(CURRENT_DATE) order by hour(timestamp) desc");
+		while (connexionsDB.next()) {
+			connexions.add(new Utilisateur(connexionsDB.getInt("ID"),
+											connexionsDB.getString("identifiant"),
+											connexionsDB.getString("timestamp")));
+		}
+	}
+	
+	public String compterParSemaine() throws SQLException{
+		ResultSet count = conn.createStatement().executeQuery("SELECT count(ID) from logs WHERE week(timestamp) = week(CURRENT_DATE) order by ID desc");
+		String stat = 0+"";
+		count.last();
+		stat = count.getString("count(ID)");
+		return stat;
+	}
+	
+	public void trierParMois() throws SQLException{
+		ResultSet connexionsDB = conn.createStatement().executeQuery("SELECT * FROM `logs` WHERE substring(CURRENT_DATE, 1, 7) = substring(timestamp, 1, 7) ORDER BY DAY(timestamp) desc"); 
+		while (connexionsDB.next()) {
+			connexions.add(new Utilisateur(connexionsDB.getInt("ID"),
+											connexionsDB.getString("identifiant"),
+											connexionsDB.getString("timestamp")));
+		}
+	}
+	
+	public String compterParMois() throws SQLException{
+		ResultSet count = conn.createStatement().executeQuery("SELECT count(ID) from logs WHERE substring(CURRENT_DATE, 1, 7) = substring(timestamp, 1, 7) ORDER BY ID desc"); 
+		String stat = 0+"";
+		count.last();
+		stat = count.getString("count(ID)");
+		return stat;
+	}
+	
+	public void trierParAnnee() throws SQLException{
+		ResultSet connexionsDB = conn.createStatement().executeQuery("SELECT * FROM `logs` WHERE substring(CURRENT_DATE, 1, 4) = substring(timestamp, 1, 4) ORDER BY MONTH(timestamp) desc, DAY(timestamp) DESC"); 
+		while (connexionsDB.next()) {
+			connexions.add(new Utilisateur(connexionsDB.getInt("ID"),
+											connexionsDB.getString("identifiant"),
+											connexionsDB.getString("timestamp")));
+		}
+	}
+	
+	public String compterParAnnee() throws SQLException{
+		ResultSet count = conn.createStatement().executeQuery("SELECT count(ID) from logs WHERE substring(CURRENT_DATE, 1, 4) = substring(timestamp, 1, 4) ORDER BY ID DESC"); 
+		String stat = 0+"";
+		count.last();
+		stat = count.getString("count(ID)");
+		return stat;
 	}
 	
 

@@ -5,14 +5,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import gestionbrb.DAO.DAOCommande;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Commande;
+import gestionbrb.model.Utilisateur;
 import gestionbrb.util.bddUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,7 +24,7 @@ public class HistoriqueCommandeControleur {
     @FXML
     private TableView<Commande> commandeTable;
     @FXML
-    private TableColumn<Commande, Number> colonneID;
+    private TableColumn<Commande, Number> colonneIDCommande;
     @FXML
     private TableColumn<Commande, Number> colonneTable;
     @FXML
@@ -39,13 +40,26 @@ public class HistoriqueCommandeControleur {
     @FXML
     private Label affichage;
     @FXML
-    private MenuButton mbtn;
+    private Label devise;
+    
     @FXML
-    private MenuItem mitm;
+    private TableView<Utilisateur> connexionTable;
+    @FXML
+    private TableColumn<Utilisateur, Number> colonneID;
+    @FXML
+    private TableColumn<Utilisateur, String> colonneIdentifiant;
+    @FXML
+    private TableColumn<Utilisateur, String> colonneDateConnexion;
+    @FXML
+    private Label totalConnexionsLbl;
+    @FXML
+    private Label affichages;
+    
     
     AdministrationControleur parent;
     
     DAOCommande daoCommande = new DAOCommande();
+    DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
     
     Connection conn = bddUtil.dbConnect();
 
@@ -63,20 +77,32 @@ public class HistoriqueCommandeControleur {
 	@FXML
 	private void initialize() {
 		try {
-			colonneID.setCellValueFactory(cellData -> cellData.getValue().idCommandeProperty());
+			devise.setText(daoCommande.recupererDevise());
+			colonneIDCommande.setCellValueFactory(cellData -> cellData.getValue().idCommandeProperty());
 			colonneTable.setCellValueFactory(cellData -> cellData.getValue().noTableProperty());
 			colonneDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
 			colonneMontant.setCellValueFactory(cellData -> cellData.getValue().prixTotalProperty());
 	
 			commandeTable.setItems(daoCommande.afficher());
 			totalCommandeLbl.setText("Total: "+daoCommande.compterTout().get(0)+" commande(s)");
-			totalMontantLbl.setText(daoCommande.compterTout().get(1)+"€");
+			totalMontantLbl.setText(daoCommande.compterTout().get(1).toString());
 			totalServeurLbl.setText("Total serveurs: "+daoCommande.compterTout().get(2));
+			
+			
+			
+			colonneID.setCellValueFactory(cellData -> cellData.getValue().idUtilisateurProperty());
+			colonneIdentifiant.setCellValueFactory(cellData -> cellData.getValue().identifiantProperty());
+			colonneDateConnexion.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
+			
+			connexionTable.setItems(daoUtilisateur.afficherTout());
+			totalConnexionsLbl.setText("Total: "+daoUtilisateur.compterTout()+" connexion(s)");
+			
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 	}
+	
 	
 	
 	@FXML
@@ -169,7 +195,7 @@ public class HistoriqueCommandeControleur {
 				conteneur.add(servP, 3, 0);
 				Alert boite = new Alert(AlertType.INFORMATION);
 				boite.setHeaderText("Table n°"+selectedCommande.getNoTable()+", "+selectedCommande.getNbCouverts()+" couvert(s)");
-				ResultSet detailsCommande = conn.createStatement().executeQuery("SELECT produit.nom, produit.prix, contenirproduit.qte, contenirproduit.serveurID FROM `contenirproduit` INNER JOIN produit on contenirproduit.idProduit = produit.idProduit WHERE idCommande = "+selectedCommande.getIdCommande());
+				ResultSet detailsCommande = conn.createStatement().executeQuery("SELECT produit.nom, produit.prix, contenirproduit.qte, contenirproduit.serveurID FROM `contenirproduit` INNER JOIN produit on contenirproduit.ProduitID = produit.ProduitID WHERE CommandeID = "+selectedCommande.getIdCommande());
 				while(detailsCommande.next()) {
 					boite.setTitle("Détails de la commande n°"+selectedCommande.getIdCommande());
 				Label nom = new Label(detailsCommande.getString("produit.nom"));
@@ -196,6 +222,58 @@ public class HistoriqueCommandeControleur {
 					"Selectionnez une commande pour pouvoir voir son détail");
 		}
     }
+    
+    @FXML
+	public void afficherConnexionsAujourdhui() {
+		connexionTable.getItems().clear();
+		affichages.setText("Aujourd'hui seulement");
+		try {
+			daoUtilisateur.trierParJour();
+			totalConnexionsLbl.setText("Total: "+daoUtilisateur.compterParJour()+" connexion(s)");
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	public void afficherConnexionsSemaine() {
+		connexionTable.getItems().clear();
+		affichages.setText("Cette semaine");
+		try {
+			daoUtilisateur.trierParSemaine();
+			totalConnexionsLbl.setText("Total: "+daoUtilisateur.compterParSemaine()+" connexion(s)");
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "Détails: " + e);
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	public void afficherConnexionsMois() {
+		connexionTable.getItems().clear();
+		affichages.setText("Ce mois-ci");
+		try {
+			daoUtilisateur.trierParMois();
+			totalConnexionsLbl.setText("Total: "+daoUtilisateur.compterParMois()+" connexion(s)");
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "Détails: " + e);
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	public void afficherConnexionsAnnee() {
+		connexionTable.getItems().clear();
+		affichages.setText("Cette année");
+		try {
+			daoUtilisateur.trierParAnnee();
+			totalConnexionsLbl.setText("Total: "+daoUtilisateur.compterParAnnee()+" connexion(s)");
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "Détails: " + e);
+			e.printStackTrace();
+		}
+	}
 	
 	public void setParent(AdministrationControleur administrationControleur) {
 		this.parent = administrationControleur;
