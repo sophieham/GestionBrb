@@ -84,6 +84,7 @@ public class CommandeControleur implements Initializable {
 
     private static Stage primaryStage;
     private static Stage fenetreAddition;
+	private static Stage imprimerAddition;
     
     @FXML
     private AnchorPane fenetre;
@@ -303,18 +304,17 @@ public class CommandeControleur implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ImpressionAddition.fxml"));
 			Parent addition = (Parent) loader.load();
-			setFenetreAddition(new Stage());
-			getFenetreAddition().setTitle("-- Addition de la table " + CommandeControleur.this.commande.getNoTable() + " --");
-			getFenetreAddition().setScene(new Scene(addition));
-			getFenetreAddition().show();
-			
+			setImprimerAddition(new Stage());
+			getImprimerAddition().setResizable(false);
+			getImprimerAddition().setTitle("-- Addition de la table " + commande.getNoTable() + " --");
+			getImprimerAddition().setScene(new Scene(addition));
+			getImprimerAddition().show();
 			ImprimerAdditionControleur controller = loader.getController();
 			controller.setParent(this);
-	
-	} catch (Exception e) {
-		FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
-		e.printStackTrace();
-	}
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			e.printStackTrace();
+		}
 	}
     /**
      * Retourne la liste des produits commandés. 
@@ -331,6 +331,14 @@ public class CommandeControleur implements Initializable {
 
 	public static void setFenetreAddition(Stage fenetreAddition) {
 		CommandeControleur.fenetreAddition = fenetreAddition;
+	}
+
+	public static Stage getImprimerAddition() {
+		return imprimerAddition;
+	}
+
+	public static void setImprimerAddition(Stage imprimerAddition) {
+		CommandeControleur.imprimerAddition = imprimerAddition;
 	}
 
 

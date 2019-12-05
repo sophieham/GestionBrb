@@ -51,6 +51,7 @@ public class AdditionControleur implements Initializable {
 	private AnchorPane fenetre;
 	private static Stage imprimerAddition;
 	private static Stage paiementAddition;
+
 	
 	
 	PaiementAdditionControleur paiementAdditionControleur;
@@ -70,8 +71,8 @@ public class AdditionControleur implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-			devise.setText(daoCommande.recupererDevise());
-			devise1.setText(daoCommande.recupererDevise());
+			devise.setText(DAOCommande.recupererDevise());
+			devise1.setText(DAOCommande.recupererDevise());
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();

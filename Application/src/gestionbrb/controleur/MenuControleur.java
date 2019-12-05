@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
@@ -19,9 +20,11 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -145,7 +148,20 @@ public class MenuControleur implements Initializable {
 
     @FXML
     void retourMenuPrincipal(MouseEvent event) {
-    	MenuPrincipalControleur.getCarte().close();
+    	try {
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/MenuPrincipal.fxml"), bundle);
+			Parent menuPrincipal = (Parent) loader.load();
+			fenetre.getChildren().setAll(menuPrincipal); // remplace la fenetre de connexion par celle du menu principal
+			
+			MenuPrincipalControleur controller = loader.getController();
+			controller.setParent(this);
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			e.printStackTrace();
+		}
     	}
 
 

@@ -35,6 +35,8 @@ public class ImprimerAdditionControleur implements Initializable {
 	@FXML
 	private Label serveurLbl;
 	@FXML
+	private Label devise;
+	@FXML
 	private Button imprimerAddition;
 	@FXML
 	private AnchorPane fenetre;
@@ -52,6 +54,7 @@ public class ImprimerAdditionControleur implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
+			
 			commande = DemarrerCommandeControleur.getCommande();
 
 			for(int i=0; i<daoCommande.afficherProduitCommande(commande).get(0).size(); i++) {
@@ -76,7 +79,7 @@ public class ImprimerAdditionControleur implements Initializable {
 				dateCommandeLbl.setText("Commande effectuée le "+daoCommande.afficherTicket(commande).get(2)+" à "+daoCommande.afficherTicket(commande).get(3));
 				totalLbl.setText("Total: "+daoCommande.afficherTicket(commande).get(4)+" produits pour "+daoCommande.afficherTicket(commande).get(5));
 				serveurLbl.setText("Vous avez été servi par "+daoCommande.afficherTicket(commande).get(6));
-			
+				devise.setText(DAOCommande.recupererDevise());
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
@@ -92,7 +95,7 @@ public class ImprimerAdditionControleur implements Initializable {
 			   job.showPrintDialog(window);
 			   job.printPage(fenetre);
 			   job.endJob();
-			   AdditionControleur.getImprimerAddition().close();
+			   CommandeControleur.getImprimerAddition().close();
 			   DemarrerCommandeControleur.getFenetreCommande().close();
 			   FonctionsControleurs.alerteInfo("Table libérée", null, "L'addition à bien été envoyée à l'imprimante et la table à été libérée!");
 			 }

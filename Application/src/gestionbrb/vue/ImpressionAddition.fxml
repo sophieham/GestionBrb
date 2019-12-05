@@ -80,12 +80,17 @@
             </Pane>
             <HBox prefHeight="40.0" prefWidth="496.0">
                <children>
-                  <Label fx:id="totalLbl" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="362.0" text="Total: ? produits pour ? ">
+                  <Label fx:id="totalLbl" alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="362.0" text="Total: ? produits pour ? ">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
                   <Label>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="devise" prefHeight="40.0" prefWidth="130.0">
                      <font>
                         <Font size="24.0" />
                      </font>

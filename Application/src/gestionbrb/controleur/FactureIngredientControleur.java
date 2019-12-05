@@ -47,6 +47,7 @@ public class FactureIngredientControleur implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
+			
 			String idFacture = daoFournisseur.afficherDerniereCommande().get(0);
 			String nomIngredient = daoFournisseur.afficherDerniereCommande().get(1);
 			String qte = daoFournisseur.afficherDerniereCommande().get(2);

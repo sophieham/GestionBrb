@@ -42,7 +42,7 @@ public class MenuPrincipalControleur implements Initializable {
 	ConnexionControleur connexionControleur;
 	AdministrationControleur administrationControleur;
 	ParametresControleur parametresControleur;
-
+	MenuControleur menuControleur;
 	@FXML
 	private AnchorPane fenetre;
 	
@@ -138,12 +138,8 @@ public class MenuPrincipalControleur implements Initializable {
 	public void fenetreCarte() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Menu.fxml"));
-			Parent vueMenu = (Parent) loader.load();
-			setCarte(new Stage());
-			getCarte().setScene(new Scene(vueMenu));
-			getCarte().show();
-			getCarte().setTitle("Menu");
-			getCarte().getScene().getStylesheets().add(cssURL.toExternalForm());
+			Parent menuCarte = (Parent) loader.load();
+			fenetre.getChildren().setAll(menuCarte);
 			MenuControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
@@ -266,6 +262,11 @@ public class MenuPrincipalControleur implements Initializable {
 	public void setParent(ParametresControleur parent) {
 		this.parametresControleur = parent;
 		
+	}
+
+
+	public void setParent(MenuControleur parent) {
+		this.menuControleur = parent;	
 	}
 
 

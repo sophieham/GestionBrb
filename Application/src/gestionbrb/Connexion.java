@@ -14,7 +14,6 @@ import javafx.stage.Stage;
  */
 
 public class Connexion extends Application {
-
     private Stage primaryStage;
     public Connexion() {
 

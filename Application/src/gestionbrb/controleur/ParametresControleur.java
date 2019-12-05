@@ -1,34 +1,25 @@
 package gestionbrb.controleur;
 
 import java.io.IOException;
-//import java.awt.event.ActionEvent;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOUtilisateur;
-import gestionbrb.util.bddUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.event.ActionEvent;
@@ -84,7 +75,10 @@ public class ParametresControleur implements Initializable{
 		
 		try {
 			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/MenuPrincipal.fxml"));
+				Locale locale = new Locale("fr", "FR");
+
+				ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/MenuPrincipal.fxml"), bundle);
 				Parent menuPrincipal = (Parent) loader.load();
 				AnchorPane.getChildren().setAll(menuPrincipal); // remplace la fenetre de connexion par celle du menu principal
 				
