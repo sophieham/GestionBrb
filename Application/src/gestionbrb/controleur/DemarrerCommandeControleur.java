@@ -126,7 +126,6 @@ public class DemarrerCommandeControleur {
 	}
 
 
-
 	/**
 	 * Appellé lors de l'appui sur le bouton. <br>
 	 * Ouvre le registre des réservations.

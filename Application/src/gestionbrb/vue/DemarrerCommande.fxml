@@ -164,11 +164,11 @@
          <left>
             <Pane prefHeight="1078.0" prefWidth="558.0" BorderPane.alignment="CENTER">
                <children>
-                  <TableView fx:id="tableTable" layoutX="128.0" layoutY="175.0" prefHeight="693.0" prefWidth="316.0">
+                  <TableView fx:id="tableTable" layoutX="79.0" layoutY="175.0" prefHeight="693.0" prefWidth="407.0">
                     <columns>
-                      <TableColumn fx:id="colonneNoTable" minWidth="0.0" prefWidth="78.0" resizable="false" text="No. Table" />
-                        <TableColumn fx:id="colonneNbCouvertsMax" prefWidth="119.0" resizable="false" text="Max Couverts" />
-                        <TableColumn fx:id="colonneStatut" prefWidth="118.0" resizable="false" text="Statut" />
+                      <TableColumn fx:id="colonneNoTable" minWidth="0.0" prefWidth="134.0" resizable="false" text="No. Table" />
+                        <TableColumn fx:id="colonneNbCouvertsMax" prefWidth="177.0" resizable="false" text="Max Couverts" />
+                        <TableColumn fx:id="colonneStatut" prefWidth="91.0" resizable="false" text="Statut" />
                     </columns>
                   </TableView>
                   <Label fx:id="lblOccupation" alignment="CENTER" layoutX="4.0" layoutY="876.0" prefHeight="40.0" prefWidth="556.0" text="x tables occupée(s), x libres" textAlignment="CENTER" textFill="WHITE">

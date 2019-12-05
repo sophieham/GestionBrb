@@ -34,9 +34,9 @@
                   </Label>
                   <TableView fx:id="tableRecap" prefHeight="389.0" prefWidth="313.0">
                     <columns>
-                      <TableColumn fx:id="colonneProduit" prefWidth="195.0" text="Produit" />
-                      <TableColumn fx:id="colonnePrix" prefWidth="75.0" text="Prix" />
-                        <TableColumn fx:id="colonneQte" minWidth="0.0" prefWidth="42.0" text="Qte" />
+                      <TableColumn fx:id="colonneProduit" prefWidth="162.0" text="Produit" />
+                      <TableColumn fx:id="colonnePrix" prefWidth="88.0" text="Prix" />
+                        <TableColumn fx:id="colonneQte" minWidth="0.0" prefWidth="62.0" text="Qte" />
                     </columns>
                      <VBox.margin>
                         <Insets left="25.0" right="25.0" />

@@ -34,7 +34,7 @@
                           <columns>
                             <TableColumn fx:id="colonneIdIngredient" prefWidth="81.0" text="ID" />
                             <TableColumn fx:id="colonneNomIngredient" prefWidth="175.0" text="Nom" />
-                              <TableColumn fx:id="colonneQuantiteIngredient" prefWidth="92.0" text="Quantite" />
+                              <TableColumn fx:id="colonneQuantiteIngredient" prefWidth="92.0" text="Qte" />
                               <TableColumn fx:id="colonnePrixIngredient" prefWidth="90.0" text="Prix" />
                               <TableColumn fx:id="colonneFournisseur" prefWidth="160.0" text="Fournisseurs" />
                           </columns>
@@ -72,11 +72,11 @@
                      <children>
                         <TableView fx:id="tableProduit" layoutX="100.0" layoutY="22.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
-                            <TableColumn fx:id="colonneIdProduit" prefWidth="106.0" text="ID" />
-                            <TableColumn fx:id="colonneNomProduit" prefWidth="96.0" text="Nom" />
-                              <TableColumn fx:id="colonneType" prefWidth="89.0" text="Type" />
-                              <TableColumn fx:id="colonneDescriptionProduit" prefWidth="123.0" text="Description" />
-                              <TableColumn fx:id="colonneQuantiteProduit" prefWidth="106.0" text="Quantite" />
+                            <TableColumn fx:id="colonneIdProduit" prefWidth="57.0" text="ID" />
+                            <TableColumn fx:id="colonneNomProduit" prefWidth="116.0" text="Nom" />
+                              <TableColumn fx:id="colonneType" prefWidth="103.0" text="Type" />
+                              <TableColumn fx:id="colonneDescriptionProduit" prefWidth="163.0" text="Description" />
+                              <TableColumn fx:id="colonneQuantiteProduit" prefWidth="81.0" text="Qte" />
                               <TableColumn fx:id="colonnePrixProduit" prefWidth="78.0" text="Prix" />
                           </columns>
                         </TableView>

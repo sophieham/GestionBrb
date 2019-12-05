@@ -18,9 +18,9 @@
       <TableView fx:id="tview" layoutX="124.0" layoutY="23.0" prefHeight="603.0" prefWidth="1032.0">
         <columns>
           <TableColumn fx:id="colID" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="colNom" prefWidth="421.0" text="Nom" />
-            <TableColumn fx:id="colPrix" prefWidth="155.0" text="Prix" />
-            <TableColumn fx:id="colQte" prefWidth="121.0" text="Qte restante" />
+          <TableColumn fx:id="colNom" prefWidth="365.0" text="Nom" />
+            <TableColumn fx:id="colPrix" prefWidth="149.0" text="Prix" />
+            <TableColumn fx:id="colQte" prefWidth="183.0" text="Qte restante" />
             <TableColumn fx:id="colFournisseur" prefWidth="259.0" text="Fournisseur" />
         </columns>
       </TableView>

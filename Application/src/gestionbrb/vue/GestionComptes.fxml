@@ -22,7 +22,7 @@
 				<TableColumn fx:id="colonneIdentifiant" prefWidth="196.0" text="Identifiant" />
 				<TableColumn fx:id="colonneNom" prefWidth="137.0" text="Nom" />
 				<TableColumn fx:id="colonnePrenom" prefWidth="146.0" text="Prenom" />
-				<TableColumn fx:id="colonneRoles" prefWidth="150.0" text="Role" />
+				<TableColumn fx:id="colonneRoles" prefWidth="150.0" text="Rôle" />
 			</columns>
 		</TableView>
 		<Pane layoutX="2.0" layoutY="478.0" prefHeight="86.0" prefWidth="640.0">

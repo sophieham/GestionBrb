@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.ModifierUtilisateurControleur">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="320.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.ModifierUtilisateurControleur">
    <children>
       <ImageView fitHeight="285.0" fitWidth="348.0" layoutX="-14.0" layoutY="-28.0" pickOnBounds="true">
          <image>
@@ -45,8 +45,8 @@
       </Label>
       <ButtonBar layoutX="85.0" layoutY="192.0" prefHeight="40.0" prefWidth="226.0">
         <buttons>
-          <Button mnemonicParsing="false" onAction="#actionValider" prefHeight="31.0" prefWidth="151.0" text="Valider" />
-          <Button minWidth="56.0" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" prefWidth="129.0" text="Annuler" />
+          <Button id="glass" mnemonicParsing="false" onAction="#actionValider" prefHeight="31.0" prefWidth="151.0" text="Valider" />
+          <Button id="glass" minWidth="56.0" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" prefWidth="129.0" text="Annuler" />
         </buttons>
       </ButtonBar>
       <PasswordField fx:id="champMot2Passe" layoutX="122.0" layoutY="113.0" prefHeight="31.0" prefWidth="187.0" />

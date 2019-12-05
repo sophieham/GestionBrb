@@ -36,12 +36,12 @@
     <AnchorPane layoutX="5.0" layoutY="146.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
       <HBox layoutX="8.0" layoutY="148.0" prefHeight="295.0" prefWidth="771.0">
          <children>
-            <TableView fx:id="reservationTable" prefHeight="295.0" prefWidth="424.0">
+            <TableView fx:id="reservationTable" prefHeight="295.0" prefWidth="434.0">
               <columns>
                 <TableColumn fx:id="colonneNom" prefWidth="130.0" text="Nom" />
                 <TableColumn fx:id="colonneDate" prefWidth="103.0" text="Date" />
-                  <TableColumn fx:id="colonneHeure" prefWidth="81.0" text="Heure" />
-                  <TableColumn fx:id="colonneNbCouverts" prefWidth="109.0" text="Couverts" />
+                  <TableColumn fx:id="colonneHeure" prefWidth="86.0" text="Heure" />
+                  <TableColumn fx:id="colonneNbCouverts" prefWidth="116.0" text="Couverts" />
               </columns>
             </TableView>
             <Separator orientation="VERTICAL" prefHeight="295.0" prefWidth="32.0" />
