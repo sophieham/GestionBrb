@@ -45,6 +45,8 @@ public class MenuPrincipalControleur implements Initializable {
 
 	@FXML
 	private AnchorPane fenetre;
+	
+	final URL cssURL = getClass().getResource("../stylesheet.css"); 
 
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	
@@ -141,7 +143,7 @@ public class MenuPrincipalControleur implements Initializable {
 			getCarte().setScene(new Scene(vueMenu));
 			getCarte().show();
 			getCarte().setTitle("Menu");
-
+			getCarte().getScene().getStylesheets().add(cssURL.toExternalForm());
 			MenuControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {

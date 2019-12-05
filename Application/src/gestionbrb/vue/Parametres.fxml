@@ -14,14 +14,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.ParametresControleur">
+<AnchorPane fx:id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.ParametresControleur">
    <children>
       <ImageView fitHeight="1106.0" fitWidth="1948.0" layoutX="-14.0" layoutY="-15.0" pickOnBounds="true">
          <image>
             <Image url="@images/fond7_favourite.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnHello" layoutX="639.0" layoutY="941.0" mnemonicParsing="false" onAction="#Onbutton" prefHeight="51.0" prefWidth="589.0" text="%key5">
+      <Button id="glass" fx:id="btnHello" layoutX="639.0" layoutY="941.0" mnemonicParsing="false" onAction="#Onbutton" prefHeight="51.0" prefWidth="589.0" text="%key5">
          <font>
             <Font size="24.0" />
          </font>
@@ -79,7 +79,7 @@
                            </font>
                         </Label>
                         <TextField fx:id="chDevise" layoutX="259.0" layoutY="44.0" prefWidth="164.0" promptText="exemple: EUR" />
-                        <Button layoutX="124.0" layoutY="106.0" mnemonicParsing="false" onAction="#actionValiderDevise" prefHeight="30.0" prefWidth="197.0" text="Valider">
+                        <Button id="glass" layoutX="124.0" layoutY="106.0" mnemonicParsing="false" onAction="#actionValiderDevise" prefHeight="30.0" prefWidth="197.0" text="Valider">
                            <font>
                               <Font size="15.0" />
                            </font>

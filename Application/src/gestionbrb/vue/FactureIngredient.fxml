@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="fenetre" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="847.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.FactureIngredientControleur">
+<AnchorPane fx:id="fenetre" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="847.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.FactureIngredientControleur">
    <children>
       <ImageView fitHeight="484.0" fitWidth="847.0" layoutY="-14.0" pickOnBounds="true" AnchorPane.bottomAnchor="-14.0" AnchorPane.rightAnchor="0.0">
          <image>
@@ -101,12 +101,12 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="qteLbl" alignment="CENTER" prefHeight="35.0" prefWidth="107.0" text="10">
+                        <Label fx:id="qteLbl" alignment="CENTER" prefHeight="35.0" prefWidth="107.0" text="0">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="fournisseurLbl" alignment="CENTER" prefHeight="35.0" prefWidth="258.0" text="Fournidoo">
+                        <Label fx:id="fournisseurLbl" alignment="CENTER" prefHeight="35.0" prefWidth="258.0" text="Fournisseur">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -126,7 +126,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="devise" prefHeight="40.0" prefWidth="84.0" text="€">
+                  <Label fx:id="devise" prefHeight="40.0" prefWidth="84.0" text="EUR">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -139,7 +139,7 @@
                </children>
             </Pane>
             <Pane prefHeight="18.0" prefWidth="486.0" />
-            <Button fx:id="imprimerAddition" mnemonicParsing="false" onAction="#imprimer" prefHeight="44.0" prefWidth="642.0" text="Imprimer">
+            <Button id="glass" fx:id="imprimerAddition" mnemonicParsing="false" onAction="#imprimer" prefHeight="44.0" prefWidth="642.0" text="Imprimer">
                <font>
                   <Font size="20.0" />
                </font>

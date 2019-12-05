@@ -1,6 +1,7 @@
 package gestionbrb.controleur;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -193,7 +194,7 @@ public class DemarrerCommandeControleur {
 	 */
 	public void lancerCommande() {
 		try {
-			
+			final URL cssURL = getClass().getResource("../stylesheet.css"); 
 			int nombreCouverts = Integer.parseInt(champNbCouverts.getText());
 			int numTable = getNumero(champChoixTable);
 			
@@ -206,6 +207,7 @@ public class DemarrerCommandeControleur {
 			setFenetreCommande(new Stage());
 			getFenetreCommande().setTitle("-- Commande de la table "+numTable+" --");
 			getFenetreCommande().setScene(new Scene(vueCommande));
+			getFenetreCommande().getScene().getStylesheets().add(cssURL.toExternalForm());
 			getFenetreCommande().show();
 			MenuPrincipalControleur.getDemarrerCommande().close();
 			

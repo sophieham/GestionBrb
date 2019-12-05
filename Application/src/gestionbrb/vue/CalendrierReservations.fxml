@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.CalendrierControleur">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="551.0" prefWidth="783.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.CalendrierControleur">
    <children>
       <ImageView fitHeight="579.0" fitWidth="800.0" layoutX="-3.0" layoutY="-9.0" pickOnBounds="true">
          <image>
@@ -81,12 +81,12 @@
             </GridPane>
          </children>
       </HBox>
-      <Button layoutX="501.0" layoutY="59.0" mnemonicParsing="false" onAction="#afficherTout" prefHeight="31.0" prefWidth="123.0" text="Afficher tout" />
-      <Button layoutX="235.0" layoutY="456.0" mnemonicParsing="false" onAction="#modifierReservation" prefHeight="38.0" prefWidth="364.0" text="Modifier la réservation">
+      <Button id="glass" layoutX="501.0" layoutY="59.0" mnemonicParsing="false" onAction="#afficherTout" prefHeight="31.0" prefWidth="123.0" text="Afficher tout" />
+      <Button id="glass" layoutX="235.0" layoutY="456.0" mnemonicParsing="false" onAction="#modifierReservation" prefHeight="38.0" prefWidth="364.0" text="Modifier la réservation">
          <font>
             <Font size="17.0" />
          </font></Button>
-      <Button layoutX="235.0" layoutY="502.0" mnemonicParsing="false" onAction="#supprimerReservation" prefHeight="38.0" prefWidth="364.0" text="Supprimer la réservation">
+      <Button id="glass" layoutX="235.0" layoutY="502.0" mnemonicParsing="false" onAction="#supprimerReservation" prefHeight="38.0" prefWidth="364.0" text="Supprimer la réservation">
          <font>
             <Font size="17.0" />
          </font></Button>

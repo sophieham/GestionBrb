@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="fenetre" prefHeight="400.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.PaiementAdditionControleur">
+<AnchorPane fx:id="fenetre" prefHeight="400.0" prefWidth="708.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.PaiementAdditionControleur">
    <children>
       <Pane layoutX="-4.0" prefHeight="400.0" prefWidth="708.0">
          <children>
@@ -63,7 +63,7 @@
                               <Font size="20.0" />
                            </font>
                         </TextField>
-                        <Button fx:id="btnValider" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#actionValider" text="OK">
+                        <Button id="glass" fx:id="btnValider" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#actionValider" text="OK">
                            <HBox.margin>
                               <Insets left="10.0" top="10.0" />
                            </HBox.margin>
@@ -78,7 +78,7 @@
                   </HBox>
                   <Pane prefHeight="66.0" prefWidth="463.0">
                      <children>
-                        <Button fx:id="btnCalculMonnaie" layoutX="59.0" layoutY="3.0" mnemonicParsing="false" onAction="#calculRenduEspece" prefHeight="39.0" prefWidth="253.0" text="Calculer le rendu">
+                        <Button id="glass" fx:id="btnCalculMonnaie" layoutX="59.0" layoutY="3.0" mnemonicParsing="false" onAction="#calculRenduEspece" prefHeight="39.0" prefWidth="253.0" text="Calculer le rendu">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -89,7 +89,7 @@
                         <Font size="22.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnToutPayer" alignment="CENTER" mnemonicParsing="false" onAction="#ToutPayer" prefHeight="31.0" prefWidth="392.0" text="Tout payer par {paiement}">
+                  <Button id="glass" fx:id="btnToutPayer" alignment="CENTER" mnemonicParsing="false" onAction="#ToutPayer" prefHeight="31.0" prefWidth="392.0" text="Tout payer par {paiement}">
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="50.0" />
                      </VBox.margin>
@@ -97,7 +97,7 @@
                         <Font size="19.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" prefWidth="392.0" text="Revenir en arrière">
+                  <Button id="glass" alignment="CENTER" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" prefWidth="392.0" text="Revenir en arrière">
                      <font>
                         <Font size="19.0" />
                      </font>

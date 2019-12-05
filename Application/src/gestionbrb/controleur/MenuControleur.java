@@ -1,8 +1,6 @@
 package gestionbrb.controleur;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +13,6 @@ import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOProduit;
 import gestionbrb.DAO.DAOType;
 import gestionbrb.model.Produit;
-import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -76,6 +73,7 @@ public class MenuControleur implements Initializable {
 
 			for (String nom : daoType.recupererType()) {
 				Tab tab = new Tab(nom);
+				tab.setStyle("-fx-font-size: 20px;");
 				mapTypeParOnglet.put(nom, tab);
 			}
 			Map<String, Integer> mapNomParId = daoProduit.recupererIDProduit();
@@ -95,7 +93,7 @@ public class MenuControleur implements Initializable {
 						for (Map.Entry<String, String> produit : mapNomParType.entrySet()) {
 							if (tab.getKey().equals(produit.getValue())) {
 								Button btnPlat = new Button(produit.getKey());
-								btnPlat.setPrefSize(200, 100);
+								btnPlat.setPrefSize(300, 100);
 								btnPlat.setTextAlignment(TextAlignment.CENTER);
 								btnPlat.setAlignment(Pos.CENTER);
 								btnPlat.setOnAction(new EventHandler<ActionEvent>() {

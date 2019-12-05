@@ -1,0 +1,77 @@
+#blue{
+
+    -fx-background-color: linear-gradient(#5ac3d8,#93ceda);
+    -fx-background-radius: 40;
+    -fx-background-insets: 0;
+
+}
+#blue:hover{
+
+    -fx-background-color: linear-gradient(#489bab,#8dc1ca);
+    -fx-background-radius: 40;
+    -fx-background-insets: 0;
+
+}
+
+#orange{
+
+    -fx-background-color: linear-gradient(#eeb633,#f4d180);
+    -fx-background-radius: 40;
+    -fx-background-insets: 0;
+
+}
+#orange:hover{
+
+    -fx-background-color: linear-gradient(#dea930,#eac97e);
+    -fx-background-radius: 40;
+    -fx-background-insets: 0;
+
+}
+
+#glass{
+    -fx-background-color:
+            #c3c4c4,
+            linear-gradient(#d6d6d6 50%, white 100%),
+            radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 10;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+#glass:hover{
+ -fx-background-color:
+            linear-gradient(#f2f2f2, #d6d6d6),
+            linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),
+            linear-gradient(#dddddd 0%, #f6f6f6 50%);
+    -fx-background-radius: 8,7,6;
+    -fx-background-insets: 0,1,2;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.button{
+
+    -fx-background-color: linear-gradient(#9aaec9,#9abac9);
+    -fx-background-radius: 40;
+    -fx-background-insets: 0;
+
+}
+.button:hover{
+  -fx-background-color: linear-gradient(#9abac9,#9aaec9);
+    -fx-background-radius: 40;
+    -fx-background-insets: 0;
+}
+
+.tab {
+	-fx-pref-height: 46;
+	 -fx-background-color: rgba(255, 255, 255, 0.38);
+	 
+} 
+.tab-header-background {
+	 -fx-background-color: transparent;
+}
+
+.tab:selected{
+    -fx-background-color: white;
+    -fx-text-fill:rgba(0, 0, 0, 1); 
+}

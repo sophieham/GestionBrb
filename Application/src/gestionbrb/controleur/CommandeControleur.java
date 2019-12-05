@@ -138,13 +138,14 @@ public class CommandeControleur implements Initializable {
 	 */
 	public void etablirCommande() {
 		try {
-			devise.setText(daoCommande.recupererDevise());
+			devise.setText(DAOCommande.recupererDevise());
 			listeProduits.clear();
 			listeOnglets.clear();
 			listeProduits.clear();
 
 			for (String nom : daoType.recupererType()) {
 				Tab tab = new Tab(nom);
+				tab.setStyle("-fx-font-size: 20px;");
 				mapTypeParOnglet.put(nom, tab);
 			}
 			Map<String, Integer> mapNomParId = daoProduit.recupererIDProduit();

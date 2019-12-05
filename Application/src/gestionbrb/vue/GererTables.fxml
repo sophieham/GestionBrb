@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="491.0" prefWidth="747.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.TablesControleur">
+<AnchorPane prefHeight="491.0" prefWidth="747.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.TablesControleur">
    <children>
       <ImageView fitHeight="552.0" fitWidth="804.0" layoutX="-29.0" layoutY="-23.0" pickOnBounds="true" AnchorPane.bottomAnchor="-16.0" AnchorPane.leftAnchor="-29.0" AnchorPane.rightAnchor="-17.0" AnchorPane.topAnchor="-23.0">
          <image>
@@ -19,17 +19,17 @@
       </ImageView>
       <Pane layoutX="432.0" layoutY="63.0" prefHeight="426.0" prefWidth="256.0">
          <children>
-            <Button layoutX="19.0" layoutY="99.0" mnemonicParsing="false" onAction="#ajoutTable" prefHeight="51.0" prefWidth="218.0" text="Ajouter">
+            <Button id="glass" layoutX="19.0" layoutY="99.0" mnemonicParsing="false" onAction="#ajoutTable" prefHeight="51.0" prefWidth="218.0" text="Ajouter">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="19.0" layoutY="186.0" mnemonicParsing="false" onAction="#modifierTable" prefHeight="51.0" prefWidth="218.0" text="Modifier">
+            <Button id="glass" layoutX="19.0" layoutY="186.0" mnemonicParsing="false" onAction="#modifierTable" prefHeight="51.0" prefWidth="218.0" text="Modifier">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button layoutX="19.0" layoutY="277.0" mnemonicParsing="false" onAction="#supprimerTable" prefWidth="218.0" text="Supprimer">
+            <Button id="glass" layoutX="19.0" layoutY="277.0" mnemonicParsing="false" onAction="#supprimerTable" prefWidth="218.0" text="Supprimer">
                <font>
                   <Font size="24.0" />
                </font>

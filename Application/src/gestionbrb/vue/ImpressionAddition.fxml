@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="fenetre" prefHeight="805.0" prefWidth="496.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.ImprimerAdditionControleur">
+<AnchorPane fx:id="fenetre" prefHeight="805.0" prefWidth="496.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.ImprimerAdditionControleur">
    <children>
-      <ImageView fitHeight="854.0" fitWidth="557.0" pickOnBounds="true" AnchorPane.bottomAnchor="-18.0" AnchorPane.rightAnchor="-19.0">
+      <ImageView fitHeight="854.0" fitWidth="557.0" opacity="0.3" pickOnBounds="true" AnchorPane.bottomAnchor="-18.0" AnchorPane.rightAnchor="-19.0">
          <image>
             <Image url="@images/fond9.jpg" />
          </image>
@@ -92,7 +92,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="€">
+                  <Label>
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -115,7 +115,7 @@
                   <Separator layoutX="-2.0" prefHeight="16.0" prefWidth="496.0" />
                </children>
             </Pane>
-            <Button fx:id="imprimerAddition" mnemonicParsing="false" onAction="#imprimer" prefHeight="31.0" prefWidth="550.0" text="Imprimer et libérer la table">
+            <Button id="glass" fx:id="imprimerAddition" mnemonicParsing="false" onAction="#imprimer" prefHeight="31.0" prefWidth="550.0" text="Imprimer et libérer la table">
                <font>
                   <Font size="20.0" />
                </font>

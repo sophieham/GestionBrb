@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.UtilisateursControleur">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="640.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.UtilisateursControleur">
 	<children>
       <ImageView fitHeight="592.0" fitWidth="676.0" layoutX="-9.0" layoutY="-16.0" pickOnBounds="true">
          <image>
@@ -27,17 +27,17 @@
 		</TableView>
 		<Pane layoutX="2.0" layoutY="478.0" prefHeight="86.0" prefWidth="640.0">
 			<children>
-				<Button layoutX="68.0" layoutY="9.0" mnemonicParsing="false" onAction="#ajoutUtilisateur" prefHeight="44.0" prefWidth="148.0" text="Ajouter">
+				<Button id="glass" layoutX="68.0" layoutY="9.0" mnemonicParsing="false" onAction="#ajoutUtilisateur" prefHeight="44.0" prefWidth="148.0" text="Ajouter">
 					<font>
 						<Font size="20.0" />
 					</font>
 				</Button>
-				<Button layoutX="246.0" layoutY="9.0" mnemonicParsing="false" onAction="#modifierUtilisateur" prefHeight="44.0" prefWidth="148.0" text="Modifier">
+				<Button id="glass" layoutX="246.0" layoutY="9.0" mnemonicParsing="false" onAction="#modifierUtilisateur" prefHeight="44.0" prefWidth="148.0" text="Modifier">
 					<font>
 						<Font size="20.0" />
 					</font>
 				</Button>
-				<Button layoutX="425.0" layoutY="9.0" mnemonicParsing="false" onAction="#supprimerUtilisateur" prefHeight="44.0" prefWidth="148.0" text="Supprimer">
+				<Button id="glass" layoutX="425.0" layoutY="9.0" mnemonicParsing="false" onAction="#supprimerUtilisateur" prefHeight="44.0" prefWidth="148.0" text="Supprimer">
 					<font>
 						<Font size="20.0" />
 					</font>

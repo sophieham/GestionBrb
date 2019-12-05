@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="513.0" prefWidth="672.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.CommandeIngredientsController">
+<AnchorPane prefHeight="513.0" prefWidth="672.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.CommandeIngredientsController">
    <children>
       <Pane layoutY="-1.0" prefHeight="513.0" prefWidth="672.0">
          <children>
@@ -108,7 +108,7 @@
                   <Font name="Calibri Light" size="40.0" />
                </font>
             </Label>
-            <Button layoutX="201.0" layoutY="415.0" mnemonicParsing="false" onAction="#Commande" prefHeight="46.0" prefWidth="271.0" text="Commander" />
+            <Button id="glass" layoutX="201.0" layoutY="415.0" mnemonicParsing="false" onAction="#Commande" prefHeight="46.0" prefWidth="271.0" text="Commander" />
          </children>
       </Pane>
    </children>

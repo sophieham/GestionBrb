@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.GestionStockController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.GestionStockController">
    <children>
       <ImageView fitHeight="831.0" fitWidth="1310.0" layoutX="-15.0" layoutY="-17.0" pickOnBounds="true">
          <image>
@@ -26,8 +26,8 @@
       </TableView>
       <FlowPane alignment="TOP_CENTER" hgap="80.0" layoutX="232.0" layoutY="651.0" prefHeight="68.0" prefWidth="792.0" vgap="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#RetourMenuPrincipal" prefHeight="63.0" prefWidth="407.0" text="Retour au menu principal" />
-            <Button fx:id="btnCommander" mnemonicParsing="false" onAction="#CommanderIngredients" prefHeight="63.0" prefWidth="407.0" text="Commander" />
+            <Button id="glass" mnemonicParsing="false" onAction="#RetourMenuPrincipal" prefHeight="63.0" prefWidth="407.0" text="Retour au menu principal" />
+            <Button id="glass" fx:id="btnCommander" mnemonicParsing="false" onAction="#CommanderIngredients" prefHeight="63.0" prefWidth="407.0" text="Commander" />
          </children>
       </FlowPane>
    </children>

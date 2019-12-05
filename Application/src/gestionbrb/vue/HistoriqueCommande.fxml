@@ -14,14 +14,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="685.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.HistoriqueCommandeControleur">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="685.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.HistoriqueCommandeControleur">
    <children>
       <ImageView fitHeight="538.0" fitWidth="723.0" layoutX="-19.0" layoutY="-20.0" pickOnBounds="true">
          <image>
             <Image url="@images/fond7_favourite.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="385.0" fitWidth="646.0" layoutX="20.0" layoutY="52.0" pickOnBounds="true">
+      <ImageView fitHeight="387.0" fitWidth="639.0" layoutX="27.0" layoutY="65.0" opacity="0.33" pickOnBounds="true">
          <image>
             <Image url="@images/fond9.jpg" />
          </image>
@@ -32,23 +32,26 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="422.0" prefWidth="632.0">
                      <children>
-                        <Button layoutX="32.0" layoutY="392.0" mnemonicParsing="false" onAction="#voirDetails" prefHeight="39.0" prefWidth="277.0" text="Détails commande selectionnée">
+                        <Button id="glass" layoutX="32.0" layoutY="392.0" mnemonicParsing="false" onAction="#voirDetails" prefHeight="39.0" prefWidth="277.0" text="Détails commande selectionnée">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Button>
-                        <Button cancelButton="true" layoutX="372.0" layoutY="393.0" mnemonicParsing="false" onAction="#fermer" prefHeight="38.0" prefWidth="222.0" text="Fermer la fenetre" />
-                        <Label fx:id="totalServeurLbl" alignment="CENTER" layoutX="438.0" layoutY="343.0" prefHeight="38.0" prefWidth="176.0" text="Total serveurs: 0">
+                        <Button id="glass" cancelButton="true" layoutX="372.0" layoutY="392.0" mnemonicParsing="false" onAction="#fermer" prefHeight="39.0" prefWidth="222.0" text="Fermer la fenetre">
+                           <font>
+                              <Font size="18.0" />
+                           </font></Button>
+                        <Label fx:id="totalServeurLbl" alignment="CENTER" layoutX="438.0" layoutY="343.0" prefHeight="38.0" prefWidth="176.0" text="Total serveurs: 0" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalMontantLbl" alignment="CENTER_RIGHT" layoutX="271.0" layoutY="347.0" prefHeight="30.0" prefWidth="142.0" text="0,00">
+                        <Label fx:id="totalMontantLbl" alignment="CENTER_RIGHT" layoutX="271.0" layoutY="347.0" prefHeight="30.0" prefWidth="142.0" text="0,00" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalCommandeLbl" alignment="CENTER" layoutX="22.0" layoutY="347.0" prefHeight="30.0" prefWidth="270.0" text="Total: 0 commande(s)">
+                        <Label fx:id="totalCommandeLbl" alignment="CENTER" layoutX="22.0" layoutY="347.0" prefHeight="30.0" prefWidth="270.0" text="Total: 0 commande(s)" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>
