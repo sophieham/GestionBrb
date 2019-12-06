@@ -1,5 +1,9 @@
 package gestionbrb.controleur;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -36,8 +40,10 @@ public class ConnexionControleur extends Connexion {
 	@FXML 
 	public void connexion(){
 		try {
-			if(daoUtilisateur.combinaisonEstValide(identifiant.getText(), pass.getText())) {
-				setUtilisateurConnecte(daoUtilisateur.connexion(identifiant.getText(), pass.getText()));
+			System.out.println(FonctionsControleurs.toHexString(FonctionsControleurs.getSHA(pass.getText())));
+			String passHash = FonctionsControleurs.toHexString(FonctionsControleurs.getSHA(pass.getText()));
+			if(daoUtilisateur.combinaisonEstValide(identifiant.getText(), passHash)) {
+				setUtilisateurConnecte(daoUtilisateur.connexion(identifiant.getText(), passHash));
 				daoUtilisateur.log(getUtilisateurConnecte());
 				afficherMenuPrincipal();
 			} else if(identifiant.getText().isEmpty() && pass.getText().isEmpty()) {
@@ -76,6 +82,7 @@ public class ConnexionControleur extends Connexion {
 			e.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * Défini Connexion.java comme parent

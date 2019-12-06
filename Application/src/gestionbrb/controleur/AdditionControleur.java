@@ -93,7 +93,6 @@ public class AdditionControleur implements Initializable {
 	 */
 	public void calculTotal() throws NumberFormatException {
 		try {
-			// 0: qte, 1; prix, 2: totalproduit, 3: resteapayer
 			Label valeurReste = new Label();
 			totalPrix.setText(daoCommande.afficherAddition(commande).get(1));
 			
@@ -151,6 +150,7 @@ public class AdditionControleur implements Initializable {
 		}
 	}
 
+	@FXML
 	public void imprimerAddition() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ImpressionAddition.fxml"));

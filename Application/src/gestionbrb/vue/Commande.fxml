@@ -123,7 +123,7 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button id="glass" mnemonicParsing="false" onAction="#imprimerAddition" prefHeight="62.0" prefWidth="359.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="Imprimer ticket">
+                  <Button id="glass" mnemonicParsing="false" onAction="#imprimerTicket" prefHeight="62.0" prefWidth="359.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="Imprimer ticket">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>

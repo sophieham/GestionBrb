@@ -68,7 +68,7 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
-		devise.setText(daoCommande.recupererDevise());
+		devise.setText(DAOCommande.recupererDevise());
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
@@ -146,8 +146,10 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 				float totalPrix = Float.parseFloat(tprix.getText());
 
 				if (montant > totalPrix) {
-					new NumberFormatException();
+					FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Vous avez entré une valeur supérieur à celle du prix total", "Veuillez réessayer. S'il ne s'agit pas d'une erreur, retentez avec un montant plus petit. ");
 				} else {
+					System.out.println(montant);
+					System.out.println(totalPrix);
 					float restantAPayer = Math.abs(totalPrix - montant);
 					float nouveauTotal = Math.abs(restantAPayer - totalPrix);
 					daoCommande.majPaiement(commande, restantAPayer);
@@ -193,7 +195,6 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 	public double calculRenduEspece() {
 		double rendu = 0;
 		try {
-			//champ
 			double totalAPayer = daoCommande.afficherRendu(commande);
 			double montant = Double.parseDouble(champMontant.getText());
 			if (montant < totalAPayer) {

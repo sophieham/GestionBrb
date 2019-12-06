@@ -300,7 +300,7 @@ public class CommandeControleur implements Initializable {
 	}
 	
 	@FXML
-	public void imprimerAddition() {
+	public void imprimerTicket() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ImpressionAddition.fxml"));
 			Parent addition = (Parent) loader.load();

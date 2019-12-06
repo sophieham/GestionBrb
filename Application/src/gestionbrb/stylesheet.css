@@ -54,6 +54,7 @@
     -fx-background-color: linear-gradient(#9aaec9,#9abac9);
     -fx-background-radius: 40;
     -fx-background-insets: 0;
+    -fx-text-fill: white;
 
 }
 .button:hover{
@@ -75,6 +76,7 @@
     -fx-background-color: #9aaec9;
     -fx-text-fill:rgba(0, 0, 0, 1); 
 }
+
 
 .table-view {
     -fx-base: #d9d9d9;
@@ -101,11 +103,10 @@
     -fx-border-insets: 0 10 1 0;
 }
 
-.table-view .column-header .label {
+.table-view .column-header {
     -fx-font-size: 20pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: black;
     -fx-alignment: center-left;
     -fx-opacity: 1;
 }
-

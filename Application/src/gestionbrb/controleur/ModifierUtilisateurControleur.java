@@ -1,5 +1,6 @@
 package gestionbrb.controleur;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import gestionbrb.model.Utilisateur;
@@ -65,7 +66,7 @@ public class ModifierUtilisateurControleur {
 		champNom.setText(compte.getNom());
 		champPrenom.setText(compte.getPrenom());
 		champIdentifiant.setText(compte.getIdentifiant());
-		champMot2Passe.setText(compte.getMotdepasse());
+		champMot2Passe.setText("");
 		if(compte.getPrivileges()==1)
 			boutonAdmin.setSelected(true);
 		if(compte.getPrivileges() == 0)
@@ -82,10 +83,11 @@ public class ModifierUtilisateurControleur {
 
 	/**
 	 * Appellé quand l'utilisateur appuie sur Valider
+	 * @throws NoSuchAlgorithmException 
 	 * 
 	 */
 	@FXML
-	public void actionValider() {
+	public void actionValider() throws NoSuchAlgorithmException {
 		if (estValide()) {
 			if(boutonAdmin.isSelected()) {
 				role = 1;
@@ -95,7 +97,7 @@ public class ModifierUtilisateurControleur {
 			compte.setNom(champNom.getText());
 			compte.setPrenom(champPrenom.getText());
 			compte.setIdentifiant(champIdentifiant.getText());
-			compte.setMot2passe(champMot2Passe.getText());
+			compte.setMot2passe(FonctionsControleurs.toHexString(FonctionsControleurs.getSHA(champMot2Passe.getText())));
 			compte.setPrivileges(role);
 
 			okClicked = true;

@@ -7,6 +7,7 @@ import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOTables;
 import gestionbrb.model.Commande;
 import gestionbrb.util.bddUtil;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -87,7 +88,9 @@ public class ImprimerAdditionControleur implements Initializable {
 
 	}
 
-	public void imprimer() {
+	@FXML
+	public void imprimer(ActionEvent event) {
+		Button button = (Button) event.getSource();
 		try {
 			daoTable.modifierOccupation(commande.getNoTable(), 0);
 			PrinterJob job = PrinterJob.createPrinterJob();
@@ -95,7 +98,13 @@ public class ImprimerAdditionControleur implements Initializable {
 			   job.showPrintDialog(window);
 			   job.printPage(fenetre);
 			   job.endJob();
-			   CommandeControleur.getImprimerAddition().close();
+			   System.out.println(button.getText());
+			   if(button.getText().equals("Imprimer ticket")) {
+				 CommandeControleur.getImprimerAddition().close();  
+			   }
+			   else {
+			   AdditionControleur.getImprimerAddition().close();
+			   }
 			   DemarrerCommandeControleur.getFenetreCommande().close();
 			   FonctionsControleurs.alerteInfo("Table libérée", null, "L'addition à bien été envoyée à l'imprimante et la table à été libérée!");
 			 }
