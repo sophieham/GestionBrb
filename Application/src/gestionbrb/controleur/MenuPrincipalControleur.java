@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOUtilisateur;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -33,7 +31,14 @@ public class MenuPrincipalControleur implements Initializable {
 	private Button btnStock;
 	@FXML
 	private ResourceBundle bundle;
-	
+	@FXML
+	private Button btnmenu;
+	@FXML
+	private Button btnparametre;
+	@FXML
+	private Button btnDeconnexiton;
+	@FXML 
+	private Label connecte;
 	
 	private static Stage demarrerCommande;
 	private static Stage stock;
@@ -85,14 +90,18 @@ public class MenuPrincipalControleur implements Initializable {
 		}
 	}
 
-	
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		System.out.println(bundle);
 		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
 		System.out.println(bundle.getString("key6"));
 		btnNvelleCommande.setText(bundle.getString("key6"));
-
+		btnAdministration.setText(bundle.getString("key7"));
+		btnStock.setText(bundle.getString("key8"));
+		btnmenu.setText(bundle.getString("key9"));
+		btnparametre.setText(bundle.getString("key10"));
+		btnDeconnexiton.setText(bundle.getString("key11"));
+		connecte.setText(bundle.getString("key12"));
 		
 	}
 
@@ -109,8 +118,6 @@ public class MenuPrincipalControleur implements Initializable {
 			getDemarrerCommande().setScene(new Scene(vueDCommande));
 			getDemarrerCommande().show();
 			getDemarrerCommande().setTitle("Démarrer une nouvelle commande");
-			getDemarrerCommande().getIcons().add(new Image(
-	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
 			DemarrerCommandeControleur controller = loader.getController();
 			controller.setParent(this);
@@ -123,14 +130,15 @@ public class MenuPrincipalControleur implements Initializable {
 	@FXML
 	public void fenetreStock() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionStock.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionStock.fxml"),bundle);
 			Parent vueGestionStock = (Parent) loader.load();
 			setStock(new Stage());
 			getStock().setScene(new Scene(vueGestionStock));
 			getStock().show();
 			getStock().setTitle("Gestion du stock");
-			getStock().getIcons().add(new Image(
-	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
 			GestionStockController controller = loader.getController();
 			controller.setParent(this);
@@ -143,7 +151,10 @@ public class MenuPrincipalControleur implements Initializable {
 	@FXML
 	public void fenetreCarte() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Menu.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Menu.fxml"),bundle);
 			Parent menuCarte = (Parent) loader.load();
 			fenetre.getChildren().setAll(menuCarte);
 			MenuControleur controller = loader.getController();
@@ -177,7 +188,10 @@ public class MenuPrincipalControleur implements Initializable {
 	public void fenetreAdministration() {
 
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Administration.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Administration.fxml"),bundle);
 			Parent menuAdministration = (Parent) loader.load();
 			fenetre.getChildren().setAll(menuAdministration);
 

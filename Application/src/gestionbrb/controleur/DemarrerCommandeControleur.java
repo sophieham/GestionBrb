@@ -1,14 +1,17 @@
 package gestionbrb.controleur;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOCalendrier;
 import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOTables;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Reservations;
 import gestionbrb.model.Table;
@@ -16,24 +19,26 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
+import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 
 /*
- * Controleur pour dÈmarrer une commande
+ * Controleur pour dÈñôarrer une commande
  * @author Sophie
  */
 
-public class DemarrerCommandeControleur {
-	// Variables pour la partie rÈservation
+public class DemarrerCommandeControleur{
+	// Variables pour la partie rÈñüervation
 	@FXML
 	private TextField champNom;
 	@FXML
@@ -53,7 +58,7 @@ public class DemarrerCommandeControleur {
 	@FXML
 	private ObservableList<String> noTables = FXCollections.observableArrayList();
 	
-	// Variables pour la partie dÈmarrer une nouvelle commande
+	// Variables pour la partie dÈñôarrer une nouvelle commande
 	@FXML
 	private ChoiceBox<String> champChoixTable;
 	@FXML
@@ -72,11 +77,45 @@ public class DemarrerCommandeControleur {
 	private TableColumn<Table, String> colonneStatut;
 	@FXML
 	private Label lblOccupation;
-
+	@FXML
+	private ResourceBundle bundle;
+	
+	@FXML
+	private Button btnValider;
+	@FXML
+	private TitledPane titlepaneDemarrer;
+	@FXML
+	private Label labelcouvert;
+	@FXML
+	private Label labelTable1;
+	@FXML
+	private Label labelTable;
+	@FXML
+	private Button buttonCalenderier;
+	@FXML
+	private Button btnRetour;
+	@FXML
+	private Label nom;
+	@FXML
+	private Label prenom;
+	@FXML
+	private Label heure;
+	@FXML
+	private Label date;
+	@FXML
+	private Label nombre;
+	@FXML
+	private Label telephone;
+	@FXML
+	private Label demande;
+	@FXML
+	private Button btnReserve;
+	@FXML
+	private Label labelcentre;
 	DAOCalendrier daoCalendrier = new DAOCalendrier();
 	DAOTables daoTables = new DAOTables();
 	DAOCommande daoCommande = new DAOCommande();
-	
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	@SuppressWarnings("unused")
 	private Table table;
 	@SuppressWarnings("unused")
@@ -98,15 +137,36 @@ public class DemarrerCommandeControleur {
 	}
 
 	/**
-	 * <i> Initialise le controleur. </i> <br> Remplit la liste des tables avec les donnÈes
-	 * provenant de la base de donnÈe. <br>
-	 * Met ‡ jour la liste des tables libres. <br>
+	 * <i> Initialise le controleur. </i> <br> Remplit la liste des tables avec les donnÈñës
+	 * provenant de la base de donnÈñë. <br>
+	 * Met ÔøΩ jour la liste des tables libres. <br>
 	 * <br>
-	 * Affiche un fenÍtre d'erreur si il y a des exceptions
+	 * Affiche un fenÈòære d'erreur si il y a des exceptions
 	 */
-
 	@FXML
 	private void initialize() {
+		//bundle = resources;
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			System.out.println(langue);
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		tableTable.getItems().clear();
 		
 		colonneNoTable.setCellValueFactory(cellData -> cellData.getValue().NoTableProperty());
@@ -115,21 +175,45 @@ public class DemarrerCommandeControleur {
 		try {
 			daoTables.afficher().clear();
 			tableTable.setItems(daoTables.afficher());
-			lblOccupation.setText((daoTables.afficherNoTables().size()-daoTables.afficherTablesLibres().size())+" tables occupÈe(s), "+daoTables.afficherTablesLibres().size()+" libres");
+			lblOccupation.setText((daoTables.afficherNoTables().size()-daoTables.afficherTablesLibres().size())+" tables occupÈñë(s), "+daoTables.afficherTablesLibres().size()+" libres");
 			champNoTable.setItems(daoTables.afficherNoTables());
 			champChoixTable.setItems(daoTables.afficherTablesLibres());
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'ÈxÈcution", "Une erreur est survenue", "DÈtails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'Èñ§Èñèution", "Une erreur est survenue", "DÈñ†ails: "+e);
 			e.printStackTrace();
 		}
+		
 
 	}
-
-
+	private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		System.out.println(bundle);
+		bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		btnValider.setText(bundle.getString("key13"));
+		titlepaneDemarrer.setText(bundle.getString("key14"));
+		labelcouvert.setText(bundle.getString("key15"));
+		labelTable1.setText(bundle.getString("key16"));
+		buttonCalenderier.setText(bundle.getString("key17"));
+		btnRetour.setText(bundle.getString("key5"));
+		nom.setText(bundle.getString("Nom"));
+		prenom.setText(bundle.getString("Prenom"));
+		heure.setText(bundle.getString("Heure"));
+		nombre.setText(bundle.getString("key15"));
+		telephone.setText(bundle.getString("t√©l√©phone"));
+		date.setText(bundle.getString("Date"));
+		demande.setText(bundle.getString("Demande"));
+		btnReserve.setText(bundle.getString("R√©server"));
+		colonneNoTable.setText(bundle.getString("Table"));
+		colonneNbCouvertsMax.setText(bundle.getString("Max"));
+		colonneStatut.setText(bundle.getString("Statut"));
+		lblOccupation.setText(bundle.getString("x"));
+		labelcentre.setText(bundle.getString("Occupation"));
+		labelTable.setText(bundle.getString("Table"));
+	}
 	/**
-	 * AppellÈ lors de l'appui sur le bouton. <br>
-	 * Ouvre le registre des rÈservations.
+	 * AppellÔøΩ lors de l'appui sur le bouton. <br>
+	 * Ouvre le registre des rÈñüervations.
 	 * 
 	 * Affiche un message d'erreur si il y a une exception
 	 * @throws IOException
@@ -144,20 +228,18 @@ public class DemarrerCommandeControleur {
 			stage.setTitle("Calendrier");
 			stage.setResizable(false);
 			stage.show();
-			stage.getIcons().add(new Image(
-	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 			
 			CalendrierControleur controller = loader.getController();
             controller.setMainApp(this);
             controller.afficherTout();
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "DÈtails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "DÈñ†ails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * AppellÈ lors de l'appui sur le bouton Retour au menu principal <br>
+	 * AppellÔøΩ lors de l'appui sur le bouton Retour au menu principal <br>
 	 * Il ferme la page actuelle et revient au menu principal.
 	 * 
 	 * @throws IOException
@@ -167,7 +249,7 @@ public class DemarrerCommandeControleur {
 	}
 
 	/** 
-	 * Actualise les donnÈes de la page lorsqu'une nouvelle commande est lancÈe.
+	 * Actualise les donnÈñës de la page lorsqu'une nouvelle commande est lancÈñë.
 	 */
 	public void refreshMain() {
 		tableTable.getItems().clear();
@@ -177,7 +259,7 @@ public class DemarrerCommandeControleur {
 			daoTables.afficherNoTables().clear();
 			daoTables.afficherTablesLibres().clear();
 		} catch (SQLException e) {
-			FonctionsControleurs.alerteErreur("Erreur d'ÈxÈcution", "Une erreur est survenue", "DÈtails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'Èñ§Èñèution", "Une erreur est survenue", "DÈñ†ails: "+e);
 			e.printStackTrace();
 		}
 		initialize();
@@ -188,10 +270,10 @@ public class DemarrerCommandeControleur {
 	}
 	
 	/**
-	 * DÈmarre une nouvelle commande en prenant en compte le nombre de couverts et le numÈro de table dÈfini en modifiant son occupation. <br>
+	 * DÈñôarre une nouvelle commande en prenant en compte le nombre de couverts et le numÈñûo de table dÈñíini en modifiant son occupation. <br>
 	 * Affiche une nouvelle page Commande.fxml <br>
 	 * <br> 
-	 * Affiche un message d'erreur si la commande ne peut pas Ítre lancÈe.
+	 * Affiche un message d'erreur si la commande ne peut pas Èòære lancÈñë.
 	 * 
 	 */
 	public void lancerCommande() {
@@ -215,17 +297,17 @@ public class DemarrerCommandeControleur {
 	        controller.setParent(this);
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "DÈtails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "DÈñ†ails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Extrait le numÈro de table provenant de la table choisie lors de la rÈservation <br>
-	 * RecupËre la valeur de la cible puis en fonction de la taille va rÈcuperer la valeur du nombre de la table puis transforme la valeur en entier
+	 * Extrait le numÈñûo de table provenant de la table choisie lors de la rÈñüervation <br>
+	 * RecupÈë¢e la valeur de la cible puis en fonction de la taille va rÈñèuperer la valeur du nombre de la table puis transforme la valeur en entier
 	 * <br>
 	 * <br>
-	 * <i> exemple: Table n∞2 [4 ‡ 5 couverts] > va rÈcupÈrer la valeur 2 </i>
+	 * <i> exemple: Table nÔøΩ2 [4 ÔøΩ 5 couverts] > va rÈñèupÈñûer la valeur 2 </i>
 	 * 
 	 * @param cible contenu d'un champ choicebox
 	 * @return numeroTable le numero de la table
@@ -257,9 +339,9 @@ public class DemarrerCommandeControleur {
 	}
 	
 	/**
-	 * AppellÈ quand l'utilisateur clique sur rÈserver <br>
-	 * Ajoute les donnÈes saisies ‡ la base de donnÈe si elles sont valides 
-	 * et affiche un message si cela s'est bien passÈ.<br>
+	 * AppellÔøΩ quand l'utilisateur clique sur rÈñüerver <br>
+	 * Ajoute les donnÈñës saisies ÔøΩ la base de donnÈñë si elles sont valides 
+	 * et affiche un message si cela s'est bien passÔøΩ.<br>
 	 * Efface ensuite le contenu des champs.
 	 * 
 	 * @throws SQLException
@@ -281,9 +363,9 @@ public class DemarrerCommandeControleur {
 																champDemandeSpe.getText());
 				int noTable = getNumero(champNoTable);
 				daoCalendrier.ajouter(tempReservation, noTable);
-				FonctionsControleurs.alerteInfo("Reservation enregistrÈe!", "", "La reservation ‡ bien ÈtÈ enregistrÈe!");
+				FonctionsControleurs.alerteInfo("Reservation enregistrÈñë!", "", "La reservation ÔøΩ bien Èñ†ÔøΩ enregistrÈñë!");
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÈtails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÈñ†ails: " + e);
 				e.printStackTrace();
 			}
 
@@ -301,9 +383,9 @@ public class DemarrerCommandeControleur {
 	}
 
 	/**
-	 * VÈrifie si la saisie est conforme aux donnÈes requises <br>
-	 * Cette mÈthode vÈrifie chacune des donnÈes saisies et dÈtermine 
-	 * si elle rÈpond aux critËres de la case.
+	 * VÈñûifie si la saisie est conforme aux donnÈñës requises <br>
+	 * Cette mÈñ†hode vÈñûifie chacune des donnÈñës saisies et dÈñ†ermine 
+	 * si elle rÈñúond aux critÈë¢es de la case.
 	 * 
 	 * @return true si la saisie est bien conforme, false sinon
 	 */
@@ -314,15 +396,15 @@ public class DemarrerCommandeControleur {
 			msgErreur += "Veuillez remplir le nom\n";
 		}
 		if (champPrenom.getText() == null || champPrenom.getText().length() == 0) {
-			msgErreur += "Veuillez remplir le prÈnom\n";
+			msgErreur += "Veuillez remplir le prÈñöom\n";
 		}
 		if (champNumTel.getText() == null || champNumTel.getText().length() == 0) {
-			msgErreur += "Veuillez rentrer le numÈro de tÈlÈphone\n";
+			msgErreur += "Veuillez rentrer le numÈñûo de tÈñòÈñúhone\n";
 		} else {
-			Pattern p = Pattern.compile("(0|\\+)[0-9]{8,12}"); // regex d'un numÈro de tÈlÈphone, franÁais ou Ètranger
+			Pattern p = Pattern.compile("(0|\\+)[0-9]{8,12}"); // regex d'un numÈñûo de tÈñòÈñúhone, franÈè∞is ou Èñ†ranger
 			Matcher m = p.matcher(champNumTel.getText());
 			if (!(m.find() && m.group().equals(champNumTel.getText()))) {
-				msgErreur += "Erreur! Le champ no. tÈlÈphone n'accepte que les numÈros commenÁant par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
+				msgErreur += "Erreur! Le champ no. tÈñòÈñúhone n'accepte que les numÈñûos commenÈè∞nt par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
 			}
 		}
 		if (champDate.getValue() == null) {
@@ -336,7 +418,7 @@ public class DemarrerCommandeControleur {
 																						// valide sous forme hh:mm
 			Matcher heurem = heurep.matcher(champHeure.getText());
 			if (!(heurem.find() && heurem.group().equals(champHeure.getText()))) {
-				msgErreur += "Format de l'heure incorrect, veuillez rÈessayer avec le format hh:mm appropriÈ\n";
+				msgErreur += "Format de l'heure incorrect, veuillez rÈñëssayer avec le format hh:mm appropriÈñàn";
 			}
 		}
 
@@ -358,7 +440,7 @@ public class DemarrerCommandeControleur {
 		if (msgErreur.length() == 0) {
 			return true;
 		} else {
-			FonctionsControleurs.alerteErreur("EntrÈe incorrecte", "Corrigez les erreurs suivantes pour pouvoir enregistrer la reservation",msgErreur);
+			FonctionsControleurs.alerteErreur("EntrÈñë incorrecte", "Corrigez les erreurs suivantes pour pouvoir enregistrer la reservation",msgErreur);
 			return false;
 		}
 	}
