@@ -27,16 +27,30 @@
                   <Rectangle2D minX="100.0" minY="100.0" width="200.0" />
                </viewport>
             </ImageView>
-            <Label layoutX="652.0" layoutY="439.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="53.0" prefWidth="230.0" text="Identifiant: " textFill="WHITE">
+            <Label layoutX="611.0" layoutY="439.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="53.0" prefWidth="230.0" text="Identifiant" textFill="WHITE">
                <font>
                   <Font size="36.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="36.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/utilisateur.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Label>
             <TextField fx:id="identifiant" layoutX="881.0" layoutY="439.0" onKeyPressed="#keyPressed" prefHeight="53.0" prefWidth="334.0" />
-            <Label layoutX="649.0" layoutY="542.0" text="Mot de passe: " textFill="WHITE">
+            <Label layoutX="610.0" layoutY="542.0" text="Mot de passe:" textFill="WHITE">
                <font>
                   <Font size="36.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="36.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/password.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Label>
             <PasswordField fx:id="pass" layoutX="881.0" layoutY="542.0" onKeyPressed="#keyPressed" prefHeight="53.0" prefWidth="334.0" />
             <Button id="glass" layoutX="642.0" layoutY="720.0" mnemonicParsing="false" onAction="#connexion" prefHeight="77.0" prefWidth="624.0" text="Se connecter">
