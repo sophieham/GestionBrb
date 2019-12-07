@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOUtilisateur;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -107,6 +109,8 @@ public class MenuPrincipalControleur implements Initializable {
 			getDemarrerCommande().setScene(new Scene(vueDCommande));
 			getDemarrerCommande().show();
 			getDemarrerCommande().setTitle("Démarrer une nouvelle commande");
+			getDemarrerCommande().getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
 			DemarrerCommandeControleur controller = loader.getController();
 			controller.setParent(this);
@@ -125,6 +129,8 @@ public class MenuPrincipalControleur implements Initializable {
 			getStock().setScene(new Scene(vueGestionStock));
 			getStock().show();
 			getStock().setTitle("Gestion du stock");
+			getStock().getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
 			GestionStockController controller = loader.getController();
 			controller.setParent(this);

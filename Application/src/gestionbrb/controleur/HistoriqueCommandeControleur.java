@@ -77,7 +77,7 @@ public class HistoriqueCommandeControleur {
 	@FXML
 	private void initialize() {
 		try {
-			devise.setText(daoCommande.recupererDevise());
+			devise.setText(DAOCommande.recupererDevise());
 			colonneIDCommande.setCellValueFactory(cellData -> cellData.getValue().idCommandeProperty());
 			colonneTable.setCellValueFactory(cellData -> cellData.getValue().noTableProperty());
 			colonneDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());

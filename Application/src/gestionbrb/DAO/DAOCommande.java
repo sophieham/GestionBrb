@@ -128,7 +128,6 @@ public class DAOCommande extends DAO<Commande>{
 	
 	public void majTotalAPayer(Commande c, float prix) throws SQLException {
 		PreparedStatement requete = conn.prepareStatement("UPDATE `commande` SET `prixTotal` = ?, `Reste_A_Payer` = ?  WHERE `commande`.`CommandeID` = ?");
-		System.out.println(requete);
 		requete.setFloat(1, prix);
 		requete.setFloat(2, prix);
 		requete.setInt(3, c.getIdCommande());

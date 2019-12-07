@@ -3,10 +3,12 @@ package gestionbrb.controleur;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import gestionbrb.Connexion;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -33,6 +35,8 @@ public class AdministrationControleur extends FonctionsControleurs {
 			getHistoriqueCommande().show();
 			getHistoriqueCommande().setTitle("Historique des commandes");
 			getHistoriqueCommande().setResizable(false);
+			getHistoriqueCommande().getIcons().add(new Image(
+          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 			HistoriqueCommandeControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
@@ -51,6 +55,8 @@ public class AdministrationControleur extends FonctionsControleurs {
 			getFournisseurs().show();
 			getFournisseurs().setTitle("Gestion des fournisseurs");
 			getFournisseurs().setResizable(false);
+			getFournisseurs().getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 			FournisseursControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
@@ -69,6 +75,8 @@ public class AdministrationControleur extends FonctionsControleurs {
 			getTables().show();
 			getTables().setTitle("Gestion des tables");
 			getTables().setResizable(false);
+			getTables().getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 			TablesControleur controller = loader.getController();
 			controller.setParent(this);
 			
@@ -88,7 +96,8 @@ public class AdministrationControleur extends FonctionsControleurs {
 			getUtilisateur().show();
 			getUtilisateur().setTitle("Liste du personnel");
 			getUtilisateur().setResizable(false);
-			
+			getUtilisateur().getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 			UtilisateursControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
@@ -108,6 +117,8 @@ public class AdministrationControleur extends FonctionsControleurs {
 			getPlatsIngredients().show();
 			getPlatsIngredients().setTitle("Plats & Ingredients");
 			getPlatsIngredients().setResizable(false);
+			getPlatsIngredients().getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 			IngredientsProduitsControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {

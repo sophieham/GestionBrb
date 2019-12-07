@@ -4,7 +4,6 @@ package gestionbrb.controleur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,26 +12,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-
-import gestionbrb.model.Ingredients;
-import gestionbrb.util.bddUtil;
+import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOFournisseur;
 import gestionbrb.DAO.DAOIngredients;
@@ -265,6 +257,8 @@ public static int StringtoInt(String n) {
 			getFactureIngredient().setScene(new Scene(vueFacture));
 			getFactureIngredient().show();
 			getFactureIngredient().setTitle("Facture");
+			getFactureIngredient().getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
 			FactureIngredientControleur controller = loader.getController();
 			controller.setParent(this);

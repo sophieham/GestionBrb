@@ -61,7 +61,6 @@ public class DAOCalendrier extends DAO<Reservations> {
 		ajout.setInt(6, r.getNbCouverts());
 		ajout.setString(7, r.getDemandeSpe());
 		ajout.setInt(8, noTable);
-		System.out.println(ajout);
 		ajout.execute();
 		
 	}

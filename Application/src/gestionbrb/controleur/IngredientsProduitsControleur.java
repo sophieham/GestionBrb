@@ -1,5 +1,6 @@
 package gestionbrb.controleur;
 
+import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOIngredients;
 import gestionbrb.DAO.DAOProduit;
 import gestionbrb.DAO.DAOType;
@@ -15,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -452,6 +454,8 @@ private void initialize(){
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
+			dialogStage.getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
 			ModifierIngredientsControleur controller = loader.getController();
 			controller.setDialogStage(dialogStage);
@@ -485,6 +489,8 @@ public boolean fenetreModification(Produit produit) {
 		dialogStage.initModality(Modality.WINDOW_MODAL);
 		Scene scene = new Scene(page);
 		dialogStage.setScene(scene);
+		dialogStage.getIcons().add(new Image(
+        	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
 		ModifierProduitsControleur controller = loader.getController();
 		controller.setDialogStage(dialogStage);
@@ -518,6 +524,8 @@ public boolean fenetreModification(Produit produit) {
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
+			dialogStage.getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
 			ModifierTypesControleur controller = loader.getController();
 			controller.setDialogStage(dialogStage);

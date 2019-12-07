@@ -2,6 +2,7 @@ package gestionbrb.controleur;
 
 import java.sql.SQLException;
 
+import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOCalendrier;
 import gestionbrb.model.Reservations;
 import javafx.collections.FXCollections;
@@ -13,6 +14,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -274,6 +276,8 @@ public class CalendrierControleur {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
+            dialogStage.getIcons().add(new Image(
+            	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
             ModifierCalendrierControleur controller = loader.getController();
             controller.setDialogStage(dialogStage);

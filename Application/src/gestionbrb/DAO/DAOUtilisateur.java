@@ -105,12 +105,9 @@ public class DAOUtilisateur extends DAO<Utilisateur> {
 	}
 	
 	public String recupererLangue(int id) throws SQLException{
-		//String langue = "fr";
 		ResultSet requete = conn.createStatement().executeQuery("select langue from utilisateurs WHERE CompteID = " + id);
-		System.out.println(id);
 		requete.next();
 		String langue = requete.getString("langue");
-		System.out.println("langue db: " + langue);
 
 		return langue;
 	}

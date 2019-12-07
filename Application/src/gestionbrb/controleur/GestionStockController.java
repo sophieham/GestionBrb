@@ -11,12 +11,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOIngredients;
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
@@ -136,6 +138,8 @@ public class GestionStockController implements Initializable {
 			getStage().setTitle("Commande Ingredients");
 			getStage().setScene(new Scene(root));
 			getStage().show();
+			getStage().getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 			}
 			else {
 				FonctionsControleurs.alerteAttention("Attention!", null, "Veuillez sélectionner un ingredient pour pouvoir commander");

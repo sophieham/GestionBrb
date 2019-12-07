@@ -43,7 +43,7 @@ public class DAOProduit extends DAO<Produit>{
 		ResultSet requete = conn.createStatement().executeQuery("SELECT ProduitID, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.TypeID=type_produit.TypeID");
 		int i = 0;
 		while(requete.next()) {
-			mapNomParType.put(requete.getString("produit.nom")+"\n "+commandeDAO.recupererDevise()+""+requete.getString("prix"), requete.getString("type_produit.nom"));
+			mapNomParType.put(requete.getString("produit.nom")+"\n "+DAOCommande.recupererDevise()+""+requete.getString("prix"), requete.getString("type_produit.nom"));
 			i++;
 		}
 		return mapNomParType;	
@@ -54,7 +54,7 @@ public class DAOProduit extends DAO<Produit>{
 		ResultSet requete = conn.createStatement().executeQuery("SELECT nom, prix FROM produit");
 		while(requete.next()) {
 			
-			listeNomProduits.add(requete.getString("nom")+"\n "+commandeDAO.recupererDevise()+""+requete.getString("prix"));
+			listeNomProduits.add(requete.getString("nom")+"\n "+DAOCommande.recupererDevise()+""+requete.getString("prix"));
 		}
 		return listeNomProduits;	
 	}

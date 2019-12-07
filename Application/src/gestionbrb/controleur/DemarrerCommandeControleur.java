@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOCalendrier;
 import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOTables;
@@ -24,6 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /*
@@ -143,6 +145,8 @@ public class DemarrerCommandeControleur {
 			stage.setTitle("Calendrier");
 			stage.setResizable(false);
 			stage.show();
+			stage.getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 			
 			CalendrierControleur controller = loader.getController();
             controller.setMainApp(this);

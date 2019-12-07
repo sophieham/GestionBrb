@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
 
+import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOProduit;
 import gestionbrb.DAO.DAOType;
@@ -34,6 +35,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -240,6 +242,8 @@ public class CommandeControleur implements Initializable {
 				getFenetreAddition().setTitle("-- Addition de la table " + CommandeControleur.this.commande.getNoTable() + " --");
 				getFenetreAddition().setScene(new Scene(vueAdditionCommande));
 				getFenetreAddition().show();
+				getFenetreAddition().getIcons().add(new Image(
+		          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
 				AdditionControleur controller = loader.getController();
 				controller.setParent(this);
@@ -309,6 +313,8 @@ public class CommandeControleur implements Initializable {
 			getImprimerAddition().setTitle("-- Addition de la table " + commande.getNoTable() + " --");
 			getImprimerAddition().setScene(new Scene(addition));
 			getImprimerAddition().show();
+			getImprimerAddition().getIcons().add(new Image(
+	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 			ImprimerAdditionControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {

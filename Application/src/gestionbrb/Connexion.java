@@ -5,6 +5,7 @@ import gestionbrb.controleur.FonctionsControleurs;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -36,6 +37,8 @@ public class Connexion extends Application {
             loader.setLocation(Connexion.class.getResource("vue/Connexion.fxml"));
             AnchorPane ConnexionOverview = (AnchorPane) loader.load();
             Scene scene = new Scene(ConnexionOverview);
+            primaryStage.getIcons().add(new Image(
+            	      Connexion.class.getResourceAsStream( "ico.png" ))); 
             primaryStage.setScene(scene);
             primaryStage.show();
             

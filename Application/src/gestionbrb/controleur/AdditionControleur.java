@@ -3,6 +3,7 @@ package gestionbrb.controleur;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOCommande;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
@@ -16,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -160,6 +162,8 @@ public class AdditionControleur implements Initializable {
 			getImprimerAddition().setTitle("-- Addition de la table " + commande.getNoTable() + " --");
 			getImprimerAddition().setScene(new Scene(addition));
 			getImprimerAddition().show();
+			getImprimerAddition().getIcons().add(new Image(
+          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 			ImprimerAdditionControleur controller = loader.getController();
 			controller.setParent(this);
 			CommandeControleur.getFenetreAddition().close();
