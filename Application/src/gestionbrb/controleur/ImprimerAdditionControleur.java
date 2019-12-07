@@ -20,6 +20,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Window;
 
+/**
+ * Affichage de l'addition et impression du ticket
+ * @author Sophie
+ *
+ */
 public class ImprimerAdditionControleur implements Initializable {
 
 	@FXML
@@ -51,6 +56,10 @@ public class ImprimerAdditionControleur implements Initializable {
 	DAOCommande daoCommande = new DAOCommande();
 	DAOTables daoTable = new DAOTables();
 	
+	
+	/**
+	 * Initialise le ticket avec les informations sur la table et les produits commandés.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
@@ -87,6 +96,11 @@ public class ImprimerAdditionControleur implements Initializable {
 
 	}
 
+	/**
+	 * Affiche la boite de dialogue pour lancer l'impression. <br>
+	 * Une fois l'impression lancée ou annulée, la table est libérée.
+	 * @param event
+	 */
 	@FXML
 	public void imprimer(ActionEvent event) {
 		Button button = (Button) event.getSource();

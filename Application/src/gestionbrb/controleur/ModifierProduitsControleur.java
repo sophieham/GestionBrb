@@ -85,7 +85,7 @@ public class ModifierProduitsControleur {
 	public void setProduit(Produit produit) throws SQLException, ClassNotFoundException {
 		this.produit = produit;
 		chNomProduit.setText(produit.getNomProduit());
-		chPrixProduit.setText(Float.toString(produit.getPrixProduit()));
+		chPrixProduit.setText(Double.toString(produit.getPrixProduit()));
 		chQuantiteProduit.setText(Integer.toString(produit.getQuantiteProduit()));
 		chDescription.setText(produit.getDescriptionProduit());
 		chChoixType.setValue(produit.getType());
@@ -115,7 +115,7 @@ public class ModifierProduitsControleur {
 			}
 			if (estValide()) {
 				produit.setNomProduit(chNomProduit.getText());
-				produit.setPrixProduit(Float.parseFloat(chPrixProduit.getText()));
+				produit.setPrixProduit(Double.parseDouble(chPrixProduit.getText()));
 				produit.setQuantiteProduit(Integer.parseInt(chQuantiteProduit.getText()));
 				produit.setDescriptionProduit(chDescription.getText());
 				produit.setType(chChoixType.getValue());
@@ -158,7 +158,7 @@ public class ModifierProduitsControleur {
 			erreurMsg += "Veuillez remplir le prix du produit\n";
 		} else {
 			try {
-				Float.parseFloat(chPrixProduit.getText());
+				Double.parseDouble(chPrixProduit.getText());
 			} catch (NumberFormatException e) {
 				erreurMsg += "Erreur! Le champ prix n'accepte que les nombres\n";
 			}

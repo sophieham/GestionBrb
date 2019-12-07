@@ -79,7 +79,7 @@ public void ajouter(Produit p) throws SQLException{
 	ajoutDB.setString(1, p.getNomProduit());
 	ajoutDB.setInt(2, p.getQuantiteProduit());
 	ajoutDB.setString(3, p.getDescriptionProduit());
-	ajoutDB.setFloat(4, p.getPrixProduit());
+	ajoutDB.setDouble(4, p.getPrixProduit());
 	ajoutDB.setInt(5, FonctionsControleurs.retrouveID(p.getType()));
 	ajoutDB.setString(6, p.getIngredients());
 	ajoutDB.execute();
@@ -105,7 +105,7 @@ public void modifier(Produit p) throws SQLException {
 		requete.setString(1, (p.getNomProduit()));
 		requete.setInt(2, (p.getQuantiteProduit()));
 		requete.setString(3, (p.getDescriptionProduit()));
-		requete.setFloat(4, (p.getPrixProduit()));
+		requete.setDouble(4, (p.getPrixProduit()));
 		requete.setInt(5, (FonctionsControleurs.retrouveID(p.getType())));
 		requete.setInt(6, (p.getIdProduit()));
 		requete.execute();

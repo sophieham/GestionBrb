@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * 
+ * Fenetre de modification ou d'ajout de tables
  * @author Sophie
  *
  */
@@ -39,7 +39,7 @@ public class ModifierTablesControleur {
 	}
 
 	/**
-	 * 
+	 * Rempli les champs de saisie avec les informations sur la table (si il y en a)
 	 * @param reservation
 	 * @throws SQLException
 	 * @throws ClassNotFoundException

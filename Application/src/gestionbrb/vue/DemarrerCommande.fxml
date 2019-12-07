@@ -180,6 +180,9 @@
                         <TableColumn fx:id="colonneNbCouvertsMax" prefWidth="177.0" resizable="false" text="Max Couverts" />
                         <TableColumn fx:id="colonneStatut" prefWidth="91.0" resizable="false" text="Statut" />
                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
                   <Label fx:id="lblOccupation" alignment="CENTER" layoutX="4.0" layoutY="876.0" prefHeight="40.0" prefWidth="556.0" text="x tables occupée(s), x libres" textAlignment="CENTER" textFill="WHITE">
                      <font>

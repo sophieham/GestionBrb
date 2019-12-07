@@ -19,7 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * 
+ * Affiche les tables avec le différentes propriétés.
  * @author Sophie
  *
  */

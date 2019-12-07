@@ -53,7 +53,7 @@ public class ModifierFournisseurControleur {
 		champNom.setText(fournisseur.getNom());
 		champAdresse.setText(fournisseur.getAdresse());
 		champMail.setText(fournisseur.getMail());
-		champNumTel.setText(Integer.toString(fournisseur.getNumTel()));
+		champNumTel.setText(fournisseur.getNumTel());
 		champVille.setText(fournisseur.getNomVille());
 		champCodePostal.setText(Integer.toString(fournisseur.getCodePostal()));
 		
@@ -77,7 +77,7 @@ public class ModifierFournisseurControleur {
 			fournisseur.setNom(champNom.getText());
 			fournisseur.setAdresse(champAdresse.getText());
 			fournisseur.setMail(champMail.getText());
-			fournisseur.setNumTel(Integer.parseInt(champNumTel.getText()));
+			fournisseur.setNumTel(champNumTel.getText());
 			fournisseur.setNomVille(champVille.getText());
 			fournisseur.setCodePostal(Integer.parseInt(champCodePostal.getText()));
 			okClicked = true;

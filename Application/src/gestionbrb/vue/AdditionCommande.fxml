@@ -83,12 +83,12 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalAPayer" alignment="CENTER_RIGHT" layoutX="168.0" layoutY="10.0" prefHeight="35.0" prefWidth="147.0" text="0,00" textFill="WHITE">
+                        <Label fx:id="totalAPayer" alignment="CENTER_RIGHT" layoutX="168.0" layoutY="10.0" prefHeight="35.0" prefWidth="113.0" text="0,00" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="devise" layoutX="315.0" layoutY="10.0" prefHeight="35.0" prefWidth="27.0" textFill="WHITE">
+                        <Label fx:id="devise" layoutX="285.0" layoutY="10.0" prefHeight="35.0" prefWidth="57.0" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>

@@ -112,7 +112,7 @@ public class DAOUtilisateur extends DAO<Utilisateur> {
 		return langue;
 	}
 	
-	/**************************************************************/
+	/***********************Logs de connexions*********************************/
 
 	public ObservableList<Utilisateur> afficherTout() throws SQLException{
 		ResultSet connexionsDB = conn.createStatement().executeQuery("SELECT * from logs ORDER BY day(timestamp) desc");

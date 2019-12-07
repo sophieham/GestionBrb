@@ -9,7 +9,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * 
+ * Réservation d'une table à une date et heure donnée
  * @author Sophie
  *
  */

@@ -6,10 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * <!-- begin-user-doc --> <!-- end-user-doc -->
- * 
- * 
- * @generated
+ * Personne utilisant le programme (peut etre un administrateur, un serveur ou un client)
  */
 public class Utilisateur {
 	private final IntegerProperty idUtilisateur;

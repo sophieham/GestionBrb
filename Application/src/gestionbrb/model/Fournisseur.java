@@ -6,31 +6,30 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * <!-- begin-user-doc --> <!-- end-user-doc -->
- * 
+ * Fournisseur des ingredients
  * @generated
  */
 
 public class Fournisseur {
 	private IntegerProperty idFournisseur;
 	private StringProperty nom;
-	private IntegerProperty numTel;
+	private StringProperty numTel;
 	private StringProperty mail;
 	private StringProperty adresse;
 	private IntegerProperty codePostal;
 	private StringProperty nomVille;
 
-	public Fournisseur(int id, String nom, int numTel, String mail, String adresse, int codePostal, String ville) {
+	public Fournisseur(int id, String nom, String numTel, String mail, String adresse, int codePostal, String ville) {
 		this.idFournisseur = new SimpleIntegerProperty(id);
 		this.nom = new SimpleStringProperty(nom);
-		this.numTel = new SimpleIntegerProperty(numTel);
+		this.numTel = new SimpleStringProperty(numTel);
 		this.mail = new SimpleStringProperty(mail);
 		this.adresse = new SimpleStringProperty(adresse);
 		this.codePostal = new SimpleIntegerProperty(codePostal);
 		this.nomVille = new SimpleStringProperty(ville);
 	}
 	public Fournisseur() {
-		this(0,"", 0, "", "", 0, "");
+		this(0,"", "", "", "", 0, "");
 	}
 
 	public final IntegerProperty idFournisseurProperty() {
@@ -63,17 +62,17 @@ public class Fournisseur {
 	}
 	
 
-	public final IntegerProperty numTelProperty() {
+	public final StringProperty numTelProperty() {
 		return this.numTel;
 	}
 	
 
-	public final int getNumTel() {
+	public final String getNumTel() {
 		return this.numTelProperty().get();
 	}
 	
 
-	public final void setNumTel(final int numTel) {
+	public final void setNumTel(final String numTel) {
 		this.numTelProperty().set(numTel);
 	}
 	

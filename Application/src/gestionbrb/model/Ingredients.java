@@ -1,16 +1,14 @@
 package gestionbrb.model;
 
-import javafx.beans.property.FloatProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * Ingredients utilisés dans la confections des produits
  */
 
 public class Ingredients
@@ -18,14 +16,14 @@ public class Ingredients
 	private final IntegerProperty idIngredient;
 	private final StringProperty nomIngredient;
 	private final IntegerProperty quantiteIngredient;
-	private final FloatProperty prixIngredient;
+	private final DoubleProperty prixIngredient;
 	private final StringProperty fournisseur ;
 
 	public Ingredients(int idIngredient, String nomIngredient, int prixIngredient, int quantiteIngredient, String fournisseur){
 		this.idIngredient = new SimpleIntegerProperty(idIngredient);
 		this.nomIngredient = new SimpleStringProperty(nomIngredient);
 		this.quantiteIngredient = new SimpleIntegerProperty(quantiteIngredient);
-		this.prixIngredient = new SimpleFloatProperty(prixIngredient);
+		this.prixIngredient = new SimpleDoubleProperty(prixIngredient);
 		this.fournisseur = new SimpleStringProperty(fournisseur);
 	}
 
@@ -50,13 +48,13 @@ public class Ingredients
 	public final void  setNomIngredient(final String nomIngredient) {
 		this.nomIngredientProperty().set(nomIngredient);
 	}
-	public final FloatProperty prixIngredientProperty() {
+	public final DoubleProperty prixIngredientProperty() {
 		return this.prixIngredient;
 	}
-	public final float getPrixIngredient() {
+	public final double getPrixIngredient() {
 		return this.prixIngredientProperty().get();
 	}
-	public final void  setPrixIngredient(final float prixIngredient) {
+	public final void  setPrixIngredient(final double prixIngredient) {
 		this.prixIngredientProperty().set(prixIngredient);
 	}
 	public final IntegerProperty quantiteIngredientProperty() {

@@ -108,7 +108,7 @@ public class CommandeControleur implements Initializable {
 		return primaryStage;
 	}
 	
-	List<Float> listePrix = new ArrayList<>();
+	List<Double> listePrix = new ArrayList<>();
 	
 	/*
 	 * Initialise la page avec les données.
@@ -138,6 +138,7 @@ public class CommandeControleur implements Initializable {
 	 * commandés <br>
 	 * <br>
 	 * Affiche une boite de dialogue si la fonction génére une erreur
+	 * @author Sophie
 	 */
 	public void etablirCommande() {
 		try {
@@ -169,6 +170,7 @@ public class CommandeControleur implements Initializable {
 							if (tab.getKey().equals(produit.getValue())) {
 								Button btnPlat = new Button(produit.getKey());
 								btnPlat.setPrefSize(200, 100);
+								btnPlat.setWrapText(true);
 								btnPlat.setTextAlignment(TextAlignment.CENTER);
 								btnPlat.setAlignment(Pos.CENTER);
 								btnPlat.setOnAction(new EventHandler<ActionEvent>() {
@@ -180,7 +182,7 @@ public class CommandeControleur implements Initializable {
 																								// tab[1] -> prix
 											String subPrix = tabResultat[1].substring(4); // coupe la devise
 
-											float prix = Float.parseFloat(subPrix);
+											double prix = Double.parseDouble(subPrix);
 											Produit prod = new Produit(tabResultat[0], prix, 1);
 											prod.setIdProduit(mapNomParId.get(tabResultat[0]));
 											listePrix.add(prix);
@@ -229,6 +231,9 @@ public class CommandeControleur implements Initializable {
 		}
 	}
 	
+	/**
+	 * Affiche l'addition si la liste des produits commandés n'est pas vide, sinon affiche un message.
+	 */
 	@FXML
 	public void afficherAddition() {
 		if (totalProduit.getText().equals("0")) {
@@ -255,6 +260,9 @@ public class CommandeControleur implements Initializable {
 		}
 	}
 	
+	/**
+	 * Supprime le produit selectionné s'il y en a un, sinon affiche un message d'erreur.
+	 */
 	public void supprimerProduit() {
 		Produit selectionProduit = tableRecap.getSelectionModel().getSelectedItem();
 		int indexSelection = tableRecap.getSelectionModel().getSelectedIndex();
@@ -264,7 +272,7 @@ public class CommandeControleur implements Initializable {
 			produitCommande.remove(indexSelection);
 			FonctionsControleurs.alerteInfo("Suppression réussie", null, "Le produit "+selectionProduit.getIdProduit()+" vient d'être supprimée!");
 			
-			totalPrix.setText(daoCommande.afficherPrixTotal(commande)+""+daoCommande.recupererDevise());
+			totalPrix.setText(daoCommande.afficherPrixTotal(commande)+""+DAOCommande.recupererDevise());
 			totalProduit.setText(daoCommande.afficherQteTotal(commande)+"");
 			}
 			catch(Exception e) {
@@ -280,7 +288,10 @@ public class CommandeControleur implements Initializable {
 					"Selectionnez une table pour pouvoir la supprimer");
 		}
 	}
-	
+
+	/**
+	 * Ouvre une boite de dialogue permettant de saisir une quelqueconque demande du client.
+	 */
 	@FXML
 	public void demandeSpeciale() {
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -303,6 +314,9 @@ public class CommandeControleur implements Initializable {
         alert.showAndWait();
 	}
 	
+	/** 
+	 * Affiche le ticket lié à l'addition en vue de l'imprimer.
+	 */
 	@FXML
 	public void imprimerTicket() {
 		try {

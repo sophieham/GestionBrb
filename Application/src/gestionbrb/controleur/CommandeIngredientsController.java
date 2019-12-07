@@ -275,7 +275,7 @@ public static int StringtoInt(String n) {
 	}
 	
 	
-	public static float getPrix() {
+	public static double getPrix() {
 		return prix;
 	}
 	public VBox getVbox() {

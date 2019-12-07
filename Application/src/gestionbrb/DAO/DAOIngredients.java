@@ -41,7 +41,7 @@ public class DAOIngredients extends DAO<Ingredients>{
 		PreparedStatement ajoutDB = conn.prepareStatement(
 				"INSERT INTO `ingredients` (`IngredientID`, `nomIngredient`, `prixIngredient`, `qteRestante`, `FournisseurID`) VALUES (NULL, ?, ?, ?, ?)");
 		ajoutDB.setString(1, i.getNomIngredient());
-		ajoutDB.setFloat(2, i.getPrixIngredient());
+		ajoutDB.setDouble(2, i.getPrixIngredient());
 		ajoutDB.setInt(3, i.getQuantiteIngredient());
 		ajoutDB.setInt(4, FonctionsControleurs.retrouveID(i.getFournisseur()));
 		ajoutDB.execute();
@@ -61,7 +61,7 @@ public class DAOIngredients extends DAO<Ingredients>{
 	public void modifier(Ingredients i) throws SQLException {
 		PreparedStatement requete = conn.prepareStatement("UPDATE `ingredients` SET `nomIngredient` = ?, prixIngredient = ?, qteRestante = ?, idfournisseur = ? WHERE IngredientID = ?");
 		requete.setString(1, (i.getNomIngredient()));
-		requete.setFloat(2, (i.getPrixIngredient()));
+		requete.setDouble(2, (i.getPrixIngredient()));
 		requete.setInt(3, (i.getQuantiteIngredient()));
 		requete.setInt(4, (FonctionsControleurs.retrouveID(i.getFournisseur())));
 		requete.setInt(5, (i.getIdIngredient()));

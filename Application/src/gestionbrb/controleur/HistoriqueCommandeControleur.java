@@ -104,7 +104,10 @@ public class HistoriqueCommandeControleur {
 	}
 	
 	
-	
+	/**
+	 * Affiche toutes les commandes effectuées aujourd'hui.
+	 * @author Sophie
+	 */
 	@FXML
 	public void afficherAujourdhui() {
 		commandeTable.getItems().clear();
@@ -121,6 +124,10 @@ public class HistoriqueCommandeControleur {
 		}
 	}
 	
+	/**
+	 * Affiche toutes les commandes effectuées cette semaine.
+	 * @author Sophie
+	 */
 	@FXML
 	public void afficherSemaine() {
 		commandeTable.getItems().clear();
@@ -136,6 +143,10 @@ public class HistoriqueCommandeControleur {
 		}
 	}
 
+	/**
+	 * Affiche toutes les commandes effectuées ce mois-ci.
+	 * @author Sophie
+	 */
 	@FXML
 	public void afficherMois() {
 		commandeTable.getItems().clear();
@@ -151,6 +162,10 @@ public class HistoriqueCommandeControleur {
 		}
 	}
 
+	/**
+	 * Affiche toutes les commandes effectuées cette année.
+	 * @author Sophie
+	 */
 	@FXML
 	public void afficherAnnee() {
 		commandeTable.getItems().clear();
@@ -166,6 +181,10 @@ public class HistoriqueCommandeControleur {
 		}
 	}
 	
+	/**
+	 * Affiche toutes les commandes effectuées.
+	 * @author Sophie
+	 */
 	@FXML
 	public void afficherTout() {
 		commandeTable.getItems().clear();
@@ -173,6 +192,11 @@ public class HistoriqueCommandeControleur {
 		initialize();
 	}
 	
+	/**
+	 * Affiche les produits consommés dans la commande selectionnée.
+	 * @author Sophie
+	 * @param event
+	 */
     @FXML
     void voirDetails(ActionEvent event) {
     	Commande selectedCommande = commandeTable.getSelectionModel().getSelectedItem();
@@ -223,6 +247,10 @@ public class HistoriqueCommandeControleur {
 		}
     }
     
+    /**
+	 * Affiche toutes les instances de connexions du jour.
+	 * @author Sophie
+	 */
     @FXML
 	public void afficherConnexionsAujourdhui() {
 		connexionTable.getItems().clear();
@@ -236,6 +264,10 @@ public class HistoriqueCommandeControleur {
 		}
 	}
 	
+    /**
+	 * Affiche toutes les instances connexions de la semaine.
+	 * @author Sophie
+	 */
 	@FXML
 	public void afficherConnexionsSemaine() {
 		connexionTable.getItems().clear();
@@ -249,6 +281,10 @@ public class HistoriqueCommandeControleur {
 		}
 	}
 
+	/**
+	 * Affiche toutes les instances connexions du mois.
+	 * @author Sophie
+	 */
 	@FXML
 	public void afficherConnexionsMois() {
 		connexionTable.getItems().clear();
@@ -262,6 +298,10 @@ public class HistoriqueCommandeControleur {
 		}
 	}
 
+	/**
+	 * Affiche toutes les instances connexions de l'année.
+	 * @author Sophie
+	 */
 	@FXML
 	public void afficherConnexionsAnnee() {
 		connexionTable.getItems().clear();

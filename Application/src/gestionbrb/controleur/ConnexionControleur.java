@@ -33,6 +33,14 @@ public class ConnexionControleur extends Connexion {
 	
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 
+	/**
+	 * Lance le processus de connexion. <br>
+	 * Hash le mot de passe entré, puis vérifie si il y a une combinaison identique a celle entrée dans la base de donnée. <br>
+	 * Si il y en a une on crée un objet utilisateur avec les informations de l'utilisateur et on le redirige vers le menu principal <br>
+	 * Si les deux champs sont vides, cela ouvre une session client très restreinte.
+	 * 
+	 * Affiche un message d'erreur si la combinaison est inconnue.
+	 */
 	@FXML 
 	public void connexion(){
 		try {
@@ -52,7 +60,10 @@ public class ConnexionControleur extends Connexion {
 		}
 
 	}
-
+	/**
+	 * Permet à l'utilisateur d'appuyer sur entrée lors de la saisie pour lancer le processus de connexion
+	 * @param key
+	 */
 	@FXML
 	public void keyPressed(KeyEvent key) {
 		KeyCode kc = key.getCode();
@@ -60,6 +71,10 @@ public class ConnexionControleur extends Connexion {
 			connexion();
 		}
 	}
+	
+	/**
+	 * Affiche le menu principal
+	 */
 	@FXML
 	public void afficherMenuPrincipal() {
 		try {

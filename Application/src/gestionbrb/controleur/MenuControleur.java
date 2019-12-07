@@ -67,6 +67,15 @@ public class MenuControleur implements Initializable {
     @SuppressWarnings("unused")
 	private MenuPrincipalControleur parent;
 
+    /**
+	 * Fonction principale du controleur. <br>
+	 * Il affiche des onglets en fonction du nombre et du nom des types, et affiche
+	 * dans ces onglets les differents produits qui sont du même type. <br>
+	 * Affiche aussi une description et les ingredients du produit lorsqu'on clique dessus.
+	 * <br>
+	 * Affiche une boite de dialogue si la fonction génére une erreur
+	 * @author Sophie
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
@@ -146,6 +155,10 @@ public class MenuControleur implements Initializable {
 	}
 		
 
+	/**
+	 * Retourne au menu principal
+	 * @param event
+	 */
     @FXML
     void retourMenuPrincipal(MouseEvent event) {
     	try {

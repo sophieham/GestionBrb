@@ -35,7 +35,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 	@FXML
 	private TableColumn<Fournisseur, String> colonneNom;
 	@FXML
-	private TableColumn<Fournisseur, Number> colonneTel;
+	private TableColumn<Fournisseur, String> colonneTel;
 	@FXML
 	private TableColumn<Fournisseur, String> colonneMail;
 	@FXML

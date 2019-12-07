@@ -107,7 +107,7 @@
                   </Button>
                </children>
             </VBox>
-            <Label fx:id="detailsLbl" alignment="CENTER" layoutY="240.0" prefHeight="32.0" prefWidth="708.0">
+            <Label fx:id="detailsLbl" alignment="CENTER" layoutY="240.0" prefHeight="32.0" prefWidth="708.0" textFill="WHITE" wrapText="true">
                <font>
                   <Font size="22.0" />
                </font>

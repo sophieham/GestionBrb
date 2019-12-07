@@ -2,15 +2,15 @@ package gestionbrb.model;
 
 import java.util.ArrayList;
 
-import javafx.beans.property.FloatProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- * 
+ * Ensemble de produits commandés par un client a une date et une table donnée
  * @author Sophie
  *
  */
@@ -18,7 +18,7 @@ public class Commande
 {
 	private IntegerProperty idCommande;
 	private ArrayList<Produit> listeProduitCommande;
-	private FloatProperty prixTotal;
+	private DoubleProperty prixTotal;
 	private IntegerProperty noTable;
 	private IntegerProperty nbCouverts;
 	private SimpleStringProperty date;
@@ -30,10 +30,10 @@ public class Commande
 		this.nbCouverts = new SimpleIntegerProperty(nbCouverts);
 	}
 	
-	public Commande(int id, int noTable, int nbCouverts, float prixTotal, String date, String serveur) {
+	public Commande(int id, int noTable, int nbCouverts, double prixTotal, String date, String serveur) {
 		this.idCommande=new SimpleIntegerProperty(id);
 		this.noTable = new SimpleIntegerProperty(noTable);
-		this.prixTotal = new SimpleFloatProperty(prixTotal);
+		this.prixTotal = new SimpleDoubleProperty(prixTotal);
 		this.nbCouverts = new SimpleIntegerProperty(nbCouverts);
 		this.serveur = new SimpleStringProperty(serveur);
 		this.date= new SimpleStringProperty(date);	
@@ -64,15 +64,15 @@ public class Commande
 		this.listeProduitCommande.addAll(listeProduitCommande);
 	}
 
-    public FloatProperty prixTotalProperty() {
+    public DoubleProperty prixTotalProperty() {
         return prixTotal;
     }
 
-	public float getPrixTotal() {
+	public double getPrixTotal() {
 		return prixTotal.get();
 	}
 
-	public void setPrixTotal(float prixTotal) {
+	public void setPrixTotal(double prixTotal) {
 		this.prixTotal.set(prixTotal);
 	}
 	

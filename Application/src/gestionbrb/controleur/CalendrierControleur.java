@@ -20,7 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * 
+ * Recense toutes les réservations et leurs détails
  * @author Sophie
  *
  */

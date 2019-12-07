@@ -5,6 +5,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Tables composant le restaurant
+ * @author Sophie
+ *
+ */
 public class Table {
 	private final IntegerProperty idTable;
 	private final IntegerProperty nbCouvertsMin;

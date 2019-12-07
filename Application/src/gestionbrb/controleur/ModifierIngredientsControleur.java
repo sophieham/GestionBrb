@@ -59,7 +59,7 @@ public class ModifierIngredientsControleur {
 	public void setIngredients(Ingredients ingredient) throws SQLException, ClassNotFoundException {
 		this.ingredient = ingredient;
 		chNomIngredient.setText(ingredient.getNomIngredient());
-		chPrixIngredient.setText(Float.toString(ingredient.getPrixIngredient()));
+		chPrixIngredient.setText(Double.toString(ingredient.getPrixIngredient()));
 		chQuantiteIngredient.setText(Integer.toString(ingredient.getQuantiteIngredient()));
 		chChoixFournisseur.setValue(ingredient.getFournisseur());
 	}
@@ -108,7 +108,7 @@ public class ModifierIngredientsControleur {
 			erreurMsg += "Veuillez remplir le prix de l'ingredient\n";
 		} else {
 			try {
-				Float.parseFloat(chPrixIngredient.getText());
+				Double.parseDouble(chPrixIngredient.getText());
 			} catch (NumberFormatException e) {
 				erreurMsg += "Erreur! Le champ prix n'accepte que les nombres\n";
 			}

@@ -142,16 +142,16 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 			try {
 				Label tprix = new Label();
 				tprix.setText(daoCommande.afficherRendu(commande) + "");
-				float montant = Float.parseFloat(champMontant.getText());
-				float totalPrix = Float.parseFloat(tprix.getText());
+				double montant = Double.parseDouble(champMontant.getText());
+				double totalPrix = Double.parseDouble(tprix.getText());
 
 				if (montant > totalPrix) {
 					FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Vous avez entré une valeur supérieur à celle du prix total", "Veuillez réessayer. S'il ne s'agit pas d'une erreur, retentez avec un montant plus petit. ");
 				} else {
 					System.out.println(montant);
 					System.out.println(totalPrix);
-					float restantAPayer = Math.abs(totalPrix - montant);
-					float nouveauTotal = Math.abs(restantAPayer - totalPrix);
+					double restantAPayer = Math.abs(totalPrix - montant);
+					double nouveauTotal = Math.abs(restantAPayer - totalPrix);
 					daoCommande.majPaiement(commande, restantAPayer);
 					FonctionsControleurs.alerteInfo("Paiement accepté", null, "L'addition à été payé de " + nouveauTotal + ", il reste " + restantAPayer + " à payer");
 					actionAnnuler();

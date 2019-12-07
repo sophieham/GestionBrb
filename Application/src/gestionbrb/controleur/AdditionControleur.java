@@ -152,6 +152,9 @@ public class AdditionControleur implements Initializable {
 		}
 	}
 
+	/**
+	 * Affiche le ticket lié à l'addition en vue de l'imprimer.
+	 */
 	@FXML
 	public void imprimerAddition() {
 		try {

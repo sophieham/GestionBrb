@@ -15,6 +15,9 @@ public class DAOCalendrier extends DAO<Reservations> {
 	private ObservableList<Reservations> reservationData = FXCollections.observableArrayList();
 	public static Connection conn = bddUtil.dbConnect();
 
+	/**
+	 * Crée des objets Reservation à partir de la base de donnée
+	 */
 	@Override
 	public ObservableList<Reservations> afficher() throws SQLException {
 		ResultSet calendrierDB = conn.createStatement().executeQuery("select * from calendrier");
@@ -32,6 +35,11 @@ public class DAOCalendrier extends DAO<Reservations> {
 		
 	}
 
+	/**
+	 * Affiche les détails sur la reservation séléctionnée
+	 * @return reservation la reservation séléctionnée
+	 * @throws SQLException
+	 */
 	public Reservations afficherReservation() throws SQLException {
 		ResultSet calendrierDB = conn.createStatement().executeQuery("select * from calendrier");
 		Reservations resv = new Reservations();
@@ -49,7 +57,12 @@ public class DAOCalendrier extends DAO<Reservations> {
 		
 	}
 
-	
+	/**
+	 * Ajoute une nouvelle réservation à la base de donnée
+	 * @param r la reservation ajoutée
+	 * @param noTable le numéro de table attribué
+	 * @throws SQLException
+	 */
 	public void ajouter(Reservations r, int noTable) throws SQLException {
 		PreparedStatement ajout = 
 				conn.prepareStatement("INSERT INTO `calendrier` (`ReservationID`, `Nom`, `Prenom`, `Numero_Tel`, `Date_Reservation`, `Heure_Reservation`, `Nombre_Couverts`, `Demande_Speciale`, `noTable`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -65,6 +78,9 @@ public class DAOCalendrier extends DAO<Reservations> {
 		
 	}
 
+	/**
+	 * Supprime la reservation sélectionnée dans le calendrier.
+	 */
 	@Override
 	public void supprimer(Reservations r) throws SQLException {
 		PreparedStatement suppression = conn.prepareStatement("DELETE FROM `calendrier` WHERE ReservationID=?");
@@ -73,6 +89,9 @@ public class DAOCalendrier extends DAO<Reservations> {
 		
 	}
 
+	/**
+	 * Modifie la réservation séléctionnée avec les nouvelles données saisies
+	 */
 	@Override
 	public void modifier(Reservations r) {
 		
@@ -94,6 +113,12 @@ public class DAOCalendrier extends DAO<Reservations> {
 		
 	}
 	
+	/**
+	 * Affiche le nombre de réservations à une date donnée
+	 * @param date la date donnée
+	 * @return nbTotalDate le nombre de reservations ce jour-là
+	 * @throws SQLException
+	 */
 	public String nombreTotalRsv(String date) throws SQLException {
 		String nbTotalDate = null;
 		ResultSet requete = conn.createStatement().executeQuery("select count(*) from calendrier where Date_Reservation LIKE '" + date + "'");
@@ -104,6 +129,11 @@ public class DAOCalendrier extends DAO<Reservations> {
 		return nbTotalDate;
 	}
 
+	/**
+	 * Compte le nombre total de reservations
+	 * @return un nombre
+	 * @throws SQLException
+	 */
 	public String nombreTotalRsv() throws SQLException {
 		String nbTotal = null;
 		ResultSet requete = conn.createStatement().executeQuery("select count(*) from calendrier");
@@ -114,6 +144,11 @@ public class DAOCalendrier extends DAO<Reservations> {
 		return nbTotal;
 	}
 
+	/**
+	 * Affiche les réservations à une date donnée
+	 * @param date
+	 * @throws SQLException
+	 */
 	public void recherche(String date) throws SQLException {
 		PreparedStatement recherche = conn.prepareStatement("select * from calendrier where Date_Reservation LIKE ?");
 		recherche.setString(1, date);
@@ -134,6 +169,6 @@ public class DAOCalendrier extends DAO<Reservations> {
 
 
 	@Override
-	public void ajouter(Reservations objet) throws SQLException {
+	public void ajouter(Reservations r) throws SQLException {
 	}
 }

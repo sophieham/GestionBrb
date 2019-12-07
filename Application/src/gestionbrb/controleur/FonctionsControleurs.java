@@ -37,7 +37,6 @@ public abstract class FonctionsControleurs {
 	 * 
 	 * @return numero de la table
 	 */
-	
 	public static String getString(String string) { 
 		
 		String stringToSub = string;
@@ -94,12 +93,17 @@ public abstract class FonctionsControleurs {
 				break;
 			}
 
-			// affiche une exception alors que le String à bien été transformé en nombre
 		} catch (NumberFormatException e) {
 		}
 		return resultat;
 	}
 	
+	/**
+	 * Fonction pour hasher les mots de passes entrés
+	 * @param input
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
 	public static byte[] getSHA(String input) throws NoSuchAlgorithmException 
     {  
         MessageDigest md = MessageDigest.getInstance("SHA-256");  
