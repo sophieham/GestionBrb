@@ -18,7 +18,7 @@
          </image>
       </ImageView>
       <VBox layoutX="599.0" layoutY="50.0" prefHeight="995.0" prefWidth="715.0">
-         <children>
+          <children>
             <ImageView cache="true" fitHeight="366.0" fitWidth="557.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/logo_light_transparent.png" />
@@ -35,7 +35,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </Button>
-            <Button id="glass" fx:id="btnStock" mnemonicParsing="false" onAction="#fenetreStock" prefHeight="65.0" prefWidth="781.0" text="Voir le stock">
+            <Button id="glass" fx:id="btnStock" mnemonicParsing="false" onAction="#fenetreStock" prefHeight="65.0" prefWidth="781.0" text="%key8">
                <font>
                   <Font size="36.0" />
                </font>
@@ -43,7 +43,7 @@
                   <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetreCarte" prefHeight="65.0" prefWidth="781.0" text="Afficher le menu">
+            <Button id="glass" mnemonicParsing="false" onAction="#fenetreCarte" prefHeight="65.0" prefWidth="781.0" text="%key9" fx:id="btnmenu">
                <font>
                   <Font size="36.0" />
                </font>
@@ -51,7 +51,7 @@
                   <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetreParametres" prefHeight="65.0" prefWidth="781.0" text="Paramètres">
+            <Button id="glass" mnemonicParsing="false" onAction="#fenetreParametres" prefHeight="65.0" prefWidth="781.0" text="%key10" fx:id="btnparametre">
                <font>
                   <Font size="36.0" />
                </font>
@@ -59,7 +59,7 @@
                   <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Button id="glass" fx:id="btnAdministration" mnemonicParsing="false" onAction="#fenetreAdministration" prefHeight="65.0" prefWidth="781.0" text="Administration">
+            <Button id="glass" fx:id="btnAdministration" mnemonicParsing="false" onAction="#fenetreAdministration" prefHeight="65.0" prefWidth="781.0" text="%key7">
                <font>
                   <Font size="36.0" />
                </font>
@@ -71,7 +71,7 @@
       </VBox>
       <Pane layoutX="1622.0" layoutY="32.0" prefHeight="116.0" prefWidth="278.0">
          <children>
-            <Label layoutX="14.0" layoutY="2.0" prefHeight="35.0" prefWidth="130.0" text="Connecté:" textFill="WHITE">
+            <Label layoutX="14.0" layoutY="2.0" prefHeight="35.0" prefWidth="130.0" text="%key12" textFill="WHITE" fx:id="connecte">
                <font>
                   <Font size="24.0" />
                </font></Label>
@@ -79,7 +79,7 @@
                <font>
                   <Font size="24.0" />
                </font></Label>
-            <Button layoutX="3.0" layoutY="46.0" mnemonicParsing="false" onAction="#deconnexion" prefHeight="58.0" prefWidth="280.0" text="Déconnexion">
+            <Button layoutX="3.0" layoutY="46.0" mnemonicParsing="false" onAction="#deconnexion" prefHeight="58.0" prefWidth="280.0" text="%key11" fx:id="btnDeconnexiton">
                <font>
                   <Font size="24.0" />
                </font>
