@@ -30,15 +30,18 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /*
- * Controleur pour d閙arrer une commande
+ * Controleur pour dé–™arrer une commande
  * @author Sophie
  */
 
 public class DemarrerCommandeControleur{
-	// Variables pour la partie r閟ervation
+	// Variables pour la partie ré–Ÿervation
+	@FXML
+	private AnchorPane mainWindow;
 	@FXML
 	private TextField champNom;
 	@FXML
@@ -58,7 +61,7 @@ public class DemarrerCommandeControleur{
 	@FXML
 	private ObservableList<String> noTables = FXCollections.observableArrayList();
 	
-	// Variables pour la partie d閙arrer une nouvelle commande
+	// Variables pour la partie dé–™arrer une nouvelle commande
 	@FXML
 	private ChoiceBox<String> champChoixTable;
 	@FXML
@@ -137,11 +140,11 @@ public class DemarrerCommandeControleur{
 	}
 
 	/**
-	 * <i> Initialise le controleur. </i> <br> Remplit la liste des tables avec les donn閑s
-	 * provenant de la base de donn閑. <br>
-	 * Met � jour la liste des tables libres. <br>
+	 * <i> Initialise le controleur. </i> <br> Remplit la liste des tables avec les donné–‘s
+	 * provenant de la base de donné–‘. <br>
+	 * Met ï¿½ jour la liste des tables libres. <br>
 	 * <br>
-	 * Affiche un fen阾re d'erreur si il y a des exceptions
+	 * Affiche un fené˜¾re d'erreur si il y a des exceptions
 	 */
 	@FXML
 	private void initialize() {
@@ -175,12 +178,12 @@ public class DemarrerCommandeControleur{
 		try {
 			daoTables.afficher().clear();
 			tableTable.setItems(daoTables.afficher());
-			lblOccupation.setText((daoTables.afficherNoTables().size()-daoTables.afficherTablesLibres().size())+" tables occup閑(s), "+daoTables.afficherTablesLibres().size()+" libres");
+			lblOccupation.setText((daoTables.afficherNoTables().size()-daoTables.afficherTablesLibres().size())+" tables occupé–‘(s), "+daoTables.afficherTablesLibres().size()+" libres");
 			champNoTable.setItems(daoTables.afficherNoTables());
 			champChoixTable.setItems(daoTables.afficherTablesLibres());
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'閤閏ution", "Une erreur est survenue", "D閠ails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'é–¤é–�ution", "Une erreur est survenue", "Dé– ails: "+e);
 			e.printStackTrace();
 		}
 		
@@ -200,10 +203,10 @@ public class DemarrerCommandeControleur{
 		prenom.setText(bundle.getString("Prenom"));
 		heure.setText(bundle.getString("Heure"));
 		nombre.setText(bundle.getString("key15"));
-		telephone.setText(bundle.getString("téléphone"));
+		telephone.setText(bundle.getString("tÃ©lÃ©phone"));
 		date.setText(bundle.getString("Date"));
 		demande.setText(bundle.getString("Demande"));
-		btnReserve.setText(bundle.getString("Réserver"));
+		btnReserve.setText(bundle.getString("RÃ©server"));
 		colonneNoTable.setText(bundle.getString("Table"));
 		colonneNbCouvertsMax.setText(bundle.getString("Max"));
 		colonneStatut.setText(bundle.getString("Statut"));
@@ -212,8 +215,8 @@ public class DemarrerCommandeControleur{
 		labelTable.setText(bundle.getString("Table"));
 	}
 	/**
-	 * Appell� lors de l'appui sur le bouton. <br>
-	 * Ouvre le registre des r閟ervations.
+	 * Appellï¿½ lors de l'appui sur le bouton. <br>
+	 * Ouvre le registre des ré–Ÿervations.
 	 * 
 	 * Affiche un message d'erreur si il y a une exception
 	 * @throws IOException
@@ -233,13 +236,13 @@ public class DemarrerCommandeControleur{
             controller.setMainApp(this);
             controller.afficherTout();
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "D閠ails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Dé– ails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Appell� lors de l'appui sur le bouton Retour au menu principal <br>
+	 * Appellï¿½ lors de l'appui sur le bouton Retour au menu principal <br>
 	 * Il ferme la page actuelle et revient au menu principal.
 	 * 
 	 * @throws IOException
@@ -249,7 +252,7 @@ public class DemarrerCommandeControleur{
 	}
 
 	/** 
-	 * Actualise les donn閑s de la page lorsqu'une nouvelle commande est lanc閑.
+	 * Actualise les donné–‘s de la page lorsqu'une nouvelle commande est lancé–‘.
 	 */
 	public void refreshMain() {
 		tableTable.getItems().clear();
@@ -259,7 +262,7 @@ public class DemarrerCommandeControleur{
 			daoTables.afficherNoTables().clear();
 			daoTables.afficherTablesLibres().clear();
 		} catch (SQLException e) {
-			FonctionsControleurs.alerteErreur("Erreur d'閤閏ution", "Une erreur est survenue", "D閠ails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'é–¤é–�ution", "Une erreur est survenue", "Dé– ails: "+e);
 			e.printStackTrace();
 		}
 		initialize();
@@ -270,10 +273,10 @@ public class DemarrerCommandeControleur{
 	}
 	
 	/**
-	 * D閙arre une nouvelle commande en prenant en compte le nombre de couverts et le num閞o de table d閒ini en modifiant son occupation. <br>
+	 * Dé–™arre une nouvelle commande en prenant en compte le nombre de couverts et le numé–žo de table dé–’ini en modifiant son occupation. <br>
 	 * Affiche une nouvelle page Commande.fxml <br>
 	 * <br> 
-	 * Affiche un message d'erreur si la commande ne peut pas 阾re lanc閑.
+	 * Affiche un message d'erreur si la commande ne peut pas é˜¾re lancé–‘.
 	 * 
 	 */
 	public void lancerCommande() {
@@ -297,17 +300,17 @@ public class DemarrerCommandeControleur{
 	        controller.setParent(this);
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "D閠ails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Dé– ails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Extrait le num閞o de table provenant de la table choisie lors de la r閟ervation <br>
-	 * Recup鑢e la valeur de la cible puis en fonction de la taille va r閏uperer la valeur du nombre de la table puis transforme la valeur en entier
+	 * Extrait le numé–žo de table provenant de la table choisie lors de la ré–Ÿervation <br>
+	 * Recupé‘¢e la valeur de la cible puis en fonction de la taille va ré–�uperer la valeur du nombre de la table puis transforme la valeur en entier
 	 * <br>
 	 * <br>
-	 * <i> exemple: Table n�2 [4 � 5 couverts] > va r閏up閞er la valeur 2 </i>
+	 * <i> exemple: Table nï¿½2 [4 ï¿½ 5 couverts] > va ré–�upé–žer la valeur 2 </i>
 	 * 
 	 * @param cible contenu d'un champ choicebox
 	 * @return numeroTable le numero de la table
@@ -339,9 +342,9 @@ public class DemarrerCommandeControleur{
 	}
 	
 	/**
-	 * Appell� quand l'utilisateur clique sur r閟erver <br>
-	 * Ajoute les donn閑s saisies � la base de donn閑 si elles sont valides 
-	 * et affiche un message si cela s'est bien pass�.<br>
+	 * Appellï¿½ quand l'utilisateur clique sur ré–Ÿerver <br>
+	 * Ajoute les donné–‘s saisies ï¿½ la base de donné–‘ si elles sont valides 
+	 * et affiche un message si cela s'est bien passï¿½.<br>
 	 * Efface ensuite le contenu des champs.
 	 * 
 	 * @throws SQLException
@@ -363,9 +366,9 @@ public class DemarrerCommandeControleur{
 																champDemandeSpe.getText());
 				int noTable = getNumero(champNoTable);
 				daoCalendrier.ajouter(tempReservation, noTable);
-				FonctionsControleurs.alerteInfo("Reservation enregistr閑!", "", "La reservation � bien 閠� enregistr閑!");
+				FonctionsControleurs.alerteInfo("Reservation enregistré–‘!", "", "La reservation ï¿½ bien é– ï¿½ enregistré–‘!");
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "D閠ails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Dé– ails: " + e);
 				e.printStackTrace();
 			}
 
@@ -383,9 +386,9 @@ public class DemarrerCommandeControleur{
 	}
 
 	/**
-	 * V閞ifie si la saisie est conforme aux donn閑s requises <br>
-	 * Cette m閠hode v閞ifie chacune des donn閑s saisies et d閠ermine 
-	 * si elle r閜ond aux crit鑢es de la case.
+	 * Vé–žifie si la saisie est conforme aux donné–‘s requises <br>
+	 * Cette mé– hode vé–žifie chacune des donné–‘s saisies et dé– ermine 
+	 * si elle ré–œond aux crité‘¢es de la case.
 	 * 
 	 * @return true si la saisie est bien conforme, false sinon
 	 */
@@ -396,15 +399,15 @@ public class DemarrerCommandeControleur{
 			msgErreur += "Veuillez remplir le nom\n";
 		}
 		if (champPrenom.getText() == null || champPrenom.getText().length() == 0) {
-			msgErreur += "Veuillez remplir le pr閚om\n";
+			msgErreur += "Veuillez remplir le pré–šom\n";
 		}
 		if (champNumTel.getText() == null || champNumTel.getText().length() == 0) {
-			msgErreur += "Veuillez rentrer le num閞o de t閘閜hone\n";
+			msgErreur += "Veuillez rentrer le numé–žo de té–˜é–œhone\n";
 		} else {
-			Pattern p = Pattern.compile("(0|\\+)[0-9]{8,12}"); // regex d'un num閞o de t閘閜hone, fran鏰is ou 閠ranger
+			Pattern p = Pattern.compile("(0|\\+)[0-9]{8,12}"); // regex d'un numé–žo de té–˜é–œhone, frané�°is ou é– ranger
 			Matcher m = p.matcher(champNumTel.getText());
 			if (!(m.find() && m.group().equals(champNumTel.getText()))) {
-				msgErreur += "Erreur! Le champ no. t閘閜hone n'accepte que les num閞os commen鏰nt par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
+				msgErreur += "Erreur! Le champ no. té–˜é–œhone n'accepte que les numé–žos commené�°nt par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
 			}
 		}
 		if (champDate.getValue() == null) {
@@ -418,7 +421,7 @@ public class DemarrerCommandeControleur{
 																						// valide sous forme hh:mm
 			Matcher heurem = heurep.matcher(champHeure.getText());
 			if (!(heurem.find() && heurem.group().equals(champHeure.getText()))) {
-				msgErreur += "Format de l'heure incorrect, veuillez r閑ssayer avec le format hh:mm appropri閈n";
+				msgErreur += "Format de l'heure incorrect, veuillez ré–‘ssayer avec le format hh:mm approprié–ˆn";
 			}
 		}
 
@@ -440,7 +443,7 @@ public class DemarrerCommandeControleur{
 		if (msgErreur.length() == 0) {
 			return true;
 		} else {
-			FonctionsControleurs.alerteErreur("Entr閑 incorrecte", "Corrigez les erreurs suivantes pour pouvoir enregistrer la reservation",msgErreur);
+			FonctionsControleurs.alerteErreur("Entré–‘ incorrecte", "Corrigez les erreurs suivantes pour pouvoir enregistrer la reservation",msgErreur);
 			return false;
 		}
 	}
