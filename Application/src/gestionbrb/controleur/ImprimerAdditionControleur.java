@@ -36,8 +36,6 @@ public class ImprimerAdditionControleur implements Initializable {
 	@FXML
 	private Label totalLbl;
 	@FXML
-	private VBox vboxPaiement;
-	@FXML
 	private Label serveurLbl;
 	@FXML
 	private Label devise;

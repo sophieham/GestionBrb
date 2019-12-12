@@ -69,11 +69,11 @@ public class DAOIngredients extends DAO<Ingredients>{
 		requete.close();
 	}
 	
-	public ArrayList<String> afficherPrixIngredient(String nomIngredient, String nomFournisseur) throws SQLException{
-		ArrayList<String> prixIngredient = new ArrayList<>();
+	public ArrayList<Double> afficherPrixIngredient(String nomIngredient, String nomFournisseur) throws SQLException{
+		ArrayList<Double> prixIngredient = new ArrayList<>();
 		ResultSet rs = conn.createStatement().executeQuery("SELECT ingredients.prixIngredient FROM ingredients INNER JOIN fournisseur ON fournisseur.FournisseurID = ingredients.FournisseurID WHERE ingredients.nomIngredient = '"+nomIngredient+"' AND fournisseur.nom =  '"+nomFournisseur+"'");
 		while (rs.next()) {
-			prixIngredient.add(rs.getString("ingredients.prixIngredient"));
+			prixIngredient.add(rs.getDouble("ingredients.prixIngredient"));
 		}
 		return prixIngredient;
 	}

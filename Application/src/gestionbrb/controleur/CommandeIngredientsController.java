@@ -63,7 +63,7 @@ public class CommandeIngredientsController implements Initializable{
 	private ObservableList<String> data;
 	private static String output;
 	private static int value;
-	private static int prix;
+	private static double prix;
 	private static int qteRest;
 	
 	private static Stage factureIngredient; 
@@ -119,8 +119,9 @@ public CommandeIngredientsController() {
 	public void prixunite() throws SQLException {
 		try {
 			for (int i = 0; i <daoIngredient.afficherPrixIngredient(GestionStockController.Nom, output).size(); i++) {
-				prixunite.setText(daoIngredient.afficherPrixIngredient(GestionStockController.Nom, output).get(i));
-				prix = Integer.parseInt(daoIngredient.afficherPrixIngredient(GestionStockController.Nom, output).get(i));
+				prixunite.setText(daoIngredient.afficherPrixIngredient(GestionStockController.Nom, output).get(i).toString());
+				System.out.println(prixunite.getText());
+				prix= daoIngredient.afficherPrixIngredient(GestionStockController.Nom, output).get(i);
 			}
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -191,7 +192,7 @@ public CommandeIngredientsController() {
 	}
 	
 	
-public static String InttoString(int prixtotal2) {
+public static String InttoString(double prixtotal2) {
     
         return String.valueOf(prixtotal2);
    
