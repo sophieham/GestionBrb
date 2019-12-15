@@ -67,10 +67,9 @@ public class DAOUtilisateur extends DAO<Utilisateur> {
 		requete.setString(1, user);
 		requete.setString(2, pass);
 		ResultSet combinaison = requete.executeQuery();
-		if (combinaison.next()) {
-			return true;
-		} else
-			return false;
+		
+			return combinaison.next();
+
 	}
 
 	public Utilisateur connexion(String user, String pass) throws SQLException {
