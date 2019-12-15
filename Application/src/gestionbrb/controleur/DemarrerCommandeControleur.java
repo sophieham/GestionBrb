@@ -61,7 +61,7 @@ public class DemarrerCommandeControleur{
 	@FXML
 	private ObservableList<String> noTables = FXCollections.observableArrayList();
 	
-	// Variables pour la partie dé–™arrer une nouvelle commande
+	// Variables pour la partie démarrer une nouvelle commande
 	@FXML
 	private ChoiceBox<String> champChoixTable;
 	@FXML
@@ -140,11 +140,11 @@ public class DemarrerCommandeControleur{
 	}
 
 	/**
-	 * <i> Initialise le controleur. </i> <br> Remplit la liste des tables avec les donné–‘s
-	 * provenant de la base de donné–‘. <br>
-	 * Met ï¿½ jour la liste des tables libres. <br>
+	 * <i> Initialise le controleur. </i> <br> Remplit la liste des tables avec les données
+	 * provenant de la base de donnée. <br>
+	 * Met à jour la liste des tables libres. <br>
 	 * <br>
-	 * Affiche un fené˜¾re d'erreur si il y a des exceptions
+	 * Affiche un fenêtre d'erreur si il y a des exceptions
 	 */
 	@FXML
 	private void initialize() {
@@ -215,8 +215,8 @@ public class DemarrerCommandeControleur{
 		labelTable.setText(bundle.getString("Table"));
 	}
 	/**
-	 * Appellï¿½ lors de l'appui sur le bouton. <br>
-	 * Ouvre le registre des ré–Ÿervations.
+	 * Appellé lors de l'appui sur le bouton. <br>
+	 * Ouvre le registre des réservations.
 	 * 
 	 * Affiche un message d'erreur si il y a une exception
 	 * @throws IOException
@@ -236,13 +236,13 @@ public class DemarrerCommandeControleur{
             controller.setMainApp(this);
             controller.afficherTout();
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Dé– ails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Appellï¿½ lors de l'appui sur le bouton Retour au menu principal <br>
+	 * Appellé lors de l'appui sur le bouton Retour au menu principal <br>
 	 * Il ferme la page actuelle et revient au menu principal.
 	 * 
 	 * @throws IOException
@@ -252,7 +252,7 @@ public class DemarrerCommandeControleur{
 	}
 
 	/** 
-	 * Actualise les donné–‘s de la page lorsqu'une nouvelle commande est lancé–‘.
+	 * Actualise les données de la page lorsqu'une nouvelle commande est lancée.
 	 */
 	public void refreshMain() {
 		tableTable.getItems().clear();
@@ -273,10 +273,10 @@ public class DemarrerCommandeControleur{
 	}
 	
 	/**
-	 * Dé–™arre une nouvelle commande en prenant en compte le nombre de couverts et le numé–žo de table dé–’ini en modifiant son occupation. <br>
+	 * Démarre une nouvelle commande en prenant en compte le nombre de couverts et le numéro de table défini en modifiant son occupation. <br>
 	 * Affiche une nouvelle page Commande.fxml <br>
 	 * <br> 
-	 * Affiche un message d'erreur si la commande ne peut pas é˜¾re lancé–‘.
+	 * Affiche un message d'erreur si la commande ne peut pas être lancé.
 	 * 
 	 */
 	public void lancerCommande() {
@@ -300,17 +300,17 @@ public class DemarrerCommandeControleur{
 	        controller.setParent(this);
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Dé– ails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Extrait le numé–žo de table provenant de la table choisie lors de la ré–Ÿervation <br>
-	 * Recupé‘¢e la valeur de la cible puis en fonction de la taille va ré–�uperer la valeur du nombre de la table puis transforme la valeur en entier
+	 * Extrait le numéro de table provenant de la table choisie lors de la réservation <br>
+	 * Recupère la valeur de la cible puis en fonction de la taille va récuperer la valeur du nombre de la table puis transforme la valeur en entier
 	 * <br>
 	 * <br>
-	 * <i> exemple: Table nï¿½2 [4 ï¿½ 5 couverts] > va ré–�upé–žer la valeur 2 </i>
+	 * <i> exemple: Table n°2 [4 à 5 couverts] > va récupérer la valeur 2 </i>
 	 * 
 	 * @param cible contenu d'un champ choicebox
 	 * @return numeroTable le numero de la table
