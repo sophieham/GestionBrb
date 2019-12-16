@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -22,12 +23,14 @@ import javafx.util.StringConverter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOFournisseur;
 import gestionbrb.DAO.DAOIngredients;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.controleur.GestionStockController;
 /**
  * 
@@ -61,13 +64,20 @@ public class CommandeIngredientsController implements Initializable{
 	private MenuButton menubutton;
 	@FXML
 	private ObservableList<String> data;
+	@FXML
+	private ResourceBundle bundle;
+	@FXML
+	private Label label;
+	@FXML
+	private Button btn;
 	private static String output;
 	private static int value;
 	private static double prix;
 	private static int qteRest;
 	
 	private static Stage factureIngredient; 
-	
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+
 	DAOFournisseur daoFournisseur = new DAOFournisseur();
 	DAOIngredients daoIngredient = new DAOIngredients();
 	
@@ -75,12 +85,48 @@ public CommandeIngredientsController() {
 	
 
 }
+@FXML
+public void initialize() {
+try {
+	String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+	
+	switch(langue) {
+	case "fr":
+		loadLang("fr", "FR");
+		break;
+	case "en":
+		loadLang("en", "US");
+		break;
+	case "zh":
+		loadLang("zh", "CN");
+		break;
+	}
+	
+} catch (Exception e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+}
+private void loadLang(String lang, String LANG) {
+	Locale locale = new Locale(lang, LANG);  
+	
+	bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+	fournisseur.setText(bundle.getString("Fournisseur"));
+	ingredients.setText(bundle.getString("ingredients"));
+	prixUni.setText(bundle.getString("prixUni"));
+	qte.setText(bundle.getString("qte"));
+	totalprix.setText(bundle.getString("totalprix"));
+	label.setText(bundle.getString("key6"));
+	btn.setText(bundle.getString("Commander"));
+
+}
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 	 	try {
-	 		
+	 		 initialize();
 		} catch (Exception e) {
 			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "D√©tails: "+e);
 			e.printStackTrace();
@@ -100,15 +146,17 @@ public CommandeIngredientsController() {
 			
 		
 	}
+	/**
+	 * Choisir le fournisseur de l'ingr√©dients
+	 * @throws SQLException
+	 */
 	@FXML
 	public void choice() throws SQLException {
 		try {
 			ObservableList<String> data = FXCollections.observableArrayList();
 			
 			data.addAll(daoFournisseur.afficherNomFournisseur(GestionStockController.Nom));
-			System.out.println(GestionStockController.Nom);
 			choiceFournisseur.setItems(data);
-			System.out.println("idx of: "+ GestionStockController.Nom+ " " +daoFournisseur.choixFournisseur().indexOf(GestionStockController.Nom));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -120,7 +168,6 @@ public CommandeIngredientsController() {
 		try {
 			for (int i = 0; i <daoIngredient.afficherPrixIngredient(GestionStockController.Nom, output).size(); i++) {
 				prixunite.setText(daoIngredient.afficherPrixIngredient(GestionStockController.Nom, output).get(i).toString());
-				System.out.println(prixunite.getText());
 				prix= daoIngredient.afficherPrixIngredient(GestionStockController.Nom, output).get(i);
 			}
 		}catch (SQLException e) {
@@ -135,12 +182,10 @@ public CommandeIngredientsController() {
 		spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000));
 	
 		
-		//System.out.println(spinner.getValue().toString());
-		
+	
 		//
 		spinner.valueProperty().addListener((obs, oldValue, newValue) -> {
 		value = newValue;
-			System.out.println("New value: "+value);
 		try {
 			prixtotal();
 		} catch (SQLException e) {
@@ -149,12 +194,6 @@ public CommandeIngredientsController() {
 		}
 		});
 		;
-		
-		/**spinner.getEditor().setOnAction(e -> {
-		   
-		    String n = spinner.getEditor().getText(); 
-		    System.out.println(n);
-		}); commitEditorText(spinner);**/
 	}
 	
 		//@SuppressWarnings("hiding")
@@ -168,7 +207,6 @@ public CommandeIngredientsController() {
 		        if (converter != null) {
 		        	Integer value = converter.fromString(text);
 		            valueFactory.setValue(value); 
-		            System.out.println(spinner.getValue().toString());
 
 
 		        }
@@ -180,10 +218,6 @@ public CommandeIngredientsController() {
 @FXML
 	public void prixtotal() throws SQLException {
 	try {
-		System.out.println(prix);
-
-		System.out.println(value);
-		//System.out.println(prix*value);
 		prixtotal.setText(InttoString(prix*value)+DAOCommande.recupererDevise());
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
@@ -205,8 +239,6 @@ public static int StringtoInt(String n) {
 	public void choice(ActionEvent event) throws IOException, SQLException {
 		try {
 			output = choiceFournisseur.getSelectionModel().getSelectedItem().toString();
-			System.out.println(output);
-			
 			
 			prixunite();
 			initSpinner();
@@ -235,12 +267,11 @@ public static int StringtoInt(String n) {
 			qteRest();
 			int n = qteRest+value;
 			daoIngredient.commanderIngredients(InttoString(n), GestionStockController.Nom, output);
-			System.out.println("nouveauquantite" +n);
 			refresh();
 						daoFournisseur.fournirIngredient(StringtoInt(GestionStockController.idIngredient), daoFournisseur.afficherIDFournisseur(GestionStockController.Nom), value, InttoString(value*prix));
 				//refresh();
 						GestionStockController.getStage().close();
-				FonctionsControleurs.alerteInfo("Ajout effectuÈ", null, "La commande a ÈtÈ ÈffectuÈe avec succËs!");
+				FonctionsControleurs.alerteInfo("Ajout effectu√©", null, "La commande a √©t√© √©ffectu√©e avec succ√®s!");
 				afficherFacture();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -252,7 +283,11 @@ public static int StringtoInt(String n) {
     
 	public void afficherFacture() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/FactureIngredient.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/FactureIngredient.fxml"), bundle);
 			Parent vueFacture= (Parent) loader.load();
 			setFactureIngredient((new Stage()));
 			getFactureIngredient().setScene(new Scene(vueFacture));
@@ -264,7 +299,7 @@ public static int StringtoInt(String n) {
 			FactureIngredientControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÈtails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "D√©tails: "+e);
 			e.printStackTrace();
 		}
 	}

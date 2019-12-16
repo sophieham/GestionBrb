@@ -18,42 +18,42 @@
             <Image url="@images/fond7_favourite.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER_RIGHT" layoutX="3.0" layoutY="17.0" prefHeight="27.0" prefWidth="112.0" text="Prénom:" textFill="WHITE">
+      <Label alignment="CENTER_RIGHT" layoutX="3.0" layoutY="17.0" prefHeight="27.0" prefWidth="112.0" text="%Prenom" textFill="WHITE" fx:id="labelprenom">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER_RIGHT" layoutX="2.0" layoutY="47.0" prefHeight="27.0" prefWidth="112.0" text="Nom:" textFill="WHITE">
+      <Label alignment="CENTER_RIGHT" layoutX="2.0" layoutY="47.0" prefHeight="27.0" prefWidth="112.0" text="%Nom" textFill="WHITE" fx:id="labelnom">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER_RIGHT" layoutX="2.0" layoutY="81.0" prefHeight="27.0" prefWidth="112.0" text="Identifiant:" textFill="WHITE">
+      <Label alignment="CENTER_RIGHT" layoutX="2.0" layoutY="81.0" prefHeight="27.0" prefWidth="112.0" text="%Identifiant" textFill="WHITE" fx:id="labelindentifiant">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER_RIGHT" layoutX="3.0" layoutY="115.0" text="Mot de passe:" textFill="WHITE">
+      <Label alignment="CENTER_RIGHT" layoutX="3.0" layoutY="115.0" text="%MotdePass" textFill="WHITE" fx:id="labelmot">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER_RIGHT" layoutX="2.0" layoutY="147.0" prefHeight="27.0" prefWidth="112.0" text="Rôle:" textFill="WHITE">
+      <Label alignment="CENTER_RIGHT" layoutX="2.0" layoutY="147.0" prefHeight="27.0" prefWidth="112.0" text="%Role" textFill="WHITE" fx:id="labelrole">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
       <ButtonBar layoutX="85.0" layoutY="192.0" prefHeight="40.0" prefWidth="226.0">
         <buttons>
-          <Button id="glass" mnemonicParsing="false" onAction="#actionValider" prefHeight="31.0" prefWidth="151.0" text="Valider" />
-          <Button id="glass" minWidth="56.0" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" prefWidth="129.0" text="Annuler" />
+          <Button id="glass" mnemonicParsing="false" onAction="#actionValider" prefHeight="31.0" prefWidth="151.0" text="%Valider" fx:id="valider"/>
+          <Button id="glass" minWidth="56.0" mnemonicParsing="false" onAction="#actionAnnuler" prefHeight="31.0" prefWidth="129.0" text="%Annuler"  fx:id="annuler"/>
         </buttons>
       </ButtonBar>
       <PasswordField fx:id="champMot2Passe" layoutX="122.0" layoutY="113.0" prefHeight="31.0" prefWidth="187.0" />
       <TextField fx:id="champNom" layoutX="122.0" layoutY="11.0" />
       <TextField fx:id="champPrenom" layoutX="122.0" layoutY="45.0" />
       <TextField fx:id="champIdentifiant" layoutX="122.0" layoutY="79.0" />
-      <RadioButton fx:id="boutonAdmin" layoutX="128.0" layoutY="150.0" mnemonicParsing="false" onAction="#setRoleAdmin" text="Admin" textFill="WHITE" /> 
-      <RadioButton fx:id="boutonServeur" layoutX="212.0" layoutY="150.0" mnemonicParsing="false" onAction="#setRoleServeur" text="Serveur" textFill="WHITE" />
+      <RadioButton fx:id="boutonAdmin" layoutX="128.0" layoutY="150.0" mnemonicParsing="false" onAction="#setRoleAdmin" text="%Admin" textFill="WHITE" /> 
+      <RadioButton fx:id="boutonServeur" layoutX="212.0" layoutY="150.0" mnemonicParsing="false" onAction="#setRoleServeur" text="%Serveur" textFill="WHITE" />
    </children>
 </AnchorPane>

@@ -30,7 +30,7 @@ public class DAOTables extends DAO<Table> {
 		listeNoTables.clear();
 		ResultSet TableDB = conn.createStatement().executeQuery("select * from tables");
 		while (TableDB.next()) {
-			listeNoTables.add("Table n°" + TableDB.getInt(2) + " [" + TableDB.getInt(3) + " à " + TableDB.getInt(4) + " couverts]");
+			listeNoTables.add("Table nÂ°" + TableDB.getInt(2) + " [" + TableDB.getInt(3) + " Ã  " + TableDB.getInt(4) + " couverts]");
 		}
 		return listeNoTables;
 	}
@@ -40,7 +40,7 @@ public class DAOTables extends DAO<Table> {
 		ResultSet tableDB = conn.createStatement().executeQuery("select * from tables");
 		while(tableDB.next()) {
 			if (tableDB.getInt("occupation") == 0) {
-				listeTablesLibre.add("Table n°" + tableDB.getInt(2) + " [" + tableDB.getInt(3) + " à " + tableDB.getInt(4) + " couverts]");
+				listeTablesLibre.add("Table nÂ°" + tableDB.getInt(2) + " [" + tableDB.getInt(3) + " Ã  " + tableDB.getInt(4) + " couverts]");
 
 			}
 		}

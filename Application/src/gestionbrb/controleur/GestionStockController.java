@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -16,10 +17,12 @@ import javafx.scene.image.Image;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOIngredients;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Ingredients;
 import gestionbrb.util.bddUtil;
 //import gestionbrb.GestionStockAdmin;
@@ -49,6 +52,13 @@ public class GestionStockController implements Initializable {
 	private TableView<Ingredients> tview;
 	@FXML
 	private static ObservableList<Ingredients> data= FXCollections.observableArrayList();
+    @FXML
+	private ResourceBundle bundle;
+    @FXML
+    private Button btn1;
+    @FXML
+    private Button btnCommander;
+    
 	private Ingredients mainApp;
 	private Connection conn;
 	private MenuPrincipalControleur parent;
@@ -59,7 +69,7 @@ public class GestionStockController implements Initializable {
 	public static String idIngredient;
 	
 	private static Stage stage;
-
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	DAOIngredients daoIngredient = new DAOIngredients();
 	public GestionStockController() {
 
@@ -73,13 +83,53 @@ public class GestionStockController implements Initializable {
 			data = FXCollections.observableArrayList();
 			setCellTable();
 			loadDataFrombase();
+			initialize();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
+	 @FXML
+		public void initialize() {
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+	    
+	    private void loadLang(String lang, String LANG) {
+			Locale locale = new Locale(lang, LANG);  
+			
+			bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+			colID.setText(bundle.getString("Identifiant"));
+			colNom.setText(bundle.getString("Nom"));
+			colPrix.setText(bundle.getString("Prix"));
+			colQte.setText(bundle.getString("Qte"));
+			colFournisseur.setText(bundle.getString("Fournisseur"));
+			btn1.setText(bundle.getString("key5"));
+			btnCommander.setText(bundle.getString("Commander"));
 
+	    }
+
+	    /**
+	     * Remplir la table de la gestion de stock
+	     */
 	private void setCellTable() {
 		colID.setCellValueFactory(new PropertyValueFactory<Ingredients, Integer>("idIngredient"));
 		colNom.setCellValueFactory(new PropertyValueFactory<Ingredients, String>("nomIngredient"));
@@ -127,13 +177,18 @@ public class GestionStockController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-
+/**
+ * Un button pour changer la page pour commander les ingrÃ©dients
+ * @param event
+ */
 	@FXML
 	public void CommanderIngredients(ActionEvent event) {
 		Parent root;
 		try {
 			if(isSelected) {
-			root = FXMLLoader.load(GestionStockController.class.getResource("../vue/CommanderIngredients.fxml"));
+			Locale locale = new Locale("fr", "FR");
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			root = FXMLLoader.load(GestionStockController.class.getResource("../vue/CommanderIngredients.fxml"),bundle);
 			setStage(new Stage());
 			getStage().setTitle("Commande Ingredients");
 			getStage().setScene(new Scene(root));
@@ -142,7 +197,7 @@ public class GestionStockController implements Initializable {
 	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 			}
 			else {
-				FonctionsControleurs.alerteAttention("Attention!", null, "Veuillez sélectionner un ingredient pour pouvoir commander");
+				FonctionsControleurs.alerteAttention("Attention!", null, "Veuillez sï¿½ï¿½lectionner un ingredient pour pouvoir commander");
 			}
 			
 

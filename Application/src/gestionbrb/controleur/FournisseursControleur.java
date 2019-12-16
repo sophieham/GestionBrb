@@ -2,15 +2,19 @@ package gestionbrb.controleur;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOFournisseur;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Fournisseur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -42,8 +46,12 @@ public class FournisseursControleur extends FonctionsControleurs {
 	private TableColumn<Fournisseur, String> colonneAdresse;
 	@FXML
 	private TableColumn<Fournisseur, String> colonneVille;
-	
-
+	@FXML
+	private Button Ajouter;
+	@FXML
+	private Button Modifier;
+	@FXML
+	private Button Supprimer;
 	@FXML
 	private Label champNom;
 	@FXML
@@ -56,10 +64,14 @@ public class FournisseursControleur extends FonctionsControleurs {
 	private Label champTel;
 	@FXML
 	private Label champMail;
+	@FXML
+	private Label labelCentre;
 
 	@SuppressWarnings("unused")
 	private AdministrationControleur parent;
-	
+	@FXML
+	private ResourceBundle bundle;
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	DAOFournisseur daoFournisseur = new DAOFournisseur();
 
 	public FournisseursControleur() throws ClassNotFoundException, SQLException {
@@ -72,7 +84,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 	
 
 	/**
-	 * Initialise la classe controleur avec les données par défaut du tableau
+	 * Initialise la classe controleur avec les donnÃ©es par dÃ©faut du tableau
 	 * 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -81,6 +93,25 @@ public class FournisseursControleur extends FonctionsControleurs {
 	@FXML
 	private void initialize() throws ClassNotFoundException, SQLException {
 		
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		colonneId.setCellValueFactory(cellData -> cellData.getValue().idFournisseurProperty());
 		colonneNom.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
 		colonneMail.setCellValueFactory(cellData -> cellData.getValue().mailProperty());
@@ -91,9 +122,22 @@ public class FournisseursControleur extends FonctionsControleurs {
 
 	}
 
-
+	private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		
+		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		colonneNom.setText(bundle.getString("Nom"));
+		colonneTel.setText(bundle.getString("telephone"));
+		colonneMail.setText(bundle.getString("Mail"));
+		colonneAdresse.setText(bundle.getString("Adresse"));
+		colonneVille.setText(bundle.getString("Ville"));
+		Modifier.setText(bundle.getString("Modifier"));
+		Supprimer.setText(bundle.getString("Supprimer"));
+		Ajouter.setText(bundle.getString("Ajouter"));
+		labelCentre.setText(bundle.getString("labelCentre"));
+	}
 	/**
-	 * Appelé quand l'utilisateur clique sur le bouton ajouter un utilisateur. Ouvre
+	 * AppelÃ© quand l'utilisateur clique sur le bouton ajouter un utilisateur. Ouvre
 	 * une nouvelle page pour effectuer la modification
 	 * 
 	 * @throws SQLException
@@ -109,9 +153,9 @@ public class FournisseursControleur extends FonctionsControleurs {
 				daoFournisseur.ajouter(tempFournisseur);
 				
 				refresh();
-				alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+				alerteInfo("Ajout Ã©ffectuÃ©", null, "Les informations ont Ã©tÃ© ajoutÃ©es avec succÃ¨s!");
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
 				e.printStackTrace();
 			}
 
@@ -119,8 +163,8 @@ public class FournisseursControleur extends FonctionsControleurs {
 	}
 
 	/**
-	 * Rafraichit les colonnes après un ajout, une modification ou une suppression
-	 * d'éléments.
+	 * Rafraichit les colonnes aprÃ¨s un ajout, une modification ou une suppression
+	 * d'Ã©lÃ©ments.
 	 * 
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
@@ -131,13 +175,13 @@ public class FournisseursControleur extends FonctionsControleurs {
 		try {
 			fournisseursTable.setItems(daoFournisseur.afficher());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Appellé quand l'utilisateur clique sur le bouton supprimer
+	 * AppellÃ© quand l'utilisateur clique sur le bouton supprimer
 	 * 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -150,20 +194,20 @@ public class FournisseursControleur extends FonctionsControleurs {
 			try {
 				daoFournisseur.supprimer(selectedTable);
 				refresh();
-				alerteInfo("Suppression réussie", null, "Le fournisseur " + selectedTable.getIdFournisseur() + " vient d'être supprimée!");
+				alerteInfo("Suppression rÃ©ussie", null, "Le fournisseur " + selectedTable.getIdFournisseur() + " vient d'Ãªtre supprimÃ©e!");
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
 				e.printStackTrace();
 			}
 
 		} else {
-			// Si rien n'est séléctionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun fournisseur de sélectionnée!","Selectionnez un fournisseur pour pouvoir la supprimer");
+			// Si rien n'est sÃ©lÃ©ctionnÃ©
+			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucun fournisseur de sÃ©lectionnÃ©e!","Selectionnez un fournisseur pour pouvoir la supprimer");
 		}
 	}
 
 	/**
-	 * Appelé quand l'utilisateur clique sur le bouton modifier le compte. Ouvre une
+	 * AppelÃ© quand l'utilisateur clique sur le bouton modifier le compte. Ouvre une
 	 * nouvelle page pour effectuer la modification
 	 * 
 	 * @throws SQLException
@@ -178,36 +222,37 @@ public class FournisseursControleur extends FonctionsControleurs {
 				try {
 					daoFournisseur.modifier(selectedFournisseur);
 					//refresh();
-					FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+					FonctionsControleurs.alerteInfo("Modification Ã©ffectuÃ©e", null, "Les informations ont Ã©tÃ© modifiÃ©es avec succÃ¨s!");
 				} catch (Exception e) {
-					FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun fournisseur de sélectionnée!","Selectionnez un fournisseur pour pouvoir la supprimer");
+					FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucun fournisseur de sÃ©lectionnÃ©e!","Selectionnez un fournisseur pour pouvoir la supprimer");
 					e.printStackTrace();
 				}
 			}
 
 		} else {
-			// Si rien n'est selectionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun founisseur de sélectionnée!", "Selectionnez un fournisseur pour pouvoir le modifier");
+			// Si rien n'est selectionnÃ©
+			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucun founisseur de sÃ©lectionnÃ©e!", "Selectionnez un fournisseur pour pouvoir le modifier");
 		}
 	}
 
 	
 	/**
-	 * Appellé pour afficher la fenetre de modification/ajout d'un fournisseur
+	 * AppellÃ© pour afficher la fenetre de modification/ajout d'un fournisseur
 	 * 
-	 * @param fournisseur Fournisseur à ajouter/modifier
+	 * @param fournisseur Fournisseur Ã  ajouter/modifier
 	 * @see ajoutFournisseur
 	 * @see modifierFournisseur
 	 * 
 	 **/
 	public boolean fenetreModification(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
 		try {
-			// Charge le fichier fxml et l'ouvre en pop-up
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(FournisseursControleur.class.getResource("../vue/ModifierFournisseur.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ModifierFournisseur.fxml"), bundle);
 			AnchorPane page = (AnchorPane) loader.load();
 
-			// Crée une nouvelle page
+			// CrÃ©e une nouvelle page
 			Stage dialogStage = new Stage();
 			dialogStage.setResizable(false);
 			dialogStage.setTitle("Gestion des fournisseurs");
@@ -217,7 +262,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 			dialogStage.getIcons().add(new Image(
 	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
-			// Définition du controleur pour la fenetre
+			// DÃ©finition du controleur pour la fenetre
 			ModifierFournisseurControleur controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setFournisseur(fournisseur);

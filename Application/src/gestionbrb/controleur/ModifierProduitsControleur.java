@@ -3,14 +3,19 @@ package gestionbrb.controleur;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import gestionbrb.DAO.DAOIngredients;
 import gestionbrb.DAO.DAOType;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Produit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -37,22 +42,58 @@ public class ModifierProduitsControleur {
 	private ChoiceBox<String> chChoixType;
 	@FXML
 	private VBox vb;
+	@FXML
+	private Label type;
+	@FXML
+	private Label nom;
+	@FXML
+	private Label description;
+	@FXML
+	private Label qte;
+	@FXML
+	private Label selection;
+	@FXML
+	private Button valider;
+	@FXML
+	private Label prix;
 	private ArrayList<RadioButton> listebouton = new ArrayList<>();
 	private ArrayList<String> listeNomIngredient = new ArrayList<>();
 	private Produit produit;
 	private Stage dialogStage;
 	private boolean okClicked = false;
 	IngredientsProduitsControleur mainApp;
+	@FXML
+	private ResourceBundle bundle;
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	
 	DAOType daoType = new DAOType();
 	DAOIngredients daoIngredients = new DAOIngredients();
 	
 	
 	/**
-	 * Initialise les valeurs du menu déroulant et des boutons à cocher avec des valeurs provenant de la base de données.
+	 * Initialise les valeurs du menu dÃ©roulant et des boutons Ã  cocher avec des valeurs provenant de la base de donnÃ©es.
 	 */
 	@FXML
 	private void initialize() {
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		try {
 		listeNomIngredient.addAll(daoIngredients.listeIngredients());
 		chChoixType.setItems(daoType.choixType());
@@ -62,11 +103,23 @@ public class ModifierProduitsControleur {
 			}
 			vb.getChildren().addAll(listebouton);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	}
-
+	private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		
+		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		type.setText(bundle.getString("Type"));
+		prix.setText(bundle.getString("Prix"));
+		nom.setText(bundle.getString("Nom"));
+		nom.setText(bundle.getString("Nom"));
+		description.setText(bundle.getString("Description"));
+		qte.setText(bundle.getString("qte"));
+		valider.setText(bundle.getString("Valider"));
+		selection.setText(bundle.getString("selection"));
+	}
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
@@ -76,7 +129,7 @@ public class ModifierProduitsControleur {
 	}
 	
 	/**
-	 * Affiche les détails du produits (notamment pour la modification de produits)
+	 * Affiche les dÃ©tails du produits (notamment pour la modification de produits)
 	 * 
 	 * @param produit le produit qu'on affiche
 	 * @throws SQLException
@@ -96,8 +149,8 @@ public class ModifierProduitsControleur {
 	}
 	
 	/**
-	 * Appellé lorsqu'on valide l'ajout/la modification. <br>
-	 * Vérifie les valeurs rentrées et concatène le nom des ingredients cochés pour les enrengistrer dans une liste.
+	 * AppellÃ© lorsqu'on valide l'ajout/la modification. <br>
+	 * VÃ©rifie les valeurs rentrÃ©es et concatÃ¨ne le nom des ingredients cochÃ©s pour les enrengistrer dans une liste.
 	 */
 	
 	@FXML
@@ -124,7 +177,7 @@ public class ModifierProduitsControleur {
 				dialogStage.close();
 			}
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -134,8 +187,8 @@ public class ModifierProduitsControleur {
 	}
 	
 	/**
-	 * Vérifie si les entrées sont correctes. <br>
-	 * A chaque fois qu'une entrée n'est pas valide, il incrémente le compteur d'erreurs 
+	 * VÃ©rifie si les entrÃ©es sont correctes. <br>
+	 * A chaque fois qu'une entrÃ©e n'est pas valide, il incrÃ©mente le compteur d'erreurs 
 	 * et affiche ensuite les erreurs dans une boite de dialogue.
 	 * 
 	 * @return true si il n'y a pas d'erreur, false sinon
@@ -145,12 +198,12 @@ public class ModifierProduitsControleur {
 		String erreurMsg = "";
 
 		if (chQuantiteProduit.getText() == null || chQuantiteProduit.getText().length() == 0) {
-			erreurMsg += "Veuillez remplir la quantité du produit\n";
+			erreurMsg += "Veuillez remplir la quantitÃ© du produit\n";
 		} else {
 			try {
 				Integer.parseInt(chQuantiteProduit.getText());
 			} catch (NumberFormatException e) {
-				erreurMsg += "Erreur! Le champ Quantité n'accepte que les nombres\n";
+				erreurMsg += "Erreur! Le champ QuantitÃ© n'accepte que les nombres\n";
 			}
 		}
 		
@@ -172,13 +225,13 @@ public class ModifierProduitsControleur {
 			}
 		
 		if (chDescription.getText() == null || chDescription.getText().length() == 0) {
-			erreurMsg += "Veuillez décrire le produit\n";
+			erreurMsg += "Veuillez dÃ©crire le produit\n";
 			}
 		if (erreurMsg.length() == 0) {
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier les informations",
+			FonctionsControleurs.alerteErreur("EntrÃ©e incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier les informations",
 					erreurMsg);
 
 			return false;

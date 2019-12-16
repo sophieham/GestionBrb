@@ -15,12 +15,12 @@
             <Image url="@images/fond7_favourite.png" />
          </image>
       </ImageView>
-      <Button id="glass" layoutX="60.0" layoutY="89.0" mnemonicParsing="false" onAction="#actionValider" prefHeight="34.0" prefWidth="198.0" stylesheets="@../stylesheet.css" text="Valider">
+      <Button id="glass" layoutX="60.0" layoutY="89.0" mnemonicParsing="false" onAction="#actionValider" prefHeight="34.0" prefWidth="198.0" stylesheets="@../stylesheet.css" text="%Valider" fx:id="valider">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Label layoutX="6.0" layoutY="19.0" prefHeight="34.0" prefWidth="108.0" stylesheets="@../stylesheet.css" text="Nom :" textFill="WHITE">
+      <Label layoutX="6.0" layoutY="19.0" prefHeight="34.0" prefWidth="108.0" stylesheets="@../stylesheet.css" text="%Nom" textFill="WHITE" fx:id="nom">
          <font>
             <Font size="24.0" />
          </font>

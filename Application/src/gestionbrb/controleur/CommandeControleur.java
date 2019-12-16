@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
@@ -12,6 +13,7 @@ import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOProduit;
 import gestionbrb.DAO.DAOType;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
 import javafx.collections.FXCollections;
@@ -43,6 +45,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 /**
+ * Gestion des commandes pour chacune des tables. Permet d'ajouter ou de supprimer les produits commandÃ©s par les clients.
  * @author Sophie
  */
 
@@ -66,7 +69,24 @@ public class CommandeControleur implements Initializable {
 	@FXML
 	private Label totalQte;
 	@FXML
+	private Label total;
+	@FXML
+	private Button supprimerProduit;
+	@FXML
+	private Button encaisser;
+	@FXML
+	private Button demande;
+	@FXML
+	private Button imprimer;
+	@FXML
+	private Button retour;
+	@FXML
+	private Label panneau;
+	@FXML
 	private TabPane typeProduit;
+	@FXML
+	private ResourceBundle bundle;
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	@FXML
 	private static ObservableList<Produit> produitCommande = FXCollections.observableArrayList();
 	private TextArea textArea = new TextArea();
@@ -75,9 +95,6 @@ public class CommandeControleur implements Initializable {
 	List<Tab> listeOnglets = new ArrayList<>();
 	
 	Map<String, Tab> mapTypeParOnglet= new HashMap<>();
-	//Map<String, Integer> mapNomParId = new HashMap<>();
-	// clé : nom produit ; value = type produit
-	//Map<String, String> mapNomParType = new HashMap<>();
 	ArrayList<String> nomProduits = new ArrayList<>();
 	
 	private Commande commande;
@@ -94,10 +111,52 @@ public class CommandeControleur implements Initializable {
     DAOCommande daoCommande = new DAOCommande();
     DAOType daoType = new DAOType();
     DAOProduit daoProduit = new DAOProduit();
+	private String saisir;
 	
 	public CommandeControleur() {
+	
 	}
 
+	@FXML
+	private void initialize() {
+		
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+			e.printStackTrace();
+		}
+	}
+	private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		
+		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		colonneProduit.setText(bundle.getString("Produit"));
+		colonnePrix.setText(bundle.getString("Prix"));
+		colonneQte.setText(bundle.getString("qte"));
+		total.setText(bundle.getString("total"));
+		retour.setText(bundle.getString("key5"));
+		encaisser.setText(bundle.getString("encaisser"));
+		demande.setText(bundle.getString("demande"));
+		supprimerProduit.setText(bundle.getString("supprimerProduit"));
+		imprimer.setText(bundle.getString("imprimer"));
+		panneau.setText(bundle.getString("panneau"));
+		saisir=bundle.getString("saisir");
+		
+	}
 	public void setParent(DemarrerCommandeControleur parent) {
 		this.parent = parent;		
 	}
@@ -111,11 +170,12 @@ public class CommandeControleur implements Initializable {
 	List<Double> listePrix = new ArrayList<>();
 	
 	/*
-	 * Initialise la page avec les données.
+	 * Initialise la page avec les donnÃ©es issues de la base de donnÃ©es.
 	 * 
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		initialize();
 		produitCommande.clear();
 		tableRecap.getItems().clear();
 
@@ -132,12 +192,12 @@ public class CommandeControleur implements Initializable {
 	/**
 	 * Fonction principale du controleur. <br>
 	 * Il affiche des onglets en fonction du nombre et du nom des types, et affiche
-	 * dans ces onglets les differents produits qui sont du même type. <br>
-	 * Il permet également de sélectionner les produits que le client souhaite
+	 * dans ces onglets les differents produits qui sont du mÃªme type. <br>
+	 * Il permet Ã©galement de sÃ©lectionner les produits que le client souhaite
 	 * commander et l'affiche d'un tableau contenant le nom et le prix des produits
-	 * commandés <br>
+	 * commandÃ©s <br>
 	 * <br>
-	 * Affiche une boite de dialogue si la fonction génére une erreur
+	 * Affiche une boite de dialogue si la fonction gÃ©nÃ¨re une erreur
 	 * @author Sophie
 	 */
 	public void etablirCommande() {
@@ -209,8 +269,7 @@ public class CommandeControleur implements Initializable {
 											totalProduit.setText("" + qte);
 											totalQte.setText(qte + "");
 										} catch (Exception e) {
-											FonctionsControleurs.alerteErreur("Erreur d'éxécution",
-													"Une erreur est survenue", "Détails: " + e);
+											FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
 											e.printStackTrace();
 										}
 									}
@@ -226,13 +285,13 @@ public class CommandeControleur implements Initializable {
 			}
 			typeProduit.getTabs().addAll(mapTypeParOnglet.values());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * Affiche l'addition si la liste des produits commandés n'est pas vide, sinon affiche un message.
+	 * Affiche l'addition si la liste des produits commandÃ©s n'est pas vide, sinon affiche un message.
 	 */
 	@FXML
 	public void afficherAddition() {
@@ -241,7 +300,10 @@ public class CommandeControleur implements Initializable {
 					"Il ne peut donc pas y avoir d'addition. Veuillez imprimer un ticket si vous voulez terminer la commande.");
 		} else {
 			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/AdditionCommande.fxml"));
+				Locale locale = new Locale("fr", "FR");
+
+				ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/AdditionCommande.fxml"),bundle);
 				Parent vueAdditionCommande = (Parent) loader.load();
 				setFenetreAddition(new Stage());
 				getFenetreAddition().setTitle("-- Addition de la table " + CommandeControleur.this.commande.getNoTable() + " --");
@@ -254,14 +316,14 @@ public class CommandeControleur implements Initializable {
 				controller.setParent(this);
 
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
 				e.printStackTrace();
 			}
 		}
 	}
 	
 	/**
-	 * Supprime le produit selectionné s'il y en a un, sinon affiche un message d'erreur.
+	 * Supprime le produit selectionnÃ© s'il y en a un, sinon affiche un message d'erreur.
 	 */
 	public void supprimerProduit() {
 		Produit selectionProduit = tableRecap.getSelectionModel().getSelectedItem();
@@ -270,21 +332,18 @@ public class CommandeControleur implements Initializable {
 			try {
 			daoCommande.supprimer(commande, selectionProduit);
 			produitCommande.remove(indexSelection);
-			FonctionsControleurs.alerteInfo("Suppression réussie", null, "Le produit "+selectionProduit.getIdProduit()+" vient d'être supprimée!");
+			FonctionsControleurs.alerteInfo("Suppression ré–¡ssie", null, "Le produit "+selectionProduit.getIdProduit()+" vient d'é˜¾re supprimé–‘!");
 			
 			totalPrix.setText(daoCommande.afficherPrixTotal(commande)+""+DAOCommande.recupererDevise());
 			totalProduit.setText(daoCommande.afficherQteTotal(commande)+"");
 			}
 			catch(Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
 				e.printStackTrace();
 			}
-			
-		
 
 		} else {
-			// Si rien n'est séléctionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
+			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucune table de sÃ©lÃ©ctionnÃ©e!",
 					"Selectionnez une table pour pouvoir la supprimer");
 		}
 	}
@@ -295,8 +354,8 @@ public class CommandeControleur implements Initializable {
 	@FXML
 	public void demandeSpeciale() {
 		Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Demande spéciale");
-        alert.setHeaderText("Saisir une demande spéciale d'un client");
+        alert.setTitle("Demande spÃ©ciale");
+        alert.setHeaderText(saisir);
  
         VBox conteneur = new VBox();
         conteneur.setPrefWidth(300);
@@ -315,12 +374,15 @@ public class CommandeControleur implements Initializable {
 	}
 	
 	/** 
-	 * Affiche le ticket lié à l'addition en vue de l'imprimer.
+	 * Affiche le ticket liÃ© Ã  l'addition en vue de l'imprimer.
 	 */
 	@FXML
 	public void imprimerTicket() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ImpressionAddition.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ImpressionAddition.fxml"),bundle);
 			Parent addition = (Parent) loader.load();
 			setImprimerAddition(new Stage());
 			getImprimerAddition().setResizable(false);
@@ -332,15 +394,19 @@ public class CommandeControleur implements Initializable {
 			ImprimerAdditionControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	}
+	
+	public void retourMenuPrincipal() {
+		DemarrerCommandeControleur.getFenetreCommande().close();
+	}
+	
     /**
-     * Retourne la liste des produits commandés. 
+     * Retourne la liste des produits commandÃ©s. 
      * @return reservationData
      */
-    
     public static ObservableList<Produit> getCommandeData() {
         return produitCommande;
     }

@@ -1,9 +1,14 @@
 package gestionbrb.controleur;
 
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Table;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -25,11 +30,56 @@ public class ModifierTablesControleur {
 	private Table table;
 	private boolean okClicked = false;
 	private TablesControleur parent;
-
+	@FXML
+	private ResourceBundle bundle;
+	@FXML
+	private Label labelnumeroTablle;
+	@FXML
+	private Label labelCouvMin;
+	@FXML
+	private Label labelCouvMax;
+	@FXML
+	private Button valider;
+	@FXML
+	private Button annuler;
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	@FXML
 	private void initialize() {
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+	 
+		private void loadLang(String lang, String LANG) {
+			Locale locale = new Locale(lang, LANG);  
+			
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+			labelnumeroTablle.setText(bundle.getString("Table"));
+			labelCouvMax.setText(bundle.getString("Max"));
+			labelCouvMin.setText(bundle.getString("Min"));
+			annuler.setText(bundle.getString("Annuler"));
+			valider.setText(bundle.getString("Valider"));
+			
+
+			
+		}
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
@@ -53,14 +103,14 @@ public class ModifierTablesControleur {
 	}
 
 	/**
-	 * @return true si le bouton a modifié a été appuyé, faux sinon
+	 * @return true si le bouton a modifiÃ© a Ã©tÃ© appuyÃ©, faux sinon
 	 */
 	public boolean isOkClicked() {
 		return okClicked;
 	}
 
 	/**
-	 * Appellé quand l'utilisateur appuie sur Valider
+	 * AppellÃ© quand l'utilisateur appuie sur Valider
 	 * 
 	 */
 	@FXML
@@ -76,7 +126,7 @@ public class ModifierTablesControleur {
 	}
 
 	/**
-	 * Appellé quand le bouton annuler est appuyé. Ferme la page sans sauvegarder.
+	 * AppellÃ© quand le bouton annuler est appuyÃ©. Ferme la page sans sauvegarder.
 	 */
 	@FXML
 	private void actionAnnuler() {
@@ -84,7 +134,7 @@ public class ModifierTablesControleur {
 	}
 
 	/**
-	 * Vérifie si la saisie est conforme aux données requises
+	 * VÃ©rifie si la saisie est conforme aux donnÃ©es requises
 	 * 
 	 * @return true si la saisie est bien conforme
 	 */
@@ -128,7 +178,7 @@ public class ModifierTablesControleur {
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",
+			FonctionsControleurs.alerteErreur("EntrÃ©e incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",
 					erreurMsg);
 
 			return false;

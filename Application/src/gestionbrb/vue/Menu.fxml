@@ -19,7 +19,7 @@
             <Image url="@images/logo_light_transparent.png" />
          </image>
       </ImageView>
-      <Label layoutX="733.0" layoutY="277.0" text="Cliquez sur un produit pour voir les ingrédients qu'il comporte" textFill="WHITE">
+      <Label layoutX="733.0" layoutY="277.0" text="%cliquer" textFill="WHITE" fx:id="label">
          <font>
             <Font size="17.0" />
          </font></Label>

@@ -19,7 +19,7 @@
                   <Separator layoutX="26.0" prefHeight="30.0" prefWidth="435.0" />
                </children>
             </Pane>
-            <Label fx:id="infoTableLbl" alignment="CENTER" prefHeight="26.0" prefWidth="486.0" text="Addition de la table n°? (? couverts)">
+            <Label fx:id="infoTableLbl" alignment="CENTER" prefHeight="26.0" prefWidth="486.0" text="%addition" >
                <font>
                   <Font size="24.0" />
                </font>
@@ -27,7 +27,7 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label fx:id="dateCommandeLbl" alignment="CENTER" prefHeight="19.0" prefWidth="486.0" text="Commande effectuée le xx-xx-xxxx à xx:xx">
+            <Label fx:id="dateCommandeLbl" alignment="CENTER" prefHeight="19.0" prefWidth="486.0" text="%info">
                <font>
                   <Font size="14.0" />
                </font>
@@ -46,7 +46,7 @@
             </Pane>
             <HBox prefHeight="37.0" prefWidth="486.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="280.0" text="Libellé">
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="280.0" text="%Libelle" fx:id="libelle">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -54,7 +54,7 @@
                         <Insets bottom="10.0" left="10.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="132.0" text="Prix">
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="132.0" text="%Prix" fx:id="prix" >
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -62,7 +62,7 @@
                         <Insets bottom="10.0" top="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="83.0" text="Qte">
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="83.0" text="%qte" fx:id="qte">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -102,18 +102,18 @@
                   <Separator layoutX="26.0" prefHeight="16.0" prefWidth="435.0" />
                </children>
             </Pane>
-            <Label alignment="CENTER" prefHeight="21.0" prefWidth="495.0" text="Merci, à bientot !">
+            <Label alignment="CENTER" prefHeight="21.0" prefWidth="495.0" text="%merci" fx:id="merci">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="serveurLbl" alignment="CENTER" prefHeight="21.0" prefWidth="501.0" text="Vous avez été servi par xxx" />
+            <Label fx:id="serveurLbl" alignment="CENTER" prefHeight="21.0" prefWidth="501.0" text="%Servir" />
             <Pane prefHeight="18.0" prefWidth="486.0">
                <children>
                   <Separator layoutX="-2.0" prefHeight="16.0" prefWidth="496.0" />
                </children>
             </Pane>
-            <Button id="glass" fx:id="imprimerAddition" mnemonicParsing="false" onAction="#imprimer" prefHeight="31.0" prefWidth="550.0" text="Imprimer et libérer la table">
+            <Button id="glass" fx:id="imprimerAddition" mnemonicParsing="false" onAction="#imprimer" prefHeight="31.0" prefWidth="550.0" text="%imprimer">
                <font>
                   <Font size="20.0" />
                </font>

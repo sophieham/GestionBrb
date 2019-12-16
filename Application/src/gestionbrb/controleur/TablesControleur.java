@@ -1,15 +1,19 @@
 package gestionbrb.controleur;
 
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOTables;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Table;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -19,7 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Affiche les tables avec le différentes propriétés.
+ * Affiche les tables avec le diffé–žentes proprié– é–Ÿ.
  * @author Sophie
  *
  */
@@ -42,7 +46,17 @@ public class TablesControleur {
 	private Label champNbCouvertMin;
 	@SuppressWarnings("unused")
 	private AdministrationControleur parent;
-	
+	@FXML
+	private Button ajouter;
+	@FXML
+	private Button modifier;
+	@FXML
+	private Button supprimer;
+	@FXML
+	private ResourceBundle bundle;
+	@FXML
+	private Label gestionTable;
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	DAOTables daoTables = new DAOTables();
 
 	
@@ -51,7 +65,7 @@ public class TablesControleur {
 	}
 
 	/**
-	 * Initialise la classe controleur avec les données par défaut du tableau
+	 * Initialise la classe controleur avec des donnÃ©es rÃ©cupÃ©rÃ©es dans la base de donnÃ©es
 	 * 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -59,18 +73,52 @@ public class TablesControleur {
 	@FXML
 	private void initialize() {
 		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
 			colonneNoTable.setCellValueFactory(cellData -> cellData.getValue().NoTableProperty());
 			colonneNbCouvertsMax.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMaxProperty());
 			colonneNbCouvertsMin.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMinProperty());
 			tableTable.setItems(daoTables.afficher());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Dé– ails: "+e);
 			e.printStackTrace();
 		}
 	}
 
+	private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		
+		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		ajouter.setText(bundle.getString("Ajouter"));
+		modifier.setText(bundle.getString("Modifier"));
+		supprimer.setText(bundle.getString("Supprimer"));
+		colonneNoTable.setText(bundle.getString("Table"));
+		colonneNbCouvertsMin.setText(bundle.getString("CouvMin"));
+		colonneNbCouvertsMax.setText(bundle.getString("CouvMax"));
+		gestionTable.setText(bundle.getString("gestionTable"));
+
+		
+	}
+	
 	/**
-	 * Appelé quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
+	 * AppelÃ© quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
 	 * nouvelle page pour effectuer la modification
 	 * 
 	 * @throws SQLException
@@ -84,17 +132,17 @@ public class TablesControleur {
         if (okClicked) {
         		daoTables.ajouter(tempTable);
 				refresh();
-				FonctionsControleurs.alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+				FonctionsControleurs.alerteInfo("Ajout Ã©ffectuÃ©", null, "Les informations ont Ã©tÃ© ajoutÃ©es avec succÃ¨s!");
 			}
         }
         catch(Exception e) {
-        	FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+        	FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/** 
-	 * Rafraichit les colonnes après un ajout, une modification ou une suppression d'éléments.
+	 * Rafraichit les colonnes aprÃ¨s un ajout, une modification ou une suppression d'Ã©lÃ©ments.
 	 */
 	private void refresh() {
 		tableTable.getItems().clear();
@@ -102,12 +150,12 @@ public class TablesControleur {
 		try {
 			tableTable.setItems(daoTables.afficher());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	}
 	/**
-	 * Appellé quand l'utilisateur clique sur le bouton supprimer
+	 * AppellÃ© quand l'utilisateur clique sur le bouton supprimer
 	 * 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -120,24 +168,24 @@ public class TablesControleur {
 			try {
 			daoTables.supprimer(selectedTable);
 			refresh();
-			FonctionsControleurs.alerteInfo("Suppression réussie", null, "La table "+selectedTable.getNoTable()+" vient d'être supprimée!");
+			FonctionsControleurs.alerteInfo("Suppression rÃ©ussie", null, "La table "+selectedTable.getNoTable()+" vient d'Ãªtre supprimÃ©e!");
 			}
 			catch(SQLException e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: "+e);
 				e.printStackTrace();
 			}
 			
 		
 
 		} else {
-			// Si rien n'est séléctionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
+			// Si rien n'est sÃ©lÃ©ctionnÃ©
+			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucune table de sÃ©lectionnÃ©e!",
 					"Selectionnez une table pour pouvoir la supprimer");
 		}
 	}
 
 	/**
-	 * Appelé quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
+	 * AppelÃ© quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
 	 * nouvelle page pour effectuer la modification
 	 * 
 	 * @throws SQLException
@@ -152,28 +200,30 @@ public class TablesControleur {
 				try {
 					daoTables.modifier(selectedTable);
 					refresh();
-					FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+					FonctionsControleurs.alerteInfo("Modification Ã©ffectuÃ©e", null, "Les informations ont Ã©tÃ© modifiÃ©es avec succÃ¨s!");
 				} catch (Exception e) {
-					FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+					FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: "+e);
 					e.printStackTrace();
 				}
 			}
 
 		} else {
-			// Si rien n'est selectionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
+			// Si rien n'est selectionnÃ©
+			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucune table de sÃ©lectionnÃ©e!",
 					"Selectionnez une table pour pouvoir la modifier");
 		}
 	}
 	
 	public boolean fenetreModification(Table table) throws ClassNotFoundException, SQLException {
 		try {
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
 			// Charge le fichier fxml et l'ouvre en pop-up
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(TablesControleur.class.getResource("../vue/ModifierTables.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ModifierTables.fxml"), bundle);
 			AnchorPane page = (AnchorPane) loader.load();
 
-			// Crée une nouvelle page
+			// CrÃ©e une nouvelle page
 			Stage dialogStage = new Stage();
 			dialogStage.setResizable(false);
 			dialogStage.setTitle("Gestion des tables");
@@ -183,7 +233,7 @@ public class TablesControleur {
 			dialogStage.getIcons().add(new Image(
 	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
-			// Définition du controleur pour la fenetre
+			// DÃ©finition du controleur pour la fenetre
 			ModifierTablesControleur controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setTable(table);
@@ -193,7 +243,7 @@ public class TablesControleur {
 
 			return controller.isOkClicked();
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: "+e);
 			e.printStackTrace();
 			return false;
 		}

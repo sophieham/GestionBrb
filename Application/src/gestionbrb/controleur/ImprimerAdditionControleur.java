@@ -1,10 +1,12 @@
 package gestionbrb.controleur;
 
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOTables;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Commande;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,10 +42,20 @@ public class ImprimerAdditionControleur implements Initializable {
 	@FXML
 	private Label devise;
 	@FXML
+	private Label libelle;
+	@FXML
+	private Label prix;
+	@FXML
+	private Label qte;
+	@FXML
+	private Label merci;
+	@FXML
 	private Button imprimerAddition;
 	@FXML
 	private AnchorPane fenetre;
-	
+	@FXML
+	private ResourceBundle bundle;
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	private AdditionControleur additionControleur;
 	private CommandeControleur commandeControleur;
 	
@@ -53,13 +65,38 @@ public class ImprimerAdditionControleur implements Initializable {
 
 	DAOCommande daoCommande = new DAOCommande();
 	DAOTables daoTable = new DAOTables();
+	private String info1;
+	private String total;
+	private String servir;
+	private String Addition;
+	private String info2;
+	private String couvert;
+	private String pour;
 	
 	
 	/**
-	 * Initialise le ticket avec les informations sur la table et les produits commandÈs.
+	 * Initialise le ticket avec les informations sur la table et les produits command√©s.
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		try {
 			
 			commande = DemarrerCommandeControleur.getCommande();
@@ -82,21 +119,49 @@ public class ImprimerAdditionControleur implements Initializable {
 				HBox.setMargin(nom, new Insets(0,0,0,5));
 				vboxProduits.getChildren().add(produitBox);
 			}
-				infoTableLbl.setText("Addition de la table n∞"+daoCommande.afficherTicket(commande).get(0)+" ("+daoCommande.afficherTicket(commande).get(1)+" couverts)");
-				dateCommandeLbl.setText("Commande effectuÈe le "+daoCommande.afficherTicket(commande).get(2)+" ‡ "+daoCommande.afficherTicket(commande).get(3));
-				totalLbl.setText("Total: "+daoCommande.afficherTicket(commande).get(4)+" produits pour "+daoCommande.afficherTicket(commande).get(5));
-				serveurLbl.setText("Vous avez ÈtÈ servi par "+daoCommande.afficherTicket(commande).get(6));
+			//////////////////////// !!!!!!!!!!!!!!!!!!!!!!!!!!!! \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+				infoTableLbl.setText(Addition+daoCommande.afficherTicket(commande).get(0)+" ("+daoCommande.afficherTicket(commande).get(1)+couvert);
+				dateCommandeLbl.setText(info1+daoCommande.afficherTicket(commande).get(2)+info2+daoCommande.afficherTicket(commande).get(3));
+				totalLbl.setText(total+daoCommande.afficherTicket(commande).get(4)+pour+daoCommande.afficherTicket(commande).get(5));
+				serveurLbl.setText(servir+daoCommande.afficherTicket(commande).get(6));
 				devise.setText(DAOCommande.recupererDevise());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'ÈxÈcution", "Une erreur est survenue","DÈtails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'Èñ§Èñèution", "Une erreur est survenue","DÈñ†ails: "+e);
 			e.printStackTrace();
 		}
 
 	}
+	
+	/**
+	 * Traduction des menus & boutons dans la langue de l'utilisateur
+	 * 
+	 * @param lang
+	 * @param LANG
+	 */
+	private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		
+		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		dateCommandeLbl.setText(bundle.getString("info"));
+		infoTableLbl.setText(bundle.getString("addition"));
+		libelle.setText(bundle.getString("Libelle"));
+		prix.setText(bundle.getString("Prix"));
+		qte.setText(bundle.getString("qte"));
+		imprimerAddition.setText(bundle.getString("imprimer"));
+		serveurLbl.setText(bundle.getString("Servir"));
+		merci.setText(bundle.getString("merci"));
+		info1=bundle.getString("info1");
+		total=bundle.getString("total");
+		servir=bundle.getString("Servir");
+		Addition=bundle.getString("Addition");
+		info2=bundle.getString("info2");
+		couvert=bundle.getString("couvert");
+		pour=bundle.getString("pour");
+	}
 
 	/**
 	 * Affiche la boite de dialogue pour lancer l'impression. <br>
-	 * Une fois l'impression lancÈe ou annulÈe, la table est libÈrÈe.
+	 * Une fois l'impression lanc√©e ou annul√©e, la table est lib√©r√©e
 	 * @param event
 	 */
 	@FXML
@@ -109,7 +174,6 @@ public class ImprimerAdditionControleur implements Initializable {
 			   job.showPrintDialog(window);
 			   job.printPage(fenetre);
 			   job.endJob();
-			   System.out.println(button.getText());
 			   if(button.getText().equals("Imprimer ticket")) {
 				 CommandeControleur.getImprimerAddition().close();  
 			   }
@@ -117,10 +181,10 @@ public class ImprimerAdditionControleur implements Initializable {
 			   AdditionControleur.getImprimerAddition().close();
 			   }
 			   DemarrerCommandeControleur.getFenetreCommande().close();
-			   FonctionsControleurs.alerteInfo("Table libÈrÈe", null, "L'addition ‡ bien ÈtÈ envoyÈe ‡ l'imprimante et la table ‡ ÈtÈ libÈrÈe!");
+			   FonctionsControleurs.alerteInfo("Table lib√©r√©e!", null, "L'addition √† bien √©t√© envoy√©e √† l'imprimante");
 			 }
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'ÈxÈcution", "Une erreur est survenue","DÈtails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'√©x√©cution", "Une erreur est survenue","D√©tails: "+e);
 			e.printStackTrace();
 		}
 	}

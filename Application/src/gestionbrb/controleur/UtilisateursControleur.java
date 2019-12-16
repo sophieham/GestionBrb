@@ -1,6 +1,8 @@
 package gestionbrb.controleur;
 
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOUtilisateur;
@@ -10,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -19,7 +22,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Gère les utilisateurs et leurs fonctions.
+ * GÃ¨re les utilisateurs et leurs fonctions.
  * @author Roman
  *
  */
@@ -46,7 +49,16 @@ public class UtilisateursControleur {
 	private Label champRoles;
 	@FXML
 	private Label champIdentifiant;
-
+	@FXML
+	private Label labelCentre;
+	@FXML
+	private ResourceBundle bundle;
+	@FXML
+	private Button ajouter;
+	@FXML
+	private Button modifier;
+	@FXML
+	private Button supprimer;
 	@SuppressWarnings("unused")
 	private AdministrationControleur parent;
 	
@@ -56,7 +68,7 @@ public class UtilisateursControleur {
 	}
 
 	/**
-	 * Initialise la classe controleur avec les données par défaut du tableau
+	 * Initialise la classe controleur avec les donnÃ©es par dÃ©faut du tableau
 	 * 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -64,6 +76,27 @@ public class UtilisateursControleur {
 
 	@FXML
 	private void initialize() throws ClassNotFoundException, SQLException {
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		colonneIdentifiant.setCellValueFactory(cellData -> cellData.getValue().identifiantProperty());
 		colonneNom.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
 		colonnePrenom.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
@@ -71,15 +104,27 @@ public class UtilisateursControleur {
 		try {
 			utilisateursTable.setItems(daoUtilisateur.afficher());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	}
-
+	private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		
+		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		colonneIdentifiant.setText(bundle.getString("Identifiant"));
+		colonneNom.setText(bundle.getString("Nom"));
+		colonnePrenom.setText(bundle.getString("Prenom"));
+		colonneRoles.setText(bundle.getString("Role"));
+		ajouter.setText(bundle.getString("Ajouter"));
+		modifier.setText(bundle.getString("Modifier"));
+		supprimer.setText(bundle.getString("Supprimer"));
+		labelCentre.setText(bundle.getString("gestionCompte"));
+	}
 
 
 	/**
-	 * Appelé quand l'utilisateur clique sur le bouton ajouter un utilisateur. Ouvre
+	 * AppelÃ© quand l'utilisateur clique sur le bouton ajouter un utilisateur. Ouvre
 	 * une nouvelle page pour effectuer la modification
 	 * 
 	 * @throws SQLException
@@ -93,9 +138,9 @@ public class UtilisateursControleur {
 			try {
 				daoUtilisateur.ajouter(tempUtilisateur);
 				refresh();
-				FonctionsControleurs.alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
+				FonctionsControleurs.alerteInfo("Ajout Ã©ffectuÃ©", null, "Les informations ont Ã©tÃ© ajoutÃ©es avec succÃ¨s!");
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 				e.printStackTrace();
 			}
 
@@ -103,8 +148,8 @@ public class UtilisateursControleur {
 	}
 
 	/**
-	 * Rafraichit les colonnes après un ajout, une modification ou une suppression
-	 * d'éléments.
+	 * Rafraichit les colonnes aprÃ¨s un ajout, une modification ou une suppression
+	 * d'Ã©lÃ©ments.
 	 * 
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
@@ -115,14 +160,14 @@ public class UtilisateursControleur {
 		try {
 			utilisateursTable.setItems(daoUtilisateur.afficher());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 
 	}
 
 	/**
-	 * Appellé quand l'utilisateur clique sur le bouton supprimer
+	 * AppellÃ© quand l'utilisateur clique sur le bouton supprimer
 	 * 
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -135,19 +180,19 @@ public class UtilisateursControleur {
 			try {
 				daoUtilisateur.supprimer(selectedUtilisateur);
 				refresh();
-				FonctionsControleurs.alerteInfo("Suppression réussie", null, "L'utilisateur " + selectedUtilisateur.getIdentifiant() + " vient d'être supprimée!");
+				FonctionsControleurs.alerteInfo("Suppression rÃ©ussie", null, "L'utilisateur " + selectedUtilisateur.getIdentifiant() + " vient d'Ãªtre supprimÃ©e!");
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 				e.printStackTrace();
 			}
 		} else {
-			// Si rien n'est séléctionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionné!", "Selectionnez un compte pour pouvoir le supprimer");
+			// Si rien n'est sÃ©lÃ©ctionnÃ©
+			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucun compte de sÃ©lectionnÃ©!", "Selectionnez un compte pour pouvoir le supprimer");
 		}
 	}
 
 	/**
-	 * Appelé quand l'utilisateur clique sur le bouton modifier le compte. Ouvre une
+	 * AppelÃ© quand l'utilisateur clique sur le bouton modifier le compte. Ouvre une
 	 * nouvelle page pour effectuer la modification
 	 * 
 	 * @throws SQLException
@@ -162,16 +207,16 @@ public class UtilisateursControleur {
 				try {
 					daoUtilisateur.modifier(selectedUtilisateur);
 					refresh();
-					FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
+					FonctionsControleurs.alerteInfo("Modification Ã©ffectuÃ©e", null, "Les informations ont Ã©tÃ© modifiÃ©es avec succÃ¨s!");
 				} catch (Exception e) {
-					FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+					FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 					e.printStackTrace();
 				}
 			}
 
 		} else {
-			// Si rien n'est selectionné
-			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionné!", "Selectionnez un compte pour pouvoir le modifier");
+			// Si rien n'est selectionnÃ©
+			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucun compte de sÃ©lectionnÃ©!", "Selectionnez un compte pour pouvoir le modifier");
 		}
 	}
 
@@ -192,12 +237,15 @@ public class UtilisateursControleur {
 	 */
 		public boolean fenetreModification(Utilisateur compte) throws ClassNotFoundException, SQLException {
 			try {
+				Locale locale = new Locale("fr", "FR");
+
+				ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+
 				// Charge le fichier fxml et l'ouvre en pop-up
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(UtilisateursControleur.class.getResource("../vue/ModifierComptes.fxml"));
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ModifierComptes.fxml"), bundle);
 				AnchorPane page = (AnchorPane) loader.load();
 
-				// Crée une nouvelle page
+				// CrÃ©e une nouvelle page
 				Stage dialogStage = new Stage();
 				dialogStage.setResizable(false);
 				dialogStage.setTitle("Gestion des comptes");
@@ -207,7 +255,7 @@ public class UtilisateursControleur {
 				dialogStage.getIcons().add(new Image(
 		          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
-				// Définition du controleur pour la fenetre
+				// DÃ©finition du controleur pour la fenetre
 				ModifierUtilisateurControleur controller = loader.getController();
 				controller.setDialogStage(dialogStage);
 				controller.setUtilisateur(compte);
@@ -217,7 +265,7 @@ public class UtilisateursControleur {
 
 				return controller.isOkClicked();
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 				e.printStackTrace();
 				return false;
 			}

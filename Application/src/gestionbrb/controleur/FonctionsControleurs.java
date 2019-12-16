@@ -33,7 +33,7 @@ public abstract class FonctionsControleurs {
 	}
 	
 	/**
-	 * Extrait une chaine de caractËre d'une sÈlÈction de ChoiceBox
+	 * Extrait une chaine de caract√®re d'une s√©l√©ction de ChoiceBox
 	 * 
 	 * @return numero de la table
 	 */
@@ -69,7 +69,7 @@ public abstract class FonctionsControleurs {
 	}
 
 	/**
-	 * Extrait un numÈro d'une sÈlÈction de ChoiceBox
+	 * Extrait un num√©ro d'une s√©l√©ction de ChoiceBox
 	 * 
 	 * @return numero de la table
 	 */
@@ -99,7 +99,7 @@ public abstract class FonctionsControleurs {
 	}
 	
 	/**
-	 * Fonction pour hasher les mots de passes entrÈs
+	 * Fonction pour s√©curiser les mots de passes entr√©s
 	 * @param input
 	 * @return
 	 * @throws NoSuchAlgorithmException

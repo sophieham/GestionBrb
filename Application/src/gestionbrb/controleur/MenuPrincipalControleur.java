@@ -62,7 +62,7 @@ public class MenuPrincipalControleur implements Initializable {
 		bundle = resources;
 		try {
 			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
-			System.out.println(langue);
+			
 			switch(langue) {
 			case "fr":
 				loadLang("fr", "FR");
@@ -92,9 +92,8 @@ public class MenuPrincipalControleur implements Initializable {
 
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
-		System.out.println(bundle);
+		
 		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
-		System.out.println(bundle.getString("key6"));
 		btnNvelleCommande.setText(bundle.getString("key6"));
 		btnAdministration.setText(bundle.getString("key7"));
 		btnStock.setText(bundle.getString("key8"));
@@ -104,6 +103,7 @@ public class MenuPrincipalControleur implements Initializable {
 		connecte.setText(bundle.getString("key12"));
 		
 	}
+
 
 	@FXML
 	public void fenetreNouvelleCommande() {
@@ -117,12 +117,12 @@ public class MenuPrincipalControleur implements Initializable {
 			setDemarrerCommande(new Stage());
 			getDemarrerCommande().setScene(new Scene(vueDCommande));
 			getDemarrerCommande().show();
-			getDemarrerCommande().setTitle("Démarrer une nouvelle commande");
+			getDemarrerCommande().setTitle("DÃ©marrer une nouvelle commande");
 
 			DemarrerCommandeControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -143,7 +143,7 @@ public class MenuPrincipalControleur implements Initializable {
 			GestionStockController controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -160,7 +160,7 @@ public class MenuPrincipalControleur implements Initializable {
 			MenuControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -179,7 +179,7 @@ public class MenuPrincipalControleur implements Initializable {
 			ParametresControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -198,7 +198,7 @@ public class MenuPrincipalControleur implements Initializable {
 			AdministrationControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
 			e.printStackTrace();
 		}
 	
@@ -215,13 +215,13 @@ public class MenuPrincipalControleur implements Initializable {
 			ConnexionControleur controller = loader.getController();
 			controller.setMainApp(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	}
 
-	// getters & setters utiles pour gérer la fenetre depuis les controleurs
-	// associés
+	// getters & setters utiles pour gÃ©rer la fenetre depuis les controleurs
+	// associÃ©s
 	public static Stage getDemarrerCommande() {
 		return demarrerCommande;
 	}
@@ -263,7 +263,7 @@ public class MenuPrincipalControleur implements Initializable {
 	}
 
 	/**
-	 * Défini connexionProfil comment parent quand on accède au menu principal
+	 * DÃ©fini connexionProfil comment parent quand on accÃ¨de au menu principal
 	 * depuis la page de connexion
 	 * 
 	 * @param connexionProfil

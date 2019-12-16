@@ -33,27 +33,27 @@
                         <TableView fx:id="tableIngredients" layoutY="14.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
                             <TableColumn fx:id="colonneIdIngredient" prefWidth="81.0" text="ID" />
-                            <TableColumn fx:id="colonneNomIngredient" prefWidth="175.0" text="Nom" />
-                              <TableColumn fx:id="colonneQuantiteIngredient" prefWidth="92.0" text="Qte" />
-                              <TableColumn fx:id="colonnePrixIngredient" prefWidth="90.0" text="Prix" />
-                              <TableColumn fx:id="colonneFournisseur" prefWidth="160.0" text="Fournisseurs" />
+                            <TableColumn fx:id="colonneNomIngredient" prefWidth="175.0" text="%Nom" />
+                              <TableColumn fx:id="colonneQuantiteIngredient" prefWidth="92.0" text="%qte" />
+                              <TableColumn fx:id="colonnePrixIngredient" prefWidth="90.0" text="%Prix" />
+                              <TableColumn fx:id="colonneFournisseur" prefWidth="160.0" text="%Fournisseur" />
                           </columns>
                         </TableView>
                         <Pane layoutY="288.0" prefHeight="74.0" prefWidth="600.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.topAnchor="288.0">
                            <children>
                               <ButtonBar layoutX="53.0" layoutY="6.0" prefHeight="53.0" prefWidth="495.0">
                                 <buttons>
-                                    <Button id="glass" mnemonicParsing="false" onAction="#ajoutIngredient" prefHeight="41.0" prefWidth="160.0" text="Ajouter">
+                                    <Button id="glass" mnemonicParsing="false" onAction="#ajoutIngredient" prefHeight="41.0" prefWidth="160.0" text="%Ajouter" fx:id="ajouter">
                                        <font>
                                           <Font size="21.0" />
                                        </font>
                                     </Button>
-                                    <Button id="glass" mnemonicParsing="false" onAction="#modifierIngredient" prefHeight="40.0" prefWidth="160.0" text="Modifier">
+                                    <Button id="glass" mnemonicParsing="false" onAction="#modifierIngredient" prefHeight="40.0" prefWidth="160.0" text="%Modifier" fx:id="modifier">
                                        <font>
                                           <Font size="21.0" />
                                        </font>
                                     </Button>
-                                    <Button id="glass" mnemonicParsing="false" onAction="#supprimerIngredient" prefHeight="40.0" prefWidth="160.0" text="Supprimer">
+                                    <Button id="glass" mnemonicParsing="false" onAction="#supprimerIngredient" prefHeight="40.0" prefWidth="160.0" text="%Supprimer" fx:id="supprimer">
                                        <font>
                                           <Font size="21.0" />
                                        </font>
@@ -73,31 +73,31 @@
                         <TableView fx:id="tableProduit" layoutX="100.0" layoutY="22.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
                             <TableColumn fx:id="colonneIdProduit" prefWidth="57.0" text="ID" />
-                            <TableColumn fx:id="colonneNomProduit" prefWidth="116.0" text="Nom" />
-                              <TableColumn fx:id="colonneType" prefWidth="103.0" text="Type" />
-                              <TableColumn fx:id="colonneDescriptionProduit" prefWidth="163.0" text="Description" />
-                              <TableColumn fx:id="colonneQuantiteProduit" prefWidth="81.0" text="Qte" />
-                              <TableColumn fx:id="colonnePrixProduit" prefWidth="78.0" text="Prix" />
+                            <TableColumn fx:id="colonneNomProduit" prefWidth="116.0" text="%Nom" />
+                              <TableColumn fx:id="colonneType" prefWidth="103.0" text="%Type" />
+                              <TableColumn fx:id="colonneDescriptionProduit" prefWidth="163.0" text="%Description" />
+                              <TableColumn fx:id="colonneQuantiteProduit" prefWidth="81.0" text="%Qte" />
+                              <TableColumn fx:id="colonnePrixProduit" prefWidth="78.0" text="%Prix" />
                           </columns>
                         </TableView>
                         <ButtonBar layoutX="-10.0" layoutY="300.0" prefHeight="40.0" prefWidth="600.0">
                           <buttons>
-                              <Button id="glass" mnemonicParsing="false" onAction="#ajoutProduit" prefHeight="40.0" prefWidth="160.0" text="Ajouter">
+                              <Button id="glass" mnemonicParsing="false" onAction="#ajoutProduit" prefHeight="40.0" prefWidth="160.0" text="Ajouter" fx:id="ajouter1">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button id="glass" mnemonicParsing="false" onAction="#modifierProduit" prefHeight="40.0" prefWidth="160.0" text="Modifier">
+                              <Button id="glass" mnemonicParsing="false" onAction="#modifierProduit" prefHeight="40.0" prefWidth="160.0" text="Modifier" fx:id="modifier1">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button id="glass" mnemonicParsing="false" onAction="#supprimerProduit" prefHeight="40.0" prefWidth="160.0" text="Supprimer">
+                              <Button id="glass" mnemonicParsing="false" onAction="#supprimerProduit" prefHeight="40.0" prefWidth="160.0" text="Supprimer" fx:id="supprimer1">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button id="glass" mnemonicParsing="false" onAction="#afficheIngredients" prefHeight="140.0" prefWidth="160.0" text="Ingrédients">
+                              <Button id="glass" mnemonicParsing="false" onAction="#afficheIngredients" prefHeight="140.0" prefWidth="160.0" text="%ingredients" fx:id="ingredients">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -115,20 +115,20 @@
                         <TableView fx:id="tableType" layoutX="82.0" layoutY="20.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
                             <TableColumn fx:id="colonneIdType" prefWidth="131.0" text="ID" />
-                            <TableColumn fx:id="colonneNomType" prefWidth="468.0" text="Nom" />
+                            <TableColumn fx:id="colonneNomType" prefWidth="468.0" text="%Nom" />
                           </columns>
                         </TableView>
-                        <Button id="glass" layoutX="27.0" layoutY="296.0" mnemonicParsing="false" onAction="#ajoutType" prefHeight="40.0" prefWidth="160.0" text="Ajouter">
+                        <Button id="glass" layoutX="27.0" layoutY="296.0" mnemonicParsing="false" onAction="#ajoutType" prefHeight="40.0" prefWidth="160.0" text="%Ajouter" fx:id="ajouter2">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Button>
-                        <Button id="glass" layoutX="220.0" layoutY="296.0" mnemonicParsing="false" onAction="#modifierType" prefHeight="40.0" prefWidth="160.0" text="Modifier">
+                        <Button id="glass" layoutX="220.0" layoutY="296.0" mnemonicParsing="false" onAction="#modifierType" prefHeight="40.0" prefWidth="160.0" text="%Modifier" fx:id="modifier2">
                            <font>
                               <Font size="21.0" />
                            </font>
                         </Button>
-                        <Button id="glass" layoutX="414.0" layoutY="296.0" mnemonicParsing="false" onAction="#supprimerType" prefHeight="40.0" prefWidth="160.0" text="Supprimer">
+                        <Button id="glass" layoutX="414.0" layoutY="296.0" mnemonicParsing="false" onAction="#supprimerType" prefHeight="40.0" prefWidth="160.0" text="%Supprimer" fx:id="supprimer2">
                            <font>
                               <Font size="21.0" />
                            </font>

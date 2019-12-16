@@ -37,24 +37,24 @@
             <RowConstraints maxHeight="91.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="107.0" text="Type" textFill="WHITE" GridPane.rowIndex="1">
+            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="107.0" text="%Type" textFill="WHITE" GridPane.rowIndex="1" fx:id="type">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="107.0" text="Prix" textFill="WHITE" GridPane.rowIndex="3">
+            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="107.0" text="%Prix" textFill="WHITE" GridPane.rowIndex="3" fx:id="prix">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="106.0" text="Nom" textFill="WHITE">
+            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="106.0" text="%Nom" textFill="WHITE" fx:id="nom">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <TextField fx:id="chNomProduit" prefHeight="31.0" prefWidth="137.0" GridPane.columnIndex="1" />
             <TextField fx:id="chPrixProduit" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="106.0" text="Description" textFill="WHITE" GridPane.rowIndex="4">
+            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="106.0" text="%Description" textFill="WHITE" GridPane.rowIndex="4" fx:id="description">
                <font>
                   <Font size="18.0" />
                </font>
@@ -64,7 +64,7 @@
                <GridPane.margin>
                   <Insets />
                </GridPane.margin></ChoiceBox>
-            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="107.0" text="Quantité" textFill="WHITE" GridPane.rowIndex="2">
+            <Label alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="107.0" text="%qte" textFill="WHITE" GridPane.rowIndex="2" fx:id="qte">
                <font>
                   <Font size="18.0" />
                </font>
@@ -72,7 +72,7 @@
             <TextField fx:id="chQuantiteProduit" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button id="glass" layoutX="253.0" layoutY="349.0" mnemonicParsing="false" onAction="#actionValider" prefHeight="31.0" prefWidth="247.0" text="Valider">
+      <Button id="glass" layoutX="253.0" layoutY="349.0" mnemonicParsing="false" onAction="#actionValider" prefHeight="31.0" prefWidth="247.0" text="%Valider" fx:id="valider">
          <font>
             <Font size="18.0" />
          </font>
@@ -87,7 +87,7 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <Label alignment="CENTER" layoutX="395.0" layoutY="14.0" prefHeight="27.0" prefWidth="257.0" text="Sélectionnez les ingrédients" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="395.0" layoutY="14.0" prefHeight="27.0" prefWidth="257.0" text="%selection" textFill="WHITE" fx:id="selection">
          <font>
             <Font size="18.0" />
          </font>

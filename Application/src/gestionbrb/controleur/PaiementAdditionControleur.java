@@ -1,9 +1,11 @@
 package gestionbrb.controleur;
 
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import gestionbrb.DAO.DAOCommande;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Commande;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * Choix d'un mode de paiement et saisie du montant payé
+ * Choix d'un mode de paiement et saisie du montant payÃ©
  * 
  * @author Sophie
  *
@@ -33,9 +35,14 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 	@FXML
 	private Button btnToutPayer;
 	@FXML
+	private Button revenir;
+	@FXML
 	private Label devise;
 	@FXML
 	private AnchorPane fenetre;
+	@FXML
+	private ResourceBundle bundle;
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	AdditionControleur parent;
 	DemarrerCommandeControleur parentC;
 	Commande commande;
@@ -47,6 +54,8 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 	private Button btnCalculMonnaie;
 	@FXML
 	private Button btnValider;
+	private String entrer;
+	private String toutpayer;
 
 	public void setParent(AdditionControleur additionControleur) {
 		this.parent = additionControleur;
@@ -63,31 +72,50 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 
 	/**
 	 * Affiche des informations sur le paiement de la commande ainsi que des
-	 * paramètres en fonctions du type de paiement
+	 * paramÃ¨tres en fonctions du type de paiement
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
 		devise.setText(DAOCommande.recupererDevise());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xcution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 		btnCalculMonnaie.setVisible(false);
 		commande = DemarrerCommandeControleur.getCommande();
 		String moyenDePaiement = getMoyenPaiement();
-		moyenDePaiementLbl.setText("Entrez le montant à payer par " + moyenDePaiement);
+		moyenDePaiementLbl.setText(entrer + moyenDePaiement);
 		montantRestantLbl.setText(aRendre());
-		btnToutPayer.setText("Tout payer par " + moyenDePaiement);
+		btnToutPayer.setText(toutpayer + moyenDePaiement);
 		switch (moyenDePaiement) {
-		case "Espèces":
+		case "EspÃ¨ces":
 			detailsLbl.setText("A rendre: ");
 			btnCalculMonnaie.setVisible(true);
 			btnValider.setVisible(false);
 			break;
 		case "Carte Bancaire":
 			break;
-		case "Chèque":
+		case "ChÃ¨que":
 			detailsLbl.setText("N'oubliez pas de noter le numero de table et l'heure au dos");
 			break;
 		case "Ticket-Resto":
@@ -97,120 +125,134 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 			detailsLbl.setText("");
 			break;
 		}
-
 	}
-
-	/**
-	 * Affiche et met à jour le montant restant à payer
-	 * 
-	 * @return rendu le montant restant à payer
-	 */
-	public String aRendre() {
-		String rendu = null;
-		try {
-			rendu = daoCommande.afficherRendu(commande) + "";
-		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
-			e.printStackTrace();
+		private void loadLang(String lang, String LANG) {
+			Locale locale = new Locale(lang, LANG);  
+			
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+			moyenDePaiementLbl.setText(bundle.getString("entrer"));
+			btnCalculMonnaie.setText(bundle.getString("rendu"));
+			btnToutPayer.setText(bundle.getString("toutpayer"));
+			revenir.setText(bundle.getString("revenir"));
+			entrer=bundle.getString("entrer");
+			toutpayer=bundle.getString("toutpayer");
+			
 		}
-		return rendu;
-	}
+		
+	
 
-	/**
-	 * Paie l'intégralité (ou ce qu'il reste) de la commande en une seule fois
-	 */
-	@FXML
-	void ToutPayer() {
-		try {
-			daoCommande.majPaiement(commande, 0);
-			FonctionsControleurs.alerteInfo("Paiement accepté", null, "L'addition à été entièrement payée!");
-			actionAnnuler();
-		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
-			e.printStackTrace();
-		}
-	}
-
-	/*
-	 * Appellé lors de l'appui sur le bouton Valider. <br> Il calcule le total
-	 * restant à payer après la saisie du montant payé
-	 */
-	@FXML
-	void actionValider() {
-		try {
-
+		/**
+		 * Affiche et met Ã  jour le montant restant Ã  payer
+		 * 
+		 * @return rendu le montant restant Ã  payer
+		 */
+		public String aRendre() {
+			String rendu = null;
 			try {
-				Label tprix = new Label();
-				tprix.setText(daoCommande.afficherRendu(commande) + "");
-				double montant = Double.parseDouble(champMontant.getText());
-				double totalPrix = Double.parseDouble(tprix.getText());
-
-				if (montant > totalPrix) {
-					FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Vous avez entré une valeur supérieur à celle du prix total", "Veuillez réessayer. S'il ne s'agit pas d'une erreur, retentez avec un montant plus petit. ");
-				} else {
-					System.out.println(montant);
-					System.out.println(totalPrix);
-					double restantAPayer = Math.abs(totalPrix - montant);
-					double nouveauTotal = Math.abs(restantAPayer - totalPrix);
-					daoCommande.majPaiement(commande, restantAPayer);
-					FonctionsControleurs.alerteInfo("Paiement accepté", null, "L'addition à été payé de " + nouveauTotal + ", il reste " + restantAPayer + " à payer");
-					actionAnnuler();
-				}
-			} catch (NumberFormatException e) {
-				FonctionsControleurs.alerteErreur("Erreur d'éxécution",
-						"Vous avez fait une erreur dans la saisie du montant!!", "Veuillez réessayer.\nDétails: " + e);
+				rendu = daoCommande.afficherRendu(commande) + "";
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: " + e);
 				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
-			e.printStackTrace();
+			return rendu;
 		}
-	}
 
-	/**
-	 * Revient à la page précédente
-	 */
-	@FXML
-	public void actionAnnuler() {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/AdditionCommande.fxml"));
-			Parent vueAddition = (Parent) loader.load();
-			fenetre.getChildren().setAll(vueAddition);
-
-			AdditionControleur controller = loader.getController();
-			controller.setParent(this);
-
-		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Calcule le rendu si le paiement est par espèces
-	 * 
-	 * @return rendu le montant à rendre
-	 */
-	@FXML
-	public double calculRenduEspece() {
-		double rendu = 0;
-		try {
-			double totalAPayer = daoCommande.afficherRendu(commande);
-			double montant = Double.parseDouble(champMontant.getText());
-			if (montant < totalAPayer) {
-				FonctionsControleurs.alerteAttention("Attention!", null,
-						"Si le client ne souhaite pas payer la totalité de l'addition par espèce, "
-								+ "il vaut mieux procéder à un autre moyen de paiement avant de revenir aux espèces");
-			} else {
-				rendu = montant - totalAPayer;
-				detailsLbl.setText("A rendre: " + rendu + "€");
+		/**
+		 * Paie l'intÃ©gralitÃ© (ou ce qu'il reste) de la commande en une seule fois
+		 */
+		@FXML
+		void ToutPayer() {
+			try {
+				daoCommande.majPaiement(commande, 0);
+				FonctionsControleurs.alerteInfo("Paiement acceptÃ©", null, "L'addition Ã  Ã©tÃ© entiÃ¨rement payÃ©e!");
+				actionAnnuler();
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: " + e);
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
-			e.printStackTrace();
 		}
 
-		return rendu;
+		/*
+		 * AppellÃ© lors de l'appui sur le bouton Valider. <br> Il calcule le total
+		 * restant Ã  payer aprÃ¨s la saisie du montant payÃ©
+		 */
+		@FXML
+		void actionValider() {
+			try {
 
+				try {
+					Label tprix = new Label();
+					tprix.setText(daoCommande.afficherRendu(commande) + "");
+					double montant = Double.parseDouble(champMontant.getText());
+					double totalPrix = Double.parseDouble(tprix.getText());
+
+					if (montant > totalPrix) {
+						FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Vous avez entrÃ© une valeur supÃ©rieur Ã  celle du prix total", "Veuillez rÃ©essayer. S'il ne s'agit pas d'une erreur, retentez avec un montant plus petit. ");
+					} else {
+						double restantAPayer = Math.abs(totalPrix - montant);
+						double nouveauTotal = Math.abs(restantAPayer - totalPrix);
+						daoCommande.majPaiement(commande, restantAPayer);
+						FonctionsControleurs.alerteInfo("Paiement acceptÃ©", null, "L'addition Ã  Ã©tÃ© payÃ© de " + nouveauTotal + ", il reste " + restantAPayer + " Ã  payer");
+						actionAnnuler();
+					}
+				} catch (NumberFormatException e) {
+					FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution",
+							"Vous avez fait une erreur dans la saisie du montant!!", "Veuillez rÃ©essayer.\nDÃ©tails: " + e);
+					e.printStackTrace();
+				}
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: " + e);
+				e.printStackTrace();
+			}
+		}
+
+		/**
+		 * Revient Ã  la page prÃ©cÃ©dente
+		 */
+		@FXML
+		public void actionAnnuler() {
+			try {
+				Locale locale = new Locale("fr", "FR");
+
+				ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/AdditionCommande.fxml"), bundle);
+				Parent vueAddition = (Parent) loader.load();
+				fenetre.getChildren().setAll(vueAddition);
+
+				AdditionControleur controller = loader.getController();
+				controller.setParent(this);
+
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: " + e);
+				e.printStackTrace();
+			}
+		}
+
+		/**
+		 * Calcule le rendu si le paiement est par espÃ¨ces
+		 * 
+		 * @return rendu le montant Ã  rendre
+		 */
+		@FXML
+		public double calculRenduEspece() {
+			double rendu = 0;
+			try {
+				double totalAPayer = daoCommande.afficherRendu(commande);
+				double montant = Double.parseDouble(champMontant.getText());
+				if (montant < totalAPayer) {
+					FonctionsControleurs.alerteAttention("Attention!", null,
+							"Si le client ne souhaite pas payer la totalitÃ© de l'addition par espÃ¨ce, "
+									+ "il vaut mieux procÃ©der Ã  un autre moyen de paiement avant de revenir aux espÃ¨ces");
+				} else {
+					rendu = montant - totalAPayer;
+					detailsLbl.setText("A rendre: " + rendu + "â‚¬");
+				}
+			} catch (Exception e) {
+				FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: " + e);
+				e.printStackTrace();
+			}
+
+			return rendu;
+
+		}
 	}
-}

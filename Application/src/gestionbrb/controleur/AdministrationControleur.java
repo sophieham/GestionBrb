@@ -1,18 +1,22 @@
 package gestionbrb.controleur;
 
+import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import gestionbrb.Connexion;
+import gestionbrb.DAO.DAOUtilisateur;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class AdministrationControleur extends FonctionsControleurs {
+public class AdministrationControleur extends FonctionsControleurs implements Initializable{
 
 	private static Stage historiqueCommande;
 	private static Stage fournisseurs;
@@ -24,11 +28,66 @@ public class AdministrationControleur extends FonctionsControleurs {
 
 	@FXML
 	private AnchorPane fenetre;
+	@FXML
+	private ResourceBundle bundle;
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+	@FXML
+	private Button historique;
+	@FXML
+	private Button gererFournisseur;
+	@FXML
+	private Button gererTable;
+	@FXML
+	private Button gererUtilisateur;
+	@FXML
+	private Button retour;
+	@FXML
+	private Button gererplats;
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		bundle = resources;
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
+	private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		
+		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		historique.setText(bundle.getString("historique"));
+		gererFournisseur.setText(bundle.getString("gererFournisseur"));
+		gererTable.setText(bundle.getString("gererTable"));
+		gererUtilisateur.setText(bundle.getString("gererUtilisateur"));
+		retour.setText(bundle.getString("key5"));
+		gererplats.setText(bundle.getString("gererplats"));
+
+		
+	}
 	@FXML
 	public void fenetreHistoriqueCommandes() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/HistoriqueCommande.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/HistoriqueCommande.fxml"),bundle);
 			Parent vueHistoriqueCommande = (Parent) loader.load();
 			setHistoriqueCommande(new Stage());
 			getHistoriqueCommande().setScene(new Scene(vueHistoriqueCommande));
@@ -40,7 +99,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			HistoriqueCommandeControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -48,7 +107,10 @@ public class AdministrationControleur extends FonctionsControleurs {
 	@FXML
 	public void fenetreFournisseur() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionFournisseurs.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionFournisseurs.fxml"),bundle);
 			Parent vueGestionStockAdmin = (Parent) loader.load();
 			setFournisseurs(new Stage());
 			getFournisseurs().setScene(new Scene(vueGestionStockAdmin));
@@ -60,7 +122,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			FournisseursControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -68,7 +130,10 @@ public class AdministrationControleur extends FonctionsControleurs {
 	@FXML
 	public void fenetreTables() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GererTables.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GererTables.fxml"),bundle);
 			Parent vueParametre = (Parent) loader.load();
 			setTables(new Stage());
 			getTables().setScene(new Scene(vueParametre));
@@ -81,7 +146,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			controller.setParent(this);
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -89,7 +154,10 @@ public class AdministrationControleur extends FonctionsControleurs {
 	@FXML
 	public void fenetreUtilisateur() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionComptes.fxml"));
+			Locale locale = new Locale("fr", "FR");
+
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GestionComptes.fxml"),bundle);
 			Parent vueParametre = (Parent) loader.load();
 			setUtilisateur(new Stage());
 			getUtilisateur().setScene(new Scene(vueParametre));
@@ -101,7 +169,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			UtilisateursControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -110,7 +178,9 @@ public class AdministrationControleur extends FonctionsControleurs {
 	public void fenetrePlatsIngerdients() {
 
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GererIngredientsProduits.fxml"));
+			Locale locale = new Locale("fr", "FR");
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/GererIngredientsProduits.fxml"),bundle);
 			Parent vueAdministration= (Parent) loader.load();
 			setPlatsIngredients(new Stage());
 			getPlatsIngredients().setScene(new Scene(vueAdministration));
@@ -122,7 +192,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			IngredientsProduitsControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	
@@ -142,7 +212,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 			MenuPrincipalControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -150,8 +220,8 @@ public class AdministrationControleur extends FonctionsControleurs {
 
 	
 
-	// getters & setters utiles pour gérer la fenetre depuis les controleurs
-	// associés
+	// getters & setters utiles pour gÃ©rer la fenetre depuis les controleurs
+	// associÃ©s
 	public static Stage getHistoriqueCommande() {
 		return historiqueCommande;
 	}
@@ -193,7 +263,7 @@ public class AdministrationControleur extends FonctionsControleurs {
 	}
 
 	/**
-	 * Défini connexionProfil comment parent quand on accède au menu principal
+	 * DÃ©fini connexionProfil comment parent quand on accÃ¨de au menu principal
 	 * depuis la page de connexion
 	 * 
 	 * @param menuPrincipalControleur

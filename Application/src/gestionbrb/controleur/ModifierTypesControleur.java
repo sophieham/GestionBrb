@@ -1,7 +1,13 @@
 package gestionbrb.controleur;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Type;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -18,9 +24,43 @@ public class ModifierTypesControleur {
 	IngredientsProduitsControleur mainApp;
 	private Type type;
 	private boolean okClicked = false;
-	
+	@FXML
+	private ResourceBundle bundle;
+	@FXML
+	private Button valider;
+	@FXML
+	private Label nom;
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	@FXML
 	private void initialize() {
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		
+		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		valider.setText(bundle.getString("Valider"));
+		nom.setText(bundle.getString("Nom"));
+	
+
+		
 	}
 
 	public void setDialogStage(Stage dialogStage) {
@@ -50,7 +90,7 @@ public class ModifierTypesControleur {
 				dialogStage.close();
 			}
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "Dï¿½tails: "+e);
 		}
 		
 	}

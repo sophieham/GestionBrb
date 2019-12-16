@@ -19,32 +19,32 @@
       </ImageView>
 		<TableView fx:id="utilisateursTable" layoutX="7.0" layoutY="85.0" prefHeight="382.0" prefWidth="630.0">
 			<columns>
-				<TableColumn fx:id="colonneIdentifiant" prefWidth="196.0" text="Identifiant" />
-				<TableColumn fx:id="colonneNom" prefWidth="137.0" text="Nom" />
-				<TableColumn fx:id="colonnePrenom" prefWidth="146.0" text="Prenom" />
-				<TableColumn fx:id="colonneRoles" prefWidth="150.0" text="Rôle" />
+				<TableColumn fx:id="colonneIdentifiant" prefWidth="196.0" text="%Identifiant" />
+				<TableColumn fx:id="colonneNom" prefWidth="137.0" text="%Nom" />
+				<TableColumn fx:id="colonnePrenom" prefWidth="146.0" text="%Prenom" />
+				<TableColumn fx:id="colonneRoles" prefWidth="150.0" text="%Role" />
 			</columns>
 		</TableView>
 		<Pane layoutX="2.0" layoutY="478.0" prefHeight="86.0" prefWidth="640.0">
 			<children>
-				<Button id="glass" layoutX="68.0" layoutY="9.0" mnemonicParsing="false" onAction="#ajoutUtilisateur" prefHeight="44.0" prefWidth="148.0" text="Ajouter">
+				<Button id="glass" layoutX="68.0" layoutY="9.0" mnemonicParsing="false" onAction="#ajoutUtilisateur" prefHeight="44.0" prefWidth="148.0" text="%Ajouter" fx:id="ajouter">
 					<font>
 						<Font size="20.0" />
 					</font>
 				</Button>
-				<Button id="glass" layoutX="246.0" layoutY="9.0" mnemonicParsing="false" onAction="#modifierUtilisateur" prefHeight="44.0" prefWidth="148.0" text="Modifier">
+				<Button id="glass" layoutX="246.0" layoutY="9.0" mnemonicParsing="false" onAction="#modifierUtilisateur" prefHeight="44.0" prefWidth="148.0" text="%Modifier" fx:id="modifier">
 					<font>
 						<Font size="20.0" />
 					</font>
 				</Button>
-				<Button id="glass" layoutX="425.0" layoutY="9.0" mnemonicParsing="false" onAction="#supprimerUtilisateur" prefHeight="44.0" prefWidth="148.0" text="Supprimer">
+				<Button id="glass" layoutX="425.0" layoutY="9.0" mnemonicParsing="false" onAction="#supprimerUtilisateur" prefHeight="44.0" prefWidth="148.0" text="%Supprimer" fx:id="supprimer">
 					<font>
 						<Font size="20.0" />
 					</font>
 				</Button>
 			</children>
 		</Pane>
-      <Label layoutX="120.0" layoutY="14.0" text="Gestion des comptes" textFill="WHITE">
+      <Label layoutX="120.0" layoutY="14.0" text="%gestionCompte" textFill="WHITE"  fx:id="labelCentre"> 
          <font>
             <Font name="Calibri Light" size="48.0" />
          </font>

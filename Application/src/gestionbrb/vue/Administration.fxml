@@ -33,7 +33,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetreHistoriqueCommandes" prefHeight="63.0" prefWidth="533.0" text="Historique des commandes" GridPane.columnIndex="1">
+            <Button id="glass" mnemonicParsing="false" onAction="#fenetreHistoriqueCommandes" prefHeight="63.0" prefWidth="533.0" text="%historique" GridPane.columnIndex="1" fx:id="historique">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
@@ -41,27 +41,27 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetreFournisseur" prefHeight="63.0" prefWidth="533.0" text="Gérer fournisseurs" GridPane.rowIndex="1">
+            <Button id="glass" mnemonicParsing="false" onAction="#fenetreFournisseur" prefHeight="63.0" prefWidth="533.0" text="%gererFournisseur" GridPane.rowIndex="1" fx:id="gererFournisseur">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetreTables" prefHeight="63.0" prefWidth="533.0" text="Gérer les tables" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button id="glass" mnemonicParsing="false" onAction="#fenetreTables" prefHeight="63.0" prefWidth="533.0" text="%gererTable" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="gererTable">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetreUtilisateur" prefHeight="63.0" prefWidth="533.0" text="Gérer utilisateurs" GridPane.rowIndex="2">
+            <Button id="glass" mnemonicParsing="false" onAction="#fenetreUtilisateur" prefHeight="63.0" prefWidth="533.0" text="%gererUtilisateur" GridPane.rowIndex="2" fx:id="gererUtilisateur">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fermerFenetre" prefHeight="63.0" prefWidth="533.0" text="Retour au menu principal" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button id="glass" mnemonicParsing="false" onAction="#fermerFenetre" prefHeight="63.0" prefWidth="533.0" text="%key5" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="retour">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetrePlatsIngerdients" prefHeight="63.0" prefWidth="533.0" text="Gérer plats et ingrédients">
+            <Button id="glass" mnemonicParsing="false" onAction="#fenetrePlatsIngerdients" prefHeight="63.0" prefWidth="533.0" text="%gererplats" fx:id="gererplats">
                <font>
                   <Font size="24.0" />
                </font>

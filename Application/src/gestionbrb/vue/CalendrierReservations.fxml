@@ -23,12 +23,12 @@
          </image>
       </ImageView>
       <DatePicker fx:id="rechercheDate" layoutX="146.0" layoutY="59.0" onAction="#rechercherReservation" prefHeight="31.0" prefWidth="316.0" />
-      <Label fx:id="nbTotalReservations" alignment="CENTER" layoutX="75.0" layoutY="104.0" prefHeight="35.0" prefWidth="634.0" text="0 réservations au total" textFill="WHITE">
+      <Label fx:id="nbTotalReservations" alignment="CENTER" layoutX="1.0" layoutY="104.0" prefHeight="35.0" prefWidth="873.0" text="%0reservation" textFill="WHITE">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="134.0" prefHeight="57.0" prefWidth="565.0" text="Calendrier des réservations" textFill="WHITE">
+      <Label fx:id="Labelcalendrier" alignment="CENTER" prefHeight="57.0" prefWidth="873.0" text="%Calendrier" textFill="WHITE">
          <font>
             <Font name="Calibri Light" size="49.0" />
          </font>
@@ -38,17 +38,17 @@
          <children>
             <TableView fx:id="reservationTable" prefHeight="295.0" prefWidth="504.0">
               <columns>
-                <TableColumn fx:id="colonneNom" prefWidth="130.0" text="Nom" />
-                <TableColumn fx:id="colonneDate" prefWidth="103.0" text="Date" />
-                  <TableColumn fx:id="colonneHeure" prefWidth="119.0" text="Heure" />
-                  <TableColumn fx:id="colonneNbCouverts" prefWidth="147.0" text="Couverts" />
+                <TableColumn fx:id="colonneNom" prefWidth="130.0" text="%Nom" />
+                <TableColumn fx:id="colonneDate" prefWidth="103.0" text="%Date" />
+                  <TableColumn fx:id="colonneHeure" prefWidth="119.0" text="%Heure" />
+                  <TableColumn fx:id="colonneNbCouverts" prefWidth="147.0" text="%Couverts" />
               </columns>
             </TableView>
             <Separator orientation="VERTICAL" prefHeight="295.0" prefWidth="32.0" />
-            <GridPane prefHeight="272.0" prefWidth="244.0">
+            <GridPane prefHeight="283.0" prefWidth="317.0">
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="131.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="117.0" minWidth="10.0" prefWidth="113.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="158.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="117.0" minWidth="10.0" prefWidth="86.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -61,32 +61,32 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="Nom" textFill="WHITE" GridPane.rowIndex="1" />
-                  <Label text="Prenom" textFill="WHITE" GridPane.rowIndex="2" />
-                  <Label text="Heure" textFill="WHITE" GridPane.rowIndex="5" />
-                  <Label text="Nb de couverts" textFill="WHITE" GridPane.rowIndex="6" />
-                  <Label fx:id="champNom" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="champPrenom" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="champHeure" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label fx:id="champNbCouverts" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <Label text="N° téléphone" textFill="WHITE" GridPane.rowIndex="3" />
-                  <Label text="Date" textFill="WHITE" GridPane.rowIndex="4" />
-                  <Label text="Demande Spéciale" textFill="WHITE" GridPane.rowIndex="7" />
-                  <Label fx:id="champNumTel" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label fx:id="champDate" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label fx:id="champDemandeSpe" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <Label text="Identifiant:" textFill="WHITE" />
-                  <Label fx:id="champID" text="                      " textFill="WHITE" GridPane.columnIndex="1" />
+                  <Label fx:id="Nom" prefHeight="21.0" prefWidth="189.0" text="%Nom" textFill="WHITE" GridPane.rowIndex="1" />
+                  <Label fx:id="prenom" prefHeight="21.0" prefWidth="151.0" text="%Prenom" textFill="WHITE" GridPane.rowIndex="2" />
+                  <Label fx:id="heure" prefHeight="21.0" prefWidth="130.0" text="%Heure" textFill="WHITE" GridPane.rowIndex="5" />
+                  <Label fx:id="nb" prefHeight="21.0" prefWidth="155.0" text="%key15" textFill="WHITE" GridPane.rowIndex="6" />
+                  <Label fx:id="champNom" prefHeight="21.0" prefWidth="149.0" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="champPrenom" prefHeight="21.0" prefWidth="134.0" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="champHeure" prefHeight="21.0" prefWidth="170.0" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label fx:id="champNbCouverts" prefHeight="21.0" prefWidth="135.0" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Label fx:id="telephone" prefHeight="21.0" prefWidth="167.0" text="%telephone" textFill="WHITE" GridPane.rowIndex="3" />
+                  <Label fx:id="date" prefHeight="21.0" prefWidth="167.0" text="%Date" textFill="WHITE" GridPane.rowIndex="4" />
+                  <Label fx:id="demande" prefHeight="21.0" prefWidth="138.0" text="%Demande" textFill="WHITE" GridPane.rowIndex="7" />
+                  <Label fx:id="champNumTel" prefHeight="21.0" prefWidth="165.0" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="champDate" prefHeight="21.0" prefWidth="129.0" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label fx:id="champDemandeSpe" prefHeight="21.0" prefWidth="141.0" text="                      " textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Label fx:id="Id" prefHeight="21.0" prefWidth="177.0" text="%Identifiant" textFill="WHITE" />
+                  <Label fx:id="champID" prefHeight="21.0" prefWidth="153.0" text="                      " textFill="WHITE" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </children>
       </HBox>
-      <Button id="glass" layoutX="501.0" layoutY="59.0" mnemonicParsing="false" onAction="#afficherTout" prefHeight="31.0" prefWidth="123.0" text="Afficher tout" />
-      <Button id="glass" layoutX="265.0" layoutY="457.0" mnemonicParsing="false" onAction="#modifierReservation" prefHeight="38.0" prefWidth="364.0" text="Modifier la réservation">
+      <Button id="glass" fx:id="btn1" layoutX="501.0" layoutY="59.0" mnemonicParsing="false" onAction="#afficherTout" prefHeight="31.0" prefWidth="123.0" text="%AfficherReservation" />
+      <Button id="glass" fx:id="btn2" layoutX="265.0" layoutY="457.0" mnemonicParsing="false" onAction="#modifierReservation" prefHeight="38.0" prefWidth="430.0" text="%ModifierReservation">
          <font>
             <Font size="17.0" />
          </font></Button>
-      <Button id="glass" layoutX="265.0" layoutY="501.0" mnemonicParsing="false" onAction="#supprimerReservation" prefHeight="38.0" prefWidth="364.0" text="Supprimer la réservation">
+      <Button id="glass" fx:id="btn3" layoutX="265.0" layoutY="501.0" mnemonicParsing="false" onAction="#supprimerReservation" prefHeight="38.0" prefWidth="430.0" text="SupprimerReservation">
          <font>
             <Font size="17.0" />
          </font></Button>

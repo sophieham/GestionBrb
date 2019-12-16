@@ -39,6 +39,8 @@ public class ParametresControleur implements Initializable{
 	@FXML
 	private TitledPane choiceCouleur;
 	@FXML
+	private TitledPane choiceDevise;
+	@FXML
 	private Button btnHello;
 	@FXML
 	private ResourceBundle bundle;
@@ -50,6 +52,10 @@ public class ParametresControleur implements Initializable{
 	private ColorPicker btnbackground;
 	@FXML
 	private AnchorPane AnchorPane;
+	@FXML
+	private Button btnValider;
+	@FXML
+	private Label devise;
 	
 	private MenuPrincipalControleur parent;
  DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
@@ -60,7 +66,7 @@ public class ParametresControleur implements Initializable{
 	   public void initialize(URL location, ResourceBundle resources) {
 		
 	    bundle = resources;
-		
+	    initialize();
 
 	
 		
@@ -85,7 +91,7 @@ public class ParametresControleur implements Initializable{
 				MenuPrincipalControleur controller = loader.getController();
 				controller.setParent(this);
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue","DÃ©tails: "+e);
 				e.printStackTrace();
 			}
 	            
@@ -97,7 +103,10 @@ public class ParametresControleur implements Initializable{
 	        }
         }
 	 
-	
+	/**changer la couleur du fond de l'application
+	 * 
+	 * @param ActionEvent
+	 */
 
 		public void OnBackground(ActionEvent event) {
 		Color background = btnbackground.getValue();
@@ -105,16 +114,19 @@ public class ParametresControleur implements Initializable{
 		
 	}
 	
+		/**
+		 * modifier le devise
+		 */
 		@FXML
 		public void actionValiderDevise() {
 			chDevise.getText().toUpperCase();
 			try {
 				if (estValide()) {
 				daoCommande.majDevise(chDevise.getText());
-				FonctionsControleurs.alerteInfo("Modification effectuée", null, "La modification à bien été prise en compte!");
+				FonctionsControleurs.alerteInfo("Modification effectuÃ©e", null, "La modification Ã  bien Ã©tÃ© prise en compte!");
 				}
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue","DÃ©tails: "+e);
 				e.printStackTrace();
 			}
 		}
@@ -131,12 +143,18 @@ public class ParametresControleur implements Initializable{
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier les informations",
+			FonctionsControleurs.alerteErreur("EntrÃ©e incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier les informations",
 					erreurMsg);
 
 			return false;
 			}
 		}
+		
+		/**
+		 * Les utilisateur peuvent changer la langue et conserver sur le base de donnÃ©es
+		 * @param event
+		 * @throws IOException
+		 */
 		
 		public void choiceMade(ActionEvent event) throws IOException {
 		try {
@@ -153,19 +171,40 @@ public class ParametresControleur implements Initializable{
 				break;
 			}
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Changement de langue impossible", "Détails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Changement de langue impossible", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 		
 	}
 
-
+		@FXML
+		public void initialize() {
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
 		private void loadLang(String lang, String LANG) {
 			Locale locale = new Locale(lang, LANG);  
 			try {
 				daoUtilisateur.modifierLangue(lang);
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Changement de langue impossible", "Détails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Changement de langue impossible", "DÃ©tails: " + e);
 				e.printStackTrace();
 			}
 			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang,locale);
@@ -174,7 +213,9 @@ public class ParametresControleur implements Initializable{
 			choiceBackground.setText(bundle.getString("key3"));
 			title.setText(bundle.getString("key4"));
 			btnHello.setText(bundle.getString("key5"));
-			
+			btnValider.setText(bundle.getString("key13"));
+			choiceDevise.setText(bundle.getString("Devise"));
+			devise.setText(bundle.getString("devise"));
 		}
 
 		public void setParent(MenuPrincipalControleur menuPrincipalControleur) {

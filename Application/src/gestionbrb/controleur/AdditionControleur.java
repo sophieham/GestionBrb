@@ -1,10 +1,12 @@
 package gestionbrb.controleur;
 
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import gestionbrb.Connexion;
 import gestionbrb.DAO.DAOCommande;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Commande;
 import gestionbrb.model.Produit;
 import javafx.event.ActionEvent;
@@ -22,7 +24,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * Affichage du récapitulatif de la commande
+ * Affichage du rÃ©capitulatif de la commande
  * @author Sophie
  *
  */
@@ -50,10 +52,26 @@ public class AdditionControleur implements Initializable {
 	@FXML
 	private Label totalAPayer;
 	@FXML
+	private Label reste;
+	@FXML
+	private Button carte;
+	@FXML
+	private Button espece;
+	@FXML
+	private Button cheque;
+	@FXML
+	private Button ticket;
+	@FXML
+	private Button imprimer;
+	@FXML
+	private Button annuler;
+	@FXML
 	private AnchorPane fenetre;
 	private static Stage imprimerAddition;
 	private static Stage paiementAddition;
-
+	@FXML
+	private ResourceBundle bundle;
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	
 	
 	PaiementAdditionControleur paiementAdditionControleur;
@@ -68,15 +86,36 @@ public class AdditionControleur implements Initializable {
 	}
 
 	/**
-	 * Affiche le tableau recapitulatif de la commande et affiche des infos sur la table
+	 * Affiche le tableau rÃ©capitulatif de la commande et affiche des infos sur la table <br>
+	 * Charge aussi les fichiers de langue necessaires Ã  la traduction de l'application
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		bundle = resources;
+		try {
+			String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+			switch(langue) {
+			case "fr":
+				loadLang("fr", "FR");
+				break;
+			case "en":
+				loadLang("en", "US");
+				break;
+			case "zh":
+				loadLang("zh", "CN");
+				break;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		try {
 			devise.setText(DAOCommande.recupererDevise());
 			devise1.setText(DAOCommande.recupererDevise());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 		commande = DemarrerCommandeControleur.getCommande();
@@ -89,18 +128,34 @@ public class AdditionControleur implements Initializable {
 
 	}
 	/**
-	 * Affiche le nombre de produits commandés et calcule le montant total de la commande.
+	 * Affiche le nombre de produits commandÃ©s et calcule le montant total de la commande.
 	 * 
 	 * @throws NumberFormatException
 	 */
+	private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		
+		ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		colonnePrix.setText(bundle.getString("Prix"));
+		colonneQte.setText(bundle.getString("qte"));
+		colonneProduit.setText(bundle.getString("Produit"));
+		reste.setText(bundle.getString("reste"));
+		carte.setText(bundle.getString("carte"));
+		espece.setText(bundle.getString("espece"));
+		cheque.setText(bundle.getString("cheque"));
+		ticket.setText(bundle.getString("ticket"));
+		imprimer.setText(bundle.getString("imprimer"));
+		annuler.setText(bundle.getString("annuler"));
+		
+	}
 	public void calculTotal() throws NumberFormatException {
 		try {
 			Label valeurReste = new Label();
-			totalPrix.setText(daoCommande.afficherAddition(commande).get(1));
+			totalPrix.setText(daoCommande.afficherPrixTotal(commande)+"");
 			
-			totalProduits.setText("Total: "+daoCommande.afficherAddition(commande).get(2)+" produit(s)");
-			totalQte.setText(daoCommande.afficherAddition(commande).get(0));
-			totalAPayer.setText(daoCommande.afficherAddition(commande).get(1));
+			totalProduits.setText("Total: "+daoCommande.afficherQteTotal(commande)+" produit(s)");
+			totalQte.setText(daoCommande.afficherQteTotal(commande)+"");
+			totalAPayer.setText(daoCommande.afficherPrixTotal(commande)+"");
 			
 			valeurReste.setText(daoCommande.afficherAddition(commande).get(3));
 				if (valeurReste.getText()==null) {
@@ -109,7 +164,7 @@ public class AdditionControleur implements Initializable {
 				}
 				else totalAPayer.setText(valeurReste.getText());
 			} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -124,14 +179,14 @@ public class AdditionControleur implements Initializable {
 			CommandeControleur.getFenetreAddition().close();
 		}
 		catch(Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * Remplace cette fenêtre par une autre.
-	 * Elle va afficher la page où le serveur saisie le paiement qu'il reçoit
+	 * Remplace cette fenÃªtre par une autre.
+	 * Elle va afficher la page oï¿½ le serveur saisie le paiement qu'il reÃ§oit
 	 */
 	private static String moyenPaiement;
 	@FXML
@@ -139,7 +194,9 @@ public class AdditionControleur implements Initializable {
 	    Button button = (Button) clicSouris.getSource();
 	    moyenPaiement = button.getText();
 		try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/PaiementAddition.fxml"));
+				Locale locale = new Locale("fr", "FR");
+				ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/PaiementAddition.fxml"),bundle);
 				Parent additionPaiement = (Parent) loader.load();
 				fenetre.getChildren().setAll(additionPaiement);
 				
@@ -147,18 +204,20 @@ public class AdditionControleur implements Initializable {
 				controller.setParent(this);
 		
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Affiche le ticket lié à l'addition en vue de l'imprimer.
+	 * Affiche le ticket de l'addition en vue de l'imprimer.
 	 */
 	@FXML
 	public void imprimerAddition() {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ImpressionAddition.fxml"));
+			Locale locale = new Locale("fr", "FR");
+			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_fr", locale);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ImpressionAddition.fxml"),bundle);
 			Parent addition = (Parent) loader.load();
 			setImprimerAddition(new Stage());
 			getImprimerAddition().setResizable(false);
@@ -171,21 +230,26 @@ public class AdditionControleur implements Initializable {
 			controller.setParent(this);
 			CommandeControleur.getFenetreAddition().close();
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
 	}
 	
 	
 	/**
-	 * Retourne le moyen de paiement utilisé (carte bancaire, espèces, chèque ou ticket-resto)
+	 * Retourne le moyen de paiement utilisÃ©(carte bancaire, espÃ¨ces, chÃ¨que ou ticket-resto)
 	 * @return moyenPaiement 
 	 */
 	public String getMoyenPaiement() {
 		return moyenPaiement;
 	}
 
-
+	
+	/**
+	 * Retourne la page d'impression de l'addition
+	 * @see ImprimerAdditionControleur
+	 * @return imprimerAddition
+	 */
 	public static Stage getImprimerAddition() {
 		return imprimerAddition;
 	}
@@ -193,6 +257,12 @@ public class AdditionControleur implements Initializable {
 	public static void setImprimerAddition(Stage imprimerAddition) {
 		AdditionControleur.imprimerAddition = imprimerAddition;
 	}
+	
+	/**
+	 * Retourne la page de paiement de l'addition
+	 * @see PaiementAdditionControleur
+	 * @return paiementAddition
+	 */
 	public static Stage getFenetrePaiement() {
 		return paiementAddition;
 	}

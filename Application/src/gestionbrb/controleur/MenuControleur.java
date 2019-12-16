@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOProduit;
 import gestionbrb.DAO.DAOType;
+import gestionbrb.DAO.DAOUtilisateur;
 import gestionbrb.model.Produit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,20 +48,23 @@ public class MenuControleur implements Initializable {
 	
 	Map<String, Tab> mapTypeParOnglet= new HashMap<>();
 	
-	// clé : nom ; value : id
+	// clï¿½ : nom ; value : id
 	Map<String, Integer> mapNomParId = new HashMap<>();
 	
-	// clé : nom produit ; value = type produit
+	// clï¿½ : nom produit ; value = type produit
 	Map<String, String> mapNomParType = new HashMap<>();
 	ArrayList<String> nomProduits = new ArrayList<>();
 
 	DAOCommande daoCommande = new DAOCommande();
 	DAOType daoType = new DAOType();
 	DAOProduit daoProduit = new DAOProduit();
-	
+	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+    @FXML
+	private ResourceBundle bundle;
     @FXML
     private AnchorPane fenetre;
-
+    @FXML
+    private Label label;
     @FXML
     private TabPane typeProduit;
     
@@ -70,15 +74,16 @@ public class MenuControleur implements Initializable {
     /**
 	 * Fonction principale du controleur. <br>
 	 * Il affiche des onglets en fonction du nombre et du nom des types, et affiche
-	 * dans ces onglets les differents produits qui sont du même type. <br>
+	 * dans ces onglets les differents produits qui sont du mÃªme type. <br>
 	 * Affiche aussi une description et les ingredients du produit lorsqu'on clique dessus.
 	 * <br>
-	 * Affiche une boite de dialogue si la fonction génére une erreur
+	 * Affiche une boite de dialogue si la fonction gÃ©nÃ©re une erreur
 	 * @author Sophie
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
+			initialize();
 			listeProduits.clear();
 			listeOnglets.clear();
 			listeProduits.clear();
@@ -116,7 +121,7 @@ public class MenuControleur implements Initializable {
 											String[] tabResultat = produit.getKey().split(rgx); // tab[0] -> nom ;
 											Alert alert = new Alert(AlertType.INFORMATION);
 											int idProd = mapNomParId.get(tabResultat[0]);
-											alert.setTitle("Détails du produit n°"+idProd);
+											alert.setTitle("DÃ©tails du produit nÂ°"+idProd);
 											alert.setHeaderText(daoProduit.afficherDetailsProduit(idProd).get(0));
 											VBox conteneur = new VBox();
 											conteneur.setPrefWidth(500);
@@ -133,7 +138,7 @@ public class MenuControleur implements Initializable {
 
 											alert.showAndWait(); 
 										} catch (Exception e) {
-											FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+											FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: " + e);
 											e.printStackTrace();
 										}
 									}
@@ -149,13 +154,44 @@ public class MenuControleur implements Initializable {
 			}
 			typeProduit.getTabs().addAll(mapTypeParOnglet.values());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'é–¤ecution", "Dé– ails: " + e);
 			e.printStackTrace();
 		}
 	}
 		
 
-	/**
+	@FXML
+	public void initialize() {
+	try {
+		String langue = daoUtilisateur.recupererLangue(ConnexionControleur.getUtilisateurConnecte().getIdUtilisateur());
+		
+		switch(langue) {
+		case "fr":
+			loadLang("fr", "FR");
+			break;
+		case "en":
+			loadLang("en", "US");
+			break;
+		case "zh":
+			loadLang("zh", "CN");
+			break;
+		}
+		
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	}
+    
+    private void loadLang(String lang, String LANG) {
+		Locale locale = new Locale(lang, LANG);  
+		bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
+		label.setText(bundle.getString("cliquer"));
+		
+
+    }
+    
+    /**
 	 * Retourne au menu principal
 	 * @param event
 	 */
@@ -172,7 +208,7 @@ public class MenuControleur implements Initializable {
 			MenuPrincipalControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: " + e);
 			e.printStackTrace();
 		}
     	}

@@ -16,7 +16,7 @@ public class Table {
 	private Commande commande;
 	private final IntegerProperty nbCouvertsMax;
 	private final IntegerProperty noTable;
-	private IntegerProperty occupation; // Définit l'occupation comme un nombre binaire (0= libre, 1= occupé)
+	private IntegerProperty occupation; // Dï¿½finit l'occupation comme un nombre binaire (0= libre, 1= occupï¿½)
 
 	public Table(int idTable, int noTable, int nbCouvertsMin, int nbCouvertsMax, int occupation) {
 		this.idTable = new SimpleIntegerProperty(idTable);
@@ -79,7 +79,7 @@ public class Table {
 	}
 	
 	public final StringProperty occupationStrProperty() {
-		StringProperty occupe = new SimpleStringProperty("Occupé");
+		StringProperty occupe = new SimpleStringProperty("OccupÃ©");
 		StringProperty libre = new SimpleStringProperty("Libre");
 		if (getOccupation()==1)
 			return occupe;

@@ -23,7 +23,7 @@
             </ImageView>
             <VBox fx:id="vbox" layoutX="89.0" layoutY="88.0" prefHeight="275.0" prefWidth="177.0">
                <children>
-                  <Label fx:id="ingredients" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="253.0" text="Ingredient:" textFill="WHITE">
+                  <Label fx:id="ingredients" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="253.0" text="%ingredients" textFill="WHITE">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -31,7 +31,7 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="fournisseur" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="253.0" text="Fournisseur:" textFill="WHITE">
+                  <Label fx:id="fournisseur" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="253.0" text="%Fournisseur" textFill="WHITE">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -39,7 +39,7 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="prixUni" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="250.0" text="Prix unitaire:" textFill="WHITE">
+                  <Label fx:id="prixUni" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="250.0" text="%prixUni" textFill="WHITE">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -47,7 +47,7 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="qte" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="258.0" text="Quantité?" textFill="WHITE">
+                  <Label fx:id="qte" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="258.0" text="%qte" textFill="WHITE">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -55,7 +55,7 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Label>
-                  <Label fx:id="totalprix" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="250.0" text="Prix total:" textFill="WHITE">
+                  <Label fx:id="totalprix" alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="250.0" text="%totalprix" textFill="WHITE">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -103,12 +103,12 @@
                   </Label>
                </children>
             </VBox>
-            <Label alignment="CENTER" layoutY="32.0" prefHeight="56.0" prefWidth="672.0" text="Nouvelle commande" textFill="WHITE">
+            <Label alignment="CENTER" layoutY="32.0" prefHeight="56.0" prefWidth="672.0" text="%key6" textFill="WHITE" fx:id="label">
                <font>
                   <Font name="Calibri Light" size="40.0" />
                </font>
             </Label>
-            <Button id="glass" layoutX="201.0" layoutY="415.0" mnemonicParsing="false" onAction="#Commande" prefHeight="46.0" prefWidth="271.0" text="Commander" />
+            <Button id="glass" layoutX="201.0" layoutY="415.0" mnemonicParsing="false" onAction="#Commande" prefHeight="46.0" prefWidth="271.0" text="%Commander" fx:id="btn"/>
          </children>
       </Pane>
    </children>

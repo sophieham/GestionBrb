@@ -37,14 +37,14 @@
             </HBox>
             <TableView fx:id="tableRecap" prefHeight="496.0" prefWidth="613.0">
               <columns>
-                <TableColumn fx:id="colonneProduit" prefWidth="312.0" text="Produit" />
-                <TableColumn fx:id="colonnePrix" minWidth="0.0" prefWidth="155.0" text="Prix" />
-                  <TableColumn fx:id="colonneQte" prefWidth="145.0" text="Qte" />
+                <TableColumn fx:id="colonneProduit" prefWidth="312.0" text="%Produit" />
+                <TableColumn fx:id="colonnePrix" minWidth="0.0" prefWidth="155.0" text="%Prix" />
+                  <TableColumn fx:id="colonneQte" prefWidth="145.0" text="%qte" />
               </columns>
             </TableView>
             <HBox prefHeight="34.0" prefWidth="613.0">
                <children>
-                  <Label prefHeight="34.0" prefWidth="86.0" text="Total:" textFill="WHITE">
+                  <Label fx:id="total" prefHeight="34.0" prefWidth="86.0" text="%total" textFill="WHITE">
                      <font>
                         <Font size="23.0" />
                      </font>
@@ -97,7 +97,7 @@
       </VBox>
       <VBox layoutX="1185.0" layoutY="653.0" prefHeight="271.0" prefWidth="613.0">
          <children>
-            <Button id="glass" mnemonicParsing="false" onAction="#afficherAddition" prefHeight="62.0" prefWidth="616.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="Encaisser la commande">
+            <Button id="glass" fx:id="encaisser" mnemonicParsing="false" onAction="#afficherAddition" prefHeight="62.0" prefWidth="616.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="%encaisser">
                <VBox.margin>
                   <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
@@ -105,7 +105,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#supprimerProduit" prefHeight="62.0" prefWidth="613.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="Supprimer un article">
+            <Button id="glass" fx:id="supprimerProduit" mnemonicParsing="false" onAction="#supprimerProduit" prefHeight="62.0" prefWidth="613.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="%supprimerProduit">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
@@ -115,7 +115,7 @@
             </Button>
             <HBox prefHeight="54.0" prefWidth="418.0">
                <children>
-                  <Button id="glass" mnemonicParsing="false" onAction="#demandeSpeciale" prefHeight="62.0" prefWidth="375.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="Demande spé">
+                  <Button id="glass" fx:id="demande" mnemonicParsing="false" onAction="#demandeSpeciale" prefHeight="62.0" prefWidth="375.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="%demande">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
@@ -123,7 +123,7 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button id="glass" mnemonicParsing="false" onAction="#imprimerTicket" prefHeight="62.0" prefWidth="359.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="Imprimer ticket">
+                  <Button id="glass" fx:id="imprimer" mnemonicParsing="false" onAction="#imprimerTicket" prefHeight="62.0" prefWidth="359.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="%imprimer">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -133,7 +133,7 @@
                   </Button>
                </children>
             </HBox>
-            <Button id="glass" mnemonicParsing="false" prefHeight="62.0" prefWidth="619.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="Retour au menu principal">
+            <Button id="glass" fx:id="retour" mnemonicParsing="false" onAction="#retourMenuPrincipal" prefHeight="62.0" prefWidth="619.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="%key5">
                <VBox.margin>
                   <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
@@ -151,7 +151,7 @@
             <Image url="@images/logo_light_transparent.png" />
          </image>
       </ImageView>
-      <Label layoutX="359.0" layoutY="20.0" text="Panneau de commande" textFill="WHITE">
+      <Label fx:id="panneau" layoutX="359.0" layoutY="20.0" text="%panneau" textFill="WHITE">
          <font>
             <Font name="Calibri Light" size="64.0" />
          </font>
