@@ -18,6 +18,9 @@ public class DAOCommande extends DAO<Commande>{
 	private ObservableList<Commande> listeCommande = FXCollections.observableArrayList();
 	public static Connection conn = bddUtil.dbConnect();
 	
+	public DAOCommande() {
+	}
+
 	/**
 	 * Crée des objets Commande à l'aide de la base de donnée puis les ajoute dans la base de donnée.
 	 */

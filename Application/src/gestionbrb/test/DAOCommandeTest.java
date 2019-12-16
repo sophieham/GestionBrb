@@ -2,28 +2,52 @@ package gestionbrb.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.junit.jupiter.api.Test;
 
+import gestionbrb.DAO.DAOCommande;
+import gestionbrb.model.Commande;
+import gestionbrb.model.Produit;
+import gestionbrb.util.bddUtil;
+
 class DAOCommandeTest {
+	public static Connection conn = bddUtil.dbConnect();
+	DAOCommande dao = new DAOCommande();
 
 	@Test
-	void testAfficher() {
-		fail("Not yet implemented");
+	void testAfficher() throws SQLException {
+		DAOCommande dao = new DAOCommande();
+		PreparedStatement ajout = conn.prepareStatement(
+				"INSERT INTO `commande` (`CommandeID`, `noTable`, `prixTotal`, `nbCouverts`, `date`) VALUES (59, 2, NULL, 3, current_timestamp())");
+		ajout.execute();
+		assertTrue(dao.afficher().contains(new Commande(59, 2, 3)));
 	}
 
 	@Test
-	void testAfficherPrixTotal() {
-		fail("Not yet implemented");
+	void testAfficherPrixTotal() throws SQLException {
+		assertEquals(23.96, dao.afficherPrixTotal(new Commande(6, 0, 0)));
 	}
 
 	@Test
-	void testMajPrix() {
+	void testMajPrix() throws SQLException {
+		dao.majPrix(new Commande(6, 0, 0), 20);
 		fail("Not yet implemented");
+		ResultSet resultSet = conn.createStatement()
+				.executeQuery("SELECT prixTotal FROM commande WHERE CommandeID = 6");
+		double prixTotal = 0;
+		while (resultSet.next()) {
+			prixTotal = resultSet.getDouble(1);
+		}
+		assertEquals(20, prixTotal);
 	}
 
 	@Test
-	void testAfficherQteTotal() {
-		fail("Not yet implemented");
+	void testAfficherQteTotal() throws SQLException {
+		assertEquals(4, dao.afficherQteTotal(new Commande(36, 0, 0)));
 	}
 
 	@Test
@@ -37,23 +61,27 @@ class DAOCommandeTest {
 	}
 
 	@Test
-	void testRecupererID() {
-		fail("Not yet implemented");
+	void testRecupererID() throws SQLException {
+		assertEquals(60, dao.recupererID());
 	}
 
 	@Test
-	void testAjouterCommande() {
-		fail("Not yet implemented");
+	void testAjouterCommande() throws SQLException {
+		dao.ajouter(new Commande(60, 2, 2));
+		assertTrue(dao.afficher().contains(new Commande(60, 2, 2)));
 	}
 
 	@Test
-	void testSupprimerCommande() {
-		fail("Not yet implemented");
+	void testSupprimerCommande() throws SQLException {
+		dao.supprimer(new Commande(60, 0, 0));
+		assertFalse(dao.afficher().contains(new Commande(60, 2, 2)));
 	}
 
 	@Test
-	void testSupprimerCommandeProduit() {
-		fail("Not yet implemented");
+	void testSupprimerCommandeProduit() throws SQLException {
+		dao.supprimer(new Commande(36, 0, 0), new Produit(15, null, 0, null, 0, null, null));
+		ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM contenirproduit WHERE ProduitID = 15 AND CommandeID = 36");
+		assertFalse(resultSet.next());
 	}
 
 	@Test
