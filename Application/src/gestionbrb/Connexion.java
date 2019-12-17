@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 /*
  * Page de connexion
- * @author Léo
+ * @author LÃ©o
  */
 
 public class Connexion extends Application {
@@ -47,7 +47,7 @@ public class Connexion extends Application {
             controller.setParent(this);
 
         } catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'ï¿½xï¿½cution", "Une erreur est survenue","Dï¿½tails: "+e);
 
             e.printStackTrace();
         }

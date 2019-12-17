@@ -126,7 +126,7 @@ public class ImprimerAdditionControleur implements Initializable {
 				serveurLbl.setText(servir+daoCommande.afficherTicket(commande).get(6));
 				devise.setText(DAOCommande.recupererDevise());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'閤閏ution", "Une erreur est survenue","D閠ails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'�xecution", "Une erreur est survenue","D閠ails: "+e);
 			e.printStackTrace();
 		}
 

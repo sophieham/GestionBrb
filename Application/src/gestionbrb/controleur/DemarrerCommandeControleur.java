@@ -31,12 +31,12 @@ import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 
 /*
- * Controleur pour d闁檃rrer une commande
+ * Controleur pour d�marrer une commande
  * @author Sophie
  */
 
 public class DemarrerCommandeControleur{
-	// Variables pour la partie r闁焑rvation
+	// Variables pour la partie r�servation
 	@FXML
 	private TextField champNom;
 	@FXML
@@ -56,7 +56,7 @@ public class DemarrerCommandeControleur{
 	@FXML
 	private ObservableList<String> noTables = FXCollections.observableArrayList();
 	
-	// Variables pour la partie d闁檃rrer une nouvelle commande
+	// Variables pour la partie d�marrer une nouvelle commande
 	@FXML
 	private ChoiceBox<String> champChoixTable;
 	@FXML
