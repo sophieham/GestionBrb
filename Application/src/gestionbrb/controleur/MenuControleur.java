@@ -40,46 +40,82 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.TextAlignment;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MenuControleur.
+ */
+/*
+ * Controleur du menu du restaurant
+ */
 public class MenuControleur implements Initializable {
+	
+	/** The produit commande. */
 	private static ObservableList<Produit> produitCommande = FXCollections.observableArrayList();
 
+	/** The liste produits. */
 	List<Button> listeProduits = new ArrayList<>();
+	
+	/** The liste onglets. */
 	List<Tab> listeOnglets = new ArrayList<>();
 	
+	/** The map type par onglet. */
 	Map<String, Tab> mapTypeParOnglet= new HashMap<>();
 	
-	// clï¿½ : nom ; value : id
+	/** The map nom par id. */
+	// clé : nom ; value : id
 	Map<String, Integer> mapNomParId = new HashMap<>();
 	
-	// clï¿½ : nom produit ; value = type produit
+	/** The map nom par type. */
+	// clé : nom produit ; value = type produit
 	Map<String, String> mapNomParType = new HashMap<>();
+	
+	/** The nom produits. */
 	ArrayList<String> nomProduits = new ArrayList<>();
 
+	/** The dao commande. */
 	DAOCommande daoCommande = new DAOCommande();
+	
+	/** The dao type. */
 	DAOType daoType = new DAOType();
+	
+	/** The dao produit. */
 	DAOProduit daoProduit = new DAOProduit();
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+    
+    /** The bundle. */
     @FXML
 	private ResourceBundle bundle;
+    
+    /** The fenetre. */
     @FXML
     private AnchorPane fenetre;
+    
+    /** The label. */
     @FXML
     private Label label;
+    
+    /** The type produit. */
     @FXML
     private TabPane typeProduit;
     
+    /** The parent. */
     @SuppressWarnings("unused")
 	private MenuPrincipalControleur parent;
 
     /**
-	 * Fonction principale du controleur. <br>
-	 * Il affiche des onglets en fonction du nombre et du nom des types, et affiche
-	 * dans ces onglets les differents produits qui sont du mÃªme type. <br>
-	 * Affiche aussi une description et les ingredients du produit lorsqu'on clique dessus.
-	 * <br>
-	 * Affiche une boite de dialogue si la fonction gÃ©nÃ©re une erreur
-	 * @author Sophie
-	 */
+     * Fonction principale du controleur. <br>
+     * Il affiche des onglets en fonction du nombre et du nom des types, et affiche
+     * dans ces onglets les differents produits qui sont du même type. <br>
+     * Affiche aussi une description et les ingredients du produit lorsqu'on clique dessus.
+     * <br>
+     * Affiche une boite de dialogue si la fonction génére une erreur
+     *
+     * @author Sophie
+     * @param arg0 the arg 0
+     * @param arg1 the arg 1
+     */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
@@ -121,7 +157,7 @@ public class MenuControleur implements Initializable {
 											String[] tabResultat = produit.getKey().split(rgx); // tab[0] -> nom ;
 											Alert alert = new Alert(AlertType.INFORMATION);
 											int idProd = mapNomParId.get(tabResultat[0]);
-											alert.setTitle("DÃ©tails du produit nÂ°"+idProd);
+											alert.setTitle("Détails du produit nÂ°"+idProd);
 											alert.setHeaderText(daoProduit.afficherDetailsProduit(idProd).get(0));
 											VBox conteneur = new VBox();
 											conteneur.setPrefWidth(500);
@@ -138,7 +174,7 @@ public class MenuControleur implements Initializable {
 
 											alert.showAndWait(); 
 										} catch (Exception e) {
-											FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: " + e);
+											FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
 											e.printStackTrace();
 										}
 									}
@@ -160,6 +196,9 @@ public class MenuControleur implements Initializable {
 	}
 		
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	public void initialize() {
 	try {
@@ -183,6 +222,12 @@ public class MenuControleur implements Initializable {
 	}
 	}
     
+    /**
+     * Load lang.
+     *
+     * @param lang the lang
+     * @param LANG the lang
+     */
     private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang, locale);
@@ -192,9 +237,10 @@ public class MenuControleur implements Initializable {
     }
     
     /**
-	 * Retourne au menu principal
-	 * @param event
-	 */
+     * Retourne au menu principal.
+     *
+     * @param event the event
+     */
     @FXML
     void retourMenuPrincipal(MouseEvent event) {
     	try {
@@ -208,23 +254,38 @@ public class MenuControleur implements Initializable {
 			MenuPrincipalControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
     	}
 
 
+	/**
+	 * Sets the parent.
+	 *
+	 * @param menuPrincipalControleur the new parent
+	 */
 	public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
 		this.parent = menuPrincipalControleur;
 		
 	}
 
 
+	/**
+	 * Gets the produit commande.
+	 *
+	 * @return the produit commande
+	 */
 	public static ObservableList<Produit> getProduitCommande() {
 		return produitCommande;
 	}
 
 
+	/**
+	 * Sets the produit commande.
+	 *
+	 * @param produitCommande the new produit commande
+	 */
 	public static void setProduitCommande(ObservableList<Produit> produitCommande) {
 		MenuControleur.produitCommande = produitCommande;
 	}

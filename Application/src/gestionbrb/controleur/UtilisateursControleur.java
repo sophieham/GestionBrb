@@ -21,57 +21,91 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * GÃ¨re les utilisateurs et leurs fonctions.
+ * Gère les utilisateurs et leurs fonctions.
  * @author Roman
  *
  */
 public class UtilisateursControleur {
 	
+	/** The comptes. */
 	private static ObservableList<Utilisateur> comptes = FXCollections.observableArrayList();
 	
+	/** The utilisateurs table. */
 	@FXML
 	private TableView<Utilisateur> utilisateursTable;
+	
+	/** The colonne identifiant. */
 	@FXML
 	private TableColumn<Utilisateur, String> colonneIdentifiant;
+	
+	/** The colonne nom. */
 	@FXML
 	private TableColumn<Utilisateur, String> colonneNom;
+	
+	/** The colonne prenom. */
 	@FXML
 	private TableColumn<Utilisateur, String> colonnePrenom;
+	
+	/** The colonne roles. */
 	@FXML
 	private TableColumn<Utilisateur, Number> colonneRoles;
 
+	/** The champ nom. */
 	@FXML
 	private Label champNom;
+	
+	/** The champ prenom. */
 	@FXML
 	private Label champPrenom;
+	
+	/** The champ roles. */
 	@FXML
 	private Label champRoles;
+	
+	/** The champ identifiant. */
 	@FXML
 	private Label champIdentifiant;
+	
+	/** The label centre. */
 	@FXML
 	private Label labelCentre;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The ajouter. */
 	@FXML
 	private Button ajouter;
+	
+	/** The modifier. */
 	@FXML
 	private Button modifier;
+	
+	/** The supprimer. */
 	@FXML
 	private Button supprimer;
+	
+	/** The parent. */
 	@SuppressWarnings("unused")
 	private AdministrationControleur parent;
 	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 
+	/**
+	 * Instantiates a new utilisateurs controleur.
+	 */
 	public UtilisateursControleur() {
 	}
 
 	/**
-	 * Initialise la classe controleur avec les donnÃ©es par dÃ©faut du tableau
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Initialise la classe controleur avec les données par défaut du tableau.
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 
 	@FXML
@@ -104,10 +138,17 @@ public class UtilisateursControleur {
 		try {
 			utilisateursTable.setItems(daoUtilisateur.afficher());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Load lang.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -124,11 +165,11 @@ public class UtilisateursControleur {
 
 
 	/**
-	 * AppelÃ© quand l'utilisateur clique sur le bouton ajouter un utilisateur. Ouvre
+	 * Appelé quand l'utilisateur clique sur le bouton ajouter un utilisateur. Ouvre
 	 * une nouvelle page pour effectuer la modification
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	private void ajoutUtilisateur() throws ClassNotFoundException, SQLException {
@@ -138,9 +179,9 @@ public class UtilisateursControleur {
 			try {
 				daoUtilisateur.ajouter(tempUtilisateur);
 				refresh();
-				FonctionsControleurs.alerteInfo("Ajout Ã©ffectuÃ©", null, "Les informations ont Ã©tÃ© ajoutÃ©es avec succÃ¨s!");
+				FonctionsControleurs.alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 				e.printStackTrace();
 			}
 
@@ -148,11 +189,11 @@ public class UtilisateursControleur {
 	}
 
 	/**
-	 * Rafraichit les colonnes aprÃ¨s un ajout, une modification ou une suppression
-	 * d'Ã©lÃ©ments.
-	 * 
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * Rafraichit les colonnes après un ajout, une modification ou une suppression
+	 * d'éléments.
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 	private void refresh() throws ClassNotFoundException, SQLException {
 		utilisateursTable.getItems().clear();
@@ -160,17 +201,16 @@ public class UtilisateursControleur {
 		try {
 			utilisateursTable.setItems(daoUtilisateur.afficher());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 
 	}
 
 	/**
-	 * AppellÃ© quand l'utilisateur clique sur le bouton supprimer
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Appellé quand l'utilisateur clique sur le bouton supprimer.
+	 *
+	 * @throws ClassNotFoundException the class not found exception
 	 */
 	@FXML
 	private void supprimerUtilisateur() throws ClassNotFoundException {
@@ -180,23 +220,23 @@ public class UtilisateursControleur {
 			try {
 				daoUtilisateur.supprimer(selectedUtilisateur);
 				refresh();
-				FonctionsControleurs.alerteInfo("Suppression rÃ©ussie", null, "L'utilisateur " + selectedUtilisateur.getIdentifiant() + " vient d'Ãªtre supprimÃ©e!");
+				FonctionsControleurs.alerteInfo("Suppression réussie", null, "L'utilisateur " + selectedUtilisateur.getIdentifiant() + " vient d'être supprimée!");
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 				e.printStackTrace();
 			}
 		} else {
-			// Si rien n'est sÃ©lÃ©ctionnÃ©
-			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucun compte de sÃ©lectionnÃ©!", "Selectionnez un compte pour pouvoir le supprimer");
+			// Si rien n'est séléctionné
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionné!", "Selectionnez un compte pour pouvoir le supprimer");
 		}
 	}
 
 	/**
-	 * AppelÃ© quand l'utilisateur clique sur le bouton modifier le compte. Ouvre une
+	 * Appelé quand l'utilisateur clique sur le bouton modifier le compte. Ouvre une
 	 * nouvelle page pour effectuer la modification
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	private void modifierUtilisateur() throws ClassNotFoundException, SQLException {
@@ -207,31 +247,36 @@ public class UtilisateursControleur {
 				try {
 					daoUtilisateur.modifier(selectedUtilisateur);
 					refresh();
-					FonctionsControleurs.alerteInfo("Modification Ã©ffectuÃ©e", null, "Les informations ont Ã©tÃ© modifiÃ©es avec succÃ¨s!");
+					FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 				} catch (Exception e) {
-					FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+					FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 					e.printStackTrace();
 				}
 			}
 
 		} else {
-			// Si rien n'est selectionnÃ©
-			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucun compte de sÃ©lectionnÃ©!", "Selectionnez un compte pour pouvoir le modifier");
+			// Si rien n'est selectionné
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun compte de sélectionné!", "Selectionnez un compte pour pouvoir le modifier");
 		}
 	}
 
+	/**
+	 * Sets the parent.
+	 *
+	 * @param administrationControleur the new parent
+	 */
 	public void setParent(AdministrationControleur administrationControleur) {
 		// TODO Auto-generated method stub
 		this.parent = administrationControleur;
 	}
 	
 	/**
-	 * affiche la fenetre de modification/ajout d'un utilisateur
-	 * 
-	 * @param compte
-	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * affiche la fenetre de modification/ajout d'un utilisateur.
+	 *
+	 * @param compte the compte
+	 * @return true, if successful
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 * @see ajoutUtilisateur
 	 * @see modifierUtilisateur
 	 */
@@ -245,7 +290,7 @@ public class UtilisateursControleur {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ModifierComptes.fxml"), bundle);
 				AnchorPane page = (AnchorPane) loader.load();
 
-				// CrÃ©e une nouvelle page
+				// Crée une nouvelle page
 				Stage dialogStage = new Stage();
 				dialogStage.setResizable(false);
 				dialogStage.setTitle("Gestion des comptes");
@@ -255,7 +300,7 @@ public class UtilisateursControleur {
 				dialogStage.getIcons().add(new Image(
 		          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
-				// DÃ©finition du controleur pour la fenetre
+				// Définition du controleur pour la fenetre
 				ModifierUtilisateurControleur controller = loader.getController();
 				controller.setDialogStage(dialogStage);
 				controller.setUtilisateur(compte);
@@ -265,12 +310,17 @@ public class UtilisateursControleur {
 
 				return controller.isOkClicked();
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 				e.printStackTrace();
 				return false;
 			}
 		}
 	
+	/**
+	 * Gets the table data.
+	 *
+	 * @return the table data
+	 */
 	public static ObservableList<Utilisateur> getTableData() {
 		return comptes;
 	}

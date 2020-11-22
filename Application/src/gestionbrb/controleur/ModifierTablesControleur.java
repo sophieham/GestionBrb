@@ -12,37 +12,68 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * Fenetre de modification ou d'ajout de tables
- * @author Sophie
+ * Fenetre de modification ou d'ajout de tables.
  *
+ * @author Sophie
  */
 public class ModifierTablesControleur {
 
+	/** The champ nb couverts min. */
 	@FXML
 	private TextField champNbCouvertsMin;
+	
+	/** The champ nb couverts max. */
 	@FXML
 	private TextField champNbCouvertsMax;
+	
+	/** The champ no table. */
 	@FXML
 	private TextField champNoTable;
 
+	/** The dialog stage. */
 	private Stage dialogStage;
+	
+	/** The table. */
 	private Table table;
+	
+	/** The ok clicked. */
 	private boolean okClicked = false;
+	
+	/** The parent. */
 	private TablesControleur parent;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The labelnumero tablle. */
 	@FXML
 	private Label labelnumeroTablle;
+	
+	/** The label couv min. */
 	@FXML
 	private Label labelCouvMin;
+	
+	/** The label couv max. */
 	@FXML
 	private Label labelCouvMax;
+	
+	/** The valider. */
 	@FXML
 	private Button valider;
+	
+	/** The annuler. */
 	@FXML
 	private Button annuler;
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+	
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	private void initialize() {
 		try {
@@ -67,6 +98,12 @@ public class ModifierTablesControleur {
 	}
 
 	 
+		/**
+		 * Load lang.
+		 *
+		 * @param lang the lang
+		 * @param LANG the lang
+		 */
 		private void loadLang(String lang, String LANG) {
 			Locale locale = new Locale(lang, LANG);  
 			
@@ -80,19 +117,31 @@ public class ModifierTablesControleur {
 
 			
 		}
+	
+	/**
+	 * Sets the dialog stage.
+	 *
+	 * @param dialogStage the new dialog stage
+	 */
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
 	
+	/**
+	 * Sets the main app.
+	 *
+	 * @param parent the new main app
+	 */
 	public void setMainApp(TablesControleur parent) {
 		this.setParent(parent);
 	}
 
 	/**
-	 * Rempli les champs de saisie avec les informations sur la table (si il y en a)
-	 * @param reservation
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Rempli les champs de saisie avec les informations sur la table (si il y en a).
+	 *
+	 * @param table the new table
+	 * @throws SQLException the SQL exception
+	 * @throws ClassNotFoundException the class not found exception
 	 */
 	public void setTable(Table table) throws SQLException, ClassNotFoundException {
 		this.table = table;
@@ -103,15 +152,16 @@ public class ModifierTablesControleur {
 	}
 
 	/**
-	 * @return true si le bouton a modifiÃ© a Ã©tÃ© appuyÃ©, faux sinon
+	 * Checks if is ok clicked.
+	 *
+	 * @return true si le bouton a modifié a été appuyé, faux sinon
 	 */
 	public boolean isOkClicked() {
 		return okClicked;
 	}
 
 	/**
-	 * AppellÃ© quand l'utilisateur appuie sur Valider
-	 * 
+	 * Appellé quand l'utilisateur appuie sur Valider.
 	 */
 	@FXML
 	public void actionValider() {
@@ -126,7 +176,7 @@ public class ModifierTablesControleur {
 	}
 
 	/**
-	 * AppellÃ© quand le bouton annuler est appuyÃ©. Ferme la page sans sauvegarder.
+	 * Appellé quand le bouton annuler est appuyé. Ferme la page sans sauvegarder.
 	 */
 	@FXML
 	private void actionAnnuler() {
@@ -134,8 +184,8 @@ public class ModifierTablesControleur {
 	}
 
 	/**
-	 * VÃ©rifie si la saisie est conforme aux donnÃ©es requises
-	 * 
+	 * Vérifie si la saisie est conforme aux données requises.
+	 *
 	 * @return true si la saisie est bien conforme
 	 */
 	public boolean estValide() {
@@ -178,17 +228,27 @@ public class ModifierTablesControleur {
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			FonctionsControleurs.alerteErreur("EntrÃ©e incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",
 					erreurMsg);
 
 			return false;
 		}
 	}
 
+	/**
+	 * Gets the parent.
+	 *
+	 * @return the parent
+	 */
 	public TablesControleur getParent() {
 		return parent;
 	}
 
+	/**
+	 * Sets the parent.
+	 *
+	 * @param parent the new parent
+	 */
 	public void setParent(TablesControleur parent) {
 		this.parent = parent;
 	}

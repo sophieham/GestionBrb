@@ -1,4 +1,4 @@
-	package gestionbrb.controleur;
+package gestionbrb.controleur;
 
 import java.net.URL;
 import java.util.Locale;
@@ -24,70 +24,130 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * Affichage du rÃ©capitulatif de la commande
- * @author Sophie
+ * Affichage du récapitulatif de la commande.
  *
+ * @author Sophie
  */
 public class AdditionControleur implements Initializable {
+	
+	/** The table recap. */
 	@FXML
 	private TableView<Produit> tableRecap;
+	
+	/** The colonne produit. */
 	@FXML
 	private TableColumn<Produit, String> colonneProduit;
+	
+	/** The colonne prix. */
 	@FXML
 	private TableColumn<Produit, Number> colonnePrix;
+	
+	/** The colonne qte. */
 	@FXML
 	private TableColumn<Produit, Number> colonneQte;
+	
+	/** The info table. */
 	@FXML
 	private Label infoTable;
+	
+	/** The total prix. */
 	@FXML
 	private Label totalPrix;
+	
+	/** The devise. */
 	@FXML
 	private Label devise;
+	
+	/** The devise 1. */
 	@FXML
 	private Label devise1;
+	
+	/** The total produits. */
 	@FXML
 	private Label totalProduits;
+	
+	/** The total qte. */
 	@FXML
 	private Label totalQte;
+	
+	/** The total A payer. */
 	@FXML
 	private Label totalAPayer;
+	
+	/** The reste. */
 	@FXML
 	private Label reste;
+	
+	/** The carte. */
 	@FXML
 	private Button carte;
+	
+	/** The espece. */
 	@FXML
 	private Button espece;
+	
+	/** The cheque. */
 	@FXML
 	private Button cheque;
+	
+	/** The ticket. */
 	@FXML
 	private Button ticket;
+	
+	/** The imprimer. */
 	@FXML
 	private Button imprimer;
+	
+	/** The annuler. */
 	@FXML
 	private Button annuler;
+	
+	/** The fenetre. */
 	@FXML
 	private AnchorPane fenetre;
+	
+	/** The imprimer addition. */
 	private static Stage imprimerAddition;
+	
+	/** The paiement addition. */
 	private static Stage paiementAddition;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	
 	
+	/** The paiement addition controleur. */
 	PaiementAdditionControleur paiementAdditionControleur;
+	
+	/** The parent. */
 	CommandeControleur parent;
+	
+	/** The commande. */
 	Commande commande;
 	
+	/** The dao commande. */
 	DAOCommande daoCommande = new DAOCommande();
 
+	/**
+	 * Sets the parent.
+	 *
+	 * @param commandeControleur the new parent
+	 */
 	public void setParent(CommandeControleur commandeControleur) {
 		this.parent = commandeControleur;
 		
 	}
 
 	/**
-	 * Affiche le tableau rÃ©capitulatif de la commande et affiche des infos sur la table <br>
-	 * Charge aussi les fichiers de langue necessaires Ã  la traduction de l'application
+	 * Affiche le tableau récapitulatif de la commande et affiche des infos sur la table <br>
+	 * Charge aussi les fichiers de langue necessaires à  la traduction de l'application.
+	 *
+	 * @param location the location
+	 * @param resources the resources
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -115,7 +175,7 @@ public class AdditionControleur implements Initializable {
 			devise.setText(DAOCommande.recupererDevise());
 			devise1.setText(DAOCommande.recupererDevise());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 		commande = DemarrerCommandeControleur.getCommande();
@@ -127,10 +187,13 @@ public class AdditionControleur implements Initializable {
 		calculTotal();
 
 	}
+	
 	/**
-	 * Affiche le nombre de produits commandÃ©s et calcule le montant total de la commande.
-	 * 
-	 * @throws NumberFormatException
+	 * Affiche le nombre de produits commandés et calcule le montant total de la commande.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 * @throws NumberFormatException the number format exception
 	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
@@ -148,6 +211,12 @@ public class AdditionControleur implements Initializable {
 		annuler.setText(bundle.getString("annuler"));
 		
 	}
+	
+	/**
+	 * Calcule et affiche le total de la commande.
+	 *
+	 * @throws NumberFormatException the number format exception
+	 */
 	public void calculTotal() throws NumberFormatException {
 		try {
 			Label valeurReste = new Label();
@@ -164,14 +233,14 @@ public class AdditionControleur implements Initializable {
 				}
 				else totalAPayer.setText(valeurReste.getText());
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 	
 	
 	/**
-	 * Ferme la page
+	 * Ferme la page.
 	 */
 	@FXML
 	public void boutonAnnuler() {
@@ -179,16 +248,21 @@ public class AdditionControleur implements Initializable {
 			CommandeControleur.getFenetreAddition().close();
 		}
 		catch(Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 	
-	/**
-	 * Remplace cette fenÃªtre par une autre.
-	 * Elle va afficher la page oï¿½ le serveur saisie le paiement qu'il reÃ§oit
-	 */
+
+	/** The moyen paiement. */
 	private static String moyenPaiement;
+	
+	/**
+	 * Remplace cette fenêtre par une autre.
+	 * Elle va afficher la page où le serveur saisie le paiement qu'il reçoit
+	 *
+	 * @param clicSouris the clic souris
+	 */
 	@FXML
 	public void payerAddition(ActionEvent clicSouris) {
 	    Button button = (Button) clicSouris.getSource();
@@ -204,7 +278,7 @@ public class AdditionControleur implements Initializable {
 				controller.setParent(this);
 		
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -230,15 +304,16 @@ public class AdditionControleur implements Initializable {
 			controller.setParent(this);
 			CommandeControleur.getFenetreAddition().close();
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 	
 	
 	/**
-	 * Retourne le moyen de paiement utilisÃ©(carte bancaire, espÃ¨ces, chÃ¨que ou ticket-resto)
-	 * @return moyenPaiement 
+	 * Retourne le moyen de paiement utilisé(carte bancaire, espèces, chèque ou ticket-resto).
+	 *
+	 * @return moyenPaiement
 	 */
 	public String getMoyenPaiement() {
 		return moyenPaiement;
@@ -246,32 +321,49 @@ public class AdditionControleur implements Initializable {
 
 	
 	/**
-	 * Retourne la page d'impression de l'addition
-	 * @see ImprimerAdditionControleur
+	 * Retourne la page d'impression de l'addition.
+	 *
 	 * @return imprimerAddition
+	 * @see ImprimerAdditionControleur
 	 */
 	public static Stage getImprimerAddition() {
 		return imprimerAddition;
 	}
 	
+	/**
+	 * Setter.
+	 *
+	 * @param imprimerAddition the new imprimer addition
+	 */
 	public static void setImprimerAddition(Stage imprimerAddition) {
 		AdditionControleur.imprimerAddition = imprimerAddition;
 	}
 	
 	/**
-	 * Retourne la page de paiement de l'addition
-	 * @see PaiementAdditionControleur
+	 * Retourne la page de paiement de l'addition.
+	 *
 	 * @return paiementAddition
+	 * @see PaiementAdditionControleur
 	 */
 	public static Stage getFenetrePaiement() {
 		return paiementAddition;
 	}
 	
+	/**
+	 * Setter.
+	 *
+	 * @param paiementAddition the new fenetre paiement
+	 */
 	public static void setFenetrePaiement(Stage paiementAddition) {
 		AdditionControleur.paiementAddition = paiementAddition;
 	}
 
 
+	/**
+	 * Setter.
+	 *
+	 * @param parent the new parent
+	 */
 	public void setParent(PaiementAdditionControleur parent) {
 		this.paiementAdditionControleur = parent;
 		

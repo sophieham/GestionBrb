@@ -13,16 +13,29 @@ import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DAOCommande.
+ */
+/*
+ * Gère les requetes sql sur les commandes clients
+ */
 public class DAOCommande extends DAO<Commande>{
+	
+	/** The stats. */
 	private ArrayList<Integer> stats = new ArrayList<>();
+	
+	/** The liste commande. */
 	private ObservableList<Commande> listeCommande = FXCollections.observableArrayList();
+	
+	/** The conn. */
 	public static Connection conn = bddUtil.dbConnect();
 	
-	public DAOCommande() {
-	}
-
 	/**
 	 * Crée des objets Commande à l'aide de la base de donnée puis les ajoute dans la base de donnée.
+	 *
+	 * @return the observable list
+	 * @throws SQLException the SQL exception
 	 */
 	@Override
 	public ObservableList<Commande> afficher() throws SQLException {
@@ -39,11 +52,11 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Affiche le prix total de la commande en cours
-	 * 
+	 * Affiche le prix total de la commande en cours.
+	 *
 	 * @param c la commande en cours
 	 * @return le prix total
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public double afficherPrixTotal(Commande c) throws SQLException {
 		double prixTotal = 0;
@@ -55,10 +68,11 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Met à jour le prix total lorsqu'un produit est rajouté à la commande en cours
+	 * Met à jour le prix total lorsqu'un produit est rajouté à la commande en cours.
+	 *
 	 * @param c la commande en cours
 	 * @param prix le nouveau total
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public void majPrix(Commande c, double prix) throws SQLException {
 		PreparedStatement requete = conn.prepareStatement("UPDATE `commande` SET prixTotal= ? WHERE CommandeID = ?");
@@ -68,10 +82,11 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Affiche le nombre total de produits commandés
-	 * @param commande en cours
+	 * Affiche le nombre total de produits commandés.
+	 *
+	 * @param c the c
 	 * @return le nombre total de produits
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public int afficherQteTotal(Commande c) throws SQLException {
 		ResultSet qteTotal = conn.createStatement().executeQuery("SELECT sum(qte) FROM `contenirproduit` WHERE CommandeID = '"+c.getIdCommande()+"'");
@@ -80,6 +95,12 @@ public class DAOCommande extends DAO<Commande>{
 		return qte;
 	}
 	
+	/**
+	 * Maj devise.
+	 *
+	 * @param devise the devise
+	 * @throws SQLException the SQL exception
+	 */
 	/*
 	 * Met à jour la devise lorsqu'une nouvelle devise en entrée dans les paramètres
 	 * @param devise la devise entrée
@@ -91,9 +112,10 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Recupère la devise dans la base de donnée pour l'afficher a coté des prix
+	 * Recupère la devise dans la base de donnée pour l'afficher a coté des prix.
+	 *
 	 * @return la devise
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public static String recupererDevise() throws SQLException{
 		String devise = null;
@@ -105,9 +127,10 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Recupère l'ID de la prochaine commande
+	 * Recupère l'ID de la prochaine commande.
+	 *
 	 * @return id
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public int recupererID() throws SQLException {
 		int id = 0;
@@ -120,7 +143,10 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Ajoute une nouvelle commande
+	 * Ajoute une nouvelle commande.
+	 *
+	 * @param c the c
+	 * @throws SQLException the SQL exception
 	 */
 	@Override
 	public void ajouter(Commande c) throws SQLException {
@@ -132,15 +158,22 @@ public class DAOCommande extends DAO<Commande>{
 		
 	}
 
+	/**
+	 * Supprimer.
+	 *
+	 * @param c the c
+	 * @throws SQLException the SQL exception
+	 */
 	@Override
 	public void supprimer(Commande c) throws SQLException {
 	}
 	
 	/**
-	 * Supprime un produit commandé dans la commande en cours
+	 * Supprime un produit commandé dans la commande en cours.
+	 *
 	 * @param c la commande en cours
 	 * @param p le produit à supprimer
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public void supprimer(Commande c, Produit p) throws SQLException {
 		PreparedStatement suppression = conn.prepareStatement("DELETE FROM `contenirproduit` WHERE `contenirproduit`.`ProduitID` = ? AND `contenirproduit`.`CommandeID` = "+c.getIdCommande());
@@ -149,16 +182,23 @@ public class DAOCommande extends DAO<Commande>{
 		
 	}
 
+	/**
+	 * Modifier.
+	 *
+	 * @param c the c
+	 * @throws SQLException the SQL exception
+	 */
 	@Override
 	public void modifier(Commande c) throws SQLException {
 		
 	}
 	
 	/**
-	 * Affiche le total de la commande (prix total, quantité totale, nombre de produit total, le reste a payer)
+	 * Affiche le total de la commande (prix total, quantité totale, nombre de produit total, le reste a payer).
+	 *
 	 * @param c la commande en cours
 	 * @return une liste contenant 4 valeurs
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public ArrayList<String> afficherAddition(Commande c) throws SQLException {
 		ArrayList<String> addition = new ArrayList<>();
@@ -177,10 +217,11 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Met a jour le total a payer dans la commande en cours
+	 * Met a jour le total a payer dans la commande en cours.
+	 *
 	 * @param c la commande en cours
-	 * @param le prix total a payer
-	 * @throws SQLException
+	 * @param prix the prix
+	 * @throws SQLException the SQL exception
 	 */
 	public void majTotalAPayer(Commande c, double prix) throws SQLException {
 		PreparedStatement requete = conn.prepareStatement("UPDATE `commande` SET `prixTotal` = ?, `Reste_A_Payer` = ?  WHERE `commande`.`CommandeID` = ?");
@@ -192,10 +233,11 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Met à jour le prix lorsqu'un client paye qu'une partie de l'addition
-	 * @param commande en cours
-	 * @param prix restant à payer
-	 * @throws SQLException
+	 * Met à jour le prix lorsqu'un client paye qu'une partie de l'addition.
+	 *
+	 * @param c the c
+	 * @param reste the reste
+	 * @throws SQLException the SQL exception
 	 */
 	public void majPaiement(Commande c, double reste) throws SQLException {
 		PreparedStatement requete = conn.prepareStatement("UPDATE `commande` SET `Reste_A_Payer` = ? WHERE `commande`.`CommandeID`= ?");
@@ -205,10 +247,11 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Affiche le reste à payer dans la commande en cours
+	 * Affiche le reste à payer dans la commande en cours.
+	 *
 	 * @param c la commande en cours
 	 * @return le reste a payer
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public double afficherRendu(Commande c) throws SQLException {
 		double rendu = 0.00;
@@ -221,10 +264,10 @@ public class DAOCommande extends DAO<Commande>{
 	
 	/**
 	 * Affiche l'ensemble des produits commandés, leurs prix et leurs quantité dans un tableau a deux dimensions.
-	 * 
+	 *
 	 * @param c la commande en cours
 	 * @return un tableau a deux dimensions
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public ArrayList<ArrayList<String>> afficherProduitCommande(Commande c) throws SQLException {
 		ArrayList<String> listeProduit = new ArrayList<>();
@@ -248,10 +291,11 @@ public class DAOCommande extends DAO<Commande>{
 	
 	/**
 	 * Affiche un ticket avec toutes les informations sur la commande: <br>
-	 * Numéro de table, nombre de couverts, date&heure, quantité, prix total, nom du serveur
-	 * @param commande en cours
+	 * Numéro de table, nombre de couverts, date et heure, quantité, prix total, nom du serveur.
+	 *
+	 * @param c the c
 	 * @return une liste d'informations
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public ArrayList<String> afficherTicket(Commande c) throws SQLException{
 		ArrayList<String> listeAddition = new ArrayList<>();
@@ -270,11 +314,12 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Modifie la quantité de produit commandé lorsqu'un produit à été commandé plus d'une fois
+	 * Modifie la quantité de produit commandé lorsqu'un produit à été commandé plus d'une fois.
+	 *
 	 * @param idCommande la commande en cours
 	 * @param idProduit l'identifiant du produit
 	 * @param p l'objet produit en question
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public void modifier(int idCommande, int idProduit, Produit p) throws SQLException {
 		PreparedStatement requete = conn.prepareStatement("UPDATE `contenirproduit` SET qte= ? WHERE ProduitID = ? AND CommandeID = ?");
@@ -286,11 +331,12 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Ajoute le produit à la commande lorsqu'un produit n'a jamais été commandé encoore
+	 * Ajoute le produit à la commande lorsqu'un produit n'a jamais été commandé encore.
+	 *
 	 * @param idCommande la commande en cours
 	 * @param idProduit l'identifiant du produit
 	 * @param p l'objet produit en question
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public void ajouterProduitCommande(int idCommande, int idProduit, Produit p) throws SQLException {
 		PreparedStatement requete = conn.prepareStatement("INSERT INTO `contenirproduit` (`ProduitID`, `CommandeID`, `qte`, serveurID) VALUES (?, ?, 1, ?)");
@@ -304,9 +350,10 @@ public class DAOCommande extends DAO<Commande>{
 	/*----------Historique des commandes--------------*/
 	
 	/**
-	 * Affiche le nombre total de commandes, le prix total de l'ensemble des commandes et le nombre total de serveurs
+	 * Affiche le nombre total de commandes, le prix total de l'ensemble des commandes et le nombre total de serveurs.
+	 *
 	 * @return une liste contenant ces 3 valeurs
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public ArrayList<Integer> compterTout() throws SQLException{
 		stats.clear();
@@ -326,8 +373,9 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Affiche uniquement les commandes faites aujourd'hui
-	 * @throws SQLException
+	 * Affiche uniquement les commandes faites aujourd'hui.
+	 *
+	 * @throws SQLException the SQL exception
 	 */
 	public void trierParJour() throws SQLException{
 		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`CommandeID`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE CURRENT_DATE = substring(date, 1, 10) group by commande.CommandeID ORDER BY hour(date) desc, minute(date) desc ");
@@ -342,9 +390,10 @@ public class DAOCommande extends DAO<Commande>{
 	}
 
 	/**
-	 * Affiche le nombre total de commandes, le prix total de l'ensemble des commandes et le nombre total de serveurs pour aujourd'hui
+	 * Affiche le nombre total de commandes, le prix total de l'ensemble des commandes et le nombre total de serveurs pour aujourd'hui.
+	 *
 	 * @return une liste contenant ces 3 valeurs
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public ArrayList<Integer> compterParJour() throws SQLException{
 		stats.clear();
@@ -364,8 +413,9 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Affiche uniquement les commandes faites cette semaine
-	 * @throws SQLException
+	 * Affiche uniquement les commandes faites cette semaine.
+	 *
+	 * @throws SQLException the SQL exception
 	 */
 	public void trierParSemaine() throws SQLException{
 		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`CommandeID`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE week(date) = week(CURRENT_DATE) group by commande.CommandeID  order by hour(date) desc");
@@ -380,9 +430,10 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Affiche le nombre total de commandes, le prix total de l'ensemble des commandes et le nombre total de serveurs pour cette semaine
+	 * Affiche le nombre total de commandes, le prix total de l'ensemble des commandes et le nombre total de serveurs pour cette semaine.
+	 *
 	 * @return une liste contenant ces 3 valeurs
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public ArrayList<Integer> compterParSemaine() throws SQLException{
 		stats.clear();
@@ -402,8 +453,9 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Affiche uniquement les commandes faites ce mois-ci
-	 * @throws SQLException
+	 * Affiche uniquement les commandes faites ce mois-ci.
+	 *
+	 * @throws SQLException the SQL exception
 	 */
 	public void trierParMois() throws SQLException{
 		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`CommandeID`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE substring(CURRENT_DATE, 1, 7) = substring(date, 1, 7) group by commande.CommandeID ORDER BY DAY(date) desc"); 
@@ -418,9 +470,10 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Affiche le nombre total de commandes, le prix total de l'ensemble des commandes et le nombre total de serveurs pour ce mois-ci
+	 * Affiche le nombre total de commandes, le prix total de l'ensemble des commandes et le nombre total de serveurs pour ce mois-ci.
+	 *
 	 * @return une liste contenant ces 3 valeurs
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public ArrayList<Integer> compterParMois() throws SQLException{
 		stats.clear();
@@ -440,8 +493,9 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Affiche uniquement les commandes faites cette année
-	 * @throws SQLException
+	 * Affiche uniquement les commandes faites cette année.
+	 *
+	 * @throws SQLException the SQL exception
 	 */
 	public void trierParAnnee() throws SQLException{
 		ResultSet commandeDB = conn.createStatement().executeQuery("SELECT commande.`CommandeID`, `noTable`, `prixTotal`, `nbCouverts`, `date`, contenirproduit.serveurID FROM `commande` INNER JOIN contenirproduit ON commande.CommandeID = contenirproduit.CommandeID WHERE substring(CURRENT_DATE, 1, 4) = substring(date, 1, 4) group by commande.CommandeID  ORDER BY MONTH(date) desc, DAY(date) DESC"); 
@@ -456,9 +510,10 @@ public class DAOCommande extends DAO<Commande>{
 	}
 	
 	/**
-	 * Affiche le nombre total de commandes, le prix total de l'ensemble des commandes et le nombre total de serveurs pour l'année en cours
+	 * Affiche le nombre total de commandes, le prix total de l'ensemble des commandes et le nombre total de serveurs pour l'année en cours.
+	 *
 	 * @return une liste contenant ces 3 valeurs
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public ArrayList<Integer> compterParAnnee() throws SQLException{
 		stats.clear();

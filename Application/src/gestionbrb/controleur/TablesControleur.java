@@ -22,53 +22,85 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * Affiche les tables avec le diffé–žentes proprié– é–Ÿ.
+ * Affiche les tables avec le différentes propriétés.
  * @author Sophie
  *
  */
 public class TablesControleur {
+	
+	/** The tables. */
 	private static ObservableList<Table> tables = FXCollections.observableArrayList();
+	
+	/** The table table. */
 	@FXML
 	private TableView<Table> tableTable;
+	
+	/** The colonne no table. */
 	@FXML
 	private TableColumn<Table, Number> colonneNoTable;
+	
+	/** The colonne nb couverts min. */
 	@FXML
 	private TableColumn<Table, Number> colonneNbCouvertsMin;
+	
+	/** The colonne nb couverts max. */
 	@FXML
 	private TableColumn<Table, Number> colonneNbCouvertsMax;
 
+	/** The champ no table. */
 	@FXML
 	private Label champNoTable;
+	
+	/** The champ nb couvert max. */
 	@FXML
 	private Label champNbCouvertMax;
+	
+	/** The champ nb couvert min. */
 	@FXML
 	private Label champNbCouvertMin;
+	
+	/** The parent. */
 	@SuppressWarnings("unused")
 	private AdministrationControleur parent;
+	
+	/** The ajouter. */
 	@FXML
 	private Button ajouter;
+	
+	/** The modifier. */
 	@FXML
 	private Button modifier;
+	
+	/** The supprimer. */
 	@FXML
 	private Button supprimer;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The gestion table. */
 	@FXML
 	private Label gestionTable;
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+	
+	/** The dao tables. */
 	DAOTables daoTables = new DAOTables();
 
 	
+	/**
+	 * Instantiates a new tables controleur.
+	 */
 	public TablesControleur() {
 		
 	}
 
 	/**
-	 * Initialise la classe controleur avec des donnÃ©es rÃ©cupÃ©rÃ©es dans la base de donnÃ©es
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Initialise la classe controleur avec des données récupérées dans la base de données.
 	 */
 	@FXML
 	private void initialize() {
@@ -102,6 +134,12 @@ public class TablesControleur {
 		}
 	}
 
+	/**
+	 * Load lang.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -118,11 +156,8 @@ public class TablesControleur {
 	}
 	
 	/**
-	 * AppelÃ© quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
+	 * Appelé quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
 	 * nouvelle page pour effectuer la modification
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
 	 */
 	@FXML
 	private void ajoutTable() {
@@ -132,17 +167,17 @@ public class TablesControleur {
         if (okClicked) {
         		daoTables.ajouter(tempTable);
 				refresh();
-				FonctionsControleurs.alerteInfo("Ajout Ã©ffectuÃ©", null, "Les informations ont Ã©tÃ© ajoutÃ©es avec succÃ¨s!");
+				FonctionsControleurs.alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 			}
         }
         catch(Exception e) {
-        	FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: "+e);
+        	FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/** 
-	 * Rafraichit les colonnes aprÃ¨s un ajout, une modification ou une suppression d'Ã©lÃ©ments.
+	 * Rafraichit les colonnes après un ajout, une modification ou une suppression d'éléments.
 	 */
 	private void refresh() {
 		tableTable.getItems().clear();
@@ -150,15 +185,15 @@ public class TablesControleur {
 		try {
 			tableTable.setItems(daoTables.afficher());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
+	
 	/**
-	 * AppellÃ© quand l'utilisateur clique sur le bouton supprimer
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Appellé quand l'utilisateur clique sur le bouton supprimer.
+	 *
+	 * @throws ClassNotFoundException the class not found exception
 	 */
 	@FXML
 	private void supprimerTable() throws ClassNotFoundException {
@@ -168,28 +203,28 @@ public class TablesControleur {
 			try {
 			daoTables.supprimer(selectedTable);
 			refresh();
-			FonctionsControleurs.alerteInfo("Suppression rÃ©ussie", null, "La table "+selectedTable.getNoTable()+" vient d'Ãªtre supprimÃ©e!");
+			FonctionsControleurs.alerteInfo("Suppression réussie", null, "La table "+selectedTable.getNoTable()+" vient d'être supprimée!");
 			}
 			catch(SQLException e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 				e.printStackTrace();
 			}
 			
 		
 
 		} else {
-			// Si rien n'est sÃ©lÃ©ctionnÃ©
-			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucune table de sÃ©lectionnÃ©e!",
+			// Si rien n'est séléctionné
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
 					"Selectionnez une table pour pouvoir la supprimer");
 		}
 	}
 
 	/**
-	 * AppelÃ© quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
+	 * Appelé quand l'utilisateur clique sur le bouton modifier la table. Ouvre une
 	 * nouvelle page pour effectuer la modification
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	private void modifierTable() throws ClassNotFoundException, SQLException {
@@ -200,20 +235,28 @@ public class TablesControleur {
 				try {
 					daoTables.modifier(selectedTable);
 					refresh();
-					FonctionsControleurs.alerteInfo("Modification Ã©ffectuÃ©e", null, "Les informations ont Ã©tÃ© modifiÃ©es avec succÃ¨s!");
+					FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 				} catch (Exception e) {
-					FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: "+e);
+					FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 					e.printStackTrace();
 				}
 			}
 
 		} else {
-			// Si rien n'est selectionnÃ©
-			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucune table de sÃ©lectionnÃ©e!",
+			// Si rien n'est selectionné
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
 					"Selectionnez une table pour pouvoir la modifier");
 		}
 	}
 	
+	/**
+	 * Fenetre modification.
+	 *
+	 * @param table the table
+	 * @return true, if successful
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
+	 */
 	public boolean fenetreModification(Table table) throws ClassNotFoundException, SQLException {
 		try {
 			Locale locale = new Locale("fr", "FR");
@@ -223,7 +266,7 @@ public class TablesControleur {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ModifierTables.fxml"), bundle);
 			AnchorPane page = (AnchorPane) loader.load();
 
-			// CrÃ©e une nouvelle page
+			// Crée une nouvelle page
 			Stage dialogStage = new Stage();
 			dialogStage.setResizable(false);
 			dialogStage.setTitle("Gestion des tables");
@@ -233,7 +276,7 @@ public class TablesControleur {
 			dialogStage.getIcons().add(new Image(
 	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
-			// DÃ©finition du controleur pour la fenetre
+			// Définition du controleur pour la fenetre
 			ModifierTablesControleur controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setTable(table);
@@ -243,21 +286,36 @@ public class TablesControleur {
 
 			return controller.isOkClicked();
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'Ã©xecution", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxecution", "Détails: "+e);
 			e.printStackTrace();
 			return false;
 		}
 	}
 
+	/**
+	 * Sets the parent.
+	 *
+	 * @param administrationControleur the new parent
+	 */
 	public void setParent(AdministrationControleur administrationControleur) {
 		// TODO Auto-generated method stub
 		this.parent = administrationControleur;
 	}
 
+	/**
+	 * Gets the table data.
+	 *
+	 * @return the table data
+	 */
 	public static ObservableList<Table> getTableData() {
 		return tables;
 	}
 
+	/**
+	 * Sets the table data.
+	 *
+	 * @param tables the new table data
+	 */
 	public static void setTableData(ObservableList<Table> tables) {
 		TablesControleur.tables = tables;
 	}

@@ -14,47 +14,85 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author Roman
+ * The Class ModifierFournisseurControleur.
  *
+ * @author Roman
  */
 public class ModifierFournisseurControleur {
 
+	/** The champ nom. */
 	@FXML 
 	private TextField champNom;
+	
+	/** The champ num tel. */
 	@FXML
 	private TextField champNumTel;
+	
+	/** The champ mail. */
 	@FXML
 	private TextField champMail;
+	
+	/** The champ adresse. */
 	@FXML
 	private TextField champAdresse;
+	
+	/** The champ ville. */
 	@FXML
 	private TextField champVille;
+	
+	/** The champ code postal. */
 	@FXML 
 	private TextField champCodePostal;
+	
+	/** The nom. */
 	@FXML
 	private Label nom;
+	
+	/** The postal. */
 	@FXML
 	private Label postal;
+	
+	/** The adresse. */
 	@FXML
 	private Label adresse;
+	
+	/** The mail. */
 	@FXML
 	private Label mail;	
+	
+	/** The ville. */
 	@FXML
 	private Label ville;
+	
+	/** The num tel. */
 	@FXML
 	private Label numTel;
+	
+	/** The valider. */
 	@FXML
 	private Button valider;
 
+	/** The dialog stage. */
 	private Stage dialogStage;
+	
+	/** The fournisseur. */
 	private Fournisseur fournisseur;
+	
+	/** The ok clicked. */
 	private boolean okClicked = false;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	private void initialize() {
 		try {
@@ -77,6 +115,13 @@ public class ModifierFournisseurControleur {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Load lang.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -91,15 +136,21 @@ public class ModifierFournisseurControleur {
 		
 	}
 
+	/**
+	 * Sets the dialog stage.
+	 *
+	 * @param dialogStage the new dialog stage
+	 */
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
 
 	/**
-	 * 
-	 * @param reservation
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Sets the fournisseur.
+	 *
+	 * @param fournisseur the new fournisseur
+	 * @throws SQLException the SQL exception
+	 * @throws ClassNotFoundException the class not found exception
 	 */
 	public void setFournisseur(Fournisseur fournisseur) throws SQLException, ClassNotFoundException {
 		this.fournisseur = fournisseur;
@@ -114,15 +165,16 @@ public class ModifierFournisseurControleur {
 	}
 
 	/**
-	 * @return true si le bouton a modifiÃ© a Ã©tÃ© appuyÃ©, faux sinon
+	 * Checks if is ok clicked.
+	 *
+	 * @return true si le bouton a modifié a été appuyé, faux sinon
 	 */
 	public boolean isOkClicked() {
 		return okClicked;
 	}
 
 	/**
-	 * AppellÃ© quand l'utilisateur appuie sur Valider
-	 * 
+	 * Appellé quand l'utilisateur appuie sur Valider.
 	 */
 	@FXML
 	public void actionValider() {
@@ -139,7 +191,7 @@ public class ModifierFournisseurControleur {
 	}
 
 	/**
-	 * AppellÃ© quand le bouton annuler est appuyÃ©. Ferme la page sans sauvegarder.
+	 * Appellé quand le bouton annuler est appuyé. Ferme la page sans sauvegarder.
 	 */
 	@FXML
 	private void actionAnnuler() {
@@ -147,8 +199,8 @@ public class ModifierFournisseurControleur {
 	}
 
 	/**
-	 * VÃ©rifie si la saisie est conforme aux donnÃ©es requises
-	 * 
+	 * Vérifie si la saisie est conforme aux données requises.
+	 *
 	 * @return true si la saisie est bien conforme
 	 */
 	public boolean estValide() {
@@ -173,12 +225,12 @@ public class ModifierFournisseurControleur {
 
 		}
 		if (champNumTel.getText() == null || champNumTel.getText().length() == 0) {
-			erreurMsg += "Veuillez rentrer le numÃ©ro de tÃ©lÃ©phone\n";
+			erreurMsg += "Veuillez rentrer le numéro de téléphone\n";
 		} else {
 			Pattern p = Pattern.compile("(0|\\+)[0-9]{8,12}");
 			Matcher m = p.matcher(champNumTel.getText());
 			if (!(m.find() && m.group().equals(champNumTel.getText()))) {
-				erreurMsg += "Erreur! Le champ no. tÃ©lÃ©phone n'accepte que les numÃ©ros commenÃ§ant par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
+				erreurMsg += "Erreur! Le champ no. téléphone n'accepte que les numéros commençant par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
 			}
 		}
 		if (champVille.getText() == null || champVille.getText().length() == 0) {
@@ -190,7 +242,7 @@ public class ModifierFournisseurControleur {
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			FonctionsControleurs.alerteErreur("EntrÃ©e incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",erreurMsg);
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",erreurMsg);
 
 			return false;
 		}

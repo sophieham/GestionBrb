@@ -14,13 +14,36 @@ import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DAOProduit.
+ */
+/*
+ * Gère les requetes sql sur les produits
+ */
 public class DAOProduit extends DAO<Produit>{
+	
+	/** The commande DAO. */
 	DAOCommande commandeDAO = new DAOCommande();
+	
+	/** The map nom par id. */
 	Map<String, Integer> mapNomParId = new HashMap<>();
+	
+	/** The map nom par type. */
 	Map<String, String> mapNomParType = new HashMap<>();
+	
+	/** The listeproduits. */
 	private ObservableList<Produit> listeproduits = FXCollections.observableArrayList();
+	
+	/** The conn. */
 	public static Connection conn = bddUtil.dbConnect();
 
+	/**
+	 * Afficher.
+	 *
+	 * @return the observable list
+	 * @throws SQLException the SQL exception
+	 */
 	public ObservableList<Produit> afficher() throws SQLException {
 				ResultSet res = conn.createStatement().executeQuery("SELECT `ProduitID`, produit.`nom`, `qte`, `description`, `prix`, produit.TypeID, type_produit.nom, ingredients FROM `produit` INNER JOIN type_produit on produit.TypeID = type_produit.TypeID ");
 				while (res.next()) {
@@ -30,6 +53,12 @@ public class DAOProduit extends DAO<Produit>{
 	}
 
 
+	/**
+	 * Recuperer ID produit.
+	 *
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
 	public Map<String, Integer> recupererIDProduit() throws SQLException {
 		ResultSet requete = conn.createStatement().executeQuery("SELECT ProduitID, nom from produit");
 		while(requete.next()) {
@@ -38,6 +67,12 @@ public class DAOProduit extends DAO<Produit>{
 		return mapNomParId;	
 	}
 	
+	/**
+	 * Recuperer type produit.
+	 *
+	 * @return the map
+	 * @throws SQLException the SQL exception
+	 */
 	@SuppressWarnings("unused")
 	public Map<String, String> recupererTypeProduit() throws SQLException {
 		ResultSet requete = conn.createStatement().executeQuery("SELECT ProduitID, produit.nom, prix, type_produit.nom from produit inner join type_produit on produit.TypeID=type_produit.TypeID");
@@ -49,6 +84,12 @@ public class DAOProduit extends DAO<Produit>{
 		return mapNomParType;	
 	}
 	
+	/**
+	 * Recuperer nom produit.
+	 *
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public ArrayList<String> recupererNomProduit() throws SQLException{
 		ArrayList<String> listeNomProduits = new ArrayList<>();
 		ResultSet requete = conn.createStatement().executeQuery("SELECT nom, prix FROM produit");
@@ -59,6 +100,13 @@ public class DAOProduit extends DAO<Produit>{
 		return listeNomProduits;	
 	}
 	
+	/**
+	 * Afficher details produit.
+	 *
+	 * @param idProduit the id produit
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public ArrayList<String> afficherDetailsProduit(int idProduit) throws SQLException {
 		ArrayList<String> listeProduit = new ArrayList<>();
 		ResultSet produitDB = conn.createStatement().executeQuery("SELECT ProduitID,`nom`,`description`,`ingredients` FROM `produit` WHERE ProduitID ="+idProduit);
@@ -72,6 +120,12 @@ public class DAOProduit extends DAO<Produit>{
 	
 
 	
+/**
+ * Ajouter.
+ *
+ * @param p the p
+ * @throws SQLException the SQL exception
+ */
 @Override
 public void ajouter(Produit p) throws SQLException{
 	PreparedStatement ajoutDB = conn.prepareStatement(
@@ -86,6 +140,12 @@ public void ajouter(Produit p) throws SQLException{
 	
 }
 
+/**
+ * Supprimer.
+ *
+ * @param p the p
+ * @throws SQLException the SQL exception
+ */
 @Override
 public void supprimer(Produit p) throws SQLException{
 	try {
@@ -98,6 +158,12 @@ public void supprimer(Produit p) throws SQLException{
 	
 }
 
+/**
+ * Modifier.
+ *
+ * @param p the p
+ * @throws SQLException the SQL exception
+ */
 @Override
 public void modifier(Produit p) throws SQLException {
 	try {

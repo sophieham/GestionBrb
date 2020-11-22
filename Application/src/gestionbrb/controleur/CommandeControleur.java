@@ -44,79 +44,149 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * Gestion des commandes pour chacune des tables. Permet d'ajouter ou de supprimer les produits commandÃ©s par les clients.
+ * Gestion des commandes pour chacune des tables. Permet d'ajouter ou de supprimer les produits commandés par les clients.
  * @author Sophie
  */
 
 public class CommandeControleur implements Initializable {
+	
+	/** The info table. */
 	@FXML
 	private Label infoTable;
+	
+	/** The table recap. */
 	@FXML
 	private TableView<Produit> tableRecap;
+	
+	/** The colonne produit. */
 	@FXML
 	private TableColumn<Produit, String> colonneProduit;
+	
+	/** The colonne prix. */
 	@FXML
 	private TableColumn<Produit, Number> colonnePrix;
+	
+	/** The colonne qte. */
 	@FXML
 	private TableColumn<Produit, Number> colonneQte;
+	
+	/** The total produit. */
 	@FXML
 	private Label totalProduit;
+	
+	/** The total prix. */
 	@FXML
 	private Label totalPrix;
+	
+	/** The devise. */
 	@FXML
 	private Label devise;
+	
+	/** The total qte. */
 	@FXML
 	private Label totalQte;
+	
+	/** The total. */
 	@FXML
 	private Label total;
+	
+	/** The supprimer produit. */
 	@FXML
 	private Button supprimerProduit;
+	
+	/** The encaisser. */
 	@FXML
 	private Button encaisser;
+	
+	/** The demande. */
 	@FXML
 	private Button demande;
+	
+	/** The imprimer. */
 	@FXML
 	private Button imprimer;
+	
+	/** The retour. */
 	@FXML
 	private Button retour;
+	
+	/** The panneau. */
 	@FXML
 	private Label panneau;
+	
+	/** The type produit. */
 	@FXML
 	private TabPane typeProduit;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+	
+	/** The produit commande. */
 	@FXML
 	private static ObservableList<Produit> produitCommande = FXCollections.observableArrayList();
+	
+	/** The text area. */
 	private TextArea textArea = new TextArea();
 	
+	/** The liste produits. */
 	List<Button> listeProduits = new ArrayList<>();
+	
+	/** The liste onglets. */
 	List<Tab> listeOnglets = new ArrayList<>();
 	
+	/** The map type par onglet. */
 	Map<String, Tab> mapTypeParOnglet= new HashMap<>();
+	
+	/** The nom produits. */
 	ArrayList<String> nomProduits = new ArrayList<>();
 	
+	/** The commande. */
 	private Commande commande;
 	
+	/** The parent. */
 	DemarrerCommandeControleur parent;
 
+    /** The primary stage. */
     private static Stage primaryStage;
+    
+    /** The fenetre addition. */
     private static Stage fenetreAddition;
+	
+	/** The imprimer addition. */
 	private static Stage imprimerAddition;
     
+    /** The fenetre. */
     @FXML
     private AnchorPane fenetre;
     
+    /** The dao commande. */
     DAOCommande daoCommande = new DAOCommande();
+    
+    /** The dao type. */
     DAOType daoType = new DAOType();
+    
+    /** The dao produit. */
     DAOProduit daoProduit = new DAOProduit();
+	
+	/** The saisir. */
 	private String saisir;
 	
+	/**
+	 * Instantiates a new commande controleur.
+	 */
 	public CommandeControleur() {
 	
 	}
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	private void initialize() {
 		
@@ -136,10 +206,17 @@ public class CommandeControleur implements Initializable {
 			}
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Load lang.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -157,20 +234,38 @@ public class CommandeControleur implements Initializable {
 		saisir=bundle.getString("saisir");
 		
 	}
+	
+	/**
+	 * Sets the parent.
+	 *
+	 * @param parent the new parent
+	 */
 	public void setParent(DemarrerCommandeControleur parent) {
 		this.parent = parent;		
 	}
 
 	
 	
+	/**
+	 * Gets the primary stage.
+	 *
+	 * @return the primary stage
+	 */
 	public static Stage getPrimaryStage() {
 		return primaryStage;
 	}
 	
+	/** The liste prix. */
 	List<Double> listePrix = new ArrayList<>();
 	
+	/**
+	 * Initialize.
+	 *
+	 * @param arg0 the arg 0
+	 * @param arg1 the arg 1
+	 */
 	/*
-	 * Initialise la page avec les donnÃ©es issues de la base de donnÃ©es.
+	 * Initialise la page avec les données issues de la base de données.
 	 * 
 	 */
 	@Override
@@ -192,12 +287,12 @@ public class CommandeControleur implements Initializable {
 	/**
 	 * Fonction principale du controleur. <br>
 	 * Il affiche des onglets en fonction du nombre et du nom des types, et affiche
-	 * dans ces onglets les differents produits qui sont du mÃªme type. <br>
-	 * Il permet Ã©galement de sÃ©lectionner les produits que le client souhaite
+	 * dans ces onglets les differents produits qui sont du même type. <br>
+	 * Il permet également de sélectionner les produits que le client souhaite
 	 * commander et l'affiche d'un tableau contenant le nom et le prix des produits
-	 * commandÃ©s <br>
+	 * commandés <br>
 	 * <br>
-	 * Affiche une boite de dialogue si la fonction gÃ©nÃ¨re une erreur
+	 * Affiche une boite de dialogue si la fonction génère une erreur
 	 * @author Sophie
 	 */
 	public void etablirCommande() {
@@ -269,7 +364,7 @@ public class CommandeControleur implements Initializable {
 											totalProduit.setText("" + qte);
 											totalQte.setText(qte + "");
 										} catch (Exception e) {
-											FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+											FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 											e.printStackTrace();
 										}
 									}
@@ -285,13 +380,13 @@ public class CommandeControleur implements Initializable {
 			}
 			typeProduit.getTabs().addAll(mapTypeParOnglet.values());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * Affiche l'addition si la liste des produits commandÃ©s n'est pas vide, sinon affiche un message.
+	 * Affiche l'addition si la liste des produits commandés n'est pas vide, sinon affiche un message.
 	 */
 	@FXML
 	public void afficherAddition() {
@@ -316,14 +411,14 @@ public class CommandeControleur implements Initializable {
 				controller.setParent(this);
 
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 				e.printStackTrace();
 			}
 		}
 	}
 	
 	/**
-	 * Supprime le produit selectionnÃ© s'il y en a un, sinon affiche un message d'erreur.
+	 * Supprime le produit selectionné s'il y en a un, sinon affiche un message d'erreur.
 	 */
 	public void supprimerProduit() {
 		Produit selectionProduit = tableRecap.getSelectionModel().getSelectedItem();
@@ -332,18 +427,18 @@ public class CommandeControleur implements Initializable {
 			try {
 			daoCommande.supprimer(commande, selectionProduit);
 			produitCommande.remove(indexSelection);
-			FonctionsControleurs.alerteInfo("Suppression ré–¡ssie", null, "Le produit "+selectionProduit.getIdProduit()+" vient d'é˜¾re supprimé–‘!");
+			FonctionsControleurs.alerteInfo("Suppression réussie", null, "Le produit "+selectionProduit.getIdProduit()+" vient d'être supprimé!");
 			
 			totalPrix.setText(daoCommande.afficherPrixTotal(commande)+""+DAOCommande.recupererDevise());
 			totalProduit.setText(daoCommande.afficherQteTotal(commande)+"");
 			}
 			catch(Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 				e.printStackTrace();
 			}
 
 		} else {
-			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucune table de sÃ©lÃ©ctionnÃ©e!",
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune table de sélectionnée!",
 					"Selectionnez une table pour pouvoir la supprimer");
 		}
 	}
@@ -354,7 +449,7 @@ public class CommandeControleur implements Initializable {
 	@FXML
 	public void demandeSpeciale() {
 		Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Demande spÃ©ciale");
+        alert.setTitle("Demande spéciale");
         alert.setHeaderText(saisir);
  
         VBox conteneur = new VBox();
@@ -374,7 +469,7 @@ public class CommandeControleur implements Initializable {
 	}
 	
 	/** 
-	 * Affiche le ticket liÃ© Ã  l'addition en vue de l'imprimer.
+	 * Affiche le ticket lié à  l'addition en vue de l'imprimer.
 	 */
 	@FXML
 	public void imprimerTicket() {
@@ -394,35 +489,58 @@ public class CommandeControleur implements Initializable {
 			ImprimerAdditionControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Retour menu principal.
+	 */
 	public void retourMenuPrincipal() {
 		DemarrerCommandeControleur.getFenetreCommande().close();
 	}
 	
     /**
-     * Retourne la liste des produits commandÃ©s. 
+     * Retourne la liste des produits commandés. 
      * @return reservationData
      */
     public static ObservableList<Produit> getCommandeData() {
         return produitCommande;
     }
 
+	/**
+	 * Gets the fenetre addition.
+	 *
+	 * @return the fenetre addition
+	 */
 	public static Stage getFenetreAddition() {
 		return fenetreAddition;
 	}
 
+	/**
+	 * Sets the fenetre addition.
+	 *
+	 * @param fenetreAddition the new fenetre addition
+	 */
 	public static void setFenetreAddition(Stage fenetreAddition) {
 		CommandeControleur.fenetreAddition = fenetreAddition;
 	}
 
+	/**
+	 * Gets the imprimer addition.
+	 *
+	 * @return the imprimer addition
+	 */
 	public static Stage getImprimerAddition() {
 		return imprimerAddition;
 	}
 
+	/**
+	 * Sets the imprimer addition.
+	 *
+	 * @param imprimerAddition the new imprimer addition
+	 */
 	public static void setImprimerAddition(Stage imprimerAddition) {
 		CommandeControleur.imprimerAddition = imprimerAddition;
 	}

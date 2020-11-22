@@ -11,12 +11,26 @@ import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DAOFournisseur.
+ */
+/*
+ * Gère les requetes sql sur les fournisseurs
+ */
 public class DAOFournisseur extends DAO<Fournisseur> {
+	
+	/** The fournisseurs. */
 	private ObservableList<Fournisseur> fournisseurs = FXCollections.observableArrayList();
+	
+	/** The conn. */
 	public static Connection conn = bddUtil.dbConnect();
 	
 	/**
-	 * Retourne une liste de fournisseurs crées à l'aide de la base de donnée
+	 * Retourne une liste de fournisseurs crées à l'aide de la base de donnée.
+	 *
+	 * @return the observable list
+	 * @throws SQLException the SQL exception
 	 */
 	@Override
 	public ObservableList<Fournisseur> afficher() throws SQLException {
@@ -34,9 +48,10 @@ public class DAOFournisseur extends DAO<Fournisseur> {
 	}
 	
 	/**
-	 * Affiche un choix de fournisseurs a partir de la base de donnée
+	 * Affiche un choix de fournisseurs a partir de la base de donnée.
+	 *
 	 * @return une liste de fournisseurs
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public ObservableList<String> choixFournisseur() throws SQLException{
 		ObservableList<String> choixFournisseur =  FXCollections.observableArrayList();
@@ -49,7 +64,10 @@ public class DAOFournisseur extends DAO<Fournisseur> {
 	}
 
 	/**
-	 * Ajoute un fournisseur à la base de donnée avec les informations saisies
+	 * Ajoute un fournisseur à la base de donnée avec les informations saisies.
+	 *
+	 * @param f the f
+	 * @throws SQLException the SQL exception
 	 */
 	@Override
 	public void ajouter(Fournisseur f) throws SQLException {
@@ -66,7 +84,10 @@ public class DAOFournisseur extends DAO<Fournisseur> {
 	}
 
 	/**
-	 * Supprime un fournisseur dans la base de donnée
+	 * Supprime un fournisseur dans la base de donnée.
+	 *
+	 * @param f the f
+	 * @throws SQLException the SQL exception
 	 */
 	@Override
 	public void supprimer(Fournisseur f) throws SQLException {
@@ -77,7 +98,10 @@ public class DAOFournisseur extends DAO<Fournisseur> {
 	}
 
 	/**
-	 * Modifie les informations du fournisseur séléctionné
+	 * Modifie les informations du fournisseur séléctionné.
+	 *
+	 * @param f the f
+	 * @throws SQLException the SQL exception
 	 */
 	@Override
 	public void modifier(Fournisseur f) throws SQLException {
@@ -94,10 +118,11 @@ public class DAOFournisseur extends DAO<Fournisseur> {
 	}
 
 	/**
-	 * Affiche le nom du fournisseur d'un ingredient donné
+	 * Affiche le nom du fournisseur d'un ingredient donné.
+	 *
 	 * @param nomIngredient le nom de l'ingredient
 	 * @return le nom du fournisseur
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public ArrayList<String> afficherNomFournisseur(String nomIngredient) throws SQLException {
 		ArrayList<String> nomFournisseur = new ArrayList<>();
@@ -109,10 +134,11 @@ public class DAOFournisseur extends DAO<Fournisseur> {
 	}
 	
 	/**
-	 * Affiche l'identifiant du fournisseur d'un ingredient donné
+	 * Affiche l'identifiant du fournisseur d'un ingredient donné.
+	 *
 	 * @param nomIngredient le nom de l'ingredient
 	 * @return l'idenfiant du fournisseur
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public int afficherIDFournisseur(String nomIngredient) throws SQLException {
 		int idF = 0;
@@ -124,12 +150,13 @@ public class DAOFournisseur extends DAO<Fournisseur> {
 	}
 	
 	/**
-	 * Garde une trace de la commande d'ingredients passée dans la base de donnée
+	 * Garde une trace de la commande d'ingredients passée dans la base de donnée.
+	 *
 	 * @param idIngredient l'identifiant de l'ingredient commandé
 	 * @param idFournisseur l'identifiant de son fournisseur
 	 * @param value le nombre d'ingredients commandés
 	 * @param prix le prix total d'achat
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public void fournirIngredient(int idIngredient, int idFournisseur, int value, String prix) throws SQLException{
 		PreparedStatement pstmt = conn.prepareStatement("INSERT INTO `fourniringredients`(`FournirID`,`IngredientID`, `FournisseurID`, `qte`, `date`, `Prix_Total`) "
@@ -142,9 +169,10 @@ public class DAOFournisseur extends DAO<Fournisseur> {
 	}
 	
 	/**
-	 * Affiche les informations de la dernière commande et les stocke dans une liste
+	 * Affiche les informations de la dernière commande et les stocke dans une liste.
+	 *
 	 * @return la derniere commande
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public ArrayList<String> afficherDerniereCommande() throws SQLException{
 		ArrayList<String> commandeIngredient = new ArrayList<>();

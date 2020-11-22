@@ -23,91 +23,151 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * Recense toutes les rÃ©srvations et leurs dÃ©tails
- * @author Sophie
+ * Recense toutes les résrvations et leurs détails.
  *
+ * @author Sophie
  */
 
 public class CalendrierControleur {
 	
+    /** The reservation data. */
     private static ObservableList<Reservations> reservationData = FXCollections.observableArrayList();
 
+	/** The reservation table. */
 	@FXML
 	private TableView<Reservations> reservationTable;
+	
+	/** The colonne nom. */
 	@FXML
 	private TableColumn<Reservations, String> colonneNom;
+	
+	/** The colonne date. */
 	@FXML
 	private TableColumn<Reservations, String> colonneDate;
+	
+	/** The colonne heure. */
 	@FXML
 	private TableColumn<Reservations, String> colonneHeure;
+	
+	/** The colonne nb couverts. */
 	@FXML
 	private TableColumn<Reservations, Number> colonneNbCouverts;
 
+	/** The champ ID. */
 	@FXML
 	private Label champID;
+	
+	/** The champ nom. */
 	@FXML
 	private Label champNom;
+	
+	/** The champ prenom. */
 	@FXML
 	private Label champPrenom;
+	
+	/** The champ num tel. */
 	@FXML
 	private Label champNumTel;
+	
+	/** The champ date. */
 	@FXML
 	private Label champDate;
+	
+	/** The champ heure. */
 	@FXML
 	private Label champHeure;
+	
+	/** The champ nb couverts. */
 	@FXML
 	private Label champNbCouverts;
+	
+	/** The champ demande spe. */
 	@FXML
 	private Label champDemandeSpe;
+	
+	/** The recherche date. */
 	@FXML
 	private DatePicker rechercheDate;
+	
+	/** The nb total reservations. */
 	@FXML
 	private Label nbTotalReservations;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The Labelcalendrier. */
 	@FXML
 	private Label Labelcalendrier;
+	
+	/** The Nom. */
 	@FXML
 	private Label Nom;
+	
+	/** The prenom. */
 	@FXML
 	private Label prenom;
+	
+	/** The heure. */
 	@FXML
 	private Label heure;
+	
+	/** The nb. */
 	@FXML
 	private Label nb;
+	
+	/** The telephone. */
 	@FXML
 	private Label telephone;
+	
+	/** The demande. */
 	@FXML
 	private Label demande;
+	
+	/** The date. */
 	@FXML
 	private Label date;
+	
+	/** The Id. */
 	@FXML
 	private Label Id;
+	
+	/** The btn 1. */
 	@FXML
 	private Button btn1;
+	
+	/** The btn 2. */
 	@FXML 
 	private Button btn2;
+	
+	/** The btn 3. */
 	@FXML 
 	private Button btn3;
 
+	/** The main app. */
 	DemarrerCommandeControleur mainApp;
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 
 	
+	/** The dao calendrier. */
 	DAOCalendrier daoCalendrier = new DAOCalendrier();
 
+	/**
+	 * Instantiates a new calendrier controleur.
+	 */
 	public CalendrierControleur() {
 	}
 
 	/**
-	 * Initialise la classe controleur avec les donnÃ©es par dÃ©faut du tableau <br>
-	 * Charge les fichiers de langue nÃ©cessaires Ã  la traduction.
+	 * Initialise la classe controleur avec les données par défaut du tableau <br>
+	 * Charge les fichiers de langue nécessaires à  la traduction.
 	 * <br>
-	 * Affiche un message d'erreur si il y a un problÃ¨me.
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Affiche un message d'erreur si il y a un problème.
 	 */
 
 	@FXML
@@ -142,17 +202,17 @@ public class CalendrierControleur {
 			colonneDate.setResizable(false);
 			colonneHeure.setResizable(false);
 			colonneNbCouverts.setResizable(false);
-			nbTotalReservations.setText(daoCalendrier.nombreTotalRsv()+" rÃ©servations au total");
+			nbTotalReservations.setText(daoCalendrier.nombreTotalRsv()+" réservations au total");
 			reservationTable.getSelectionModel().selectedItemProperty().addListener((observable, ancienneValeur, nouvelleValeur) -> {
 					try {
 						detailsReservation(nouvelleValeur);
 					} catch (Exception e) {
-						FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+						FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 						e.printStackTrace();
 					}
 			});
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 
@@ -160,6 +220,12 @@ public class CalendrierControleur {
 	
 	
 	
+	/**
+	 * Load lang.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -182,10 +248,11 @@ public class CalendrierControleur {
 		btn2.setText(bundle.getString("ModifierReservation"));
 		btn3.setText(bundle.getString("SupprimerReservation"));
 	}
+	
 	/**
-	 * AppellÃ© la classe principale pour faire la liaison avec le controleur
-	 * 
-	 * @param mainApp
+	 * Appellé la classe principale pour faire la liaison avec le controleur.
+	 *
+	 * @param mainApp the new main app
 	 */
 	public void setMainApp(DemarrerCommandeControleur mainApp) {
 		this.mainApp = mainApp;
@@ -193,14 +260,15 @@ public class CalendrierControleur {
 	}
 
 	/**
-	 * Remplit tous les champs avec la reservation sÃ©lÃ©ctionnÃ©e dans la partie
-	 * dÃ©tails. Si il n'y a pas de reservation sÃ©lÃ©ctionnÃ©e les champs sont vides.
+	 * Remplit tous les champs avec la reservation séléctionnée dans la partie
+	 * détails. Si il n'y a pas de reservation séléctionnée les champs sont vides.
 	 * <br>
 	 * <br>
-	 * Si l'afficheage gÃ©nÃ¨re une erreur, une boite d'erreur est affichÃ©e.
-	 * 
+	 * Si l'afficheage génère une erreur, une boite d'erreur est affichée.
+	 *
 	 * @param reservation s'il en existe une, null sinon
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
+	 * @throws ClassNotFoundException the class not found exception
 	 */
 
 	private void detailsReservation(Reservations reservation) throws SQLException, ClassNotFoundException {
@@ -225,21 +293,21 @@ public class CalendrierControleur {
 				champDemandeSpe.setText("");
 			}
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 		}
 	}
 	
 
 	
 	/**
-	 * Appellï¿½ quand l'utilisateur clique sur le bouton supprimer <br>
-	 * Supprime la rÃ©servation sÃ©lÃ©ctionnÃ©e.
+	 * Appellé quand l'utilisateur clique sur le bouton supprimer <br>
+	 * Supprime la réservation séléctionnée.
 	 * <br>
 	 * <br>
-	 * Si la supression gÃ©nÃ¨re une erreur, une fenÃªtre d'erreur s'affiche.
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Si la supression génère une erreur, une fenêtre d'erreur s'affiche.
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	private void supprimerReservation() throws ClassNotFoundException, SQLException {
@@ -250,23 +318,23 @@ public class CalendrierControleur {
 				daoCalendrier.supprimer(reservationSelectionnee);
 				reservationTable.getItems().remove(indexSelection);
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 				e.printStackTrace();
 			}
 		} else {
-			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucune rÃ©servation de sÃ©lectionnÃ©!", "SÃ©lectionnez une rÃ©servation pour pouvoir la modifier");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune réservation de sélectionné!", "Sélectionnez une réservation pour pouvoir la modifier");
 		}
 	}
 
 	/**
-	 * Appellï¿½ quand l'utilisateur clique sur le bouton modifier la rÃ©servation. <br>
-	 * Ouvre une nouvelle page pour effectuer la modification et remplit le formulaire avec les informations dÃ©jÃ  existantes.
+	 * Appellï¿½ quand l'utilisateur clique sur le bouton modifier la réservation. <br>
+	 * Ouvre une nouvelle page pour effectuer la modification et remplit le formulaire avec les informations déjà  existantes.
 	 * <br>
 	 * <br>
-	 * Une fenetre d'information est affichÃ©e si tout se passe bien, sinon c'est une boite d'erreur qui est affichÃ©e.
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Une fenetre d'information est affichée si tout se passe bien, sinon c'est une boite d'erreur qui est affichée.
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	private void modifierReservation() throws ClassNotFoundException, SQLException {
@@ -277,25 +345,25 @@ public class CalendrierControleur {
 				if (okClicked) {
 					daoCalendrier.modifier(selectedReservation);
 					initialize();
-					FonctionsControleurs.alerteInfo("Modification effectuÃ©", null, "Les informations ont dÃ©jÃ  modifiÃ©s avec succÃ¨s!");
+					FonctionsControleurs.alerteInfo("Modification effectué", null, "Les informations ont déjà  modifiés avec succès!");
 				}
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 				e.printStackTrace();
 			}
 
 		} else {
 			// Si rien n'est selectionnï¿½
-			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucune rÃ©servation de sÃ©lectionnÃ©!", "Selectionnez une rÃ©servation pour pouvoir la modifier");
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune réservation de sélectionné!", "Selectionnez une réservation pour pouvoir la modifier");
 		}
 	}
 
 	/**
-	 * AppellÃ©e quand on sÃ©lectionne une date. <br>
-	 * Outil de recherche qui affiche uniquement les rÃ©servations Ã  la date sÃ©ectionnÃ©e.
-	 * 
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * Appellée quand on sélectionne une date. <br>
+	 * Outil de recherche qui affiche uniquement les réservations à  la date séectionnée.
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	private void rechercherReservation() throws ClassNotFoundException, SQLException {
@@ -303,10 +371,10 @@ public class CalendrierControleur {
 		String date = rechercheDate.getValue().toString();
 		detailsReservation(null);
 		try {
-			nbTotalReservations.setText(daoCalendrier.nombreTotalRsv(date)+" rÃ©servations le "+date);
+			nbTotalReservations.setText(daoCalendrier.nombreTotalRsv(date)+" réservations le "+date);
 			daoCalendrier.recherche(date);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 
@@ -314,28 +382,28 @@ public class CalendrierControleur {
 	
 	
 	/**
-	 * AppellÃ©e quand l'utilisateur appuie sur le bouton Afficher tout.
-	 * Affiche toutes les rÃ©servations quelquesoit la date (annule la recherche)
-	 * 
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * Appellée quand l'utilisateur appuie sur le bouton Afficher tout.
+	 * Affiche toutes les réservations quelquesoit la date (annule la recherche)
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	public void afficherTout() throws ClassNotFoundException, SQLException {
 		reservationTable.getItems().clear();
 		try {
-			nbTotalReservations.setText(daoCalendrier.nombreTotalRsv()+" rÃ©servations au total");
+			nbTotalReservations.setText(daoCalendrier.nombreTotalRsv()+" réservations au total");
 			reservationTable.setItems(daoCalendrier.afficher());
 			detailsReservation(null);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	
 	 /**
-     * Ouvre une fenÃªtre pour modifier les reservations.
+     * Ouvre une fenêtre pour modifier les reservations.
      * 
      * @param reservation la reservation a modifier
      * @return true si l'utilisateur appuie sur modifier, false sinon
@@ -367,11 +435,16 @@ public class CalendrierControleur {
 
             return controller.isOkClicked();
         } catch (Exception e) {
-        	FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+        	FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
             return false;
         }
     }
 
+    /**
+     * Gets the reservation data.
+     *
+     * @return the reservation data
+     */
     public static ObservableList<Reservations> getReservationData() {
         return reservationData;
     }

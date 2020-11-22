@@ -14,47 +14,88 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * GÃ©rer les utilisateurs (Modifier/Ajouter des serveurs ou administrateurs)
- * @author Roman
+ * Gérer les utilisateurs (Modifier/Ajouter des serveurs ou administrateurs).
  *
+ * @author Roman
  */
 public class ModifierUtilisateurControleur {
 
+	/** The champ nom. */
 	@FXML 
 	private TextField champNom;
+	
+	/** The champ prenom. */
 	@FXML
 	private TextField champPrenom;
+	
+	/** The champ identifiant. */
 	@FXML
 	private TextField champIdentifiant;
+	
+	/** The champ mot 2 passe. */
 	@FXML
 	private TextField champMot2Passe;
+	
+	/** The bouton admin. */
 	@FXML
 	private RadioButton boutonAdmin;
+	
+	/** The bouton serveur. */
 	@FXML
 	private RadioButton boutonServeur;
+	
+	/** The labelprenom. */
 	@FXML
 	private Label labelprenom;
+	
+	/** The labelnom. */
 	@FXML
 	private Label labelnom;
+	
+	/** The labelindentifiant. */
 	@FXML
 	private Label labelindentifiant;
+	
+	/** The labelmot. */
 	@FXML
 	private Label labelmot;
+	
+	/** The labelrole. */
 	@FXML
 	private Label labelrole;
+	
+	/** The valider. */
 	@FXML
 	private Button valider;
+	
+	/** The annuler. */
 	@FXML
 	private Button annuler;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+	
+	/** The dialog stage. */
 	private Stage dialogStage;
+	
+	/** The compte. */
 	private Utilisateur compte;
+	
+	/** The ok clicked. */
 	private boolean okClicked = false;
+	
+	/** The role. */
 	private int role;
 	
+	/**
+	 * Sets the role admin.
+	 */
 	@FXML
 	private void setRoleAdmin() {
 		role = 1;
@@ -62,6 +103,9 @@ public class ModifierUtilisateurControleur {
 
 	}
 	
+	/**
+	 * Sets the role serveur.
+	 */
 	@FXML
 	private void setRoleServeur() {
 		role = 1;
@@ -69,6 +113,9 @@ public class ModifierUtilisateurControleur {
 
 	}
 	
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	private void initialize() {
 		try {
@@ -91,6 +138,13 @@ public class ModifierUtilisateurControleur {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Load lang.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -106,15 +160,21 @@ public class ModifierUtilisateurControleur {
 		boutonServeur.setText(bundle.getString("Serveur"));
 	}
 
+	/**
+	 * Sets the dialog stage.
+	 *
+	 * @param dialogStage the new dialog stage
+	 */
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
 
 	/**
-	 * 
-	 * @param reservation
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Sets the utilisateur.
+	 *
+	 * @param compte the new utilisateur
+	 * @throws SQLException the SQL exception
+	 * @throws ClassNotFoundException the class not found exception
 	 */
 	public void setUtilisateur(Utilisateur compte) throws SQLException, ClassNotFoundException {
 		this.compte = compte;
@@ -130,16 +190,18 @@ public class ModifierUtilisateurControleur {
 	}
 
 	/**
-	 * @return true si le bouton a modifiÃ© a Ã©tÃ© appuyÃ©, faux sinon
+	 * Checks if is ok clicked.
+	 *
+	 * @return true si le bouton a modifié a été appuyé, faux sinon
 	 */
 	public boolean isOkClicked() {
 		return okClicked;
 	}
 
 	/**
-	 * AppellÃ© quand l'utilisateur appuie sur Valider
-	 * @throws NoSuchAlgorithmException 
-	 * 
+	 * Appellé quand l'utilisateur appuie sur Valider.
+	 *
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
 	@FXML
 	public void actionValider() throws NoSuchAlgorithmException {
@@ -161,7 +223,7 @@ public class ModifierUtilisateurControleur {
 	}
 
 	/**
-	 * AppellÃ© quand le bouton annuler est appuyÃ©. Ferme la page sans sauvegarder.
+	 * Appellé quand le bouton annuler est appuyé. Ferme la page sans sauvegarder.
 	 */
 	@FXML
 	private void actionAnnuler() {
@@ -169,8 +231,8 @@ public class ModifierUtilisateurControleur {
 	}
 
 	/**
-	 * VÃ©rifie si la saisie est conforme aux donnÃ©es requises
-	 * 
+	 * Vérifie si la saisie est conforme aux données requises.
+	 *
 	 * @return true si la saisie est bien conforme
 	 */
 	public boolean estValide() {
@@ -200,7 +262,7 @@ public class ModifierUtilisateurControleur {
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			FonctionsControleurs.alerteErreur("EntrÃ©e incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",erreurMsg);
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",erreurMsg);
 
 			return false;
 		}

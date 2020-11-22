@@ -11,17 +11,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="fenetre" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.CommandeControleur">
+<AnchorPane fx:id="fenetre" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.CommandeControleur">
    <children>
       <ImageView fitHeight="1080.0" fitWidth="1990.0" pickOnBounds="true">
          <image>
             <Image url="@images/fond7_favourite.png" />
          </image>
       </ImageView>
-      <VBox layoutX="1185.0" layoutY="25.0" prefHeight="598.0" prefWidth="613.0">
+      <VBox layoutX="1062.0" layoutY="14.0" prefHeight="482.0" prefWidth="430.0">
          <children>
             <HBox prefHeight="30.0" prefWidth="418.0">
                <children>
@@ -35,67 +36,56 @@
                   <Insets top="40.0" />
                </VBox.margin>
             </HBox>
-            <TableView fx:id="tableRecap" prefHeight="496.0" prefWidth="613.0">
+            <TableView fx:id="tableRecap" prefHeight="370.0" prefWidth="496.0">
               <columns>
-                <TableColumn fx:id="colonneProduit" prefWidth="312.0" text="%Produit" />
-                <TableColumn fx:id="colonnePrix" minWidth="0.0" prefWidth="155.0" text="%Prix" />
-                  <TableColumn fx:id="colonneQte" prefWidth="145.0" text="%qte" />
+                <TableColumn fx:id="colonneProduit" prefWidth="220.0" text="%Produit" />
+                <TableColumn fx:id="colonnePrix" minWidth="0.0" prefWidth="105.0" text="%Prix" />
+                  <TableColumn fx:id="colonneQte" prefWidth="100.0" text="%qte" />
               </columns>
             </TableView>
-            <HBox prefHeight="34.0" prefWidth="613.0">
+            <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="34.0" prefWidth="613.0" VBox.vgrow="NEVER">
                <children>
-                  <Label fx:id="total" prefHeight="34.0" prefWidth="86.0" text="%total" textFill="WHITE">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label fx:id="totalProduit" prefHeight="34.0" prefWidth="102.0" text="0" textFill="WHITE">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="205.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                  </Label>
-                  <Separator orientation="VERTICAL" prefHeight="35.0" prefWidth="12.0">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Separator>
-                  <Label fx:id="totalPrix" alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="171.0" text="0,00" textFill="WHITE">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label fx:id="devise" prefHeight="34.0" prefWidth="72.0" textFill="WHITE">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </Label>
-                  <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Label fx:id="totalQte" alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="57.0" text="0" textFill="WHITE">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </Label>
+                  <Pane prefHeight="34.0" prefWidth="430.0">
+                     <children>
+                        <Label fx:id="total" prefHeight="34.0" prefWidth="222.0" text="%total" textFill="WHITE">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalProduit" layoutX="94.0" prefHeight="34.0" prefWidth="76.0" text="0" textFill="WHITE">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <Separator layoutX="374.0" layoutY="3.0" orientation="VERTICAL" prefHeight="34.0" prefWidth="0.0" />
+                        <Label fx:id="totalPrix" alignment="CENTER_RIGHT" layoutX="170.0" prefHeight="34.0" prefWidth="102.0" text="0,00" textFill="WHITE">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="devise" layoutX="276.0" prefHeight="34.0" prefWidth="94.0" textFill="WHITE">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Label fx:id="totalQte" alignment="CENTER_RIGHT" layoutX="377.0" layoutY="1.0" prefHeight="34.0" prefWidth="53.0" text="0" textFill="WHITE">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="170.0" layoutY="3.0" orientation="VERTICAL" prefHeight="34.0" prefWidth="0.0" />
+                     </children>
+                  </Pane>
                </children>
             </HBox>
-            <Separator prefHeight="0.0" prefWidth="418.0" />
+            <Separator prefHeight="3.0" prefWidth="483.0" />
          </children>
       </VBox>
-      <VBox layoutX="1185.0" layoutY="653.0" prefHeight="271.0" prefWidth="613.0">
+      <VBox layoutX="1061.0" layoutY="528.0" prefHeight="271.0" prefWidth="430.0">
          <children>
             <Button id="glass" fx:id="encaisser" mnemonicParsing="false" onAction="#afficherAddition" prefHeight="62.0" prefWidth="616.0" stylesheets="@../../../../../../../Downloads/stylesheet.css" text="%encaisser">
                <VBox.margin>
@@ -143,9 +133,9 @@
             </Button>
          </children>
       </VBox>
-      <Separator layoutX="1183.0" layoutY="60.0" orientation="VERTICAL" prefHeight="562.0" prefWidth="6.0" />
-      <Separator layoutX="1798.0" layoutY="59.0" orientation="VERTICAL" prefHeight="562.0" prefWidth="6.0" />
-      <Separator layoutX="1185.0" layoutY="59.0" prefHeight="3.0" prefWidth="613.0" />
+      <Separator layoutX="1059.0" layoutY="60.0" orientation="VERTICAL" prefHeight="434.0" prefWidth="6.0" />
+      <Separator layoutX="1493.0" layoutY="59.0" orientation="VERTICAL" prefHeight="436.0" prefWidth="6.0" />
+      <Separator layoutX="1061.0" layoutY="58.0" prefHeight="3.0" prefWidth="430.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/logo_light_transparent.png" />
@@ -156,11 +146,11 @@
             <Font name="Calibri Light" size="64.0" />
          </font>
       </Label>
-      <ImageView fitHeight="788.0" fitWidth="1156.0" layoutX="11.0" layoutY="182.0" opacity="0.38" pickOnBounds="true">
+      <ImageView fitHeight="607.0" fitWidth="1034.0" layoutX="11.0" layoutY="182.0" opacity="0.38" pickOnBounds="true">
          <image>
             <Image url="@images/fond9.jpg" />
          </image>
       </ImageView>
-      <TabPane fx:id="typeProduit" layoutX="11.0" layoutY="130.0" prefHeight="843.0" prefWidth="1156.0" tabClosingPolicy="UNAVAILABLE" />
+      <TabPane fx:id="typeProduit" layoutX="11.0" layoutY="130.0" prefHeight="658.0" prefWidth="1034.0" tabClosingPolicy="UNAVAILABLE" />
    </children>
 </AnchorPane>

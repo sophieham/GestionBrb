@@ -8,8 +8,22 @@ import java.security.NoSuchAlgorithmException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FonctionsControleurs.
+ */
+/*
+ * Fonctions utiles qui évitent la répétition dans chaque fonction
+ */
 public abstract class FonctionsControleurs {
 
+	/**
+	 * Affiche une popup avec un message d'erreur.
+	 *
+	 * @param titre the titre
+	 * @param entete the entete
+	 * @param texte the texte
+	 */
 	public static void alerteErreur(String titre, String entete, String texte) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle(titre);
@@ -17,6 +31,14 @@ public abstract class FonctionsControleurs {
 		alert.setContentText(texte);
 		alert.showAndWait();
 	}
+	
+	/**
+	 * Affiche un popup avec un message d'avertissement.
+	 *
+	 * @param titre the titre
+	 * @param entete the entete
+	 * @param texte the texte
+	 */
 	public static void alerteAttention(String titre, String entete, String texte) {
 		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle(titre);
@@ -24,6 +46,14 @@ public abstract class FonctionsControleurs {
 		alert.setContentText(texte);
 		alert.showAndWait();
 	}
+	
+	/**
+	 * Affiche une popup avec un message d'information.
+	 *
+	 * @param titre the titre
+	 * @param entete the entete
+	 * @param texte the texte
+	 */
 	public static void alerteInfo(String titre, String entete, String texte) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(titre);
@@ -33,8 +63,9 @@ public abstract class FonctionsControleurs {
 	}
 	
 	/**
-	 * Extrait une chaine de caractÃ¨re d'une sÃ©lÃ©ction de ChoiceBox
-	 * 
+	 * Extrait une chaine de caractère d'une séléction de ChoiceBox.
+	 *
+	 * @param string the string
 	 * @return numero de la table
 	 */
 	public static String getString(String string) { 
@@ -55,6 +86,12 @@ public abstract class FonctionsControleurs {
 		return resultat;
 	}
 	
+	/**
+	 * Retrouve un identifiant dans une chaine de caractères.
+	 *
+	 * @param cible la chaine de caractères à exploiter
+	 * @return the int
+	 */
 	public static int retrouveID(String cible) {
 		int resultat = 0;
 		try {
@@ -69,8 +106,9 @@ public abstract class FonctionsControleurs {
 	}
 
 	/**
-	 * Extrait un numÃ©ro d'une sÃ©lÃ©ction de ChoiceBox
-	 * 
+	 * Extrait un numéro d'une séléction de ChoiceBox.
+	 *
+	 * @param cible la chaine de caractères à exploiter
 	 * @return numero de la table
 	 */
 	public static int getNumero(String cible) {
@@ -99,10 +137,11 @@ public abstract class FonctionsControleurs {
 	}
 	
 	/**
-	 * Fonction pour sÃ©curiser les mots de passes entrÃ©s
-	 * @param input
-	 * @return
-	 * @throws NoSuchAlgorithmException
+	 * Fonction pour sécuriser les mots de passes entrés.
+	 *
+	 * @param input la chaine à sécuriser
+	 * @return the sha
+	 * @throws NoSuchAlgorithmException when the algorithm requested is not available
 	 */
 	public static byte[] getSHA(String input) throws NoSuchAlgorithmException 
     {  
@@ -110,6 +149,12 @@ public abstract class FonctionsControleurs {
         return md.digest(input.getBytes(StandardCharsets.UTF_8));  
     } 
     
+	/**
+	 * Convertit une chaine héxadécimale en chaine de caractères.
+	 *
+	 * @param hash la chaine héxadécimale
+	 * @return the string
+	 */
     public static String toHexString(byte[] hash) 
     {  
         BigInteger number = new BigInteger(1, hash);  

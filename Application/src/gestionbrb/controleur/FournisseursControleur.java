@@ -23,60 +23,114 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author Roman
+ * The Class FournisseursControleur.
  *
+ * @author Roman
  */
 public class FournisseursControleur extends FonctionsControleurs {
 	
+	/** The fournisseurs. */
 	private static ObservableList<Fournisseur> fournisseurs = FXCollections.observableArrayList();
 	
+	/** The fournisseurs table. */
 	@FXML
 	private TableView<Fournisseur> fournisseursTable;
+	
+	/** The colonne id. */
 	@FXML
 	private TableColumn<Fournisseur, Number> colonneId;
+	
+	/** The colonne nom. */
 	@FXML
 	private TableColumn<Fournisseur, String> colonneNom;
+	
+	/** The colonne tel. */
 	@FXML
 	private TableColumn<Fournisseur, String> colonneTel;
+	
+	/** The colonne mail. */
 	@FXML
 	private TableColumn<Fournisseur, String> colonneMail;
+	
+	/** The colonne adresse. */
 	@FXML
 	private TableColumn<Fournisseur, String> colonneAdresse;
+	
+	/** The colonne ville. */
 	@FXML
 	private TableColumn<Fournisseur, String> colonneVille;
+	
+	/** The Ajouter. */
 	@FXML
 	private Button Ajouter;
+	
+	/** The Modifier. */
 	@FXML
 	private Button Modifier;
+	
+	/** The Supprimer. */
 	@FXML
 	private Button Supprimer;
+	
+	/** The champ nom. */
 	@FXML
 	private Label champNom;
+	
+	/** The champ ville. */
 	@FXML
 	private Label champVille;
+	
+	/** The champ adresse. */
 	@FXML
 	private Label champAdresse;
+	
+	/** The champ id. */
 	@FXML
 	private Label champId;
+	
+	/** The champ tel. */
 	@FXML
 	private Label champTel;
+	
+	/** The champ mail. */
 	@FXML
 	private Label champMail;
+	
+	/** The label centre. */
 	@FXML
 	private Label labelCentre;
 
+	/** The parent. */
 	@SuppressWarnings("unused")
 	private AdministrationControleur parent;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+	
+	/** The dao fournisseur. */
 	DAOFournisseur daoFournisseur = new DAOFournisseur();
 
+	/**
+	 * Instantiates a new fournisseurs controleur.
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
+	 */
 	public FournisseursControleur() throws ClassNotFoundException, SQLException {
 	}
 	
+	/**
+	 * Sets the parent.
+	 *
+	 * @param administrationControleur the new parent
+	 * @throws SQLException the SQL exception
+	 */
 	public void setParent(AdministrationControleur administrationControleur) throws SQLException {
 		// TODO Auto-generated method stub
 		this.parent = administrationControleur;
@@ -84,10 +138,10 @@ public class FournisseursControleur extends FonctionsControleurs {
 	
 
 	/**
-	 * Initialise la classe controleur avec les donnÃ©es par dÃ©faut du tableau
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Initialise la classe controleur avec les données par défaut du tableau.
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 
 	@FXML
@@ -122,6 +176,12 @@ public class FournisseursControleur extends FonctionsControleurs {
 
 	}
 
+	/**
+	 * Load lang.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -136,12 +196,13 @@ public class FournisseursControleur extends FonctionsControleurs {
 		Ajouter.setText(bundle.getString("Ajouter"));
 		labelCentre.setText(bundle.getString("labelCentre"));
 	}
+	
 	/**
-	 * AppelÃ© quand l'utilisateur clique sur le bouton ajouter un utilisateur. Ouvre
+	 * Appelé quand l'utilisateur clique sur le bouton ajouter un utilisateur. Ouvre
 	 * une nouvelle page pour effectuer la modification
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	private void ajoutFournisseur() throws ClassNotFoundException, SQLException {
@@ -153,9 +214,9 @@ public class FournisseursControleur extends FonctionsControleurs {
 				daoFournisseur.ajouter(tempFournisseur);
 				
 				refresh();
-				alerteInfo("Ajout Ã©ffectuÃ©", null, "Les informations ont Ã©tÃ© ajoutÃ©es avec succÃ¨s!");
+				alerteInfo("Ajout éffectué", null, "Les informations ont été ajoutées avec succès!");
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 				e.printStackTrace();
 			}
 
@@ -163,11 +224,8 @@ public class FournisseursControleur extends FonctionsControleurs {
 	}
 
 	/**
-	 * Rafraichit les colonnes aprÃ¨s un ajout, une modification ou une suppression
-	 * d'Ã©lÃ©ments.
-	 * 
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * Rafraichit les colonnes après un ajout, une modification ou une suppression
+	 * d'éléments.
 	 */
 	private void refresh() {
 		fournisseursTable.getItems().clear();
@@ -175,16 +233,15 @@ public class FournisseursControleur extends FonctionsControleurs {
 		try {
 			fournisseursTable.setItems(daoFournisseur.afficher());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * AppellÃ© quand l'utilisateur clique sur le bouton supprimer
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Appellé quand l'utilisateur clique sur le bouton supprimer.
+	 *
+	 * @throws ClassNotFoundException the class not found exception
 	 */
 	@FXML
 	private void supprimerFournisseur() throws ClassNotFoundException {
@@ -194,24 +251,24 @@ public class FournisseursControleur extends FonctionsControleurs {
 			try {
 				daoFournisseur.supprimer(selectedTable);
 				refresh();
-				alerteInfo("Suppression rÃ©ussie", null, "Le fournisseur " + selectedTable.getIdFournisseur() + " vient d'Ãªtre supprimÃ©e!");
+				alerteInfo("Suppression réussie", null, "Le fournisseur " + selectedTable.getIdFournisseur() + " vient d'être supprimée!");
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 				e.printStackTrace();
 			}
 
 		} else {
-			// Si rien n'est sÃ©lÃ©ctionnÃ©
-			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucun fournisseur de sÃ©lectionnÃ©e!","Selectionnez un fournisseur pour pouvoir la supprimer");
+			// Si rien n'est séléctionné
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun fournisseur de sélectionnée!","Selectionnez un fournisseur pour pouvoir la supprimer");
 		}
 	}
 
 	/**
-	 * AppelÃ© quand l'utilisateur clique sur le bouton modifier le compte. Ouvre une
+	 * Appelé quand l'utilisateur clique sur le bouton modifier le compte. Ouvre une
 	 * nouvelle page pour effectuer la modification
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	private void modifierFournisseur() throws ClassNotFoundException, SQLException {
@@ -222,28 +279,30 @@ public class FournisseursControleur extends FonctionsControleurs {
 				try {
 					daoFournisseur.modifier(selectedFournisseur);
 					//refresh();
-					FonctionsControleurs.alerteInfo("Modification Ã©ffectuÃ©e", null, "Les informations ont Ã©tÃ© modifiÃ©es avec succÃ¨s!");
+					FonctionsControleurs.alerteInfo("Modification éffectuée", null, "Les informations ont été modifiées avec succès!");
 				} catch (Exception e) {
-					FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucun fournisseur de sÃ©lectionnÃ©e!","Selectionnez un fournisseur pour pouvoir la supprimer");
+					FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun fournisseur de sélectionnée!","Selectionnez un fournisseur pour pouvoir la supprimer");
 					e.printStackTrace();
 				}
 			}
 
 		} else {
-			// Si rien n'est selectionnÃ©
-			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucun founisseur de sÃ©lectionnÃ©e!", "Selectionnez un fournisseur pour pouvoir le modifier");
+			// Si rien n'est selectionné
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucun founisseur de sélectionnée!", "Selectionnez un fournisseur pour pouvoir le modifier");
 		}
 	}
 
 	
 	/**
-	 * AppellÃ© pour afficher la fenetre de modification/ajout d'un fournisseur
-	 * 
-	 * @param fournisseur Fournisseur Ã  ajouter/modifier
+	 * Appellé pour afficher la fenetre de modification/ajout d'un fournisseur.
+	 *
+	 * @param fournisseur Fournisseur à  ajouter/modifier
+	 * @return true, if successful
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 * @see ajoutFournisseur
 	 * @see modifierFournisseur
-	 * 
-	 **/
+	 */
 	public boolean fenetreModification(Fournisseur fournisseur) throws ClassNotFoundException, SQLException {
 		try {
 			Locale locale = new Locale("fr", "FR");
@@ -252,7 +311,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/ModifierFournisseur.fxml"), bundle);
 			AnchorPane page = (AnchorPane) loader.load();
 
-			// CrÃ©e une nouvelle page
+			// Crée une nouvelle page
 			Stage dialogStage = new Stage();
 			dialogStage.setResizable(false);
 			dialogStage.setTitle("Gestion des fournisseurs");
@@ -262,7 +321,7 @@ public class FournisseursControleur extends FonctionsControleurs {
 			dialogStage.getIcons().add(new Image(
 	          	      Connexion.class.getResourceAsStream( "ico.png" ))); 
 
-			// DÃ©finition du controleur pour la fenetre
+			// Définition du controleur pour la fenetre
 			ModifierFournisseurControleur controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setFournisseur(fournisseur);
@@ -277,6 +336,11 @@ public class FournisseursControleur extends FonctionsControleurs {
 		}
 	}
 	
+	/**
+	 * Gets the table data.
+	 *
+	 * @return the table data
+	 */
 	public static ObservableList<Fournisseur> getTableData() {
 		return fournisseurs;
 	}

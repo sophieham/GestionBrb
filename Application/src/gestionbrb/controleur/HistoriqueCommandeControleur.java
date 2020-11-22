@@ -2,7 +2,6 @@ package gestionbrb.controleur;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -23,104 +22,212 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class HistoriqueCommandeControleur.
+ */
+/*
+ * Affiche l'historique des commandes faites par les clients
+ */
 public class HistoriqueCommandeControleur {
+    
+    /** The commande table. */
     @FXML
     private TableView<Commande> commandeTable;
+    
+    /** The colonne ID commande. */
     @FXML
     private TableColumn<Commande, Number> colonneIDCommande;
+    
+    /** The colonne table. */
     @FXML
     private TableColumn<Commande, Number> colonneTable;
+    
+    /** The colonne date. */
     @FXML
     private TableColumn<Commande, String> colonneDate;
+    
+    /** The colonne montant. */
     @FXML
     private TableColumn<Commande, Number> colonneMontant;
+    
+    /** The total commande lbl. */
     @FXML
     private Label totalCommandeLbl;
+    
+    /** The total montant lbl. */
     @FXML
     private Label totalMontantLbl;
+    
+    /** The total serveur lbl. */
     @FXML
     private Label totalServeurLbl;
+    
+    /** The affichage. */
     @FXML
     private Label affichage;
+    
+    /** The devise. */
     @FXML
     private Label devise;
    
     
+    /** The connexion table. */
     @FXML
     private TableView<Utilisateur> connexionTable;
+    
+    /** The colonne ID. */
     @FXML
     private TableColumn<Utilisateur, Number> colonneID;
+    
+    /** The colonne identifiant. */
     @FXML
     private TableColumn<Utilisateur, String> colonneIdentifiant;
+    
+    /** The colonne date connexion. */
     @FXML
     private TableColumn<Utilisateur, String> colonneDateConnexion;
+    
+    /** The total connexions lbl. */
     @FXML
     private Label totalConnexionsLbl;
+    
+    /** The affichages. */
     @FXML
     private Label affichages;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+    
+    /** The detail. */
     @FXML
     private Button detail;
+    
+    /** The fermer. */
     @FXML
     private Button fermer;
+    
+    /** The fermer 1. */
     @FXML
     private Button fermer1;
+    
+    /** The jour. */
     @FXML
     private MenuItem jour;
+    
+    /** The week. */
     @FXML
     private MenuItem week;   
+    
+    /** The mois. */
     @FXML
     private MenuItem mois;
+    
+    /** The annee. */
     @FXML
     private MenuItem annee;
+    
+    /** The jour 1. */
     @FXML
     private MenuItem jour1;
+    
+    /** The week 1. */
     @FXML
     private MenuItem week1;   
+    
+    /** The mois 1. */
     @FXML
     private MenuItem mois1;
+    
+    /** The annee 1. */
     @FXML
     private MenuItem annee1;
+    
+    /** The tout. */
     @FXML
     private MenuItem tout;
+    
+    /** The tout 1. */
     @FXML
     private MenuItem tout1;
+    
+    /** The label affichage. */
     @FXML
     private Label labelAffichage;
+    
+    /** The Affichage 1. */
     @FXML
     private Label Affichage1;
+    
+    /** The parent. */
     AdministrationControleur parent;
     
+    /** The dao commande. */
     DAOCommande daoCommande = new DAOCommande();
+    
+    /** The dao utilisateur. */
     DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
     
+    /** The conn. */
     Connection conn = bddUtil.dbConnect();
+	
+	/** The label 1. */
 	private String label1;
+	
+	/** The label 2. */
 	private String label2;
+	
+	/** The label 3. */
 	private String label3;
+	
+	/** The label 4. */
 	private String label4;
+	
+
+	/** The label 5. */
 	private String label5;
+	
+	/** The label 6. */
 	private String label6;
+	
+	/** The label 7. */
 	private String label7;
+	
+	/** The label 8. */
 	private String label8;
+	
+	/** The label 9. */
 	private String label9;
+	
+	/** The label 10. */
 	private String label10;
+	
+	/** The label 11. */
 	private String label11;
+	
+	/** The label 12. */
 	private String label12;
+	
+	/** The label 13. */
 	private String label13;
+	
+	/** The detail commande. */
 	private String detailCommande;
 
+    /**
+     * Fermer.
+     *
+     * @param event the event
+     */
     @FXML
     void fermer(ActionEvent event) {
     	AdministrationControleur.getHistoriqueCommande().close();
     }
     
 	/**
-	 * Initialise la classe controleur avec les donné–‘s par dé–’aut du tableau
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * Initialise la classe controleur avec les données par défaut du tableau.
 	 */
 	@FXML
 	private void initialize() {
@@ -166,12 +273,18 @@ public class HistoriqueCommandeControleur {
 			totalConnexionsLbl.setText(label1+daoUtilisateur.compterTout()+label2);
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Dé– ails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 	
 	
+	/**
+	 * Load lang.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -206,7 +319,7 @@ public class HistoriqueCommandeControleur {
 		label1=bundle.getString("key18");
 		label2=bundle.getString("key19");
 		label3=bundle.getString("mois");
-		label4=bundle.getString("annee");
+		setLabel4(bundle.getString("annee"));
 		label5=bundle.getString("week");
 		label6=bundle.getString("aujourdui");
 		label7=bundle.getString("commande");
@@ -215,12 +328,12 @@ public class HistoriqueCommandeControleur {
 		label10=bundle.getString("Prix");
 		label11=bundle.getString("Serveur");
 		label12=bundle.getString("qte");
-		label13=bundle.getString("Tablen");
+		label13=bundle.getString("Table");
 		detailCommande=bundle.getString("detailCommande");
 		
 	}
 	/**
-	 * Affiche toutes les commandes effectuÃ©es aujourd'hui.
+	 * Affiche toutes les commandes effectuées aujourd'hui.
 	 * @author Sophie
 	 */
 	@FXML
@@ -234,13 +347,13 @@ public class HistoriqueCommandeControleur {
 			totalServeurLbl.setText("Total serveurs: "+daoCommande.compterParJour().get(2));
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * Affiche toutes les commandes effectuÃ©es cette semaine.
+	 * Affiche toutes les commandes effectuées cette semaine.
 	 * @author Sophie
 	 */
 	@FXML
@@ -253,13 +366,13 @@ public class HistoriqueCommandeControleur {
 			totalMontantLbl.setText(daoCommande.compterParSemaine().get(1)+"");
 			totalServeurLbl.setText("Total serveurs: "+daoCommande.compterParSemaine().get(2));
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Affiche toutes les commandes effectuÃ©es ce mois-ci.
+	 * Affiche toutes les commandes effectuées ce mois-ci.
 	 * @author Sophie
 	 */
 	@FXML
@@ -272,45 +385,46 @@ public class HistoriqueCommandeControleur {
 			totalMontantLbl.setText(daoCommande.compterParMois().get(1)+"");
 			totalServeurLbl.setText("Total serveurs: "+daoCommande.compterParMois().get(2));
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Affiche toutes les commandes effectuÃ©es cette annÃ©e.
+	 * Affiche toutes les commandes effectuées cette année.
 	 * @author Sophie
 	 */
 	@FXML
 	public void afficherAnnee() {
 		commandeTable.getItems().clear();
-		affichage.setText("Cette annÃ©e");
+		affichage.setText("Cette année");
 		try {
 			daoCommande.trierParAnnee();
 			totalCommandeLbl.setText("Total: "+daoCommande.compterParAnnee().get(0)+" commande(s)");
 			totalMontantLbl.setText(daoCommande.compterParAnnee().get(1)+"");
 			totalServeurLbl.setText("Total serveurs: "+daoCommande.compterParAnnee().get(2));
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 	
 	/**
-	 * Affiche toutes les commandes effectuÃ©es.
+	 * Affiche toutes les commandes effectuées.
 	 * @author Sophie
 	 */
 	@FXML
 	public void afficherTout() {
 		commandeTable.getItems().clear();
-		affichage.setText("Affichage par dÃ©faut");
+		affichage.setText("Affichage par défaut");
 		initialize();
 	}
 	
 	/**
-	 * Affiche les produits consommÃ©s dans la commande selectionnÃ©e.
+	 * Affiche les produits consommés dans la commande selectionnée.
+	 *
 	 * @author Sophie
-	 * @param event
+	 * @param event the event
 	 */
     @FXML
     void voirDetails(ActionEvent event) {
@@ -328,15 +442,15 @@ public class HistoriqueCommandeControleur {
 				conteneur.add(nomP, 0, 0);
 				Label prixP = new Label("Prix");
 				conteneur.add(prixP, 1, 0);
-				Label qteP = new Label("QuantitÃ©");
+				Label qteP = new Label("Quantité");
 				conteneur.add(qteP, 2, 0);
 				Label servP = new Label("Serveur");
 				conteneur.add(servP, 3, 0);
 				Alert boite = new Alert(AlertType.INFORMATION);
-				boite.setHeaderText("Table nÂ°"+selectedCommande.getNoTable()+", "+selectedCommande.getNbCouverts()+" couvert(s)");
+				boite.setHeaderText("Table n°"+selectedCommande.getNoTable()+", "+selectedCommande.getNbCouverts()+" couvert(s)");
 				ResultSet detailsCommande = conn.createStatement().executeQuery("SELECT produit.nom, produit.prix, contenirproduit.qte, contenirproduit.serveurID FROM `contenirproduit` INNER JOIN produit on contenirproduit.ProduitID = produit.ProduitID WHERE CommandeID = "+selectedCommande.getIdCommande());
 				while(detailsCommande.next()) {
-					boite.setTitle("DÃ©tails de la commande nÂ°"+selectedCommande.getIdCommande());
+					boite.setTitle("Détails de la commande n°"+selectedCommande.getIdCommande());
 				Label nom = new Label(detailsCommande.getString("produit.nom"));
 				conteneur.add(nom, 0, i);
 				Label prix = new Label(detailsCommande.getString("produit.prix"));
@@ -351,14 +465,14 @@ public class HistoriqueCommandeControleur {
 				boite.getDialogPane().setContent(sp);
 				boite.showAndWait();
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "DÃ©tails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "Détails: " + e);
 				e.printStackTrace();
 			}
 
 		} else {
-			// Si rien n'est selectionnÃ©
-			FonctionsControleurs.alerteAttention("Aucune sÃ©lection", "Aucune commande de sÃ©lectionnÃ©e!",
-					"Selectionnez une commande pour pouvoir voir son dÃ©tail");
+			// Si rien n'est selectionné
+			FonctionsControleurs.alerteAttention("Aucune sélection", "Aucune commande de sélectionnée!",
+					"Selectionnez une commande pour pouvoir voir son détail");
 		}
     }
     
@@ -374,7 +488,7 @@ public class HistoriqueCommandeControleur {
 			daoUtilisateur.trierParJour();
 			totalConnexionsLbl.setText("Total: "+daoUtilisateur.compterParJour()+" connexion(s)");
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 	}
@@ -391,7 +505,7 @@ public class HistoriqueCommandeControleur {
 			daoUtilisateur.trierParSemaine();
 			totalConnexionsLbl.setText("Total: "+daoUtilisateur.compterParSemaine()+" connexion(s)");
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -408,30 +522,215 @@ public class HistoriqueCommandeControleur {
 			daoUtilisateur.trierParMois();
 			totalConnexionsLbl.setText("Total: "+daoUtilisateur.compterParMois()+" connexion(s)");
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Affiche toutes les instances connexions de l'annÃ©e.
+	 * Affiche toutes les instances connexions de l'année.
 	 * @author Sophie
 	 */
 	@FXML
 	public void afficherConnexionsAnnee() {
 		connexionTable.getItems().clear();
-		affichages.setText("Cette annÃ©e");
+		affichages.setText("Cette année");
 		try {
 			daoUtilisateur.trierParAnnee();
 			totalConnexionsLbl.setText("Total: "+daoUtilisateur.compterParAnnee()+" connexion(s)");
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Sets the parent.
+	 *
+	 * @param administrationControleur the new parent
+	 */
 	public void setParent(AdministrationControleur administrationControleur) {
 		this.parent = administrationControleur;
 		
+	}
+
+	/**
+	 * Gets the label 4.
+	 *
+	 * @return the label 4
+	 */
+	public String getLabel4() {
+		return label4;
+	}
+
+	/**
+	 * Sets the label 4.
+	 *
+	 * @param label4 the new label 4
+	 */
+	public void setLabel4(String label4) {
+		this.label4 = label4;
+	}
+	
+	/**
+	 * Gets the label 3.
+	 *
+	 * @return the label 3
+	 */
+	public String getLabel3() {
+		return label3;
+	}
+
+	/**
+	 * Sets the label 3.
+	 *
+	 * @param label3 the new label 3
+	 */
+	public void setLabel3(String label3) {
+		this.label3 = label3;
+	}
+
+	/**
+	 * Gets the label 5.
+	 *
+	 * @return the label 5
+	 */
+	public String getLabel5() {
+		return label5;
+	}
+
+	/**
+	 * Sets the label 5.
+	 *
+	 * @param label5 the new label 5
+	 */
+	public void setLabel5(String label5) {
+		this.label5 = label5;
+	}
+
+	/**
+	 * Gets the label 6.
+	 *
+	 * @return the label 6
+	 */
+	public String getLabel6() {
+		return label6;
+	}
+
+	/**
+	 * Sets the label 6.
+	 *
+	 * @param label6 the new label 6
+	 */
+	public void setLabel6(String label6) {
+		this.label6 = label6;
+	}
+
+	/**
+	 * Gets the label 9.
+	 *
+	 * @return the label 9
+	 */
+	public String getLabel9() {
+		return label9;
+	}
+
+	/**
+	 * Sets the label 9.
+	 *
+	 * @param label9 the new label 9
+	 */
+	public void setLabel9(String label9) {
+		this.label9 = label9;
+	}
+
+	/**
+	 * Gets the label 10.
+	 *
+	 * @return the label 10
+	 */
+	public String getLabel10() {
+		return label10;
+	}
+
+	/**
+	 * Sets the label 10.
+	 *
+	 * @param label10 the new label 10
+	 */
+	public void setLabel10(String label10) {
+		this.label10 = label10;
+	}
+
+	/**
+	 * Gets the label 11.
+	 *
+	 * @return the label 11
+	 */
+	public String getLabel11() {
+		return label11;
+	}
+
+	/**
+	 * Sets the label 11.
+	 *
+	 * @param label11 the new label 11
+	 */
+	public void setLabel11(String label11) {
+		this.label11 = label11;
+	}
+
+	/**
+	 * Gets the label 12.
+	 *
+	 * @return the label 12
+	 */
+	public String getLabel12() {
+		return label12;
+	}
+
+	/**
+	 * Sets the label 12.
+	 *
+	 * @param label12 the new label 12
+	 */
+	public void setLabel12(String label12) {
+		this.label12 = label12;
+	}
+
+	/**
+	 * Gets the label 13.
+	 *
+	 * @return the label 13
+	 */
+	public String getLabel13() {
+		return label13;
+	}
+
+	/**
+	 * Sets the label 13.
+	 *
+	 * @param label13 the new label 13
+	 */
+	public void setLabel13(String label13) {
+		this.label13 = label13;
+	}
+
+	/**
+	 * Gets the detail commande.
+	 *
+	 * @return the detail commande
+	 */
+	public String getDetailCommande() {
+		return detailCommande;
+	}
+
+	/**
+	 * Sets the detail commande.
+	 *
+	 * @param detailCommande the new detail commande
+	 */
+	public void setDetailCommande(String detailCommande) {
+		this.detailCommande = detailCommande;
 	}
 }

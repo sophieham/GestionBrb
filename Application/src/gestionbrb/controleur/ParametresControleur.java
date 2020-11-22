@@ -24,57 +24,95 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.event.ActionEvent;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author Linxin
+ * The Class ParametresControleur.
  *
+ * @author Linxin
+ * @author Leo pour la devise
  */
 public class ParametresControleur implements Initializable{
+	
+	/** The ch devise. */
 	@FXML
 	private TextField chDevise;
+	
+	/** The lbl text by controller. */
 	@FXML
 	private  Label lblTextByController;
+	
+	/** The choicebox. */
 	@FXML
 	private ChoiceBox<String> choicebox;
+	
+	/** The choice couleur. */
 	@FXML
 	private TitledPane choiceCouleur;
+	
+	/** The choice devise. */
 	@FXML
 	private TitledPane choiceDevise;
+	
+	/** The btn hello. */
 	@FXML
 	private Button btnHello;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The choice background. */
 	@FXML
 	private Label choiceBackground;
+	
+	/** The title. */
 	@FXML
 	private TitledPane title;
+	
+	/** The btnbackground. */
 	@FXML
 	private ColorPicker btnbackground;
+	
+	/** The Anchor pane. */
 	@FXML
 	private AnchorPane AnchorPane;
+	
+	/** The btn valider. */
 	@FXML
 	private Button btnValider;
+	
+	/** The devise. */
 	@FXML
 	private Label devise;
 	
+	/** The parent. */
+	@SuppressWarnings("unused")
 	private MenuPrincipalControleur parent;
+ 
+ /** The dao utilisateur. */
  DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+ 
+ /** The dao commande. */
  DAOCommande daoCommande = new DAOCommande();
 
 
+	/**
+	 * Initialize.
+	 *
+	 * @param location the location
+	 * @param resources the resources
+	 */
 	@Override
-	   public void initialize(URL location, ResourceBundle resources) {
-		
+	   public void initialize(URL location, ResourceBundle resources) {	
 	    bundle = resources;
 	    initialize();
-
-	
-		
 	}
 	
-		
-	
-
+	/**
+	 * Onbutton.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	 public void Onbutton(ActionEvent event) {
 		//btnHello.setText("change");
@@ -91,21 +129,20 @@ public class ParametresControleur implements Initializable{
 				MenuPrincipalControleur controller = loader.getController();
 				controller.setParent(this);
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue","DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
 				e.printStackTrace();
 			}
-	            
-	          
-	            
+
 	        }
 	        catch (Exception e1) {
 	            e1.printStackTrace();
 	        }
         }
 	 
-	/**changer la couleur du fond de l'application
-	 * 
-	 * @param ActionEvent
+	/**
+	 * changer la couleur du fond de l'application.
+	 *
+	 * @param event the event
 	 */
 
 		public void OnBackground(ActionEvent event) {
@@ -115,7 +152,7 @@ public class ParametresControleur implements Initializable{
 	}
 	
 		/**
-		 * modifier le devise
+		 * modifier le devise.
 		 */
 		@FXML
 		public void actionValiderDevise() {
@@ -123,13 +160,21 @@ public class ParametresControleur implements Initializable{
 			try {
 				if (estValide()) {
 				daoCommande.majDevise(chDevise.getText());
-				FonctionsControleurs.alerteInfo("Modification effectuÃ©e", null, "La modification Ã  bien Ã©tÃ© prise en compte!");
+				FonctionsControleurs.alerteInfo("Modification effectuée", null, "La modification à  bien été prise en compte!");
 				}
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue","DÃ©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
 				e.printStackTrace();
 			}
 		}
+		
+		/**
+		 * Vérifie si les entrées sont correctes. <br>
+		 * A chaque fois qu'une entrée n'est pas valide, il incrémente le compteur d'erreurs 
+		 * et affiche ensuite les erreurs dans une boite de dialogue.
+		 * 
+		 * @return true si il n'y a pas d'erreur, false sinon
+		 */
 		
 		public boolean estValide() {
 			String erreurMsg = "";
@@ -143,7 +188,7 @@ public class ParametresControleur implements Initializable{
 			return true;
 		} else {
 			// Affiche un message d'erreur
-			FonctionsControleurs.alerteErreur("EntrÃ©e incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier les informations",
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier les informations",
 					erreurMsg);
 
 			return false;
@@ -151,9 +196,10 @@ public class ParametresControleur implements Initializable{
 		}
 		
 		/**
-		 * Les utilisateur peuvent changer la langue et conserver sur le base de donnÃ©es
-		 * @param event
-		 * @throws IOException
+		 * Les utilisateur peuvent changer la langue et conserver sur le base de données.
+		 *
+		 * @param event the event
+		 * @throws IOException Signals that an I/O exception has occurred.
 		 */
 		
 		public void choiceMade(ActionEvent event) throws IOException {
@@ -171,12 +217,15 @@ public class ParametresControleur implements Initializable{
 				break;
 			}
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Changement de langue impossible", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Changement de langue impossible", "Détails: " + e);
 			e.printStackTrace();
 		}
 		
 	}
 
+		/**
+		 * Initialize.
+		 */
 		@FXML
 		public void initialize() {
 		try {
@@ -199,12 +248,19 @@ public class ParametresControleur implements Initializable{
 			e.printStackTrace();
 		}
 		}
+		
+		/**
+		 * Load lang.
+		 *
+		 * @param lang the lang
+		 * @param LANG the lang
+		 */
 		private void loadLang(String lang, String LANG) {
 			Locale locale = new Locale(lang, LANG);  
 			try {
 				daoUtilisateur.modifierLangue(lang);
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Changement de langue impossible", "DÃ©tails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Changement de langue impossible", "Détails: " + e);
 				e.printStackTrace();
 			}
 			ResourceBundle bundle = ResourceBundle.getBundle("gestionbrb/language/Language_"+lang,locale);
@@ -218,6 +274,11 @@ public class ParametresControleur implements Initializable{
 			devise.setText(bundle.getString("devise"));
 		}
 
+		/**
+		 * Sets the parent.
+		 *
+		 * @param menuPrincipalControleur the new parent
+		 */
 		public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
 			this.parent = menuPrincipalControleur;
 			

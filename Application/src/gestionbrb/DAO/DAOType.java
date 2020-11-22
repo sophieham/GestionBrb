@@ -11,11 +11,30 @@ import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DAOType.
+ */
+/*
+ * Gère les requetes sql sur les types de produits
+ */
 public class DAOType extends DAO<Type>{
+	
+	/** The nom type. */
 	private ArrayList<String> nomType = new ArrayList<>();
+	
+	/** The liste type. */
 	private ObservableList<Type> listeType = FXCollections.observableArrayList();
+	
+	/** The conn. */
 	public static Connection conn = bddUtil.dbConnect();
 
+	/**
+	 * Afficher.
+	 *
+	 * @return the observable list
+	 * @throws SQLException the SQL exception
+	 */
 	public ObservableList<Type> afficher() throws SQLException {
 			ResultSet typeDB = conn.createStatement().executeQuery("SELECT `TypeID`, `nom` FROM `type_produit`");
 
@@ -26,6 +45,12 @@ public class DAOType extends DAO<Type>{
 		return listeType;
 	}
 	
+	/**
+	 * Choix type.
+	 *
+	 * @return the observable list
+	 * @throws SQLException the SQL exception
+	 */
 	public ObservableList<String> choixType() throws SQLException{
 		ObservableList<String> choixType =  FXCollections.observableArrayList();
 		ResultSet typeDB = conn.createStatement().executeQuery("select TypeID, nom from type_produit");
@@ -35,6 +60,12 @@ public class DAOType extends DAO<Type>{
 		return choixType;
 	}
 
+	/**
+	 * Recuperer type.
+	 *
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public ArrayList<String> recupererType() throws SQLException{
 		
 		ResultSet typeDB = conn.createStatement().executeQuery("SELECT `nom` FROM `type_produit`");
@@ -46,6 +77,12 @@ public class DAOType extends DAO<Type>{
 		return nomType;
 	}
 	
+/**
+ * Ajouter.
+ *
+ * @param t the t
+ * @throws SQLException the SQL exception
+ */
 @Override
 public void ajouter(Type t)  throws SQLException{
 	PreparedStatement ajoutDB = conn.prepareStatement("INSERT INTO `type_produit` (`TypeID`, `nom`) VALUES (NULL, ?)");
@@ -54,6 +91,12 @@ public void ajouter(Type t)  throws SQLException{
 	
 }
 
+/**
+ * Supprimer.
+ *
+ * @param t the t
+ * @throws SQLException the SQL exception
+ */
 @Override
 public void supprimer(Type t) throws SQLException {
 	PreparedStatement suppression = conn.prepareStatement("DELETE FROM `type_produit` WHERE TypeID=?");
@@ -62,6 +105,12 @@ public void supprimer(Type t) throws SQLException {
 	
 }
 
+/**
+ * Modifier.
+ *
+ * @param t the t
+ * @throws SQLException the SQL exception
+ */
 @Override
 public void modifier(Type t) throws SQLException{
 	PreparedStatement requete = conn.prepareStatement("UPDATE `Produit` SET `nom` = ? WHERE TypeID = ?");

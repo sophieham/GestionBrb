@@ -1,6 +1,5 @@
 package gestionbrb.controleur;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -30,119 +29,218 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DemarrerCommandeControleur.
+ */
 /*
  * Controleur pour démarrer une commande
  * @author Sophie
  */
-
 public class DemarrerCommandeControleur{
+	
+	/** The champ nom. */
 	// Variables pour la partie réservation
 	@FXML
 	private TextField champNom;
+	
+	/** The champ prenom. */
 	@FXML
 	private TextField champPrenom;
+	
+	/** The champ num tel. */
 	@FXML
 	private TextField champNumTel;
+	
+	/** The champ date. */
 	@FXML
 	private DatePicker champDate;
+	
+	/** The champ heure. */
 	@FXML
 	private TextField champHeure;
+	
+	/** The champ nb couverts reservation. */
 	@FXML
 	private TextField champNbCouvertsReservation;
+	
+	/** The champ demande spe. */
 	@FXML
 	private TextField champDemandeSpe;
+	
+	/** The champ no table. */
 	@FXML
 	private ChoiceBox<String> champNoTable;
+	
+	/** The no tables. */
 	@FXML
 	private ObservableList<String> noTables = FXCollections.observableArrayList();
 	
+	/** The champ choix table. */
 	// Variables pour la partie démarrer une nouvelle commande
 	@FXML
 	private ChoiceBox<String> champChoixTable;
+	
+	/** The tables libre. */
 	@FXML
 	private ObservableList<String> tablesLibre = FXCollections.observableArrayList();
+	
+	/** The champ nb couverts. */
 	@FXML
 	private TextField champNbCouverts;
 	
+	/** The table table. */
 	// Variables pour la partie occupation tables
 	@FXML
 	private TableView<Table> tableTable;
+	
+	/** The colonne no table. */
 	@FXML
 	private TableColumn<Table, Number> colonneNoTable;
+	
+	/** The colonne nb couverts max. */
 	@FXML
 	private TableColumn<Table, Number> colonneNbCouvertsMax;
+	
+	/** The colonne statut. */
 	@FXML
 	private TableColumn<Table, String> colonneStatut;
+	
+	/** The lbl occupation. */
 	@FXML
 	private Label lblOccupation;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
 	
+	/** The btn valider. */
 	@FXML
 	private Button btnValider;
+	
+	/** The titlepane demarrer. */
 	@FXML
 	private TitledPane titlepaneDemarrer;
+	
+	/** The labelcouvert. */
 	@FXML
 	private Label labelcouvert;
+	
+	/** The label table 1. */
 	@FXML
 	private Label labelTable1;
+	
+	/** The label table. */
 	@FXML
 	private Label labelTable;
+	
+	/** The button calenderier. */
 	@FXML
 	private Button buttonCalenderier;
+	
+	/** The btn retour. */
 	@FXML
 	private Button btnRetour;
+	
+	/** The nom. */
 	@FXML
 	private Label nom;
+	
+	/** The prenom. */
 	@FXML
 	private Label prenom;
+	
+	/** The heure. */
 	@FXML
 	private Label heure;
+	
+	/** The date. */
 	@FXML
 	private Label date;
+	
+	/** The nombre. */
 	@FXML
 	private Label nombre;
+	
+	/** The telephone. */
 	@FXML
 	private Label telephone;
+	
+	/** The demande. */
 	@FXML
 	private Label demande;
+	
+	/** The btn reserve. */
 	@FXML
 	private Button btnReserve;
+	
+	/** The labelcentre. */
 	@FXML
 	private Label labelcentre;
+	
+	/** The lable reserver table. */
 	@FXML
 	private Label lableReserverTable;
 	
+	/** The dao calendrier. */
 	DAOCalendrier daoCalendrier = new DAOCalendrier();
+	
+	/** The dao tables. */
 	DAOTables daoTables = new DAOTables();
+	
+	/** The dao commande. */
 	DAOCommande daoCommande = new DAOCommande();
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+	
+	/** The table. */
 	@SuppressWarnings("unused")
 	private Table table;
+	
+	/** The parent. */
 	@SuppressWarnings("unused")
 	private MenuPrincipalControleur parent;
+	
+	/** The ok clicked. */
 	private boolean okClicked = false;
+	
+	/** The commande. */
 	private static Commande commande;
 
+	/** The fenetre commande. */
 	private static Stage fenetreCommande;
 	
+	/**
+	 * Gets the fenetre commande.
+	 *
+	 * @return the fenetre commande
+	 */
 	public static Stage getFenetreCommande() {
 		return fenetreCommande;
 	}
 
+	/**
+	 * Sets the fenetre commande.
+	 *
+	 * @param fenetreCommande the new fenetre commande
+	 */
 	public static void setFenetreCommande(Stage fenetreCommande) {
 		DemarrerCommandeControleur.fenetreCommande = fenetreCommande;
 	}
 
+	/**
+	 * Instantiates a new demarrer commande controleur.
+	 */
 	public DemarrerCommandeControleur() {
 	}
 
 	/**
-	 * <i> Initialise le controleur. </i> <br> Remplit la liste des tables avec les donnÃ©es
-	 * provenant de la base de donnÃ©e. <br>
-	 * Met Ã  jour la liste des tables libres. <br>
+	 * <i> Initialise le controleur. </i> <br> Remplit la liste des tables avec les données
+	 * provenant de la base de donnée. <br>
+	 * Met à  jour la liste des tables libres. <br>
 	 * <br>
-	 * Affiche un fenÃªtre d'erreur si il y a des exceptions
+	 * Affiche un fenêtre d'erreur si il y a des exceptions
 	 */
 	@FXML
 	private void initialize() {
@@ -166,27 +264,32 @@ public class DemarrerCommandeControleur{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		tableTable.getItems().clear();
-		
+
+		tableTable.getItems().clear();	
 		colonneNoTable.setCellValueFactory(cellData -> cellData.getValue().NoTableProperty());
 		colonneNbCouvertsMax.setCellValueFactory(cellData -> cellData.getValue().nbCouvertsMaxProperty());
 		colonneStatut.setCellValueFactory(cellData -> cellData.getValue().occupationStrProperty());
 		try {
 			daoTables.afficher().clear();
 			tableTable.setItems(daoTables.afficher());
-			lblOccupation.setText((daoTables.afficherNoTables().size()-daoTables.afficherTablesLibres().size())+" table(s) occupÃ©e(s), "+daoTables.afficherTablesLibres().size()+" libres");
+			lblOccupation.setText((daoTables.afficherNoTables().size()-daoTables.afficherTablesLibres().size())+" table(s) occupée(s), "+daoTables.afficherTablesLibres().size()+" libres");
 			champNoTable.setItems(daoTables.afficherNoTables());
 			champChoixTable.setItems(daoTables.afficherTablesLibres());
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'exÃ©cution", "Une erreur est survenue", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'exécution", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 		
 
 	}
+	
+	/**
+	 * Load lang.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -216,8 +319,8 @@ public class DemarrerCommandeControleur{
 	}
 
 	/**
-	 * AppellÃ© lors de l'appui sur le bouton. <br>
-	 * Ouvre le registre des rÃ©servations.
+	 * Appellé lors de l'appui sur le bouton. <br>
+	 * Ouvre le registre des réservations.
 	 * 
 	 * Affiche un message d'erreur si il y a une exception
 	 */
@@ -240,23 +343,21 @@ public class DemarrerCommandeControleur{
 	        controller.setMainApp(this);
 	        controller.afficherTout();
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * AppellÃ© lors de l'appui sur le bouton Retour au menu principal <br>
+	 * Appellé lors de l'appui sur le bouton Retour au menu principal <br>
 	 * Il ferme la page actuelle et revient au menu principal.
-	 * 
-	 * @throws IOException
 	 */
 	public void afficherMenuPrincipal() {
 		MenuPrincipalControleur.getDemarrerCommande().close();
 	}
 
 	/** 
-	 * Actualise les donnÃ©es de la page lorsqu'une nouvelle commande est lancÃ©e.
+	 * Actualise les données de la page lorsqu'une nouvelle commande est lancée.
 	 */
 	public void refreshMain() {
 		tableTable.getItems().clear();
@@ -266,21 +367,26 @@ public class DemarrerCommandeControleur{
 			daoTables.afficherNoTables().clear();
 			daoTables.afficherTablesLibres().clear();
 		} catch (SQLException e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 		initialize();
 	}
 	
+	/**
+	 * Checks if is ok clicked.
+	 *
+	 * @return true, if is ok clicked
+	 */
 	public boolean isOkClicked() {
 		return okClicked;
 	}
 	
 	/**
-	 * DÃ©marre une nouvelle commande en prenant en compte le nombre de couverts et le numÃ©ro de table dÃ©fini en modifiant son occupation. <br>
+	 * Démarre une nouvelle commande en prenant en compte le nombre de couverts et le numéro de table défini en modifiant son occupation. <br>
 	 * Affiche une nouvelle page Commande.fxml <br>
 	 * <br> 
-	 * Affiche un message d'erreur si la commande ne peut pas Ãªtre lancÃ©e.
+	 * Affiche un message d'erreur si la commande ne peut pas être lancée.
 	 * 
 	 */
 	public void lancerCommande() {
@@ -307,18 +413,18 @@ public class DemarrerCommandeControleur{
 	        controller.setParent(this);
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Impossible d'ouvrir cette fenetre", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Extrait le numÃ©ro de table provenant de la table choisie lors de la rÃ©servation <br>
-	 * RecupÃ¨re la valeur de la cible puis en fonction de la taille va rÃ©cuperer la valeur du nombre de la table puis transforme la valeur en entier
+	 * Extrait le numéro de table provenant de la table choisie lors de la réservation <br>
+	 * Recupère la valeur de la cible puis en fonction de la taille va récuperer la valeur du nombre de la table puis transforme la valeur en entier
 	 * <br>
 	 * <br>
-	 * <i> exemple: Table nÂ°2 [4 Ã  5 couverts] > va rÃ©cupÃ©rer la valeur 2 </i>
-	 * 
+	 * <i> exemple: Table n°2 [4 à  5 couverts] > va récupérer la valeur 2 </i>.
+	 *
 	 * @param cible contenu d'un champ choicebox
 	 * @return numeroTable le numero de la table
 	 */
@@ -348,13 +454,13 @@ public class DemarrerCommandeControleur{
 	}
 	
 	/**
-	 * AppellÃ© quand l'utilisateur clique sur rÃ©server <br>
-	 * Ajoute les donnÃ©es saisies Ã  la base de donnÃ©e si elles sont valides 
-	 * et affiche un message si cela s'est bien passÃ©.<br>
+	 * Appellé quand l'utilisateur clique sur réserver <br>
+	 * Ajoute les données saisies à  la base de donnée si elles sont valides 
+	 * et affiche un message si cela s'est bien passé.<br>
 	 * Efface ensuite le contenu des champs.
-	 * 
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	private void actionAjouter() throws ClassNotFoundException, SQLException {
@@ -372,9 +478,9 @@ public class DemarrerCommandeControleur{
 																champDemandeSpe.getText());
 				int noTable = getNumero(champNoTable);
 				daoCalendrier.ajouter(tempReservation, noTable);
-				FonctionsControleurs.alerteInfo("Reservation enregistrÃ©e!", "", "La reservation Ã  bien Ã©tÃ© enregistrÃ©e!");
+				FonctionsControleurs.alerteInfo("Reservation enregistrée!", "", "La reservation à  bien été enregistrée!");
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: " + e);
 				e.printStackTrace();
 			}
 
@@ -392,9 +498,9 @@ public class DemarrerCommandeControleur{
 	}
 
 	/**
-	 * VÃ©rifie si la saisie est conforme aux donnÃ©es requises <br>
-	 * Cette mÃ©thode vÃ©rifie chacune des donnÃ©es saisies et dÃ©termine 
-	 * si elle rÃ©pond aux critÃ¨res de la case.
+	 * Vérifie si la saisie est conforme aux données requises <br>
+	 * Cette méthode vérifie chacune des données saisies et détermine 
+	 * si elle répond aux critères de la case.
 	 * 
 	 * @return true si la saisie est bien conforme, false sinon
 	 */
@@ -405,15 +511,15 @@ public class DemarrerCommandeControleur{
 			msgErreur += "Veuillez remplir le nom\n";
 		}
 		if (champPrenom.getText() == null || champPrenom.getText().length() == 0) {
-			msgErreur += "Veuillez remplir le prÃ©nom\n";
+			msgErreur += "Veuillez remplir le prénom\n";
 		}
 		if (champNumTel.getText() == null || champNumTel.getText().length() == 0) {
-			msgErreur += "Veuillez rentrer le numÃ©ro de tÃ©lÃ©phone\n";
+			msgErreur += "Veuillez rentrer le numéro de téléphone\n";
 		} else {
-			Pattern p = Pattern.compile("(0|\\+)[0-9]{8,12}"); // regex d'un numÃ©ro de tÃ©lÃ©phone, franÃ§ais ou Ã©tranger
+			Pattern p = Pattern.compile("(0|\\+)[0-9]{8,12}"); // regex d'un numéro de téléphone, français ou étranger
 			Matcher m = p.matcher(champNumTel.getText());
 			if (!(m.find() && m.group().equals(champNumTel.getText()))) {
-				msgErreur += "Erreur! Le champ no. tÃ©lÃ©phone n'accepte que les numÃ©ros commenÃ§ant par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
+				msgErreur += "Erreur! Le champ no. téléphone n'accepte que les numéros commençant par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
 			}
 		}
 		if (champDate.getValue() == null) {
@@ -427,7 +533,7 @@ public class DemarrerCommandeControleur{
 																						// valide sous forme hh:mm
 			Matcher heurem = heurep.matcher(champHeure.getText());
 			if (!(heurem.find() && heurem.group().equals(champHeure.getText()))) {
-				msgErreur += "Format de l'heure incorrect, veuillez rÃ©essayer avec le format hh:mm appropriÃ©\n";
+				msgErreur += "Format de l'heure incorrect, veuillez réessayer avec le format hh:mm approprié\n";
 			}
 		}
 
@@ -449,23 +555,33 @@ public class DemarrerCommandeControleur{
 		if (msgErreur.length() == 0) {
 			return true;
 		} else {
-			FonctionsControleurs.alerteErreur("EntrÃ©e incorrecte", "Corrigez les erreurs suivantes pour pouvoir enregistrer la reservation",msgErreur);
+			FonctionsControleurs.alerteErreur("Entrée incorrecte", "Corrigez les erreurs suivantes pour pouvoir enregistrer la reservation",msgErreur);
 			return false;
 		}
 	}
 
+	/**
+	 * Gets the commande.
+	 *
+	 * @return the commande
+	 */
 	public static Commande getCommande() {
 		return commande;
 	}
 
+	/**
+	 * Sets the commande.
+	 *
+	 * @param commande the new commande
+	 */
 	public void setCommande(Commande commande) {
 		DemarrerCommandeControleur.commande=commande;
 	}
 	
 	/**
-	 * Fait la liaison avec la page principale
-	 * 
-	 * @param MenuPrincipal
+	 * Fait la liaison avec la page principale.
+	 *
+	 * @param menuPrincipalControleurTest the new parent
 	 */
 	public void setParent(MenuPrincipalControleur menuPrincipalControleurTest) {
 		this.parent = menuPrincipalControleurTest;

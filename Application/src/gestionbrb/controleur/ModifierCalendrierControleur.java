@@ -1,6 +1,5 @@
 package gestionbrb.controleur;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -17,56 +16,102 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author Sophie
+ * The Class ModifierCalendrierControleur.
  *
+ * @author Sophie
  */
 public class ModifierCalendrierControleur{
 
+    /** The champ nom. */
     @FXML
     private TextField champNom;
+    
+    /** The champ prenom. */
     @FXML
     private TextField champPrenom;
+    
+    /** The champ num tel. */
     @FXML
     private TextField champNumTel;
+    
+    /** The champ date. */
     @FXML
     private DatePicker champDate;
+    
+    /** The champ heure. */
     @FXML
     private TextField champHeure;
+    
+    /** The champ nb couverts reservation. */
     @FXML
     private TextField champNbCouvertsReservation;
+    
+    /** The champ demande spe. */
     @FXML
     private TextField champDemandeSpe;
+    
+    /** The bundle. */
     @FXML
 	private ResourceBundle bundle;
+    
+    /** The labeltele. */
     @FXML
     private Label labeltele;
+    
+    /** The labeldate. */
     @FXML
     private Label labeldate;
+    
+    /** The nb. */
     @FXML
     private Label nb;
+    
+    /** The demande. */
     @FXML
     private Label demande;
+    
+    /** The heure. */
     @FXML
     private Label heure;
+    
+    /** The nom. */
     @FXML
     private Label nom;
+    
+    /** The prenom. */
     @FXML
     private Label prenom;
+    
+    /** The modifier. */
     @FXML
     private Button modifier;
+    
+    /** The annuler. */
     @FXML
     private Button annuler;
     
     
+    /** The dao calendrier. */
     DAOCalendrier daoCalendrier = new DAOCalendrier();
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	
+    /** The dialog stage. */
     private Stage dialogStage;
+    
+    /** The reservation. */
     @SuppressWarnings("unused")
 	private Reservations reservation;
+    
+    /** The ok clicked. */
     private boolean okClicked = false;
+    
+    /**
+     * Initialize.
+     */
     @FXML
 	public void initialize() {
 	try {
@@ -90,6 +135,12 @@ public class ModifierCalendrierControleur{
 	}
 	}
     
+    /**
+     * Load lang.
+     *
+     * @param lang the lang
+     * @param LANG the lang
+     */
     private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -108,16 +159,19 @@ public class ModifierCalendrierControleur{
     
 		
 		
+    /**
+     * Sets the dialog stage.
+     *
+     * @param dialogStage the new dialog stage
+     */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
 
     /**
-     * Remplit les champs avec les donn√©es d√©j√† existantes sur la r√©servation.
-     * 
-     * @param reservation
-     * @throws SQLException 
-     * @throws ClassNotFoundException 
+     * Remplit les champs avec les donnÈes dÈj‡† existantes sur la rÈservation.
+     *
+     * @param r the new reservation
      */
     public void setReservation(Reservations r) {
     	try {
@@ -130,22 +184,22 @@ public class ModifierCalendrierControleur{
 				champNbCouvertsReservation.setText(Integer.toString(r.getNbCouverts()));
 				champDemandeSpe.setText(r.getDemandeSpe());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","D√©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÈtails: "+e);
 			e.printStackTrace();
 		}
     }
 
     /** 
-     * @return true si le bouton a modifi√© a √©t√© appuy√©, faux sinon
+     * @return true si le bouton a modifiÈ a ÈtÈ appuyÈ, faux sinon
      */
     public boolean isOkClicked() {
         return okClicked;
     }
 
     /**
-	 * Appell√© quand l'utilisateur appuie sur "modifier" <br>
-	 * Modifie la r√©servation si tout les champs sont valides
-	 */
+     * AppellÈ quand l'utilisateur appuie sur "modifier" <br>
+     * Modifie la rÈservation si tout les champs sont valides.
+     */
 	@FXML
 	private void actionModifier() {
 	    if (estValide()) {
@@ -158,7 +212,7 @@ public class ModifierCalendrierControleur{
 				reservation.setNbCouverts(Integer.parseInt(champNbCouvertsReservation.getText()));
 				reservation.setDemandeSpe(champDemandeSpe.getText());
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","D√©tails: "+e);
+				FonctionsControleurs.alerteErreur("Erreur", "Une erreur est survenue","DÈtails: "+e);
 				e.printStackTrace();
 			}
 	        okClicked = true;
@@ -167,7 +221,7 @@ public class ModifierCalendrierControleur{
 	}
 
     /**
-     * Appell√© quand le bouton annuler est appuy√©.
+     * AppellÈ quand le bouton annuler est appuyÈ.
      * Ferme la page sans sauvegarder.
      */
     @FXML
@@ -176,7 +230,7 @@ public class ModifierCalendrierControleur{
     }
     
     /**
-	 * V√©rifie si la saisie est conforme aux donn√©es requises parfois √† l'aide de regex.
+	 * VÈrifie si la saisie est conforme aux donnÈes requises parfois ‡† l'aide de regex.
 	 * Affiche un message d'erreur si il y a au moins une erreur.
 	 * 
 	 * @return true si la saisie est bien conforme, false sinon
@@ -188,15 +242,15 @@ public class ModifierCalendrierControleur{
 			msgErreur += "Veuillez remplir le nom\n";
 		}
 		if (champPrenom.getText() == null || champPrenom.getText().length() == 0) {
-			msgErreur += "Veuillez remplir le pr√©nom\n";
+			msgErreur += "Veuillez remplir le prÈnom\n";
 		}
 		if (champNumTel.getText() == null || champNumTel.getText().length() == 0) {
-			msgErreur += "Veuillez rentrer le num√©ro de t√©l√©phone\n";
+			msgErreur += "Veuillez rentrer le numÈro de tÈlÈphone\n";
 		} else {
 			Pattern p = Pattern.compile("(0|\\+)[0-9]{8,12}");
 			Matcher m = p.matcher(champNumTel.getText());
 			if (!(m.find() && m.group().equals(champNumTel.getText()))) {
-				msgErreur += "Erreur! Le champ no. t√©l√©phone n'accepte que les num√©ros commen√ßant par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
+				msgErreur += "Erreur! Le champ no. tÈlÈphone n'accepte que les numÈros commenÁant par + ou 0 et ayant une longueur entre 8 et 12 chiffres\n";
 			}
 		}
 		if (champDate.getValue() == null) {
@@ -209,7 +263,7 @@ public class ModifierCalendrierControleur{
 			Pattern heurep = Pattern.compile("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
 			Matcher heurem = heurep.matcher(champHeure.getText());
 			if (!(heurem.find() && heurem.group().equals(champHeure.getText()))) {
-				msgErreur += "Format de l'heure incorrect, veuillez r√©essayer avec le format hh:mm appropri√©\n";
+				msgErreur += "Format de l'heure incorrect, veuillez rÈessayer avec le format hh:mm appropriÈ\n";
 			}
 		}
 
@@ -226,7 +280,7 @@ public class ModifierCalendrierControleur{
 		if (msgErreur.length() == 0) {
 			return true;
 		} else {
-			FonctionsControleurs.alerteErreur("Entr√©e incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",msgErreur);
+			FonctionsControleurs.alerteErreur("EntrÈe incorrecte", "Corrigez les erreurs suivantes pour pouvoir modifier la reservation",msgErreur);
 			return false;
 		}
 	}

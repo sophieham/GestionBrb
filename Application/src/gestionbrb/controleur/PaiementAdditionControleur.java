@@ -17,62 +17,116 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * Choix d'un mode de paiement et saisie du montant pay√©
- * 
- * @author Sophie
+ * Choix d'un mode de paiement et saisie du montant payÈ.
  *
+ * @author Sophie
  */
 public class PaiementAdditionControleur extends AdditionControleur implements Initializable {
+	
+	/** The montant restant lbl. */
 	@FXML
 	private Label montantRestantLbl;
+	
+	/** The moyen de paiement lbl. */
 	@FXML
 	private Label moyenDePaiementLbl;
+	
+	/** The champ montant. */
 	@FXML
 	private TextField champMontant;
+	
+	/** The details lbl. */
 	@FXML
 	private Label detailsLbl;
+	
+	/** The btn tout payer. */
 	@FXML
 	private Button btnToutPayer;
+	
+	/** The revenir. */
 	@FXML
 	private Button revenir;
+	
+	/** The devise. */
 	@FXML
 	private Label devise;
+	
+	/** The fenetre. */
 	@FXML
 	private AnchorPane fenetre;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+	
+	/** The parent. */
 	AdditionControleur parent;
+	
+	/** The parent C. */
 	DemarrerCommandeControleur parentC;
+	
+	/** The commande. */
 	Commande commande;
+	
+	/** The dialog stage. */
 	private Stage dialogStage;
 
+	/** The dao commande. */
 	DAOCommande daoCommande = new DAOCommande();
 
+	/** The btn calcul monnaie. */
 	@FXML
 	private Button btnCalculMonnaie;
+	
+	/** The btn valider. */
 	@FXML
 	private Button btnValider;
+	
+	/** The entrer. */
 	private String entrer;
+	
+	/** The toutpayer. */
 	private String toutpayer;
 
+	/**
+	 * Sets the parent.
+	 *
+	 * @param additionControleur the new parent
+	 */
 	public void setParent(AdditionControleur additionControleur) {
 		this.parent = additionControleur;
 
 	}
 
+	/**
+	 * Gets the dialog stage.
+	 *
+	 * @return the dialog stage
+	 */
 	public Stage getDialogStage() {
 		return dialogStage;
 	}
 
+	/**
+	 * Sets the dialog stage.
+	 *
+	 * @param dialogStage the new dialog stage
+	 */
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
 
 	/**
 	 * Affiche des informations sur le paiement de la commande ainsi que des
-	 * param√®tres en fonctions du type de paiement
+	 * paramËtres en fonctions du type de paiement.
+	 *
+	 * @param arg0 the arg 0
+	 * @param arg1 the arg 1
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -98,7 +152,7 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 		try {
 		devise.setText(DAOCommande.recupererDevise());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'√©xcution", "Une erreur est survenue", "D√©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'Èxcution", "Une erreur est survenue", "DÈtails: " + e);
 			e.printStackTrace();
 		}
 		btnCalculMonnaie.setVisible(false);
@@ -108,14 +162,14 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 		montantRestantLbl.setText(aRendre());
 		btnToutPayer.setText(toutpayer + moyenDePaiement);
 		switch (moyenDePaiement) {
-		case "Esp√®ces":
+		case "EspËces":
 			detailsLbl.setText("A rendre: ");
 			btnCalculMonnaie.setVisible(true);
 			btnValider.setVisible(false);
 			break;
 		case "Carte Bancaire":
 			break;
-		case "Ch√®que":
+		case "ChËque":
 			detailsLbl.setText("N'oubliez pas de noter le numero de table et l'heure au dos");
 			break;
 		case "Ticket-Resto":
@@ -126,6 +180,13 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 			break;
 		}
 	}
+		
+		/**
+		 * Load lang.
+		 *
+		 * @param lang the lang
+		 * @param LANG the lang
+		 */
 		private void loadLang(String lang, String LANG) {
 			Locale locale = new Locale(lang, LANG);  
 			
@@ -142,39 +203,42 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 	
 
 		/**
-		 * Affiche et met √† jour le montant restant √† payer
-		 * 
-		 * @return rendu le montant restant √† payer
+		 * Affiche et met ‡† jour le montant restant ‡† payer.
+		 *
+		 * @return rendu le montant restant ‡† payer
 		 */
 		public String aRendre() {
 			String rendu = null;
 			try {
 				rendu = daoCommande.afficherRendu(commande) + "";
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'√©x√©cution", "Une erreur est survenue", "D√©tails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur d'ÈxÈcution", "Une erreur est survenue", "DÈtails: " + e);
 				e.printStackTrace();
 			}
 			return rendu;
 		}
 
 		/**
-		 * Paie l'int√©gralit√© (ou ce qu'il reste) de la commande en une seule fois
+		 * Paie l'intÈgralitÈ (ou ce qu'il reste) de la commande en une seule fois.
 		 */
 		@FXML
 		void ToutPayer() {
 			try {
 				daoCommande.majPaiement(commande, 0);
-				FonctionsControleurs.alerteInfo("Paiement accept√©", null, "L'addition √† √©t√© enti√®rement pay√©e!");
+				FonctionsControleurs.alerteInfo("Paiement acceptÈ", null, "L'addition ‡† ÈtÈ entiËrement payÈe!");
 				actionAnnuler();
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'√©x√©cution", "Une erreur est survenue", "D√©tails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur d'ÈxÈcution", "Une erreur est survenue", "DÈtails: " + e);
 				e.printStackTrace();
 			}
 		}
 
+		/**
+		 * Action valider.
+		 */
 		/*
-		 * Appell√© lors de l'appui sur le bouton Valider. <br> Il calcule le total
-		 * restant √† payer apr√®s la saisie du montant pay√©
+		 * AppellÈ lors de l'appui sur le bouton Valider. <br> Il calcule le total
+		 * restant ‡† payer aprËs la saisie du montant payÈ
 		 */
 		@FXML
 		void actionValider() {
@@ -187,27 +251,27 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 					double totalPrix = Double.parseDouble(tprix.getText());
 
 					if (montant > totalPrix) {
-						FonctionsControleurs.alerteErreur("Erreur d'√©x√©cution", "Vous avez entr√© une valeur sup√©rieur √† celle du prix total", "Veuillez r√©essayer. S'il ne s'agit pas d'une erreur, retentez avec un montant plus petit. ");
+						FonctionsControleurs.alerteErreur("Erreur d'ÈxÈcution", "Vous avez entrÈ une valeur supÈrieur ‡† celle du prix total", "Veuillez rÈessayer. S'il ne s'agit pas d'une erreur, retentez avec un montant plus petit. ");
 					} else {
 						double restantAPayer = Math.abs(totalPrix - montant);
 						double nouveauTotal = Math.abs(restantAPayer - totalPrix);
 						daoCommande.majPaiement(commande, restantAPayer);
-						FonctionsControleurs.alerteInfo("Paiement accept√©", null, "L'addition √† √©t√© pay√© de " + nouveauTotal + ", il reste " + restantAPayer + " √† payer");
+						FonctionsControleurs.alerteInfo("Paiement acceptÈ", null, "L'addition ‡† ÈtÈ payÈ de " + nouveauTotal + ", il reste " + restantAPayer + " ‡† payer");
 						actionAnnuler();
 					}
 				} catch (NumberFormatException e) {
-					FonctionsControleurs.alerteErreur("Erreur d'√©x√©cution",
-							"Vous avez fait une erreur dans la saisie du montant!!", "Veuillez r√©essayer.\nD√©tails: " + e);
+					FonctionsControleurs.alerteErreur("Erreur d'ÈxÈcution",
+							"Vous avez fait une erreur dans la saisie du montant!!", "Veuillez rÈessayer.\nDÈtails: " + e);
 					e.printStackTrace();
 				}
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'√©x√©cution", "Une erreur est survenue", "D√©tails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur d'ÈxÈcution", "Une erreur est survenue", "DÈtails: " + e);
 				e.printStackTrace();
 			}
 		}
 
 		/**
-		 * Revient √† la page pr√©c√©dente
+		 * Revient ‡† la page prÈcÈdente.
 		 */
 		@FXML
 		public void actionAnnuler() {
@@ -223,15 +287,15 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 				controller.setParent(this);
 
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'√©x√©cution", "Une erreur est survenue", "D√©tails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur d'ÈxÈcution", "Une erreur est survenue", "DÈtails: " + e);
 				e.printStackTrace();
 			}
 		}
 
 		/**
-		 * Calcule le rendu si le paiement est par esp√®ces
-		 * 
-		 * @return rendu le montant √† rendre
+		 * Calcule le rendu si le paiement est par espËces.
+		 *
+		 * @return rendu le montant ‡† rendre
 		 */
 		@FXML
 		public double calculRenduEspece() {
@@ -241,14 +305,14 @@ public class PaiementAdditionControleur extends AdditionControleur implements In
 				double montant = Double.parseDouble(champMontant.getText());
 				if (montant < totalAPayer) {
 					FonctionsControleurs.alerteAttention("Attention!", null,
-							"Si le client ne souhaite pas payer la totalit√© de l'addition par esp√®ce, "
-									+ "il vaut mieux proc√©der √† un autre moyen de paiement avant de revenir aux esp√®ces");
+							"Si le client ne souhaite pas payer la totalitÈ de l'addition par espËce, "
+									+ "il vaut mieux procÈder ‡† un autre moyen de paiement avant de revenir aux espËces");
 				} else {
 					rendu = montant - totalAPayer;
 					detailsLbl.setText("A rendre: " + rendu + "‚Ç¨");
 				}
 			} catch (Exception e) {
-				FonctionsControleurs.alerteErreur("Erreur d'√©x√©cution", "Une erreur est survenue", "D√©tails: " + e);
+				FonctionsControleurs.alerteErreur("Erreur d'ÈxÈcution", "Une erreur est survenue", "DÈtails: " + e);
 				e.printStackTrace();
 			}
 

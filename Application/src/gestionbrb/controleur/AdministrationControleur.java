@@ -16,33 +16,74 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AdministrationControleur.
+ */
+/*
+ * Panel d'administration permettant des opérations CRUD sur la plupart des objets
+ */
 public class AdministrationControleur extends FonctionsControleurs implements Initializable{
 
+	/** The historique commande. */
 	private static Stage historiqueCommande;
+	
+	/** The fournisseurs. */
 	private static Stage fournisseurs;
+	
+	/** The tables. */
 	private static Stage tables;
+	
+	/** The utilisateur. */
 	private static Stage utilisateur;
+	
+	/** The plats ingredients. */
 	private static Stage platsIngredients;
 
+	/** The parent. */
 	MenuPrincipalControleur parent;
 
+	/** The fenetre. */
 	@FXML
 	private AnchorPane fenetre;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+	
+	/** The historique. */
 	@FXML
 	private Button historique;
+	
+	/** The gerer fournisseur. */
 	@FXML
 	private Button gererFournisseur;
+	
+	/** The gerer table. */
 	@FXML
 	private Button gererTable;
+	
+	/** The gerer utilisateur. */
 	@FXML
 	private Button gererUtilisateur;
+	
+	/** The retour. */
 	@FXML
 	private Button retour;
+	
+	/** The gererplats. */
 	@FXML
 	private Button gererplats;
+	
+	/**
+	 * Initialize.
+	 *
+	 * @param location the location
+	 * @param resources the resources
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		bundle = resources;
@@ -62,12 +103,17 @@ public class AdministrationControleur extends FonctionsControleurs implements In
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 
+	/**
+	 * Load lang.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -79,8 +125,14 @@ public class AdministrationControleur extends FonctionsControleurs implements In
 		retour.setText(bundle.getString("key5"));
 		gererplats.setText(bundle.getString("gererplats"));
 
-		
+		/**
+		 * 
+		 */
 	}
+	
+	/**
+	 * Fenetre historique commandes.
+	 */
 	@FXML
 	public void fenetreHistoriqueCommandes() {
 		try {
@@ -99,11 +151,14 @@ public class AdministrationControleur extends FonctionsControleurs implements In
 			HistoriqueCommandeControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Fenetre fournisseur.
+	 */
 	@FXML
 	public void fenetreFournisseur() {
 		try {
@@ -122,11 +177,14 @@ public class AdministrationControleur extends FonctionsControleurs implements In
 			FournisseursControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Fenetre tables.
+	 */
 	@FXML
 	public void fenetreTables() {
 		try {
@@ -146,11 +204,14 @@ public class AdministrationControleur extends FonctionsControleurs implements In
 			controller.setParent(this);
 			
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Fenetre utilisateur.
+	 */
 	@FXML
 	public void fenetreUtilisateur() {
 		try {
@@ -169,11 +230,14 @@ public class AdministrationControleur extends FonctionsControleurs implements In
 			UtilisateursControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Fenetre plats ingerdients.
+	 */
 	@FXML
 	public void fenetrePlatsIngerdients() {
 
@@ -192,13 +256,16 @@ public class AdministrationControleur extends FonctionsControleurs implements In
 			IngredientsProduitsControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	
 
 	}
 	
+	/**
+	 * Fermer fenetre.
+	 */
 	@FXML
 	public void fermerFenetre() {
 		try {
@@ -212,7 +279,7 @@ public class AdministrationControleur extends FonctionsControleurs implements In
 			MenuPrincipalControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xecution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
@@ -220,53 +287,103 @@ public class AdministrationControleur extends FonctionsControleurs implements In
 
 	
 
-	// getters & setters utiles pour gÃ©rer la fenetre depuis les controleurs
-	// associÃ©s
+	// getters & setters utiles pour gérer la fenetre depuis les controleurs
+	/**
+	 * Gets the historique commande.
+	 *
+	 * @return the historique commande
+	 */
+	// associés
 	public static Stage getHistoriqueCommande() {
 		return historiqueCommande;
 	}
 
+	/**
+	 * Sets the historique commande.
+	 *
+	 * @param historiqueCommande the new historique commande
+	 */
 	public static void setHistoriqueCommande(Stage historiqueCommande) {
 		AdministrationControleur.historiqueCommande = historiqueCommande;
 	}
 
+	/**
+	 * Gets the fournisseurs.
+	 *
+	 * @return the fournisseurs
+	 */
 	public static Stage getFournisseurs() {
 		return fournisseurs;
 	}
 
+	/**
+	 * Sets the fournisseurs.
+	 *
+	 * @param fournisseurs the new fournisseurs
+	 */
 	public static void setFournisseurs(Stage fournisseurs) {
 		AdministrationControleur.fournisseurs = fournisseurs;
 	}
 
+	/**
+	 * Gets the tables.
+	 *
+	 * @return the tables
+	 */
 	public static Stage getTables() {
 		return tables;
 	}
 
+	/**
+	 * Sets the tables.
+	 *
+	 * @param tables the new tables
+	 */
 	public static void setTables(Stage tables) {
 		AdministrationControleur.tables = tables;
 	}
 
+	/**
+	 * Gets the utilisateur.
+	 *
+	 * @return the utilisateur
+	 */
 	public static Stage getUtilisateur() {
 		return utilisateur;
 	}
 
+	/**
+	 * Sets the utilisateur.
+	 *
+	 * @param utilisateur the new utilisateur
+	 */
 	public static void setUtilisateur(Stage utilisateur) {
 		AdministrationControleur.utilisateur = utilisateur;
 	}
 
+	/**
+	 * Gets the plats ingredients.
+	 *
+	 * @return the plats ingredients
+	 */
 	public static Stage getPlatsIngredients() {
 		return platsIngredients;
 	}
 
+	/**
+	 * Sets the plats ingredients.
+	 *
+	 * @param platsIngredients the new plats ingredients
+	 */
 	public static void setPlatsIngredients(Stage platsIngredients) {
 		AdministrationControleur.platsIngredients = platsIngredients;
 	}
 
 	/**
-	 * DÃ©fini connexionProfil comment parent quand on accÃ¨de au menu principal
-	 * depuis la page de connexion
-	 * 
-	 * @param menuPrincipalControleur
+	 * Défini connexionProfil comment parent quand on accède au menu principal
+	 * depuis la page de connexion.
+	 *
+	 * @param menuPrincipalControleur the new parent
 	 */
 	public void setParent(MenuPrincipalControleur menuPrincipalControleur) {
 		this.parent = menuPrincipalControleur;

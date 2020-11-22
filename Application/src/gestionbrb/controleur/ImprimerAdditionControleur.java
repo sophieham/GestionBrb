@@ -22,60 +22,114 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Window;
 
+// TODO: Auto-generated Javadoc
 /**
- * Affichage de l'addition et impression du ticket
- * @author Sophie
+ * Affichage de l'addition et impression du ticket.
  *
+ * @author Sophie
  */
 public class ImprimerAdditionControleur implements Initializable {
 
+	/** The info table lbl. */
 	@FXML
 	private Label infoTableLbl;
+	
+	/** The date commande lbl. */
 	@FXML
 	private Label dateCommandeLbl;
+	
+	/** The vbox produits. */
 	@FXML
 	private VBox vboxProduits;
+	
+	/** The total lbl. */
 	@FXML
 	private Label totalLbl;
+	
+	/** The serveur lbl. */
 	@FXML
 	private Label serveurLbl;
+	
+	/** The devise. */
 	@FXML
 	private Label devise;
+	
+	/** The libelle. */
 	@FXML
 	private Label libelle;
+	
+	/** The prix. */
 	@FXML
 	private Label prix;
+	
+	/** The qte. */
 	@FXML
 	private Label qte;
+	
+	/** The merci. */
 	@FXML
 	private Label merci;
+	
+	/** The imprimer addition. */
 	@FXML
 	private Button imprimerAddition;
+	
+	/** The fenetre. */
 	@FXML
 	private AnchorPane fenetre;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
+	
+	/** The addition controleur. */
 	private AdditionControleur additionControleur;
+	
+	/** The commande controleur. */
 	private CommandeControleur commandeControleur;
 	
+	/** The commande. */
 	private Commande commande;
 	
+	/** The window. */
 	private Window window;
 
+	/** The dao commande. */
 	DAOCommande daoCommande = new DAOCommande();
+	
+	/** The dao table. */
 	DAOTables daoTable = new DAOTables();
+	
+	/** The info 1. */
 	private String info1;
+	
+	/** The total. */
 	private String total;
+	
+	/** The servir. */
 	private String servir;
+	
+	/** The Addition. */
 	private String Addition;
+	
+	/** The info 2. */
 	private String info2;
+	
+	/** The couvert. */
 	private String couvert;
+	
+	/** The pour. */
 	private String pour;
 	
 	
 	/**
-	 * Initialise le ticket avec les informations sur la table et les produits commandÃ©s.
+	 * Initialise le ticket avec les informations sur la table et les produits commandés.
+	 *
+	 * @param arg0 the arg 0
+	 * @param arg1 the arg 1
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -126,17 +180,17 @@ public class ImprimerAdditionControleur implements Initializable {
 				serveurLbl.setText(servir+daoCommande.afficherTicket(commande).get(6));
 				devise.setText(DAOCommande.recupererDevise());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'éxecution", "Une erreur est survenue","Dé– ails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 
 	}
 	
 	/**
-	 * Traduction des menus & boutons dans la langue de l'utilisateur
-	 * 
-	 * @param lang
-	 * @param LANG
+	 * Traduction des menus & boutons dans la langue de l'utilisateur.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
 	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
@@ -161,8 +215,9 @@ public class ImprimerAdditionControleur implements Initializable {
 
 	/**
 	 * Affiche la boite de dialogue pour lancer l'impression. <br>
-	 * Une fois l'impression lancÃ©e ou annulÃ©e, la table est libÃ©rÃ©e
-	 * @param event
+	 * Une fois l'impression lancée ou annulée, la table est libérée
+	 *
+	 * @param event the event
 	 */
 	@FXML
 	public void imprimer(ActionEvent event) {
@@ -181,26 +236,46 @@ public class ImprimerAdditionControleur implements Initializable {
 			   AdditionControleur.getImprimerAddition().close();
 			   }
 			   DemarrerCommandeControleur.getFenetreCommande().close();
-			   FonctionsControleurs.alerteInfo("Table libÃ©rÃ©e!", null, "L'addition Ã  bien Ã©tÃ© envoyÃ©e Ã  l'imprimante");
+			   FonctionsControleurs.alerteInfo("Table libérée!", null, "L'addition à  bien été envoyée à  l'imprimante");
 			 }
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue","DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue","Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Gets the parent A.
+	 *
+	 * @return the parent A
+	 */
 	public AdditionControleur getParentA() {
 		return this.additionControleur;
 	}
 	
+	/**
+	 * Gets the parent C.
+	 *
+	 * @return the parent C
+	 */
 	public CommandeControleur getParentC() {
 		return this.commandeControleur;
 	}
 	
+	/**
+	 * Sets the parent.
+	 *
+	 * @param parent the new parent
+	 */
 	public void setParent(AdditionControleur parent) {
 		this.additionControleur = parent;
 	}
 
+	/**
+	 * Sets the parent.
+	 *
+	 * @param parent the new parent
+	 */
 	public void setParent(CommandeControleur parent) {
 		this.commandeControleur = parent;
 		

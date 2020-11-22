@@ -10,19 +10,19 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="fenetre" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.AdministrationControleur">
+<AnchorPane fx:id="fenetre" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.AdministrationControleur">
    <children>
       <ImageView fitHeight="1086.0" fitWidth="1927.0" layoutX="-3.0" layoutY="-2.0" pickOnBounds="true">
          <image>
             <Image url="@images/fond7_favourite.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="297.0" fitWidth="601.0" layoutX="719.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="245.0" fitWidth="368.0" layoutX="600.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/logo_light_transparent.png" />
          </image>
       </ImageView>
-      <GridPane layoutX="447.0" layoutY="543.0" prefHeight="365.0" prefWidth="1686.0" AnchorPane.leftAnchor="447.0" AnchorPane.rightAnchor="-213.0">
+      <GridPane layoutX="217.0" layoutY="389.0" prefHeight="365.0" prefWidth="1686.0" AnchorPane.leftAnchor="217.0" AnchorPane.rightAnchor="17.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="571.0" minWidth="10.0" prefWidth="556.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="522.0" minWidth="10.0" prefWidth="498.0" />
@@ -33,7 +33,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetreHistoriqueCommandes" prefHeight="63.0" prefWidth="533.0" text="%historique" GridPane.columnIndex="1" fx:id="historique">
+            <Button id="glass" fx:id="historique" mnemonicParsing="false" onAction="#fenetreHistoriqueCommandes" prefHeight="63.0" prefWidth="533.0" text="%historique" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
@@ -41,27 +41,27 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetreFournisseur" prefHeight="63.0" prefWidth="533.0" text="%gererFournisseur" GridPane.rowIndex="1" fx:id="gererFournisseur">
+            <Button id="glass" fx:id="gererFournisseur" mnemonicParsing="false" onAction="#fenetreFournisseur" prefHeight="63.0" prefWidth="533.0" text="%gererFournisseur" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetreTables" prefHeight="63.0" prefWidth="533.0" text="%gererTable" GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="gererTable">
+            <Button id="glass" fx:id="gererTable" mnemonicParsing="false" onAction="#fenetreTables" prefHeight="63.0" prefWidth="533.0" text="%gererTable" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetreUtilisateur" prefHeight="63.0" prefWidth="533.0" text="%gererUtilisateur" GridPane.rowIndex="2" fx:id="gererUtilisateur">
+            <Button id="glass" fx:id="gererUtilisateur" mnemonicParsing="false" onAction="#fenetreUtilisateur" prefHeight="63.0" prefWidth="533.0" text="%gererUtilisateur" GridPane.rowIndex="2">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fermerFenetre" prefHeight="63.0" prefWidth="533.0" text="%key5" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="retour">
+            <Button id="glass" fx:id="retour" mnemonicParsing="false" onAction="#fermerFenetre" prefHeight="63.0" prefWidth="533.0" text="%key5" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="glass" mnemonicParsing="false" onAction="#fenetrePlatsIngerdients" prefHeight="63.0" prefWidth="533.0" text="%gererplats" fx:id="gererplats">
+            <Button id="glass" fx:id="gererplats" mnemonicParsing="false" onAction="#fenetrePlatsIngerdients" prefHeight="63.0" prefWidth="533.0" text="%gererplats">
                <font>
                   <Font size="24.0" />
                </font>

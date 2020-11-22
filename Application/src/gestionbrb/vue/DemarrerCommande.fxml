@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -20,7 +19,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.DemarrerCommandeControleur">
+<AnchorPane fx:id="mainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" stylesheets="@../stylesheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionbrb.controleur.DemarrerCommandeControleur">
    <children>
       <ImageView fitHeight="1102.0" fitWidth="1938.0" pickOnBounds="true">
          <image>
@@ -31,23 +30,23 @@
          <center>
             <AnchorPane prefHeight="1078.0" prefWidth="633.0" BorderPane.alignment="CENTER">
                <children>
-                  <TitledPane fx:id="titlepaneDemarrer" animated="false" layoutX="132.0" layoutY="354.0" prefHeight="307.0" prefWidth="459.0" text="%key14">
+                  <TitledPane fx:id="titlepaneDemarrer" animated="false" layoutX="32.0" layoutY="229.0" prefHeight="299.0" prefWidth="369.0" text="%key14">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="234.0" prefWidth="302.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="252.0" prefWidth="386.0">
                            <children>
-                              <Label fx:id="labelcouvert" alignment="CENTER" layoutX="-4.0" layoutY="27.0" prefHeight="30.0" prefWidth="458.0" text="%key15">
+                              <Label fx:id="labelcouvert" alignment="CENTER" layoutX="2.0" layoutY="27.0" prefHeight="30.0" prefWidth="362.0" text="%key15">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-							<Button id="glass" fx:id="btnValider" layoutX="87.0" layoutY="215.0" mnemonicParsing="false" onAction="#lancerCommande" prefHeight="39.0" prefWidth="309.0" text="%key13">
+							<Button id="glass" fx:id="btnValider" layoutX="20.0" layoutY="215.0" mnemonicParsing="false" onAction="#lancerCommande" prefHeight="39.0" prefWidth="309.0" text="%key13">
 							<font>
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <ChoiceBox fx:id="champChoixTable" layoutX="109.0" layoutY="158.0" onMouseClicked="#refreshMain" prefHeight="31.0" prefWidth="239.0" />
-                              <TextField fx:id="champNbCouverts" layoutX="113.0" layoutY="67.0" prefHeight="31.0" prefWidth="231.0" promptText="Veuillez rentrer un nombre" />
-                              <Label fx:id="labelTable1" alignment="CENTER" layoutX="1.0" layoutY="116.0" prefHeight="30.0" prefWidth="458.0" text="%key16">
+                              <ChoiceBox fx:id="champChoixTable" layoutX="52.0" layoutY="158.0" onMouseClicked="#refreshMain" prefHeight="31.0" prefWidth="239.0" />
+                              <TextField fx:id="champNbCouverts" layoutX="58.0" layoutY="67.0" prefHeight="31.0" prefWidth="231.0" promptText="Veuillez rentrer un nombre" />
+                              <Label fx:id="labelTable1" alignment="CENTER" layoutX="1.0" layoutY="116.0" prefHeight="30.0" prefWidth="364.0" text="%key16">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -56,35 +55,25 @@
                         </AnchorPane>
                     </content>
                   </TitledPane>
-                  <Button id="glass" fx:id="buttonCalenderier" layoutX="67.0" layoutY="767.0" mnemonicParsing="false" onAction="#afficherCalendrier" prefHeight="51.0" prefWidth="585.0" text="%key17">
+                  <Button id="glass" fx:id="buttonCalenderier" layoutX="1.0" layoutY="600.0" mnemonicParsing="false" onAction="#afficherCalendrier" prefHeight="51.0" prefWidth="434.0" text="%key17">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <ImageView cache="true" fitHeight="202.0" fitWidth="366.0" layoutX="176.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView cache="true" fitHeight="194.0" fitWidth="321.0" layoutX="50.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/logo_light_transparent.png" />
                      </image>
                   </ImageView>
-                  <Button id="glass" fx:id="btnRetour" layoutX="68.0" layoutY="849.0" mnemonicParsing="false" onAction="#afficherMenuPrincipal" prefHeight="51.0" prefWidth="589.0" text="%key5">
+                  <Button id="glass" fx:id="btnRetour" layoutY="682.0" mnemonicParsing="false" onAction="#afficherMenuPrincipal" prefHeight="51.0" prefWidth="434.0" text="%key5">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Separator layoutX="9.0" layoutY="183.0" orientation="VERTICAL" prefHeight="765.0" prefWidth="8.0" />
-               </children>
-               <BorderPane.margin>
-                  <Insets right="25.0" />
-               </BorderPane.margin>
-            </AnchorPane>
-         </center>
-         <right>
-            <Pane prefHeight="1078.0" prefWidth="658.0" BorderPane.alignment="CENTER">
-               <children>
-                  <GridPane layoutX="83.0" layoutY="262.0" prefHeight="510.0" prefWidth="493.0">
+                  <GridPane layoutX="513.0" layoutY="167.0" prefHeight="492.0" prefWidth="419.0">
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="278.0" minWidth="10.0" prefWidth="196.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" prefWidth="265.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="278.0" minWidth="10.0" prefWidth="152.7999267578125" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" prefWidth="204.80007324218752" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -147,29 +136,34 @@
                         </Label>
                      </children>
                   </GridPane>
-                  <Button id="glass" fx:id="btnReserve" layoutX="182.0" layoutY="841.0" mnemonicParsing="false" onAction="#actionAjouter" prefHeight="54.0" prefWidth="310.0" text="%Reserver">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Button>
-                  <Separator layoutX="-8.0" layoutY="186.0" orientation="VERTICAL" prefHeight="765.0" prefWidth="8.0" />
-                  <Label fx:id="lableReserverTable" alignment="CENTER" layoutX="82.0" layoutY="165.0" prefHeight="53.0" prefWidth="504.0" text="%table" textFill="WHITE">
+                  <Label fx:id="lableReserverTable" alignment="CENTER" layoutX="511.0" layoutY="96.0" prefHeight="54.0" prefWidth="420.0" text="%table" textFill="WHITE">
                      <font>
                         <Font name="Calibri Light Italic" size="30.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="105.0" fitWidth="108.0" layoutX="285.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="105.0" fitWidth="108.0" layoutX="674.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/reservations.png" />
                      </image>
                   </ImageView>
+                  <Button id="glass" fx:id="btnReserve" layoutX="550.0" layoutY="680.0" mnemonicParsing="false" onAction="#actionAjouter" prefHeight="54.0" prefWidth="310.0" text="%Reserver">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Button>
                </children>
-            </Pane>
+               <BorderPane.margin>
+                  <Insets right="25.0" />
+               </BorderPane.margin>
+            </AnchorPane>
+         </center>
+         <right>
+            <Pane prefHeight="1078.0" prefWidth="658.0" BorderPane.alignment="CENTER" />
          </right>
          <left>
-            <Pane prefHeight="1078.0" prefWidth="558.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="1078.0" prefWidth="530.0" BorderPane.alignment="CENTER">
                <children>
-                  <TableView fx:id="tableTable" layoutX="26.0" layoutY="177.0" prefHeight="691.0" prefWidth="460.0">
+                  <TableView fx:id="tableTable" layoutX="17.0" layoutY="177.0" prefHeight="548.0" prefWidth="460.0">
                     <columns>
                       <TableColumn fx:id="colonneNoTable" minWidth="0.0" prefWidth="161.00006103515625" resizable="false" text="%Table" />
                         <TableColumn fx:id="colonneNbCouvertsMax" prefWidth="191.99996948242188" resizable="false" text="%Max" />
@@ -179,17 +173,17 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Label fx:id="lblOccupation" alignment="CENTER" layoutX="4.0" layoutY="876.0" prefHeight="40.0" prefWidth="556.0" text="%x" textAlignment="CENTER" textFill="WHITE">
+                  <Label fx:id="lblOccupation" alignment="CENTER" layoutX="17.0" layoutY="724.0" prefHeight="40.0" prefWidth="462.0" text="%x" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="System Italic" size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="labelcentre" alignment="CENTER" layoutX="6.0" layoutY="96.0" prefHeight="41.0" prefWidth="549.0" text="%Occupation" textFill="WHITE">
+                  <Label fx:id="labelcentre" alignment="CENTER" layoutX="12.0" layoutY="96.0" prefHeight="41.0" prefWidth="463.0" text="%Occupation" textFill="WHITE">
                      <font>
                         <Font name="Calibri Light" size="36.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="97.0" fitWidth="99.0" layoutX="236.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="97.0" fitWidth="99.0" layoutX="190.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/table.png" />
                      </image>

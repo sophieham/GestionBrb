@@ -31,60 +31,114 @@ import gestionbrb.DAO.DAOCommande;
 import gestionbrb.DAO.DAOFournisseur;
 import gestionbrb.DAO.DAOIngredients;
 import gestionbrb.DAO.DAOUtilisateur;
-import gestionbrb.controleur.GestionStockController;
+
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author Linxin
+ * The Class CommandeIngredientsController.
  *
+ * @author Linxin
  */
 public class CommandeIngredientsController implements Initializable{
+	
+	/** The vbox. */
 	@FXML
 	private VBox vbox;
+	
+	/** The ingredients. */
 	@FXML
 	private Label ingredients;
+	
+	/** The fournisseur. */
 	@FXML
 	private Label fournisseur;
+	
+	/** The prix uni. */
 	@FXML
 	private Label prixUni;
+	
+	/** The qte. */
 	@FXML
 	private Label qte;
+	
+	/** The totalprix. */
 	@FXML
 	private Label totalprix;
+	
+	/** The Nom ingredients. */
 	@FXML
 	private Label NomIngredients;
+	
+	/** The prixunite. */
 	@FXML
 	private Label prixunite;
+	
+	/** The choice fournisseur. */
 	@FXML
 	private ChoiceBox<String> choiceFournisseur;
+	
+	/** The prixtotal. */
 	@FXML
 	private Label prixtotal;
+	
+	/** The spinner. */
 	@FXML
 	private Spinner<Integer> spinner;
+	
+	/** The menubutton. */
 	@FXML
 	private MenuButton menubutton;
+	
+	/** The data. */
 	@FXML
 	private ObservableList<String> data;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The label. */
 	@FXML
 	private Label label;
+	
+	/** The btn. */
 	@FXML
 	private Button btn;
+	
+	/** The output. */
 	private static String output;
+	
+	/** The value. */
 	private static int value;
+	
+	/** The prix. */
 	private static double prix;
+	
+	/** The qte rest. */
 	private static int qteRest;
 	
+	/** The facture ingredient. */
 	private static Stage factureIngredient; 
+	
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 
+	/** The dao fournisseur. */
 	DAOFournisseur daoFournisseur = new DAOFournisseur();
+	
+	/** The dao ingredient. */
 	DAOIngredients daoIngredient = new DAOIngredients();
 	
+/**
+ * Instantiates a new commande ingredients controller.
+ */
 public CommandeIngredientsController() {
 	
 
 }
+
+/**
+ * Initialize.
+ */
 @FXML
 public void initialize() {
 try {
@@ -107,6 +161,13 @@ try {
 	e.printStackTrace();
 }
 }
+
+/**
+ * Load lang.
+ *
+ * @param lang the lang
+ * @param LANG the lang
+ */
 private void loadLang(String lang, String LANG) {
 	Locale locale = new Locale(lang, LANG);  
 	
@@ -122,13 +183,19 @@ private void loadLang(String lang, String LANG) {
 }
 
 
+	/**
+	 * Initialize.
+	 *
+	 * @param location the location
+	 * @param resources the resources
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 	 	try {
 	 		 initialize();
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	 	String Nom = GestionStockController.Nom;
@@ -146,9 +213,11 @@ private void loadLang(String lang, String LANG) {
 			
 		
 	}
+	
 	/**
-	 * Choisir le fournisseur de l'ingrÃ©dients
-	 * @throws SQLException
+	 * Choisir le fournisseur de l'ingrédients.
+	 *
+	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	public void choice() throws SQLException {
@@ -163,6 +232,11 @@ private void loadLang(String lang, String LANG) {
 		}
 		}
 	
+	/**
+	 * Prixunite.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	@FXML
 	public void prixunite() throws SQLException {
 		try {
@@ -176,6 +250,12 @@ private void loadLang(String lang, String LANG) {
 		}
 		
 	}
+	
+	/**
+	 * Inits the spinner.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	@FXML
 		private void initSpinner() throws SQLException {
 		spinner.setEditable(true);   
@@ -196,7 +276,14 @@ private void loadLang(String lang, String LANG) {
 		;
 	}
 	
+		/**
+		 * Commit editor text.
+		 *
+		 * @param <Integer> the generic type
+		 * @param spinner the spinner
+		 */
 		//@SuppressWarnings("hiding")
+		@SuppressWarnings({ "hiding", "unused" })
 		private <Integer> void commitEditorText(Spinner<Integer> spinner) {
 		    if (!spinner.isEditable())
 		        return;
@@ -215,6 +302,11 @@ private void loadLang(String lang, String LANG) {
 		}
 
 	
+/**
+ * Prixtotal.
+ *
+ * @throws SQLException the SQL exception
+ */
 @FXML
 	public void prixtotal() throws SQLException {
 	try {
@@ -226,16 +318,35 @@ private void loadLang(String lang, String LANG) {
 	}
 	
 	
+/**
+ * Intto string.
+ *
+ * @param prixtotal2 the prixtotal 2
+ * @return the string
+ */
 public static String InttoString(double prixtotal2) {
     
         return String.valueOf(prixtotal2);
    
 }
 	
+/**
+ * Stringto int.
+ *
+ * @param n the n
+ * @return the int
+ */
 public static int StringtoInt(String n) {
 	return Integer.valueOf(n).intValue();
 }
 
+	/**
+	 * Choice.
+	 *
+	 * @param event the event
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws SQLException the SQL exception
+	 */
 	public void choice(ActionEvent event) throws IOException, SQLException {
 		try {
 			output = choiceFournisseur.getSelectionModel().getSelectedItem().toString();
@@ -250,6 +361,11 @@ public static int StringtoInt(String n) {
 	}
 	
 	
+	/**
+	 * Qte rest.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	public void qteRest() throws SQLException {
 		try {
 			for (int i = 0; i <daoIngredient.afficherQteRestante(GestionStockController.Nom, output).size(); i++) {
@@ -261,6 +377,15 @@ public static int StringtoInt(String n) {
 		}
 		
 	}
+	
+	/**
+	 * Commande.
+	 *
+	 * @param event the event
+	 * @throws SQLException the SQL exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ClassNotFoundException the class not found exception
+	 */
 	@FXML
     public void Commande (ActionEvent event) throws SQLException, IOException, ClassNotFoundException {
 		try {
@@ -271,7 +396,7 @@ public static int StringtoInt(String n) {
 						daoFournisseur.fournirIngredient(StringtoInt(GestionStockController.idIngredient), daoFournisseur.afficherIDFournisseur(GestionStockController.Nom), value, InttoString(value*prix));
 				//refresh();
 						GestionStockController.getStage().close();
-				FonctionsControleurs.alerteInfo("Ajout effectuÃ©", null, "La commande a Ã©tÃ© Ã©ffectuÃ©e avec succÃ¨s!");
+				FonctionsControleurs.alerteInfo("Ajout effectué", null, "La commande a été éffectuée avec succès!");
 				afficherFacture();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -281,6 +406,9 @@ public static int StringtoInt(String n) {
 	
 	}	
     
+	/**
+	 * Afficher facture.
+	 */
 	public void afficherFacture() {
 		try {
 			Locale locale = new Locale("fr", "FR");
@@ -299,11 +427,17 @@ public static int StringtoInt(String n) {
 			FactureIngredientControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Refresh.
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws SQLException the SQL exception
+	 */
 	private void refresh() throws ClassNotFoundException, SQLException {
 		GestionStockController.getTableData().clear();
 		GestionStockController.getTableData().addAll(daoIngredient.afficher());
@@ -311,35 +445,92 @@ public static int StringtoInt(String n) {
 	}
 	
 	
+	/**
+	 * Gets the prix.
+	 *
+	 * @return the prix
+	 */
 	public static double getPrix() {
 		return prix;
 	}
+	
+	/**
+	 * Gets the vbox.
+	 *
+	 * @return the vbox
+	 */
 	public VBox getVbox() {
 		return vbox;
 	}
+	
+	/**
+	 * Gets the ingredients.
+	 *
+	 * @return the ingredients
+	 */
 	public Label getIngredients() {
 		return ingredients;
 	}
+	
+	/**
+	 * Gets the fournisseur.
+	 *
+	 * @return the fournisseur
+	 */
 	public Label getFournisseur() {
 		return fournisseur;
 	}
+	
+	/**
+	 * Gets the prix uni.
+	 *
+	 * @return the prix uni
+	 */
 	public Label getPrixUni() {
 		return prixUni;
 	}
+	
+	/**
+	 * Gets the qte.
+	 *
+	 * @return the qte
+	 */
 	public Label getQte() {
 		return qte;
 	}
+	
+	/**
+	 * Gets the totalprix.
+	 *
+	 * @return the totalprix
+	 */
 	public Label getTotalprix() {
 		return totalprix;
 	}
+	
+	/**
+	 * Gets the nom ingredients.
+	 *
+	 * @return the nom ingredients
+	 */
 	public Label getNomIngredients() {
 		return NomIngredients;
 	}
 
+	/**
+	 * Gets the facture ingredient.
+	 *
+	 * @return the facture ingredient
+	 */
 	public static Stage getFactureIngredient() {
 		return factureIngredient;
 	}
 
+	/**
+	 * Sets the facture ingredient.
+	 *
+	 * @param factureIngredient the new facture ingredient
+	 */
 	public static void setFactureIngredient(Stage factureIngredient) {
 		CommandeIngredientsController.factureIngredient = factureIngredient;
 	}

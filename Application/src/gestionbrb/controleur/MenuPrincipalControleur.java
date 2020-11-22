@@ -15,48 +15,93 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author Roman
+ * The Class MenuPrincipalControleur.
  *
+ * @author Roman
  */
 public class MenuPrincipalControleur implements Initializable {
+	
+	/** The info compte lbl. */
 	@FXML
 	private Label infoCompteLbl;
+	
+	/** The btn administration. */
 	@FXML
 	private Button btnAdministration;
+	
+	/** The btn nvelle commande. */
 	@FXML
 	private Button btnNvelleCommande;
+	
+	/** The btn stock. */
 	@FXML
 	private Button btnStock;
+	
+	/** The bundle. */
 	@FXML
 	private ResourceBundle bundle;
+	
+	/** The btnmenu. */
 	@FXML
 	private Button btnmenu;
+	
+	/** The btnparametre. */
 	@FXML
 	private Button btnparametre;
+	
+	/** The btn deconnexiton. */
 	@FXML
 	private Button btnDeconnexiton;
+	
+	/** The connecte. */
 	@FXML 
 	private Label connecte;
 	
+	/** The demarrer commande. */
 	private static Stage demarrerCommande;
+	
+	/** The stock. */
 	private static Stage stock;
+	
+	/** The carte. */
 	private static Stage carte;
+	
+	/** The parametres. */
 	private static Stage parametres;
+	
+	/** The administration. */
 	private static Stage administration;
 
+	/** The connexion controleur. */
 	ConnexionControleur connexionControleur;
+	
+	/** The administration controleur. */
 	AdministrationControleur administrationControleur;
+	
+	/** The parametres controleur. */
 	ParametresControleur parametresControleur;
+	
+	/** The menu controleur. */
 	MenuControleur menuControleur;
+	
+	/** The fenetre. */
 	@FXML
 	private AnchorPane fenetre;
 	
+	/** The css URL. */
 	final URL cssURL = getClass().getResource("../stylesheet.css"); 
 
+	/** The dao utilisateur. */
 	DAOUtilisateur daoUtilisateur = new DAOUtilisateur();
 	
+	/**
+	 * Initialize.
+	 *
+	 * @param location the location
+	 * @param resources the resources
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		bundle = resources;
@@ -90,6 +135,12 @@ public class MenuPrincipalControleur implements Initializable {
 		}
 	}
 
+	/**
+	 * Load lang.
+	 *
+	 * @param lang the lang
+	 * @param LANG the lang
+	 */
 	private void loadLang(String lang, String LANG) {
 		Locale locale = new Locale(lang, LANG);  
 		
@@ -105,6 +156,9 @@ public class MenuPrincipalControleur implements Initializable {
 	}
 
 
+	/**
+	 * Fenetre nouvelle commande.
+	 */
 	@FXML
 	public void fenetreNouvelleCommande() {
 		try {
@@ -117,16 +171,19 @@ public class MenuPrincipalControleur implements Initializable {
 			setDemarrerCommande(new Stage());
 			getDemarrerCommande().setScene(new Scene(vueDCommande));
 			getDemarrerCommande().show();
-			getDemarrerCommande().setTitle("DÃ©marrer une nouvelle commande");
+			getDemarrerCommande().setTitle("Démarrer une nouvelle commande");
 
 			DemarrerCommandeControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Fenetre stock.
+	 */
 	@FXML
 	public void fenetreStock() {
 		try {
@@ -143,11 +200,14 @@ public class MenuPrincipalControleur implements Initializable {
 			GestionStockController controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Fenetre carte.
+	 */
 	@FXML
 	public void fenetreCarte() {
 		try {
@@ -160,11 +220,14 @@ public class MenuPrincipalControleur implements Initializable {
 			MenuControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Fenetre parametres.
+	 */
 	@FXML
 	public void fenetreParametres() {
 		try {
@@ -179,11 +242,14 @@ public class MenuPrincipalControleur implements Initializable {
 			ParametresControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Fenetre administration.
+	 */
 	@FXML
 	public void fenetreAdministration() {
 
@@ -198,13 +264,16 @@ public class MenuPrincipalControleur implements Initializable {
 			AdministrationControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "DÃ©tails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
 			e.printStackTrace();
 		}
 	
 
 	}
 
+	/**
+	 * Deconnexion.
+	 */
 	@FXML
 	public void deconnexion() {
 		try {
@@ -215,76 +284,141 @@ public class MenuPrincipalControleur implements Initializable {
 			ConnexionControleur controller = loader.getController();
 			controller.setMainApp(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur d'Ã©xÃ©cution", "Une erreur est survenue", "DÃ©tails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur d'éxécution", "Une erreur est survenue", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}
 
-	// getters & setters utiles pour gÃ©rer la fenetre depuis les controleurs
-	// associÃ©s
+	// getters & setters utiles pour gérer la fenetre depuis les controleurs
+	/**
+	 * Gets the demarrer commande.
+	 *
+	 * @return the demarrer commande
+	 */
+	// associés
 	public static Stage getDemarrerCommande() {
 		return demarrerCommande;
 	}
 
+	/**
+	 * Sets the demarrer commande.
+	 *
+	 * @param demarrerCommande the new demarrer commande
+	 */
 	public static void setDemarrerCommande(Stage demarrerCommande) {
 		MenuPrincipalControleur.demarrerCommande = demarrerCommande;
 	}
 
+	/**
+	 * Gets the stock.
+	 *
+	 * @return the stock
+	 */
 	public static Stage getStock() {
 		return stock;
 	}
 
+	/**
+	 * Sets the stock.
+	 *
+	 * @param stock the new stock
+	 */
 	public static void setStock(Stage stock) {
 		MenuPrincipalControleur.stock = stock;
 	}
 
+	/**
+	 * Gets the carte.
+	 *
+	 * @return the carte
+	 */
 	public static Stage getCarte() {
 		return carte;
 	}
 
+	/**
+	 * Sets the carte.
+	 *
+	 * @param carte the new carte
+	 */
 	public static void setCarte(Stage carte) {
 		MenuPrincipalControleur.carte = carte;
 	}
 
+	/**
+	 * Gets the parametres.
+	 *
+	 * @return the parametres
+	 */
 	public static Stage getParametres() {
 		return parametres;
 	}
 
+	/**
+	 * Sets the parametres.
+	 *
+	 * @param parametres the new parametres
+	 */
 	public static void setParametres(Stage parametres) {
 		MenuPrincipalControleur.parametres = parametres;
 	}
 
+	/**
+	 * Gets the administration.
+	 *
+	 * @return the administration
+	 */
 	public static Stage getAdministration() {
 		return administration;
 	}
 
+	/**
+	 * Sets the administration.
+	 *
+	 * @param administration the new administration
+	 */
 	public static void setAdministration(Stage administration) {
 		MenuPrincipalControleur.administration = administration;
 	}
 
 	/**
-	 * DÃ©fini connexionProfil comment parent quand on accÃ¨de au menu principal
-	 * depuis la page de connexion
-	 * 
-	 * @param connexionProfil
+	 * Défini connexionProfil comment parent quand on accède au menu principal
+	 * depuis la page de connexion.
+	 *
+	 * @param parent the new parent
 	 */
 	public void setParent(ConnexionControleur parent) {
 		this.connexionControleur = parent;
 	}
 
 
+	/**
+	 * Sets the parent.
+	 *
+	 * @param parent the new parent
+	 */
 	public void setParent(AdministrationControleur parent) {
 		this.administrationControleur = parent;
 		
 	}
 
 
+	/**
+	 * Sets the parent.
+	 *
+	 * @param parent the new parent
+	 */
 	public void setParent(ParametresControleur parent) {
 		this.parametresControleur = parent;
 		
 	}
 
 
+	/**
+	 * Sets the parent.
+	 *
+	 * @param parent the new parent
+	 */
 	public void setParent(MenuControleur parent) {
 		this.menuControleur = parent;	
 	}

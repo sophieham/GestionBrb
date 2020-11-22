@@ -13,10 +13,27 @@ import gestionbrb.util.bddUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DAOIngredients.
+ */
+/*
+ * Gère les requetes sql sur les ingrédients
+ */
 public class DAOIngredients extends DAO<Ingredients>{
+	
+	/** The liste ingredients. */
 	private ObservableList<Ingredients> listeIngredients = FXCollections.observableArrayList();
+	
+	/** The conn. */
 	public static Connection conn = bddUtil.dbConnect();
 
+	/**
+	 * Afficher.
+	 *
+	 * @return the observable list
+	 * @throws SQLException the SQL exception
+	 */
 	public ObservableList<Ingredients> afficher() throws SQLException {
 			ResultSet rs = conn.createStatement().executeQuery("SELECT IngredientID, nomIngredient, prixIngredient, qteRestante, ingredients.FournisseurID, fournisseur.nom from ingredients INNER JOIN fournisseur on ingredients.FournisseurID = fournisseur.FournisseurID ");
 			while (rs.next()) {
@@ -26,6 +43,12 @@ public class DAOIngredients extends DAO<Ingredients>{
 			return listeIngredients;
 	}
 	
+	/**
+	 * Liste ingredients.
+	 *
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public ArrayList<String> listeIngredients() throws SQLException {
 		ArrayList<String> listeNomIngredients = new ArrayList<>();
 		ResultSet ingredientDB = conn.createStatement().executeQuery("select nomIngredient from ingredients");
@@ -36,6 +59,12 @@ public class DAOIngredients extends DAO<Ingredients>{
 		return listeNomIngredients;
 	}
 
+	/**
+	 * Ajouter.
+	 *
+	 * @param i the i
+	 * @throws SQLException the SQL exception
+	 */
 	@Override
 	public void ajouter(Ingredients i) throws SQLException {
 		PreparedStatement ajoutDB = conn.prepareStatement(
@@ -48,6 +77,12 @@ public class DAOIngredients extends DAO<Ingredients>{
 		ajoutDB.close();
 	}
 
+	/**
+	 * Supprimer.
+	 *
+	 * @param i the i
+	 * @throws SQLException the SQL exception
+	 */
 	@Override
 	public void supprimer(Ingredients i) throws SQLException {
 		PreparedStatement requete = conn.prepareStatement("DELETE FROM `ingredients` WHERE IngredientID=?");
@@ -57,9 +92,15 @@ public class DAOIngredients extends DAO<Ingredients>{
 
 	}
 
+	/**
+	 * Modifier.
+	 *
+	 * @param i the i
+	 * @throws SQLException the SQL exception
+	 */
 	@Override
 	public void modifier(Ingredients i) throws SQLException {
-		PreparedStatement requete = conn.prepareStatement("UPDATE `ingredients` SET `nomIngredient` = ?, prixIngredient = ?, qteRestante = ?, idfournisseur = ? WHERE IngredientID = ?");
+		PreparedStatement requete = conn.prepareStatement("UPDATE `ingredients` SET `nomIngredient` = ?, prixIngredient = ?, qteRestante = ?, FournisseurID = ? WHERE IngredientID = ?");
 		requete.setString(1, (i.getNomIngredient()));
 		requete.setDouble(2, (i.getPrixIngredient()));
 		requete.setInt(3, (i.getQuantiteIngredient()));
@@ -69,6 +110,14 @@ public class DAOIngredients extends DAO<Ingredients>{
 		requete.close();
 	}
 	
+	/**
+	 * Afficher prix ingredient.
+	 *
+	 * @param nomIngredient the nom ingredient
+	 * @param nomFournisseur the nom fournisseur
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public ArrayList<Double> afficherPrixIngredient(String nomIngredient, String nomFournisseur) throws SQLException{
 		ArrayList<Double> prixIngredient = new ArrayList<>();
 		ResultSet rs = conn.createStatement().executeQuery("SELECT ingredients.prixIngredient FROM ingredients INNER JOIN fournisseur ON fournisseur.FournisseurID = ingredients.FournisseurID WHERE ingredients.nomIngredient = '"+nomIngredient+"' AND fournisseur.nom =  '"+nomFournisseur+"'");
@@ -78,6 +127,14 @@ public class DAOIngredients extends DAO<Ingredients>{
 		return prixIngredient;
 	}
 	
+	/**
+	 * Afficher qte restante.
+	 *
+	 * @param nomIngredient the nom ingredient
+	 * @param nomFournisseur the nom fournisseur
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public ArrayList<String> afficherQteRestante(String nomIngredient, String nomFournisseur) throws SQLException{
 		ArrayList<String> qteR = new ArrayList<>();
 		ResultSet rs = conn.createStatement().executeQuery("SELECT ingredients.qteRestante FROM ingredients INNER JOIN fournisseur ON fournisseur.FournisseurID = ingredients.FournisseurID WHERE ingredients.nomIngredient = '"+nomIngredient+"' AND fournisseur.nom =  '"+nomFournisseur+"'");
@@ -87,6 +144,14 @@ public class DAOIngredients extends DAO<Ingredients>{
 		return qteR;
 	}
 	
+	/**
+	 * Commander ingredients.
+	 *
+	 * @param n the n
+	 * @param nomIngredient the nom ingredient
+	 * @param output the output
+	 * @throws SQLException the SQL exception
+	 */
 	public void commanderIngredients(String n, String nomIngredient, String output) throws SQLException{
 		PreparedStatement requete = conn.prepareStatement("UPDATE ingredients INNER JOIN fournisseur ON ingredients.FournisseurID = fournisseur.FournisseurID SET ingredients.qteRestante = ? WHERE ingredients.nomIngredient = ? AND fournisseur.nom = ?");
 		requete.setString(1, n);
