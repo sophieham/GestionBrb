@@ -157,7 +157,7 @@ public class MenuControleur implements Initializable {
 											String[] tabResultat = produit.getKey().split(rgx); // tab[0] -> nom ;
 											Alert alert = new Alert(AlertType.INFORMATION);
 											int idProd = mapNomParId.get(tabResultat[0]);
-											alert.setTitle("Détails du produit nÂ°"+idProd);
+											alert.setTitle("Détails du produit n°"+idProd);
 											alert.setHeaderText(daoProduit.afficherDetailsProduit(idProd).get(0));
 											VBox conteneur = new VBox();
 											conteneur.setPrefWidth(500);
@@ -190,7 +190,7 @@ public class MenuControleur implements Initializable {
 			}
 			typeProduit.getTabs().addAll(mapTypeParOnglet.values());
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'é–¤ecution", "Dé– ails: " + e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Erreur d'éxéecution", "Détails: " + e);
 			e.printStackTrace();
 		}
 	}

@@ -195,7 +195,7 @@ private void loadLang(String lang, String LANG) {
 	 	try {
 	 		 initialize();
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Dï¿½tails: "+e);
 			e.printStackTrace();
 		}
 	 	String Nom = GestionStockController.Nom;
@@ -215,7 +215,7 @@ private void loadLang(String lang, String LANG) {
 	}
 	
 	/**
-	 * Choisir le fournisseur de l'ingrédients.
+	 * Choisir le fournisseur de l'ingrï¿½dients.
 	 *
 	 * @throws SQLException the SQL exception
 	 */
@@ -396,7 +396,7 @@ public static int StringtoInt(String n) {
 						daoFournisseur.fournirIngredient(StringtoInt(GestionStockController.idIngredient), daoFournisseur.afficherIDFournisseur(GestionStockController.Nom), value, InttoString(value*prix));
 				//refresh();
 						GestionStockController.getStage().close();
-				FonctionsControleurs.alerteInfo("Ajout effectué", null, "La commande a été éffectuée avec succès!");
+				FonctionsControleurs.alerteInfo("Ajout effectuÃ©", null, "La commande Ã  Ã©tÃ© effectuÃ©e avec succÃ¨s!");
 				afficherFacture();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -427,7 +427,7 @@ public static int StringtoInt(String n) {
 			FactureIngredientControleur controller = loader.getController();
 			controller.setParent(this);
 		} catch (Exception e) {
-			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Détails: "+e);
+			FonctionsControleurs.alerteErreur("Erreur!", "Une erreur est survenue", "Dï¿½tails: "+e);
 			e.printStackTrace();
 		}
 	}
